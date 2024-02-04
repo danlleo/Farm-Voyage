@@ -2,6 +2,8 @@
 {
     public class Pickaxe : FarmTool
     {
-        public override int ToolLevel { get; }
+        public Pickaxe(int toolLevel) : base(toolLevel)
+        {
+        }
     }
 }

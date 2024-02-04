@@ -1,18 +1,24 @@
+using Common;
 using FarmTools;
 using UnityEngine;
 
 namespace FarmResourceExtractors
 {
     [DisallowMultipleComponent]
-    public abstract class FarmResourceExtractor : MonoBehaviour
+    public abstract class FarmResourceExtractor : MonoBehaviour, IInteractable
     {
-        public abstract FarmTool RequiredFarmTool();
-        protected FarmResource ExtractResource;
+        protected abstract FarmTool RequiredFarmTool { get; }
+        protected FarmResource ExtractResource { get; }
         
-        public virtual ExtractedFarmResource TryExtractWith(FarmTool requiredTool)
+        public void Interact()
+        {
+            TryExtractWith(RequiredFarmTool);
+        }
+        
+        private ExtractedFarmResource TryExtractWith(FarmTool requiredTool)
         {
             // TODO: logic here
-            return ExtractResource.Extract();
+            return ExtractResource.Extract(RequiredFarmTool);
         }
     }
 }

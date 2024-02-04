@@ -1,12 +1,18 @@
-using UnityEngine;
-
 namespace FarmTools
 {
-    [DisallowMultipleComponent]
-    public abstract class FarmTool : MonoBehaviour
+    public abstract class FarmTool
     {
         private const int DefaultToolLevel = 1;
+        private int _toolLevel;
+
+        protected FarmTool(int toolLevel)
+        {
+            SetToolLevel(toolLevel);
+        }
         
-        public abstract int ToolLevel { get; }
+        private void SetToolLevel(int toolLevel)
+        {
+            _toolLevel = toolLevel == 0 ? DefaultToolLevel : toolLevel;
+        }
     }
 }

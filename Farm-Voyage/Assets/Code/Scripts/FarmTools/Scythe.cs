@@ -2,6 +2,8 @@
 {
     public class Scythe : FarmTool
     {
-        public override int ToolLevel { get; }
+        public Scythe(int toolLevel) : base(toolLevel)
+        {
+        }
     }
 }

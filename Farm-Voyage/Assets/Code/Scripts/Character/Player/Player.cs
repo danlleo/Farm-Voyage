@@ -7,6 +7,7 @@ namespace Character.Player
     [RequireComponent(typeof(PlayerWalkingEvent))]
     [RequireComponent(typeof(PlayerIdleEvent))]
     [RequireComponent(typeof(PlayerLocomotion))]
+    [RequireComponent(typeof(PlayerInteract))]
     [DisallowMultipleComponent]
     public class Player : MonoBehaviour
     {
@@ -16,7 +17,8 @@ namespace Character.Player
         public PlayerWalkingEvent PlayerWalkingEvent { get; private set; }
         public PlayerIdleEvent PlayerIdleEvent { get; private set; }
         public PlayerInput Input { get; private set; }
-        
+
+        private PlayerInteract _playerInteract;
         private PlayerLocomotion _playerLocomotion;
 
         [Inject]
@@ -30,11 +32,13 @@ namespace Character.Player
             PlayerWalkingEvent = GetComponent<PlayerWalkingEvent>();
             PlayerIdleEvent = GetComponent<PlayerIdleEvent>();
             _playerLocomotion = GetComponent<PlayerLocomotion>();
+            _playerInteract = GetComponent<PlayerInteract>();
         }
 
         private void Update()
         {
             _playerLocomotion.HandleAllMovement();
+            _playerInteract.TryInteract();
         }
     }
 }
