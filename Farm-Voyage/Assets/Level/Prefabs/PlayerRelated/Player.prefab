@@ -2123,7 +2123,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   _raycastPoint: {fileID: 460163952748337015}
-  _raycastDistance: 5
+  _raycastDistance: 3
 --- !u!1 &2540343304331429259
 GameObject:
   m_ObjectHideFlags: 0
