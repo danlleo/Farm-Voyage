@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using Character.Player;
 using Common;
@@ -50,20 +49,25 @@ namespace Farm
 
         public void StopInteract()
         {
-            StopDelayGatheringResourcesRoutine();
+            StopGathering();
         }
 
-        private void StopDelayGatheringResourcesRoutine()
+        private void StopGathering()
         {
             if (_delayGatheringResourcesRoutine != null)
                 StopCoroutine(_delayGatheringResourcesRoutine);
             
             _delayGatheringResourcesRoutine = null;
+            _player.PlayerGatheringEvent.Call(this, new PlayerGatheringEventArgs(false));
         }
 
         private IEnumerator DelayGatheringResourcesRoutine(GatheredResource gatheredResource)
         {
-            yield return new WaitForSeconds(1f);
+            _player.PlayerGatheringEvent.Call(this, new PlayerGatheringEventArgs(true));
+            float delayTime = CalculateTimeToGatherBasedOnToolLevel(_playerTool);
+            
+            yield return new WaitForSeconds(delayTime);
+            
             OnResourceGathered(gatheredResource);
         }
         
@@ -73,7 +77,7 @@ namespace Farm
 
             if (!_canGather) return false;
     
-            int quantityGathered = CalculateQuantityBasedOnTool(_playerTool);
+            int quantityGathered = CalculateQuantityBasedOnToolLevel(_playerTool);
 
             if (quantityGathered <= 0) return false;
             
@@ -82,14 +86,24 @@ namespace Farm
             return true;
         }
 
-        private int CalculateQuantityBasedOnTool(Tool tool)
+        private int CalculateQuantityBasedOnToolLevel(Tool tool)
         {
             const int minimumRandomValue = 1;
             const int maximumRandomValue = 5;
+
+            int calculatedQuantity = tool.Level * Random.Range(minimumRandomValue, maximumRandomValue);
             
-            return tool.Level * Random.Range(minimumRandomValue, maximumRandomValue);
+            return calculatedQuantity;
         }
 
+        private float CalculateTimeToGatherBasedOnToolLevel(Tool tool)
+        {
+            float calculatedTimeReducer = tool.Level == 1 ? 0 : 0.5f * tool.Level;
+            float calculatedTime = tool.TimeToGather - calculatedTimeReducer;
+            
+            return calculatedTime;
+        }
+        
         private void IncreaseTimeInteracted()
         {
             _timesInteracted++;
@@ -106,7 +120,7 @@ namespace Farm
         {
             print("Gathered");
             
-            StopDelayGatheringResourcesRoutine();
+            StopGathering();
             IncreaseTimeInteracted();
             DestroyIfFullyGathered();
         }

@@ -10,6 +10,7 @@ namespace Character.Player
     [RequireComponent(typeof(PlayerIdleEvent))]
     [RequireComponent(typeof(PlayerLocomotion))]
     [RequireComponent(typeof(PlayerInteract))]
+    [RequireComponent(typeof(PlayerGatheringEvent))]
     [DisallowMultipleComponent]
     public class Player : MonoBehaviour
     {
@@ -18,13 +19,14 @@ namespace Character.Player
      
         public PlayerWalkingEvent PlayerWalkingEvent { get; private set; }
         public PlayerIdleEvent PlayerIdleEvent { get; private set; }
+        public PlayerGatheringEvent PlayerGatheringEvent { get; private set; }
         public PlayerInput Input { get; private set; }
         public IEnumerable<Tool> ToolsList => _toolsList;
         
         private List<Tool> _toolsList = new()
         {
-            new Tool(ToolType.Axe, 1),
-            new Tool(ToolType.Pickaxe, 1),
+            new Tool(ToolType.Axe, 3f, 1),
+            new Tool(ToolType.Pickaxe, 3f, 5),
         };
         
         private PlayerInteract _playerInteract;
@@ -40,6 +42,7 @@ namespace Character.Player
         {
             PlayerWalkingEvent = GetComponent<PlayerWalkingEvent>();
             PlayerIdleEvent = GetComponent<PlayerIdleEvent>();
+            PlayerGatheringEvent = GetComponent<PlayerGatheringEvent>();
             _playerLocomotion = GetComponent<PlayerLocomotion>();
             _playerInteract = GetComponent<PlayerInteract>();
         }
