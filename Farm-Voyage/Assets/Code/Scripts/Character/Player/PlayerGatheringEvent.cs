@@ -17,10 +17,12 @@ namespace Character.Player
     public class PlayerGatheringEventArgs : EventArgs
     {
         public readonly bool IsGathering;
-
-        public PlayerGatheringEventArgs(bool isGathering)
+        public readonly float GatheringSpeed;
+        
+        public PlayerGatheringEventArgs(bool isGathering, float gatheringSpeed = 1f)
         {
             IsGathering = isGathering;
+            GatheringSpeed = gatheringSpeed;
         }
     }
 }

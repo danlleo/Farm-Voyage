@@ -51,6 +51,7 @@ namespace Character.Player
         private void PlayerGatheringEvent_OnPlayerGathering(object sender, PlayerGatheringEventArgs e)
         {
             _animator.SetBool(PlayerAnimationParams.IsGathering, e.IsGathering);
+            _animator.speed = e.GatheringSpeed;
         }
     }
 }

@@ -63,8 +63,11 @@ namespace Farm
 
         private IEnumerator DelayGatheringResourcesRoutine(GatheredResource gatheredResource)
         {
-            _player.PlayerGatheringEvent.Call(this, new PlayerGatheringEventArgs(true));
             float delayTime = CalculateTimeToGatherBasedOnToolLevel(_playerTool);
+            float gatherTime = CalculateTimeToGatherBasedOnToolLevel(_playerTool);
+            
+            _player.PlayerGatheringEvent.Call(this,
+                new PlayerGatheringEventArgs(true, gatherTime));
             
             yield return new WaitForSeconds(delayTime);
             
