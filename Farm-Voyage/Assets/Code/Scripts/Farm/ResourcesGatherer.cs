@@ -1,7 +1,10 @@
+using System;
+using System.Collections;
 using Character.Player;
 using Common;
 using UnityEngine;
 using Zenject;
+using Random = UnityEngine.Random;
 
 namespace Farm
 {
@@ -11,11 +14,16 @@ namespace Farm
         [Header("Settings")]
         [SerializeField] private ToolType _requiredTool;
         [SerializeField] private ResourceType _resourceToGather;
+        [SerializeField, Range(1, 5)] private int _interactAmountToDestroy = 1;
         
         private Player _player;
         private Tool _playerTool;
         
         private bool _canGather;
+
+        private Coroutine _delayGatheringResourcesRoutine;
+
+        private int _timesInteracted;
         
         [Inject]
         private void Construct(Player player)
@@ -35,42 +43,72 @@ namespace Farm
         
         public void Interact()
         {
-            if (TryGatherResources(out GatheredResource gatheredResource))
-            {
-                // TODO: Finish it
-            }
+            if (!TryGatherResources(out GatheredResource gatheredResource)) return;
+
+            _delayGatheringResourcesRoutine ??= StartCoroutine(DelayGatheringResourcesRoutine(gatheredResource));
         }
 
+        public void StopInteract()
+        {
+            StopDelayGatheringResourcesRoutine();
+        }
+
+        private void StopDelayGatheringResourcesRoutine()
+        {
+            if (_delayGatheringResourcesRoutine != null)
+                StopCoroutine(_delayGatheringResourcesRoutine);
+            
+            _delayGatheringResourcesRoutine = null;
+        }
+
+        private IEnumerator DelayGatheringResourcesRoutine(GatheredResource gatheredResource)
+        {
+            yield return new WaitForSeconds(1f);
+            OnResourceGathered(gatheredResource);
+        }
+        
         private bool TryGatherResources(out GatheredResource gatheredResource)
         {
             gatheredResource = new GatheredResource();
-    
-            if (!_canGather)
-            {
-                Debug.Log("You do not have the required tool to gather this resource.");
-                return false;
-            }
+
+            if (!_canGather) return false;
     
             int quantityGathered = CalculateQuantityBasedOnTool(_playerTool);
-    
-            if (quantityGathered > 0)
-            {
-                gatheredResource = new GatheredResource(_resourceToGather, quantityGathered);
-                Debug.Log($"Successfully gathered {gatheredResource.Quantity} of {_resourceToGather}.");
-        
-                return true;
-            }
 
-            Debug.Log("Failed to gather the resource.");
-            return false;
+            if (quantityGathered <= 0) return false;
+            
+            gatheredResource = new GatheredResource(_resourceToGather, quantityGathered);
+            
+            return true;
         }
 
         private int CalculateQuantityBasedOnTool(Tool tool)
         {
-            int minimumRandomValue = 1;
-            int maximumRandomValue = 5;
+            const int minimumRandomValue = 1;
+            const int maximumRandomValue = 5;
             
             return tool.Level * Random.Range(minimumRandomValue, maximumRandomValue);
+        }
+
+        private void IncreaseTimeInteracted()
+        {
+            _timesInteracted++;
+        }
+
+        private void DestroyIfFullyGathered()
+        {
+            if (_timesInteracted != _interactAmountToDestroy) return;
+            
+            Destroy(gameObject);
+        }
+        
+        private void OnResourceGathered(GatheredResource gatheredResource)
+        {
+            print("Gathered");
+            
+            StopDelayGatheringResourcesRoutine();
+            IncreaseTimeInteracted();
+            DestroyIfFullyGathered();
         }
     }
 }

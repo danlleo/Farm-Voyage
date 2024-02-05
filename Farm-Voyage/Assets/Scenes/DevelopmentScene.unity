@@ -444,7 +444,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _requiredTool: 10
-  _gatheredResource: 10
+  _resourceToGather: 10
+  _interactAmountToDestroy: 3
 --- !u!1 &514933919
 GameObject:
   m_ObjectHideFlags: 0

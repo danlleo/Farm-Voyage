@@ -13,17 +13,34 @@ namespace Character.Player
 
         [Header("Settings")] 
         [SerializeField] private float _raycastDistance = 5f;
+
+        private IInteractable _currentInteractable;
         
         public void TryInteract()
         {
-            RaycastHit hit;
+            if (Physics.Raycast(_raycastPoint.position, _raycastPoint.forward, out RaycastHit hit, _raycastDistance, _interactableLayerMask))
+            {
+                if (!hit.collider.TryGetComponent(out IInteractable interactable)) return;
+                
+                // If we are already interacting with an object, stop interacting with it first
+                if (_currentInteractable != null && _currentInteractable != interactable)
+                {
+                    _currentInteractable.StopInteract();
+                }
 
-            if (!Physics.Raycast(_raycastPoint.position, _raycastPoint.forward, out hit, _raycastDistance))
-                return;
-            
-            var interactable = hit.collider.GetComponent<IInteractable>();
-
-            interactable?.Interact();
+                // Start interacting with the new object
+                _currentInteractable = interactable;
+                _currentInteractable.Interact();
+            }
+            else
+            {
+                // If the raycast doesn't hit an interactable object and we were interacting with an object, stop interacting
+                if (_currentInteractable == null) return;
+                
+                _currentInteractable.StopInteract();
+                _currentInteractable = null;
+            }
         }
+
     }
 }

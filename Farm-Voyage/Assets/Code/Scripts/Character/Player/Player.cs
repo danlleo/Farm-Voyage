@@ -19,7 +19,7 @@ namespace Character.Player
         public PlayerWalkingEvent PlayerWalkingEvent { get; private set; }
         public PlayerIdleEvent PlayerIdleEvent { get; private set; }
         public PlayerInput Input { get; private set; }
-        public IReadOnlyList<Tool> ToolsList => _toolsList;
+        public IEnumerable<Tool> ToolsList => _toolsList;
         
         private List<Tool> _toolsList = new()
         {
