@@ -1,4 +1,5 @@
 ﻿using System;
+using Farm;
 using UnityEngine;
 
 namespace Character.Player
@@ -50,8 +51,25 @@ namespace Character.Player
         
         private void PlayerGatheringEvent_OnPlayerGathering(object sender, PlayerGatheringEventArgs e)
         {
-            _animator.SetBool(PlayerAnimationParams.IsGathering, e.IsGathering);
             _animator.speed = e.GatheringSpeed;
+            
+            switch (e.ResourceType)
+            {
+                case ResourceType.Rock:
+                    _animator.SetBool(PlayerAnimationParams.IsMining, e.IsGathering);
+                    break;
+                case ResourceType.Wood:
+                    break;
+                case ResourceType.Dirt:
+                    _animator.SetBool(PlayerAnimationParams.IsDigging, e.IsGathering);
+                    break;
+                case ResourceType.Water:
+                    break;
+                case ResourceType.Wheat:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }

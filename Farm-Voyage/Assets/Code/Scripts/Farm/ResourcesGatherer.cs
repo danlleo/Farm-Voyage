@@ -57,7 +57,7 @@ namespace Farm
                 StopCoroutine(_delayGatheringResourcesRoutine);
             
             _delayGatheringResourcesRoutine = null;
-            _player.PlayerGatheringEvent.Call(this, new PlayerGatheringEventArgs(false));
+            _player.PlayerGatheringEvent.Call(this, new PlayerGatheringEventArgs(false, _resourceSO.ResourceToGather));
         }
 
         private IEnumerator DelayGatheringResourcesRoutine(GatheredResource gatheredResource)
@@ -66,7 +66,7 @@ namespace Farm
             float gatherTime = CalculateTimeToGatherBasedOnToolLevel(_playerTool);
             
             _player.PlayerGatheringEvent.Call(this,
-                new PlayerGatheringEventArgs(true, gatherTime));
+                new PlayerGatheringEventArgs(true, _resourceSO.ResourceToGather, gatherTime));
             
             yield return new WaitForSeconds(delayTime);
             

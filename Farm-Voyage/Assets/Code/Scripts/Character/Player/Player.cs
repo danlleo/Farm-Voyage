@@ -27,6 +27,7 @@ namespace Character.Player
         {
             new Tool(ToolType.Axe, 3f, 1),
             new Tool(ToolType.Pickaxe, 3f, 5),
+            new Tool(ToolType.Shovel, 3f, 1),
         };
         
         private PlayerInteract _playerInteract;

@@ -211,6 +211,7 @@ MonoBehaviour:
     type: 3}
   _resourcesSOArray:
   - {fileID: 11400000, guid: bd0c2400752025047b8944cc7f531c3f, type: 2}
+  - {fileID: 11400000, guid: 9cf4d03c92403cc40bb8a6b98cd5363f, type: 2}
   _gatherableResourcesSpawnPoints:
   - {fileID: 2121286149}
   - {fileID: 1533223585}
