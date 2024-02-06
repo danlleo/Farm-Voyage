@@ -207,8 +207,10 @@ MonoBehaviour:
   _playerSpawnPoint: {fileID: 514933920}
   _playerFollowCamera: {fileID: 1356475655053503466, guid: 6f866d0a230c6a94da05a9d14d43b6c3,
     type: 3}
-  _resourcesGathererPrefabs:
-  - {fileID: 4614803071984103674, guid: 67ab501dc1b4d4147ae08c9761dcb629, type: 3}
+  _resourcesGathererPrefab: {fileID: -5502478539826316295, guid: 240a1a0596be1ed4a84ef45a09f48b2c,
+    type: 3}
+  _resourcesSOArray:
+  - {fileID: 11400000, guid: bd0c2400752025047b8944cc7f531c3f, type: 2}
   _gatherableResourcesSpawnPoints:
   - {fileID: 2121286149}
   - {fileID: 1533223585}

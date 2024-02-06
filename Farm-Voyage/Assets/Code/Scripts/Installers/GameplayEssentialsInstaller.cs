@@ -17,7 +17,8 @@ namespace Installers
         [SerializeField] private PlayerFollowCamera _playerFollowCamera;
 
         [Header("Level related")] 
-        [SerializeField] private ResourcesGatherer[] _resourcesGathererPrefabs;
+        [SerializeField] private ResourcesGatherer _resourcesGathererPrefab;
+        [SerializeField] private ResourceSO[] _resourcesSOArray;
         [SerializeField] private Transform[] _gatherableResourcesSpawnPoints;
         
         public override void InstallBindings()
@@ -26,6 +27,7 @@ namespace Installers
             BindPlayer();
             BindPlayerFollowCamera();
             BindGatherableResourcesSpawner();
+            BindResourcesGathererFactory();
         }
         
         private void BindPlayerInputManager()
@@ -62,13 +64,20 @@ namespace Installers
                 .NonLazy();
         }
         
+        private void BindResourcesGathererFactory()
+        {
+            Container
+                .BindFactory<ResourcesGatherer, ResourcesGatherer.Factory>()
+                .FromComponentInNewPrefab(_resourcesGathererPrefab);
+        }
+
         private void BindGatherableResourcesSpawner()
         {
             IEnumerable<Transform> spawnPointsEnumerable = _gatherableResourcesSpawnPoints;
-            Container
-                .Bind<GatherableResourcesSpawner>()
+
+            Container.Bind<GatherableResourcesSpawner>()
                 .AsSingle()
-                .WithArguments(_resourcesGathererPrefabs, spawnPointsEnumerable)
+                .WithArguments(_resourcesSOArray, spawnPointsEnumerable)
                 .NonLazy();
         }
     }

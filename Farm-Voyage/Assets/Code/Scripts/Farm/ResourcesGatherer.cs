@@ -1,4 +1,5 @@
 using System.Collections;
+using Attributes.ChildrenOnly;
 using Character.Player;
 using Common;
 using UnityEngine;
@@ -10,10 +11,10 @@ namespace Farm
     [DisallowMultipleComponent]
     public class ResourcesGatherer : MonoBehaviour, IInteractable
     {
-        [Header("Settings")]
-        [SerializeField] private ToolType _requiredTool;
-        [SerializeField] private ResourceType _resourceToGather;
-        [SerializeField, Range(1, 5)] private int _interactAmountToDestroy = 1;
+        [Header("External reference")]
+        [SerializeField, ChildrenOnly] private Transform _visualSpawnPoint;
+        
+        private ResourceSO _resourceSO;
         
         private Player _player;
         private Tool _playerTool;
@@ -28,16 +29,14 @@ namespace Farm
         private void Construct(Player player)
         {
             _player = player;
+        }
 
-            foreach (Tool tool in _player.ToolsList)
-            {
-                if (tool.Type != _requiredTool) continue;
-                
-                _playerTool = tool;
-                break;
-            }
-
-            _canGather = _playerTool != null;
+        public void Initialize(ResourceSO resourceSO, Vector3 position, Quaternion rotation)
+        {
+            _resourceSO = resourceSO;
+            transform.SetPositionAndRotation(position, rotation);
+            Instantiate(resourceSO.VisualObject, _visualSpawnPoint, false);
+            SetCanGatherIfPlayerHasRequiredTool();
         }
         
         public void Interact()
@@ -84,7 +83,7 @@ namespace Farm
 
             if (quantityGathered <= 0) return false;
             
-            gatheredResource = new GatheredResource(_resourceToGather, quantityGathered);
+            gatheredResource = new GatheredResource(_resourceSO.ResourceToGather, quantityGathered);
             
             return true;
         }
@@ -114,9 +113,22 @@ namespace Farm
 
         private void DestroyIfFullyGathered()
         {
-            if (_timesInteracted != _interactAmountToDestroy) return;
+            if (_timesInteracted != _resourceSO.InteractAmountToDestroy) return;
             
             Destroy(gameObject);
+        }
+
+        private void SetCanGatherIfPlayerHasRequiredTool()
+        {
+            foreach (Tool tool in _player.ToolsList)
+            {
+                if (tool.Type != _resourceSO.RequiredTool) continue;
+                
+                _playerTool = tool;
+                break;
+            }
+            
+            _canGather = _playerTool != null;
         }
         
         private void OnResourceGathered(GatheredResource gatheredResource)
@@ -127,5 +139,7 @@ namespace Farm
             IncreaseTimeInteracted();
             DestroyIfFullyGathered();
         }
+        
+        public class Factory : PlaceholderFactory<ResourcesGatherer> { }
     }
 }
