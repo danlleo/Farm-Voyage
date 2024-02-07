@@ -2682,9 +2682,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 292200aeae575a548b595132fe74c03b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _growTimeInSeconds: 60
-  _initialScale: 0.3
   _grownScale: 3
+  _initialScale: 0.3
+  _plantPartitionGrowTimeInSeconds: 20
+  _wateringThresholds:
+  - 0.25
+  - 0.6
+  - 0.9
 --- !u!65 &8208766069096672817
 BoxCollider:
   m_ObjectHideFlags: 0
