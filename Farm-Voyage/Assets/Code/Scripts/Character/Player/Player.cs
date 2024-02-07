@@ -23,11 +23,14 @@ namespace Character.Player
         public PlayerInput Input { get; private set; }
         public IEnumerable<Tool> ToolsList => _toolsList;
         
-        private List<Tool> _toolsList = new()
+        // Leave it like, during developing stage
+        private readonly List<Tool> _toolsList = new()
         {
             new Tool(ToolType.Axe, 3f, 1),
             new Tool(ToolType.Pickaxe, 3f, 5),
             new Tool(ToolType.Shovel, 3f, 1),
+            new Tool(ToolType.Scythe, 3f, 1),
+            new Tool(ToolType.WaterCan, 3f, 1),
         };
         
         private PlayerInteract _playerInteract;
