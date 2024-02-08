@@ -4,8 +4,8 @@ namespace Farm.Plants
 {
     public class NeedsWateringState : State
     {
-        private Plant _plant;
-        private StateMachine _stateMachine;
+        private readonly Plant _plant;
+        private readonly StateMachine _stateMachine;
         
         public NeedsWateringState(Plant plant, StateMachine stateMachine) : base(plant, stateMachine)
         {
@@ -16,6 +16,12 @@ namespace Farm.Plants
         public override void OnEnter()
         {
             Debug.Log("Needs watering");
+        }
+
+        public override void OnInteracted()
+        {
+            // TODO: Water plant in here
+            _stateMachine.ChangeState(_plant.StateFactory.Growing());
         }
     }
 }

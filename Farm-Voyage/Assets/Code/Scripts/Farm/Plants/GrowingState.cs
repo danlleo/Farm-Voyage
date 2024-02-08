@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using Utilities;
 
@@ -60,7 +61,7 @@ namespace Farm.Plants
             return currentScalePercentage;
         }
 
-        private float FindNearestWateringThreshold(float currentScalePercentage, float[] thresholds)
+        private float FindNearestWateringThreshold(float currentScalePercentage, IReadOnlyList<float> thresholds)
         {
             float currentPercentageNormalized = currentScalePercentage / 100f;
 
