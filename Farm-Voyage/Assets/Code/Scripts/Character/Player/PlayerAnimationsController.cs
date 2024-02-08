@@ -7,6 +7,7 @@ namespace Character.Player
     [RequireComponent(typeof(PlayerWalkingEvent))]
     [RequireComponent(typeof(PlayerIdleEvent))]
     [RequireComponent(typeof(PlayerGatheringEvent))]
+    [RequireComponent(typeof(PlayerDiggingPlantAreaEvent))]
     [RequireComponent(typeof(Animator))]
     [DisallowMultipleComponent]
     public class PlayerAnimationsController : MonoBehaviour
@@ -14,7 +15,8 @@ namespace Character.Player
         private PlayerWalkingEvent _playerWalkingEvent;
         private PlayerIdleEvent _playerIdleEvent;
         private PlayerGatheringEvent _playerGatheringEvent;
-
+        private PlayerDiggingPlantAreaEvent _playerDiggingPlantAreaEvent;
+        
         private Animator _animator;
 
         private void Awake()
@@ -22,6 +24,7 @@ namespace Character.Player
             _playerIdleEvent = GetComponent<PlayerIdleEvent>();
             _playerWalkingEvent = GetComponent<PlayerWalkingEvent>();
             _playerGatheringEvent = GetComponent<PlayerGatheringEvent>();
+            _playerDiggingPlantAreaEvent = GetComponent<PlayerDiggingPlantAreaEvent>();
             _animator = GetComponent<Animator>();
         }
 
@@ -30,6 +33,7 @@ namespace Character.Player
             _playerIdleEvent.OnPlayerIdle += PlayerIdleEvent_OnPlayerIdle;
             _playerWalkingEvent.OnPlayerWalking += PlayerWalkingEvent_OnPlayerWalking;
             _playerGatheringEvent.OnPlayerGathering += PlayerGatheringEvent_OnPlayerGathering;
+            _playerDiggingPlantAreaEvent.OnPlayerDiggingPlantArea += PlayerDiggingPlantAreaEvent_OnPlayerDiggingPlantArea;
         }
 
         private void OnDisable()
@@ -37,6 +41,7 @@ namespace Character.Player
             _playerIdleEvent.OnPlayerIdle -= PlayerIdleEvent_OnPlayerIdle;
             _playerWalkingEvent.OnPlayerWalking -= PlayerWalkingEvent_OnPlayerWalking;
             _playerGatheringEvent.OnPlayerGathering -= PlayerGatheringEvent_OnPlayerGathering;
+            _playerDiggingPlantAreaEvent.OnPlayerDiggingPlantArea -= PlayerDiggingPlantAreaEvent_OnPlayerDiggingPlantArea;
         }
 
         private void PlayerIdleEvent_OnPlayerIdle(object sender, EventArgs e)
@@ -65,11 +70,14 @@ namespace Character.Player
                     break;
                 case ResourceType.Water:
                     break;
-                case ResourceType.Wheat:
-                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+        
+        private void PlayerDiggingPlantAreaEvent_OnPlayerDiggingPlantArea(object sender, PlayerDiggingPlantAreaEventArgs e)
+        {
+            _animator.SetBool(PlayerAnimationParams.IsDigging, e.IsDigging);
         }
     }
 }

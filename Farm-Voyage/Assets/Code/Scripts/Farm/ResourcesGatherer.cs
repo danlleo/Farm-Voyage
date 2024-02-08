@@ -120,15 +120,14 @@ namespace Farm
 
         private void SetCanGatherIfPlayerHasRequiredTool()
         {
-            foreach (Tool tool in _player.ToolsList)
+            if (_player.TryGetTool(_resourceSO.RequiredTool, out Tool tool))
             {
-                if (tool.Type != _resourceSO.RequiredTool) continue;
-                
                 _playerTool = tool;
-                break;
+                _canGather = true;
+                return;
             }
-            
-            _canGather = _playerTool != null;
+
+            _canGather = false;
         }
         
         private void OnResourceGathered(GatheredResource gatheredResource)

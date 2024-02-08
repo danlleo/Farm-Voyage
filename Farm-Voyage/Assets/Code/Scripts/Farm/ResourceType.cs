@@ -6,6 +6,5 @@
         Wood = 20,
         Dirt = 30,
         Water = 40,
-        Wheat = 50,
     }
 }

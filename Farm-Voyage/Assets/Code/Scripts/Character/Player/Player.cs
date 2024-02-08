@@ -20,8 +20,8 @@ namespace Character.Player
         public PlayerWalkingEvent PlayerWalkingEvent { get; private set; }
         public PlayerIdleEvent PlayerIdleEvent { get; private set; }
         public PlayerGatheringEvent PlayerGatheringEvent { get; private set; }
+        public PlayerDiggingPlantAreaEvent PlayerDiggingPlantAreaEvent { get; private set; }
         public PlayerInput Input { get; private set; }
-        public IEnumerable<Tool> ToolsList => _toolsList;
         
         // Leave it like, during developing stage
         private readonly List<Tool> _toolsList = new()
@@ -47,6 +47,7 @@ namespace Character.Player
             PlayerWalkingEvent = GetComponent<PlayerWalkingEvent>();
             PlayerIdleEvent = GetComponent<PlayerIdleEvent>();
             PlayerGatheringEvent = GetComponent<PlayerGatheringEvent>();
+            PlayerDiggingPlantAreaEvent = GetComponent<PlayerDiggingPlantAreaEvent>();
             _playerLocomotion = GetComponent<PlayerLocomotion>();
             _playerInteract = GetComponent<PlayerInteract>();
         }
@@ -55,6 +56,20 @@ namespace Character.Player
         {
             _playerLocomotion.HandleAllMovement();
             _playerInteract.TryInteract();
+        }
+
+        public bool TryGetTool(ToolType requiredTool, out Tool receivedTool)
+        {
+            foreach (Tool tool in _toolsList)
+            {
+                if (tool.Type != requiredTool) continue;
+
+                receivedTool = tool;
+                return true;
+            }
+
+            receivedTool = null;
+            return false;
         }
     }
 }

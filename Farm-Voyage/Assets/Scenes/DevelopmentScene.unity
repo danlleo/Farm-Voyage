@@ -910,6 +910,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _plantFactory: {fileID: 1413197853}
   _plantType: 10
+  _timeToDigInSeconds: 2
 --- !u!65 &372085489
 BoxCollider:
   m_ObjectHideFlags: 0
