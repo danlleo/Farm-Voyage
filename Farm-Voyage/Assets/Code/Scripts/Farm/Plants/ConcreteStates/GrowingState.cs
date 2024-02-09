@@ -3,7 +3,7 @@ using DG.Tweening;
 using UnityEngine;
 using Utilities;
 
-namespace Farm.Plants
+namespace Farm.Plants.ConcreteStates
 {
     public class GrowingState : State
     {

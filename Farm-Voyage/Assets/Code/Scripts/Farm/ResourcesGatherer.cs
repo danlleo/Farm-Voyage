@@ -1,5 +1,5 @@
 using System.Collections;
-using Attributes.ChildrenOnly;
+using Attributes.Self;
 using Character.Player;
 using Common;
 using UnityEngine;
@@ -12,7 +12,7 @@ namespace Farm
     public class ResourcesGatherer : MonoBehaviour, IInteractable
     {
         [Header("External reference")]
-        [SerializeField, ChildrenOnly] private Transform _visualSpawnPoint;
+        [SerializeField, Self] private Transform _visualSpawnPoint;
         
         private ResourceSO _resourceSO;
         

@@ -1,5 +1,7 @@
 using Common;
+using Farm.Corral;
 using UnityEngine;
+using Utilities;
 
 namespace Farm.Plants
 {
@@ -21,9 +23,12 @@ namespace Farm.Plants
         
         private StateMachine _stateMachine;
         private PlantArea _plantArea;
+
+        private BoxCollider _boxCollider;
         
         protected virtual void Awake()
         {
+            _boxCollider = GetComponent<BoxCollider>();
             _stateMachine = new StateMachine();
             StateFactory = new StateFactory(this, _stateMachine);
             transform.localScale = _initialScale * Vector3.one;
@@ -52,8 +57,8 @@ namespace Farm.Plants
 
         public void Harvest()
         {
+            _boxCollider.Disable();
             _plantArea.ClearPlantArea();
-            Destroy(gameObject);
         }
     }
 }

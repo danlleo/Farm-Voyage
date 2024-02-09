@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Farm.Plants
+namespace Farm.Plants.ConcreteStates
 {
     public class ReadyToHarvestState : State
     {

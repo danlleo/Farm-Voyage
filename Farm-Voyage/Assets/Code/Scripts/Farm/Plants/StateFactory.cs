@@ -1,4 +1,6 @@
-﻿namespace Farm.Plants
+﻿using Farm.Plants.ConcreteStates;
+
+namespace Farm.Plants
 {
     public class StateFactory
     {

@@ -1,30 +1,38 @@
 ﻿using System;
 using Farm.Plants.Concrete;
-using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Farm.Plants
 {
-    [DisallowMultipleComponent]
-    public class PlantFactory : MonoBehaviour
+    public sealed class PlantFactory
     {
-        [Header("Plant prefabs")]
-        [SerializeField] private Carrot _carrotPrefab;
-        [SerializeField] private Tomato _tomatoPrefab;
-        [SerializeField] private Corn _cornPrefab;
-        [SerializeField] private Eggplant _eggplantPrefab;
-        [SerializeField] private Pumpkin _pumpkinPrefab;
-        [SerializeField] private Turnip _turnipPrefab;
+        private Carrot _carrotPrefab;
+        private Tomato _tomatoPrefab;
+        private Corn _cornPrefab;
+        private Eggplant _eggplantPrefab;
+        private Pumpkin _pumpkinPrefab;
+        private Turnip _turnipPrefab;
 
-        public Plant CreatePlant(PlantType plantType)
+        public PlantFactory(Carrot carrotPrefab, Tomato tomatoPrefab, Corn cornPrefab, Eggplant eggplantPrefab, Pumpkin pumpkinPrefab, Turnip turnipPrefab)
+        {
+            _carrotPrefab = carrotPrefab;
+            _tomatoPrefab = tomatoPrefab;
+            _cornPrefab = cornPrefab;
+            _eggplantPrefab = eggplantPrefab;
+            _pumpkinPrefab = pumpkinPrefab;
+            _turnipPrefab = turnipPrefab;
+        }
+
+        public Plant Create(PlantType plantType)
         {
             return plantType switch
             {
-                PlantType.Tomato => Instantiate(_tomatoPrefab),
-                PlantType.Carrot => Instantiate(_carrotPrefab),
-                PlantType.Corn => Instantiate(_cornPrefab),
-                PlantType.Eggplant => Instantiate(_eggplantPrefab),
-                PlantType.Pumpkin => Instantiate(_pumpkinPrefab),
-                PlantType.Turnip => Instantiate(_turnipPrefab),
+                PlantType.Tomato => Object.Instantiate(_tomatoPrefab),
+                PlantType.Carrot => Object.Instantiate(_carrotPrefab),
+                PlantType.Corn => Object.Instantiate(_cornPrefab),
+                PlantType.Eggplant => Object.Instantiate(_eggplantPrefab),
+                PlantType.Pumpkin => Object.Instantiate(_pumpkinPrefab),
+                PlantType.Turnip => Object.Instantiate(_turnipPrefab),
                 _ => throw new ArgumentOutOfRangeException(nameof(plantType), plantType, null)
             };
         }

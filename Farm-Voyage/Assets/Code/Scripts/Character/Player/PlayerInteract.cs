@@ -1,4 +1,4 @@
-﻿using Attributes.ChildrenOnly;
+﻿using Attributes.Self;
 using Common;
 using UnityEngine;
 
@@ -9,7 +9,7 @@ namespace Character.Player
     {
         [Header("External references")]
         [SerializeField] private LayerMask _interactableLayerMask;
-        [SerializeField, ChildrenOnly] private Transform _raycastPoint;
+        [SerializeField, Self] private Transform _raycastPoint;
 
         [Header("Settings")] 
         [SerializeField] private float _raycastDistance = 5f;

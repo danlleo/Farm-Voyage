@@ -6,7 +6,7 @@ using Zenject;
 
 namespace Level
 {
-    public class GatherableResourcesSpawner
+    public sealed class GatherableResourcesSpawner
     {
         private ResourceSO[] _resourceSOArray;
         private IEnumerable<Transform> _spawnPointsArray;

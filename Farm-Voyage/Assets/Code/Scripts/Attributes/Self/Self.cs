@@ -1,10 +1,10 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Attributes.ChildrenOnly
+namespace Attributes.Self
 {
-    [CustomPropertyDrawer(typeof(ChildrenOnlyAttribute))]
-    public class ChildrenOnly : PropertyDrawer
+    [CustomPropertyDrawer(typeof(SelfAttribute))]
+    public class Self : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
