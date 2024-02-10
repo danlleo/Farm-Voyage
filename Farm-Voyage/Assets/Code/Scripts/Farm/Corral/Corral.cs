@@ -1,4 +1,3 @@
-using System;
 using Attributes.Self;
 using Character.Player;
 using Farm.Plants;
@@ -48,7 +47,7 @@ namespace Farm.Corral
 
         private void InitializeStorageBox()
         {
-            _storageBox.Initialize(this);
+            _storageBox.Initialize(this, _player);
         }
     }
 }

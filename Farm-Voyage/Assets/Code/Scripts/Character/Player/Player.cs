@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+using Attributes.Self;
 using Farm;
+using Farm.Corral;
 using InputManagers;
+using Unity.Mathematics;
 using UnityEngine;
 using Zenject;
 
@@ -11,6 +14,7 @@ namespace Character.Player
     [RequireComponent(typeof(PlayerLocomotion))]
     [RequireComponent(typeof(PlayerInteract))]
     [RequireComponent(typeof(PlayerGatheringEvent))]
+    [RequireComponent(typeof(PlayerStartedCarryingEvent))]
     [DisallowMultipleComponent]
     public class Player : MonoBehaviour
     {
@@ -21,9 +25,15 @@ namespace Character.Player
         public PlayerIdleEvent PlayerIdleEvent { get; private set; }
         public PlayerGatheringEvent PlayerGatheringEvent { get; private set; }
         public PlayerDiggingPlantAreaEvent PlayerDiggingPlantAreaEvent { get; private set; }
+        public PlayerStartedCarryingEvent PlayerStartedCarryingEvent { get; private set; }
         public PlayerInput Input { get; private set; }
         
-        // Leave it like, during developing stage
+        [Header("External references")]
+        [SerializeField, Self] private Transform _carryPoint;
+
+        private StorageBox _storageBox;
+        
+        // Leave it like this, during developing stage
         private readonly List<Tool> _toolsList = new()
         {
             new Tool(ToolType.Axe, 3f, 1),
@@ -48,6 +58,7 @@ namespace Character.Player
             PlayerIdleEvent = GetComponent<PlayerIdleEvent>();
             PlayerGatheringEvent = GetComponent<PlayerGatheringEvent>();
             PlayerDiggingPlantAreaEvent = GetComponent<PlayerDiggingPlantAreaEvent>();
+            PlayerStartedCarryingEvent = GetComponent<PlayerStartedCarryingEvent>();
             _playerLocomotion = GetComponent<PlayerLocomotion>();
             _playerInteract = GetComponent<PlayerInteract>();
         }
@@ -70,6 +81,30 @@ namespace Character.Player
 
             receivedTool = null;
             return false;
+        }
+
+        public void CarryStorageBox(StorageBox storageBox)
+        {
+            if (_storageBox != null) return;
+
+            PlayerStartedCarryingEvent.Call(this);
+            
+            storageBox.transform.SetParent(_carryPoint);
+            storageBox.transform.SetLocalPositionAndRotation(Vector3.zero, quaternion.identity);
+
+            _storageBox = storageBox;
+        }
+
+        public bool TryGetStorageBox(out StorageBox storageBox)
+        {
+            if (_storageBox == null)
+            {
+                storageBox = null;
+                return false;
+            }
+
+            storageBox = _storageBox;
+            return true;
         }
     }
 }

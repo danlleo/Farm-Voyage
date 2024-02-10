@@ -2,7 +2,6 @@ using UnityEngine;
 
 namespace Character.Player
 {
-    
     [RequireComponent(typeof(Player))]
     [DisallowMultipleComponent]
     public class PlayerLocomotion : MonoBehaviour

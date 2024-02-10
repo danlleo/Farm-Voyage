@@ -12,5 +12,6 @@ namespace Character.Player
         public static readonly int IsDigging = Animator.StringToHash(nameof(IsDigging));
         public static readonly int IsChopping = Animator.StringToHash(nameof(IsChopping));
         public static readonly int IsMowing = Animator.StringToHash(nameof(IsMowing));
+        public static readonly int IsCarrying = Animator.StringToHash(nameof(IsCarrying));
     }
 }

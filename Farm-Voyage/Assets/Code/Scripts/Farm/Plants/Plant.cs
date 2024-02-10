@@ -13,11 +13,13 @@ namespace Farm.Plants
         public Vector3 CurrentScale => transform.localScale;
         public Vector3 TargetScale => _grownScale * Vector3.one;
         public float PlantPartitionGrowTimeInSecond => _plantPartitionGrowTimeInSeconds;
+        public float PlantCompressedScale => _plantCompressedScale;
         public float[] WateringThresholds => _wateringThresholds;
         
         [Header("Settings")]
         [SerializeField, Range(0.1f, 3f)] private float _grownScale;
-        [SerializeField, Range(0.1f, 3f)] private float _initialScale; 
+        [SerializeField, Range(0.1f, 3f)] private float _initialScale;
+        [SerializeField, Range(0.1f, 2f)] private float _plantCompressedScale = 0.75f;
         [SerializeField, Range(1f, 60f)] private float _plantPartitionGrowTimeInSeconds;
         [SerializeField, Range(0.1f, 1f)] private float[] _wateringThresholds = { 0.25f, 0.65f, 1f };
         

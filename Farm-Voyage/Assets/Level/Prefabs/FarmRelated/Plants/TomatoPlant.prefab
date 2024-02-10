@@ -152,7 +152,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _grownScale: 2.5
   _initialScale: 0.5
-  _plantPartitionGrowTimeInSeconds: 5
+  _plantCompressedScale: 0.75
+  _plantPartitionGrowTimeInSeconds: 1
   _wateringThresholds:
   - 0.25
   - 0.65
