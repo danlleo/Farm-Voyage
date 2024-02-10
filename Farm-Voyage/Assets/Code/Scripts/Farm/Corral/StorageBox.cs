@@ -68,10 +68,13 @@ namespace Farm.Corral
 
         public void ClearAndPutToInitialPosition()
         {
+            ClearPlantValuesInDictionary();
             ClearFromPlants();
-            ClearPlantsDictionary();
+            
             _boxCollider.Enable();
+            transform.SetParent(_corral.transform);
             transform.position = _initialPosition;
+            _canCarry = false;
             _player.PlayerCarryingStorageBoxStateChangedEvent.Call(this,
                 new PlayerCarryingStorageBoxStateChangedEventArgs(false));
         }
@@ -102,19 +105,22 @@ namespace Farm.Corral
             }
         }
 
-        private void ClearPlantsDictionary()
+        private void ClearPlantValuesInDictionary()
         {
-            foreach (KeyValuePair<Transform, Plant> keyValuePair in _plantsDictionary)
+            foreach (Transform key in _plantsDictionary.Keys.ToList())
             {
-                _plantsDictionary[keyValuePair.Key] = null;
+                _plantsDictionary[key] = null;
             }   
         }
 
         private void ClearFromPlants()
         {
-            foreach (KeyValuePair<Transform, Plant> keyValuePair in _plantsDictionary)
+            foreach (Transform storePoint in _storePoints)
             {
-                Destroy(_plantsDictionary[keyValuePair.Key].gameObject);
+                Transform plant = storePoint.transform.GetChild(0);
+
+                if (plant != null)
+                    Destroy(plant.gameObject);
             }   
         }
         
