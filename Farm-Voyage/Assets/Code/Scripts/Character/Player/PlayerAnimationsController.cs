@@ -8,7 +8,7 @@ namespace Character.Player
     [RequireComponent(typeof(PlayerIdleEvent))]
     [RequireComponent(typeof(PlayerGatheringEvent))]
     [RequireComponent(typeof(PlayerDiggingPlantAreaEvent))]
-    [RequireComponent(typeof(PlayerStartedCarryingEvent))]
+    [RequireComponent(typeof(PlayerCarryingStorageBoxStateChangedEvent))]
     [RequireComponent(typeof(Animator))]
     [DisallowMultipleComponent]
     public class PlayerAnimationsController : MonoBehaviour
@@ -17,17 +17,17 @@ namespace Character.Player
         private PlayerIdleEvent _playerIdleEvent;
         private PlayerGatheringEvent _playerGatheringEvent;
         private PlayerDiggingPlantAreaEvent _playerDiggingPlantAreaEvent;
-        private PlayerStartedCarryingEvent _playerStartedCarryingEvent;
+        private PlayerCarryingStorageBoxStateChangedEvent _playerCarryingStorageBoxStateChangedEvent;
         
         private Animator _animator;
-
+        
         private void Awake()
         {
             _playerIdleEvent = GetComponent<PlayerIdleEvent>();
             _playerWalkingEvent = GetComponent<PlayerWalkingEvent>();
             _playerGatheringEvent = GetComponent<PlayerGatheringEvent>();
             _playerDiggingPlantAreaEvent = GetComponent<PlayerDiggingPlantAreaEvent>();
-            _playerStartedCarryingEvent = GetComponent<PlayerStartedCarryingEvent>();
+            _playerCarryingStorageBoxStateChangedEvent = GetComponent<PlayerCarryingStorageBoxStateChangedEvent>();
             
             _animator = GetComponent<Animator>();
         }
@@ -38,7 +38,7 @@ namespace Character.Player
             _playerWalkingEvent.OnPlayerWalking += PlayerWalkingEvent_OnPlayerWalking;
             _playerGatheringEvent.OnPlayerGathering += PlayerGatheringEvent_OnPlayerGathering;
             _playerDiggingPlantAreaEvent.OnPlayerDiggingPlantArea += PlayerDiggingPlantAreaEvent_OnPlayerDiggingPlantArea;
-            _playerStartedCarryingEvent.OnPlayerStartedCarrying += PlayerStartedCarryingEvent_OnPlayerStartedCarrying;
+            _playerCarryingStorageBoxStateChangedEvent.OnPlayerCarryingStorageBoxStateChanged += PlayerCarryingStorageBoxStateChangedEvent_OnPlayerCarryingBoxStateChanged;
         }
 
         private void OnDisable()
@@ -47,7 +47,7 @@ namespace Character.Player
             _playerWalkingEvent.OnPlayerWalking -= PlayerWalkingEvent_OnPlayerWalking;
             _playerGatheringEvent.OnPlayerGathering -= PlayerGatheringEvent_OnPlayerGathering;
             _playerDiggingPlantAreaEvent.OnPlayerDiggingPlantArea -= PlayerDiggingPlantAreaEvent_OnPlayerDiggingPlantArea;
-            _playerStartedCarryingEvent.OnPlayerStartedCarrying -= PlayerStartedCarryingEvent_OnPlayerStartedCarrying;
+            _playerCarryingStorageBoxStateChangedEvent.OnPlayerCarryingStorageBoxStateChanged -= PlayerCarryingStorageBoxStateChangedEvent_OnPlayerCarryingBoxStateChanged;
         }
 
         private void PlayerIdleEvent_OnPlayerIdle(object sender, EventArgs e)
@@ -85,10 +85,19 @@ namespace Character.Player
         {
             _animator.SetBool(PlayerAnimationParams.IsDigging, e.IsDigging);
         }
-        
-        private void PlayerStartedCarryingEvent_OnPlayerStartedCarrying(object sender, EventArgs e)
+
+        private void PlayerCarryingStorageBoxStateChangedEvent_OnPlayerCarryingBoxStateChanged(object sender,
+            PlayerCarryingStorageBoxStateChangedEventArgs e)
         {
-            // TODO: Carrying animation
+            int carryingAnimationLayer = _animator.GetLayerIndex(PlayerAnimationLayers.Carrying);
+            
+            if (e.IsCarrying)
+            {
+                _animator.SetLayerWeight(carryingAnimationLayer, 1f);
+                return;
+            }
+            
+            _animator.SetLayerWeight(carryingAnimationLayer, 0f);
         }
     }
 }

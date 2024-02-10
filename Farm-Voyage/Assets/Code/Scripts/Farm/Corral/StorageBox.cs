@@ -72,6 +72,8 @@ namespace Farm.Corral
             ClearPlantsDictionary();
             _boxCollider.Enable();
             transform.position = _initialPosition;
+            _player.PlayerCarryingStorageBoxStateChangedEvent.Call(this,
+                new PlayerCarryingStorageBoxStateChangedEventArgs(false));
         }
         
         private void Pickup()

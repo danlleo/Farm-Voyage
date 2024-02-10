@@ -14,7 +14,7 @@ namespace Character.Player
     [RequireComponent(typeof(PlayerLocomotion))]
     [RequireComponent(typeof(PlayerInteract))]
     [RequireComponent(typeof(PlayerGatheringEvent))]
-    [RequireComponent(typeof(PlayerStartedCarryingEvent))]
+    [RequireComponent(typeof(PlayerCarryingStorageBoxStateChangedEvent))]
     [DisallowMultipleComponent]
     public class Player : MonoBehaviour
     {
@@ -25,7 +25,7 @@ namespace Character.Player
         public PlayerIdleEvent PlayerIdleEvent { get; private set; }
         public PlayerGatheringEvent PlayerGatheringEvent { get; private set; }
         public PlayerDiggingPlantAreaEvent PlayerDiggingPlantAreaEvent { get; private set; }
-        public PlayerStartedCarryingEvent PlayerStartedCarryingEvent { get; private set; }
+        public PlayerCarryingStorageBoxStateChangedEvent PlayerCarryingStorageBoxStateChangedEvent { get; private set; }
         public PlayerInput Input { get; private set; }
         
         [Header("External references")]
@@ -58,7 +58,7 @@ namespace Character.Player
             PlayerIdleEvent = GetComponent<PlayerIdleEvent>();
             PlayerGatheringEvent = GetComponent<PlayerGatheringEvent>();
             PlayerDiggingPlantAreaEvent = GetComponent<PlayerDiggingPlantAreaEvent>();
-            PlayerStartedCarryingEvent = GetComponent<PlayerStartedCarryingEvent>();
+            PlayerCarryingStorageBoxStateChangedEvent = GetComponent<PlayerCarryingStorageBoxStateChangedEvent>();
             _playerLocomotion = GetComponent<PlayerLocomotion>();
             _playerInteract = GetComponent<PlayerInteract>();
         }
@@ -87,7 +87,8 @@ namespace Character.Player
         {
             if (_storageBox != null) return;
 
-            PlayerStartedCarryingEvent.Call(this);
+            PlayerCarryingStorageBoxStateChangedEvent.Call(this,
+                new PlayerCarryingStorageBoxStateChangedEventArgs(true));
             
             storageBox.transform.SetParent(_carryPoint);
             storageBox.transform.SetLocalPositionAndRotation(Vector3.zero, quaternion.identity);
