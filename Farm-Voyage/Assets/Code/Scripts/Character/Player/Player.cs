@@ -31,6 +31,7 @@ namespace Character.Player
         [Header("External references")]
         [SerializeField, Self] private Transform _carryPoint;
 
+        private PlayerMapLimitBoundaries _playerMapLimitBoundaries;
         private StorageBox _storageBox;
         
         // Leave it like this, during developing stage
@@ -61,12 +62,15 @@ namespace Character.Player
             PlayerCarryingStorageBoxStateChangedEvent = GetComponent<PlayerCarryingStorageBoxStateChangedEvent>();
             _playerLocomotion = GetComponent<PlayerLocomotion>();
             _playerInteract = GetComponent<PlayerInteract>();
+
+            _playerMapLimitBoundaries = new PlayerMapLimitBoundaries(transform, -25, 25, -25, 25);
         }
 
         private void Update()
         {
             _playerLocomotion.HandleAllMovement();
             _playerInteract.TryInteract();
+            _playerMapLimitBoundaries.KeepWithinBoundaries();
         }
 
         public bool TryGetTool(ToolType requiredTool, out Tool receivedTool)
