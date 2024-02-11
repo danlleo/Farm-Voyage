@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 
 namespace Farm
 {
+    [SelectionBase]
     [DisallowMultipleComponent]
     public class ResourcesGatherer : MonoBehaviour, IInteractable
     {

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
-using Utilities;
 
 namespace Farm.Plants.ConcreteStates
 {
@@ -57,7 +56,7 @@ namespace Farm.Plants.ConcreteStates
         
         private float CalculateCurrentScalePercentage(float currentScale, float targetScale)
         {
-            float currentScalePercentage = Math.InverseLerp(currentScale, targetScale, 100);
+            float currentScalePercentage = Mathf.InverseLerp(currentScale, targetScale, 100);
             return currentScalePercentage;
         }
 
