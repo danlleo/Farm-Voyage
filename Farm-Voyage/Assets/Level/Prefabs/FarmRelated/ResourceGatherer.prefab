@@ -78,6 +78,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _visualSpawnPoint: {fileID: 6740767589455296970}
+  requiredToolTypeName: 
 --- !u!65 &5224896660579734225
 BoxCollider:
   m_ObjectHideFlags: 0

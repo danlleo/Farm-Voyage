@@ -1,7 +1,6 @@
-using System.Collections.Generic;
 using Attributes.Self;
-using Farm;
 using Farm.Corral;
+using Farm.Tool;
 using InputManagers;
 using Unity.Mathematics;
 using UnityEngine;
@@ -15,6 +14,7 @@ namespace Character.Player
     [RequireComponent(typeof(PlayerInteract))]
     [RequireComponent(typeof(PlayerGatheringEvent))]
     [RequireComponent(typeof(PlayerCarryingStorageBoxStateChangedEvent))]
+    [RequireComponent(typeof(PlayerInventory))]
     [DisallowMultipleComponent]
     public class Player : MonoBehaviour
     {
@@ -27,22 +27,13 @@ namespace Character.Player
         public PlayerDiggingPlantAreaEvent PlayerDiggingPlantAreaEvent { get; private set; }
         public PlayerCarryingStorageBoxStateChangedEvent PlayerCarryingStorageBoxStateChangedEvent { get; private set; }
         public PlayerInput Input { get; private set; }
+        public PlayerInventory Inventory { get; private set; }
         
         [Header("External references")]
         [SerializeField, Self] private Transform _carryPoint;
 
         private PlayerMapLimitBoundaries _playerMapLimitBoundaries;
         private StorageBox _storageBox;
-        
-        // Leave it like this, during developing stage
-        private readonly List<Tool> _toolsList = new()
-        {
-            new Tool(ToolType.Axe, 3f, 1),
-            new Tool(ToolType.Pickaxe, 3f, 5),
-            new Tool(ToolType.Shovel, 3f, 1),
-            new Tool(ToolType.Scythe, 3f, 1),
-            new Tool(ToolType.WaterCan, 3f, 1),
-        };
         
         private PlayerInteract _playerInteract;
         private PlayerLocomotion _playerLocomotion;
@@ -62,7 +53,8 @@ namespace Character.Player
             PlayerCarryingStorageBoxStateChangedEvent = GetComponent<PlayerCarryingStorageBoxStateChangedEvent>();
             _playerLocomotion = GetComponent<PlayerLocomotion>();
             _playerInteract = GetComponent<PlayerInteract>();
-
+            Inventory = GetComponent<PlayerInventory>();
+            
             _playerMapLimitBoundaries = new PlayerMapLimitBoundaries(transform, -25, 25, -25, 25);
         }
 
@@ -71,20 +63,6 @@ namespace Character.Player
             _playerLocomotion.HandleAllMovement();
             _playerInteract.TryInteract();
             _playerMapLimitBoundaries.KeepWithinBoundaries();
-        }
-
-        public bool TryGetTool(ToolType requiredTool, out Tool receivedTool)
-        {
-            foreach (Tool tool in _toolsList)
-            {
-                if (tool.Type != requiredTool) continue;
-
-                receivedTool = tool;
-                return true;
-            }
-
-            receivedTool = null;
-            return false;
         }
 
         public void CarryStorageBox(StorageBox storageBox)

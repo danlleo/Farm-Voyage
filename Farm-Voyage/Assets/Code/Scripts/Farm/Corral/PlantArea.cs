@@ -2,6 +2,7 @@ using System.Collections;
 using Character.Player;
 using Common;
 using Farm.Plants;
+using Farm.Tool;
 using UnityEngine;
 using Utilities;
 
@@ -20,8 +21,7 @@ namespace Farm.Corral
         private Player _player;
         private PlantFactory _plantFactory;
         
-        private Tool _playerTool;
-        private ToolType _shovel;
+        private Tool.Tool _playerTool;
 
         private Plant _plant;
         
@@ -33,7 +33,6 @@ namespace Farm.Corral
         private void Awake()
         {
             _boxCollider = GetComponent<BoxCollider>();
-            _shovel = ToolType.Shovel;
         }
 
         public void Initialize(Corral corral, Player player, PlantFactory plantFactory)
@@ -45,7 +44,7 @@ namespace Farm.Corral
 
         public void Interact()
         {
-            if (!TryAllowDigging(out Tool _)) return;
+            if (!TryAllowDigging(out Tool.Tool _)) return;
             if (_delayBeforePlantingNewRoutine != null) return;
             
             _diggingRoutine ??= StartCoroutine(DiggingRoutine());
@@ -84,15 +83,15 @@ namespace Farm.Corral
             _player.PlayerDiggingPlantAreaEvent.Call(this, new PlayerDiggingPlantAreaEventArgs(true));
         }
 
-        private bool TryAllowDigging(out Tool playerTool)
+        private bool TryAllowDigging(out Tool.Tool playerTool)
         {
-            if (!_player.TryGetTool(_shovel, out Tool tool))
+            if (!_player.Inventory.TryGetTool(out Shovel shovel))
             {
                 playerTool = null;
                 return false;
             }
             
-            playerTool = tool;
+            playerTool = shovel;
 
             return true;
         }

@@ -14,11 +14,12 @@ namespace Farm
     {
         [Header("External reference")]
         [SerializeField, Self] private Transform _visualSpawnPoint;
+        [SerializeField] private string requiredToolTypeName;
         
         private ResourceSO _resourceSO;
         
         private Player _player;
-        private Tool _playerTool;
+        private Tool.Tool _playerTool;
         
         private bool _canGather;
 
@@ -89,7 +90,7 @@ namespace Farm
             return true;
         }
 
-        private int CalculateQuantityBasedOnToolLevel(Tool tool)
+        private int CalculateQuantityBasedOnToolLevel(Tool.Tool tool)
         {
             const int minimumRandomValue = 1;
             const int maximumRandomValue = 5;
@@ -99,7 +100,7 @@ namespace Farm
             return calculatedQuantity;
         }
 
-        private float CalculateTimeToGatherBasedOnToolLevel(Tool tool)
+        private float CalculateTimeToGatherBasedOnToolLevel(Tool.Tool tool)
         {
             float calculatedTimeReducer = tool.Level == 1 ? 0 : 0.5f * tool.Level;
             float calculatedTime = tool.TimeToGather - calculatedTimeReducer;
@@ -121,7 +122,7 @@ namespace Farm
 
         private void SetCanGatherIfPlayerHasRequiredTool()
         {
-            if (_player.TryGetTool(_resourceSO.RequiredTool, out Tool tool))
+            if (_player.Inventory.TryGetTool(out Tool.Tool tool))
             {
                 _playerTool = tool;
                 _canGather = true;
