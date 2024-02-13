@@ -32,7 +32,7 @@ namespace Level
             {
                 ResourceSO randomResourceSO = _resourceSOArray.GetRandomItem();
                 ResourcesGatherer randomResourcesGatherer = _gatherableResourcesFactory.Create();
-                randomResourcesGatherer.Initialize(randomResourceSO, point.position, Quaternion.identity);
+                // randomResourcesGatherer.Initialize(randomResourceSO, point.position, Quaternion.identity);
             }
         }
     }

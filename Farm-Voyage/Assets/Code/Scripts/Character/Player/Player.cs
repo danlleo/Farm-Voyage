@@ -1,6 +1,5 @@
 using Attributes.Self;
 using Farm.Corral;
-using Farm.Tool;
 using InputManagers;
 using Unity.Mathematics;
 using UnityEngine;

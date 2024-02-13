@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using Attributes.Self;
 using Character.Player;
 using Common;
+using Farm.Tool;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
@@ -14,7 +16,7 @@ namespace Farm
     {
         [Header("External reference")]
         [SerializeField, Self] private Transform _visualSpawnPoint;
-        [SerializeField] private string requiredToolTypeName;
+        [SerializeField] private ToolType _requiredToolType;
         
         private ResourceSO _resourceSO;
         
@@ -122,7 +124,9 @@ namespace Farm
 
         private void SetCanGatherIfPlayerHasRequiredTool()
         {
-            if (_player.Inventory.TryGetTool(out Tool.Tool tool))
+            Tool.Tool tool = (Tool.Tool)Activator.CreateInstance(Tool.Tool.GetToolType(_requiredToolType));
+            
+            if (_player.Inventory.TryGetTool(out tool))
             {
                 _playerTool = tool;
                 _canGather = true;

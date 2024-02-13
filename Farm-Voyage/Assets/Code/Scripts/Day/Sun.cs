@@ -62,7 +62,7 @@ namespace Day
         
         private void RotateSun()
         {
-            float angleThisFrame = _sunRotationSpeed * Time.deltaTime;
+            float angleThisFrame = _sunRotationSpeed * Time.deltaTime / 2;
             transform.RotateAround(transform.position, Vector3.forward, angleThisFrame);
         }
         

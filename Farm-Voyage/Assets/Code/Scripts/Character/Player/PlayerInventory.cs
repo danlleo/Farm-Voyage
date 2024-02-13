@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Farm.Tool;
 using UnityEngine;
@@ -19,6 +20,12 @@ namespace Character.Player
         
         public bool TryGetTool<T>(out T tool) where T : Tool
         {
+            // Check if T is exactly the Tool class and not a derived class
+            if (typeof(T) == typeof(Tool))
+            {
+                throw new ArgumentException("T must be a derived class of Tool, not Tool itself.");
+            }
+            
             foreach (T playerTool in _toolsList.OfType<T>())
             {
                 tool = playerTool;
