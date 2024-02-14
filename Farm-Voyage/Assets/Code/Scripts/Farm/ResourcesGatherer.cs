@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using Attributes.Self;
 using Character.Player;
@@ -16,7 +15,6 @@ namespace Farm
     {
         [Header("External reference")]
         [SerializeField, Self] private Transform _visualSpawnPoint;
-        [SerializeField] private ToolType _requiredToolType;
         
         private ResourceSO _resourceSO;
         
@@ -124,9 +122,9 @@ namespace Farm
 
         private void SetCanGatherIfPlayerHasRequiredTool()
         {
-            Tool.Tool tool = (Tool.Tool)Activator.CreateInstance(Tool.Tool.GetToolType(_requiredToolType));
+            // TODO: fix it tomorrow
             
-            if (_player.Inventory.TryGetTool(out tool))
+            if (_player.Inventory.TryGetTool(out Shovel tool))
             {
                 _playerTool = tool;
                 _canGather = true;
