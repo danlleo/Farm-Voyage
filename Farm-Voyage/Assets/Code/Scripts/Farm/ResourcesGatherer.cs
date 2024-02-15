@@ -1,8 +1,8 @@
+using System;
 using System.Collections;
 using Attributes.Self;
 using Character.Player;
 using Common;
-using Farm.Tool;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
@@ -122,12 +122,13 @@ namespace Farm
 
         private void SetCanGatherIfPlayerHasRequiredTool()
         {
-            // TODO: fix it tomorrow
+            Type toolType = _resourceSO.GetRequiredTool();
             
-            if (_player.Inventory.TryGetTool(out Shovel tool))
+            if (_player.Inventory.TryGetToolOfType(toolType, out Tool.Tool tool))
             {
                 _playerTool = tool;
                 _canGather = true;
+                
                 return;
             }
 

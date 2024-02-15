@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Farm.Tool;
 using UnityEngine;
@@ -21,6 +22,18 @@ namespace Character.Player
         {
             tool = _toolsHashSet.OfType<T>().FirstOrDefault();
             return tool != null;
+        }
+        
+        public bool TryGetToolOfType(Type toolType, out Tool foundTool)
+        {
+            foreach (Tool tool in _toolsHashSet.Where(tool => tool.GetType() == toolType))
+            {
+                foundTool = tool;
+                return true;
+            }
+
+            foundTool = null;
+            return false;
         }
     }
 }

@@ -1,5 +1,5 @@
-using System;
 using Attributes.Self;
+using Character.Player.StateMachine;
 using Farm.Corral;
 using InputManagers;
 using Misc;
@@ -24,23 +24,28 @@ namespace Character.Player
 
         public bool IsValid { get; private set; } = true;
         
+        public StateFactory StateFactory { get; private set; }
+        
+        public PlayerInteract PlayerInteract { get; private set; }
+        public PlayerLocomotion PlayerLocomotion { get; private set; }
+        
         public PlayerWalkingEvent PlayerWalkingEvent { get; private set; }
         public PlayerIdleEvent PlayerIdleEvent { get; private set; }
         public PlayerGatheringEvent PlayerGatheringEvent { get; private set; }
         public PlayerDiggingPlantAreaEvent PlayerDiggingPlantAreaEvent { get; private set; }
         public PlayerCarryingStorageBoxStateChangedEvent PlayerCarryingStorageBoxStateChangedEvent { get; private set; }
+        
         public PlayerInput Input { get; private set; }
         public PlayerInventory Inventory { get; private set; }
         
         [Header("External references")]
         [SerializeField, Self] private Transform _carryPoint;
 
+        private StateMachine.StateMachine _stateMachine;
+        
         private PlayerMapLimitBoundaries _playerMapLimitBoundaries;
         private StorageBox _storageBox;
         
-        private PlayerInteract _playerInteract;
-        private PlayerLocomotion _playerLocomotion;
-
         [Inject]
         private void Construct(PlayerInput playerInput)
         {
@@ -54,17 +59,23 @@ namespace Character.Player
             PlayerGatheringEvent = GetComponent<PlayerGatheringEvent>();
             PlayerDiggingPlantAreaEvent = GetComponent<PlayerDiggingPlantAreaEvent>();
             PlayerCarryingStorageBoxStateChangedEvent = GetComponent<PlayerCarryingStorageBoxStateChangedEvent>();
-            _playerLocomotion = GetComponent<PlayerLocomotion>();
-            _playerInteract = GetComponent<PlayerInteract>();
+            PlayerLocomotion = GetComponent<PlayerLocomotion>();
+            PlayerInteract = GetComponent<PlayerInteract>();
             Inventory = GetComponent<PlayerInventory>();
             
             _playerMapLimitBoundaries = new PlayerMapLimitBoundaries(transform, -25, 25, -25, 25);
+            _stateMachine = new StateMachine.StateMachine();
+            StateFactory = new StateFactory(this, _stateMachine);
+        }
+
+        private void Start()
+        {
+            _stateMachine.Initialize(StateFactory.Exploring());
         }
 
         private void Update()
         {
-            _playerLocomotion.HandleAllMovement();
-            _playerInteract.TryInteract();
+            _stateMachine.CurrentState.Tick();
             _playerMapLimitBoundaries.KeepWithinBoundaries();
         }
 

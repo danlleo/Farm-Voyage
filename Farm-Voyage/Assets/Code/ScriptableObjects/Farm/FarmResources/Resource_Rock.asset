@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <VisualObject>k__BackingField: {fileID: 3350148055706349139, guid: d20ae0ad71786154e8130abe3e1e96de,
     type: 3}
-  <RequiredTool>k__BackingField: 10
   <ResourceToGather>k__BackingField: 10
   <InteractAmountToDestroy>k__BackingField: 3
+  _requiredToolType: 30
