@@ -2,21 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using Farm.Tool;
-using UnityEngine;
 
 namespace Character.Player
 {
-    [DisallowMultipleComponent]
-    public class PlayerInventory : MonoBehaviour
+    public class PlayerInventory
     {
-        private readonly HashSet<Tool> _toolsHashSet = new()
+        private readonly HashSet<Tool> _toolsHashSet;
+        
+        public PlayerInventory(HashSet<Tool> toolsHashSet)
         {
-            new Axe(3f, 1),
-            new Pickaxe(3f, 5),
-            new Shovel(3f, 1),
-            new Scythe(3f, 1),
-            new WaterCan(3f, 1),
-        };
+            _toolsHashSet = toolsHashSet;
+        }
         
         public bool TryGetTool<T>(out T tool) where T : Tool
         {

@@ -1,3 +1,4 @@
+using Character.Player;
 using Common;
 using Farm.Corral;
 using UnityEngine;
@@ -10,8 +11,11 @@ namespace Farm.Plants
     public abstract class Plant : MonoBehaviour, IInteractable
     {
         public StateFactory StateFactory { get; private set; }
+        public PlayerInventory PlayerInventory;
+        
         public Vector3 CurrentScale => transform.localScale;
         public Vector3 TargetScale => _grownScale * Vector3.one;
+        
         public float PlantPartitionGrowTimeInSecond => _plantPartitionGrowTimeInSeconds;
         public float PlantCompressedScale => _plantCompressedScale;
         public float[] WateringThresholds => _wateringThresholds;
@@ -41,10 +45,11 @@ namespace Farm.Plants
             _stateMachine.Initialize(StateFactory.Growing());
         }
 
-        public void Initialize(Vector3 position, Quaternion rotation, PlantArea plantArea)
+        public void Initialize(Vector3 position, Quaternion rotation, PlantArea plantArea, PlayerInventory playerInventory)
         {
             transform.SetPositionAndRotation(position, rotation);
             _plantArea = plantArea;
+            PlayerInventory = playerInventory;
         }
         
         public void Interact()

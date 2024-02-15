@@ -5,6 +5,7 @@ using Farm.Plants;
 using Farm.Tool;
 using UnityEngine;
 using Utilities;
+using Zenject;
 
 namespace Farm.Corral
 {
@@ -24,11 +25,18 @@ namespace Farm.Corral
         private Tool.Tool _playerTool;
 
         private Plant _plant;
+        private PlayerInventory _playerInventory;
         
         private BoxCollider _boxCollider;
 
         private Coroutine _diggingRoutine;
         private Coroutine _delayBeforePlantingNewRoutine;
+        
+        [Inject]
+        private void Construct(PlayerInventory playerInventory)
+        {
+            _playerInventory = playerInventory;
+        }
         
         private void Awake()
         {
@@ -85,7 +93,7 @@ namespace Farm.Corral
 
         private bool TryAllowDigging(out Tool.Tool playerTool)
         {
-            if (!_player.Inventory.TryGetTool(out Shovel shovel))
+            if (!_playerInventory.TryGetTool(out Shovel shovel))
             {
                 playerTool = null;
                 return false;
@@ -99,7 +107,7 @@ namespace Farm.Corral
         private void SpawnPlant()
         {
             Plant plant = _plantFactory.Create(_plantType);
-            plant.Initialize(transform.position, Quaternion.identity, this);
+            plant.Initialize(transform.position, Quaternion.identity, this, _playerInventory);
             _plant = plant;
         }
 

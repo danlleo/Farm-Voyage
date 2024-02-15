@@ -19,6 +19,7 @@ namespace Farm
         private ResourceSO _resourceSO;
         
         private Player _player;
+        private PlayerInventory _playerInventory;
         private Tool.Tool _playerTool;
         
         private bool _canGather;
@@ -28,9 +29,10 @@ namespace Farm
         private int _timesInteracted;
         
         [Inject]
-        private void Construct(Player player)
+        private void Construct(Player player, PlayerInventory playerInventory)
         {
             _player = player;
+            _playerInventory = playerInventory;
         }
 
         public void Initialize(ResourceSO resourceSO, Vector3 position, Quaternion rotation)
@@ -124,7 +126,7 @@ namespace Farm
         {
             Type toolType = _resourceSO.GetRequiredTool();
             
-            if (_player.Inventory.TryGetToolOfType(toolType, out Tool.Tool tool))
+            if (_playerInventory.TryGetToolOfType(toolType, out Tool.Tool tool))
             {
                 _playerTool = tool;
                 _canGather = true;

@@ -15,7 +15,6 @@ namespace Character.Player
     [RequireComponent(typeof(PlayerInteract))]
     [RequireComponent(typeof(PlayerGatheringEvent))]
     [RequireComponent(typeof(PlayerCarryingStorageBoxStateChangedEvent))]
-    [RequireComponent(typeof(PlayerInventory))]
     [DisallowMultipleComponent]
     public class Player : MonoBehaviour, IValidate
     {
@@ -36,7 +35,6 @@ namespace Character.Player
         public PlayerCarryingStorageBoxStateChangedEvent PlayerCarryingStorageBoxStateChangedEvent { get; private set; }
         
         public PlayerInput Input { get; private set; }
-        public PlayerInventory Inventory { get; private set; }
         
         [Header("External references")]
         [SerializeField, Self] private Transform _carryPoint;
@@ -61,7 +59,6 @@ namespace Character.Player
             PlayerCarryingStorageBoxStateChangedEvent = GetComponent<PlayerCarryingStorageBoxStateChangedEvent>();
             PlayerLocomotion = GetComponent<PlayerLocomotion>();
             PlayerInteract = GetComponent<PlayerInteract>();
-            Inventory = GetComponent<PlayerInventory>();
             
             _playerMapLimitBoundaries = new PlayerMapLimitBoundaries(transform, -25, 25, -25, 25);
             _stateMachine = new StateMachine.StateMachine();

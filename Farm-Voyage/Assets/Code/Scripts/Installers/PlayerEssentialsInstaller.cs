@@ -1,4 +1,6 @@
-﻿using Character.Player;
+﻿using System.Collections.Generic;
+using Character.Player;
+using Farm.Tool;
 using InputManagers;
 using Misc;
 using UnityEngine;
@@ -48,9 +50,28 @@ namespace Installers
         {
             BindPlayerInputManager();
             BindPlayer();
+            BindPlayerInventory();
             BindPlayerFollowCamera();
         }
-        
+
+        private void BindPlayerInventory()
+        {
+            HashSet<Tool> inventoryTools = new()
+            {
+                new Axe(3f, 1),
+                new Pickaxe(3f, 5),
+                new Shovel(3f, 1),
+                new Scythe(3f, 1),
+                new WaterCan(3f, 1),
+            };
+
+            Container
+                .Bind<PlayerInventory>()
+                .AsSingle()
+                .WithArguments(inventoryTools)
+                .NonLazy();
+        }
+
         private void BindPlayerInputManager()
         {
             PlayerInput playerInput =
