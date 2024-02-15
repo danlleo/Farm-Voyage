@@ -1,17 +1,48 @@
 ﻿using Character.Player;
 using InputManagers;
+using Misc;
 using UnityEngine;
 using Zenject;
 
 namespace Installers
 {
     [DisallowMultipleComponent]
-    public class PlayerEssentialsInstaller : MonoInstaller
+    public class PlayerEssentialsInstaller : MonoInstaller, IValidate
     {
+        public bool IsValid { get; private set; } = true;
+        
         [SerializeField] private PlayerInput _playerInput;
         [SerializeField] private Player _playerPrefab;
         [SerializeField] private Transform _playerSpawnPoint;
         [SerializeField] private PlayerFollowCamera _playerFollowCamera;
+
+        private void OnValidate()
+        {
+            IsValid = true;
+
+            if (_playerInput == null)
+            {
+                IsValid = false;
+                return;
+            }
+
+            if (_playerPrefab == null)
+            {
+                IsValid = false;
+                return;
+            }
+
+            if (_playerSpawnPoint == null)
+            {
+                IsValid = false;
+                return;
+            }
+
+            if (_playerFollowCamera == null)
+            {
+                IsValid = false;
+            }
+        }
 
         public override void InstallBindings()
         {

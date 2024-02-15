@@ -2,6 +2,7 @@ using System;
 using Attributes.Self;
 using Character.Player;
 using Farm.Plants;
+using Misc;
 using UnityEngine;
 using Zenject;
 
@@ -10,8 +11,10 @@ namespace Farm.Corral
     [RequireComponent(typeof(BoxCollider))]
     [RequireComponent(typeof(PlantAreaClearedEvent))]
     [DisallowMultipleComponent]
-    public class Corral : MonoBehaviour
+    public class Corral : MonoBehaviour, IValidate
     {
+        public bool IsValid { get; private set; } = true;
+        
         public PlantAreaClearedEvent PlantAreaClearedEvent { get; private set; }
 
         [Header("External references")] 
@@ -89,6 +92,22 @@ namespace Farm.Corral
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private void OnValidate()
+        {
+            IsValid = true;
+            
+            if (_plantAreaArray.Length == 0)
+            {
+                IsValid = false;
+                return;
+            }
+
+            if (_storageBox == null)
+            {
+                IsValid = false;
             }
         }
 

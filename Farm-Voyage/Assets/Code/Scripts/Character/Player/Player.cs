@@ -1,6 +1,8 @@
+using System;
 using Attributes.Self;
 using Farm.Corral;
 using InputManagers;
+using Misc;
 using Unity.Mathematics;
 using UnityEngine;
 using Zenject;
@@ -15,11 +17,13 @@ namespace Character.Player
     [RequireComponent(typeof(PlayerCarryingStorageBoxStateChangedEvent))]
     [RequireComponent(typeof(PlayerInventory))]
     [DisallowMultipleComponent]
-    public class Player : MonoBehaviour
+    public class Player : MonoBehaviour, IValidate
     {
         public const float Height = 1f;
         public const float Radius = .5f;
-     
+
+        public bool IsValid { get; private set; } = true;
+        
         public PlayerWalkingEvent PlayerWalkingEvent { get; private set; }
         public PlayerIdleEvent PlayerIdleEvent { get; private set; }
         public PlayerGatheringEvent PlayerGatheringEvent { get; private set; }
@@ -62,6 +66,16 @@ namespace Character.Player
             _playerLocomotion.HandleAllMovement();
             _playerInteract.TryInteract();
             _playerMapLimitBoundaries.KeepWithinBoundaries();
+        }
+
+        private void OnValidate()
+        {
+            IsValid = true;
+
+            if (_carryPoint == null)
+            {
+                IsValid = false;
+            }
         }
 
         public void CarryStorageBox(StorageBox storageBox)
