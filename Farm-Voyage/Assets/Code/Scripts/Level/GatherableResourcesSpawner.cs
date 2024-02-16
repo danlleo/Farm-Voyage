@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using Farm;
 using UnityEngine;
 using Utilities;
-using Zenject;
 
 namespace Level
 {
@@ -13,17 +12,12 @@ namespace Level
 
         private ResourcesGatherer.Factory _gatherableResourcesFactory;
 
-        [Inject]
-        private void Construct(ResourcesGatherer.Factory gatherableResourcesFactory)
+        public GatherableResourcesSpawner(ResourcesGatherer.Factory gatherableResourcesFactory, ResourceSO[] resourceSOArray, IEnumerable<Transform> spawnPointsArray)
         {
             _gatherableResourcesFactory = gatherableResourcesFactory;
-            SpawnAll();
-        }
-
-        public GatherableResourcesSpawner(ResourceSO[] resourceSOArray, IEnumerable<Transform> spawnPointsArray)
-        {
             _resourceSOArray = resourceSOArray;
             _spawnPointsArray = spawnPointsArray;
+            SpawnAll();
         }
 
         private void SpawnAll()
@@ -31,8 +25,8 @@ namespace Level
             foreach (Transform point in _spawnPointsArray)
             {
                 ResourceSO randomResourceSO = _resourceSOArray.GetRandomItem();
-                ResourcesGatherer randomResourcesGatherer = _gatherableResourcesFactory.Create();
-                randomResourcesGatherer.Initialize(randomResourceSO, point.position, Quaternion.identity);
+                ResourcesGatherer resourcesGatherer = _gatherableResourcesFactory.Create();
+                resourcesGatherer.Initialize(randomResourceSO, point.position, Quaternion.identity);
             }
         }
     }

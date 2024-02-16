@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Farm;
 using Level;
 using Misc;
@@ -48,8 +47,8 @@ namespace Installers
         public override void InstallBindings()
         {
             BindDay();
-            BindGatherableResourcesSpawner();
             BindResourcesGathererFactory();
+            BindResourcesGathererSpawner();
         }
 
         private void BindDay()
@@ -68,11 +67,11 @@ namespace Installers
                 .BindFactory<ResourcesGatherer, ResourcesGatherer.Factory>()
                 .FromComponentInNewPrefab(_resourcesGathererPrefab);
         }
-
-        private void BindGatherableResourcesSpawner()
+        
+        private void BindResourcesGathererSpawner()
         {
             IEnumerable<Transform> spawnPointsEnumerable = _gatherableResourcesSpawnPoints;
-
+            
             Container.Bind<GatherableResourcesSpawner>()
                 .AsSingle()
                 .WithArguments(_resourcesSOArray, spawnPointsEnumerable)

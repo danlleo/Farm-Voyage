@@ -124,7 +124,7 @@ namespace Farm
 
         private void SetCanGatherIfPlayerHasRequiredTool()
         {
-            Type toolType = _resourceSO.GetRequiredTool();
+            Type toolType = _resourceSO.RequiredToolType;
             
             if (_playerInventory.TryGetToolOfType(toolType, out Tool.Tool tool))
             {
