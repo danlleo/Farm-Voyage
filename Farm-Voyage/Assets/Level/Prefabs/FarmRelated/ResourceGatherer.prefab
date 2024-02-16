@@ -78,7 +78,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _visualSpawnPoint: {fileID: 6740767589455296970}
-  _requiredToolType: 10
+  _collectableSOArray:
+  - {fileID: 11400000, guid: 95b55d4903eb750448cacf74d511fad7, type: 2}
+  _chanceToGetCollectable: 100
 --- !u!65 &5224896660579734225
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -3,6 +3,7 @@ using Character.Player;
 using Common;
 using Farm.Plants;
 using Farm.Tool;
+using UI.Icon;
 using UnityEngine;
 using Utilities;
 using Zenject;
@@ -11,8 +12,10 @@ namespace Farm.Corral
 {
     [RequireComponent(typeof(BoxCollider))]
     [DisallowMultipleComponent]
-    public sealed class PlantArea : MonoBehaviour, IInteractable
+    public sealed class PlantArea : MonoBehaviour, IInteractable, IDisplayIcon
     {
+        [field:SerializeField] public IconSO Icon { get; private set; }
+        
         [Header("Settings")]
         [SerializeField] private PlantType _plantType;
         [SerializeField, Range(0.1f, 2f)] private float _timeToDigInSeconds = 1f;
@@ -126,5 +129,6 @@ namespace Farm.Corral
             StopCoroutine(_delayBeforePlantingNewRoutine);
             _delayBeforePlantingNewRoutine = null;
         }
+
     }
 }

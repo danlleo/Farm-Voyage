@@ -15,6 +15,8 @@ namespace Farm
     {
         [Header("External reference")]
         [SerializeField, Self] private Transform _visualSpawnPoint;
+        [SerializeField] private CollectableSO[] _collectableSOArray;
+        [SerializeField, Range(1f, 100f)] private float _chanceToGetCollectable;
         
         private ResourceSO _resourceSO;
         
@@ -136,6 +138,27 @@ namespace Farm
 
             _canGather = false;
         }
+
+        private bool TryCollectCollectable(out CollectableSO collectable)
+        {
+            // Check if the chance check passes
+            if (!(Random.Range(0f, 100f) <= _chanceToGetCollectable))
+            {
+                collectable = null;
+                return false;
+            }
+
+            if (_collectableSOArray is not { Length: > 0 }) 
+            {
+                collectable = null;
+                return false;
+            }
+            
+            int randomIndex = Random.Range(0, _collectableSOArray.Length);
+            collectable = _collectableSOArray[randomIndex];
+
+            return true;
+        }
         
         private void OnResourceGathered(GatheredResource gatheredResource)
         {
@@ -144,6 +167,13 @@ namespace Farm
             StopGathering();
             IncreaseTimeInteracted();
             DestroyIfFullyGathered();
+
+            if (gatheredResource.Type != ResourceType.Dirt) return;
+            
+            if (TryCollectCollectable(out CollectableSO collectable))
+            {
+                _player.PlayerFoundCollectableEvent.Call(this);
+            }
         }
         
         public class Factory : PlaceholderFactory<ResourcesGatherer> { }

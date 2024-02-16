@@ -1,3 +1,4 @@
+using System;
 using Attributes.Self;
 using Character.Player.StateMachine;
 using Farm.Corral;
@@ -15,6 +16,7 @@ namespace Character.Player
     [RequireComponent(typeof(PlayerInteract))]
     [RequireComponent(typeof(PlayerGatheringEvent))]
     [RequireComponent(typeof(PlayerCarryingStorageBoxStateChangedEvent))]
+    [RequireComponent(typeof(PlayerFoundCollectableEvent))]
     [DisallowMultipleComponent]
     public class Player : MonoBehaviour, IValidate
     {
@@ -33,6 +35,7 @@ namespace Character.Player
         public PlayerGatheringEvent PlayerGatheringEvent { get; private set; }
         public PlayerDiggingPlantAreaEvent PlayerDiggingPlantAreaEvent { get; private set; }
         public PlayerCarryingStorageBoxStateChangedEvent PlayerCarryingStorageBoxStateChangedEvent { get; private set; }
+        public PlayerFoundCollectableEvent PlayerFoundCollectableEvent { get; private set; }
         
         public PlayerInput Input { get; private set; }
         
@@ -57,6 +60,7 @@ namespace Character.Player
             PlayerGatheringEvent = GetComponent<PlayerGatheringEvent>();
             PlayerDiggingPlantAreaEvent = GetComponent<PlayerDiggingPlantAreaEvent>();
             PlayerCarryingStorageBoxStateChangedEvent = GetComponent<PlayerCarryingStorageBoxStateChangedEvent>();
+            PlayerFoundCollectableEvent = GetComponent<PlayerFoundCollectableEvent>();
             PlayerLocomotion = GetComponent<PlayerLocomotion>();
             PlayerInteract = GetComponent<PlayerInteract>();
             
@@ -74,6 +78,11 @@ namespace Character.Player
         {
             _stateMachine.CurrentState.Tick();
             _playerMapLimitBoundaries.KeepWithinBoundaries();
+        }
+
+        private void OnDestroy()
+        {
+            _stateMachine.CurrentState.OnExit();
         }
 
         private void OnValidate()

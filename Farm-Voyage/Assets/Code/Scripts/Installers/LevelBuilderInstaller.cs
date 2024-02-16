@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Farm;
 using Level;
 using Misc;
+using UI.Icon;
 using UnityEngine;
 using Zenject;
 
@@ -16,7 +18,8 @@ namespace Installers
         [SerializeField] private ResourcesGatherer _resourcesGathererPrefab;
         [SerializeField] private ResourceSO[] _resourcesSOArray;
         [SerializeField] private Transform[] _gatherableResourcesSpawnPoints;
-
+        [SerializeField] private IconManager _iconManagerPrefab;
+        
         private void OnValidate()
         {
             IsValid = true;
@@ -49,6 +52,7 @@ namespace Installers
             BindDay();
             BindResourcesGathererFactory();
             BindResourcesGathererSpawner();
+            BindIconManager();
         }
 
         private void BindDay()
@@ -75,6 +79,16 @@ namespace Installers
             Container.Bind<GatherableResourcesSpawner>()
                 .AsSingle()
                 .WithArguments(_resourcesSOArray, spawnPointsEnumerable)
+                .NonLazy();
+        }
+        
+        private void BindIconManager()
+        {
+            IconManager iconManager = Container.InstantiatePrefabForComponent<IconManager>(_iconManagerPrefab);
+
+            Container
+                .BindInstance(iconManager)
+                .AsSingle()
                 .NonLazy();
         }
     }

@@ -1,4 +1,6 @@
-﻿namespace Character.Player.StateMachine.ConcreteStates
+﻿using System;
+
+namespace Character.Player.StateMachine.ConcreteStates
 {
     public class ExploringState : State
     {
@@ -9,6 +11,21 @@
         {
             _player = player;
             _stateMachine = stateMachine;
+        }
+
+        public override void OnEnter()
+        {
+            _player.PlayerFoundCollectableEvent.OnPlayerFoundCollectable += PlayerFoundCollectableEvent_OnPlayerFoundCollectable;
+        }
+
+        public override void OnExit()
+        {
+            _player.PlayerFoundCollectableEvent.OnPlayerFoundCollectable -= PlayerFoundCollectableEvent_OnPlayerFoundCollectable;
+        }
+        
+        private void PlayerFoundCollectableEvent_OnPlayerFoundCollectable(object sender, EventArgs e)
+        {
+            _stateMachine.ChangeState(_player.StateFactory.FoundCollectable());
         }
 
         public override void Tick()
