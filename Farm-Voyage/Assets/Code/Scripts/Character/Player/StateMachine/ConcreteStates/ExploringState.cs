@@ -23,15 +23,15 @@ namespace Character.Player.StateMachine.ConcreteStates
             _player.PlayerFoundCollectableEvent.OnPlayerFoundCollectable -= PlayerFoundCollectableEvent_OnPlayerFoundCollectable;
         }
         
-        private void PlayerFoundCollectableEvent_OnPlayerFoundCollectable(object sender, EventArgs e)
-        {
-            _stateMachine.ChangeState(_player.StateFactory.FoundCollectable());
-        }
-
         public override void Tick()
         {
             _player.PlayerLocomotion.HandleAllMovement();
             _player.PlayerInteract.TryInteract();
+        }
+        
+        private void PlayerFoundCollectableEvent_OnPlayerFoundCollectable(object sender, EventArgs e)
+        {
+            _stateMachine.ChangeState(_player.StateFactory.FoundCollectable());
         }
     }
 }

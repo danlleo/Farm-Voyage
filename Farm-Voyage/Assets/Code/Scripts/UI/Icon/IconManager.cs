@@ -6,6 +6,8 @@ namespace UI.Icon
     [DisallowMultipleComponent]
     public class IconManager : MonoBehaviour
     {
+        // Dictionary approach seems like doesn't fit,
+        // change it in the future
         private readonly Dictionary<Transform, DisplayIcon> _iconsDictionary = new();
 
         private void Awake()
@@ -21,6 +23,12 @@ namespace UI.Icon
             }
         }
 
+        public void RegisterNewIcon(Transform objectToFollow, IconSO icon)
+        {
+            RectTransform rectTransform = Instantiate(icon.IconRectTransform, transform);
+            _iconsDictionary.Add(objectToFollow, new DisplayIcon(rectTransform, icon));
+        }
+        
         private void FindAndCreateAllIcons()
         {
             _iconsDictionary.Clear();

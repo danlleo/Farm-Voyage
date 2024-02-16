@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using Attributes.Self;
+using Attributes.WithinParent;
 using Character.Player;
 using Common;
 using UnityEngine;
@@ -14,7 +14,7 @@ namespace Farm
     public class ResourcesGatherer : MonoBehaviour, IInteractable
     {
         [Header("External reference")]
-        [SerializeField, Self] private Transform _visualSpawnPoint;
+        [SerializeField, WithinParent] private Transform _visualSpawnPoint;
         [SerializeField] private CollectableSO[] _collectableSOArray;
         [SerializeField, Range(1f, 100f)] private float _chanceToGetCollectable;
         

@@ -1,3 +1,4 @@
+using Attributes.WithinParent;
 using Character.Player;
 using Common;
 using Farm.Corral;
@@ -10,10 +11,12 @@ namespace Farm.Plants
     [DisallowMultipleComponent]
     public abstract class Plant : MonoBehaviour, IInteractable
     {
+        [field:SerializeField, WithinParent] public Transform PlantVisual { get; private set; }
+        
         public StateFactory StateFactory { get; private set; }
         public PlayerInventory PlayerInventory;
         
-        public Vector3 CurrentScale => transform.localScale;
+        public Vector3 CurrentScale => PlantVisual.localScale;
         public Vector3 TargetScale => _grownScale * Vector3.one;
         
         public float PlantPartitionGrowTimeInSecond => _plantPartitionGrowTimeInSeconds;
@@ -37,7 +40,7 @@ namespace Farm.Plants
             _boxCollider = GetComponent<BoxCollider>();
             _stateMachine = new StateMachine();
             StateFactory = new StateFactory(this, _stateMachine);
-            transform.localScale = _initialScale * Vector3.one;
+            PlantVisual.localScale = _initialScale * Vector3.one;
         }
 
         protected virtual void Start()

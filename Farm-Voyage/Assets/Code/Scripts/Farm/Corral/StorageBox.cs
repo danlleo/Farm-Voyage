@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using Attributes.Self;
+using Attributes.WithinParent;
 using Character.Player;
 using Common;
 using DG.Tweening;
@@ -15,7 +15,7 @@ namespace Farm.Corral
     public class StorageBox : MonoBehaviour, IInteractable
     {
         [Header("Settings")]
-        [SerializeField, Self] private Transform[] _storePoints;
+        [SerializeField, WithinParent] private Transform[] _storePoints;
         [SerializeField, Range(0.1f, 2f)] private float _movePlantSpeedInSeconds;
         [SerializeField, Range(0.1f, 2f)] private float _compressPlantScaleSpeedInSeconds;
         

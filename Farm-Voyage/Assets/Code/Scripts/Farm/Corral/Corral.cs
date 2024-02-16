@@ -1,5 +1,5 @@
 using System;
-using Attributes.Self;
+using Attributes.WithinParent;
 using Character.Player;
 using Farm.Plants;
 using Misc;
@@ -19,8 +19,8 @@ namespace Farm.Corral
 
         [Header("External references")] 
         [SerializeField] private CorralCardinalDirection _corralCardinalDirection;
-        [SerializeField, Self] private PlantArea[] _plantAreaArray;
-        [SerializeField, Self] private StorageBox _storageBox;
+        [SerializeField, WithinParent] private PlantArea[] _plantAreaArray;
+        [SerializeField, WithinParent] private StorageBox _storageBox;
         
         private Player _player;
         private PlantFactory _plantFactory;

@@ -1992,7 +1992,6 @@ GameObject:
   - component: {fileID: 1909382878800530222}
   - component: {fileID: 6199488055026322983}
   - component: {fileID: 7534990748196741893}
-  - component: {fileID: 3203852344706053483}
   - component: {fileID: 8566789751215023668}
   - component: {fileID: 8224845331004557066}
   - component: {fileID: 4689243190767900274}
@@ -2000,6 +1999,8 @@ GameObject:
   - component: {fileID: 2852877652732415996}
   - component: {fileID: 9028508083427138678}
   - component: {fileID: 8877078944766500134}
+  - component: {fileID: 2423541706222419549}
+  - component: {fileID: 5629092091354524885}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2110,24 +2111,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _carryPoint: {fileID: 6270281534764410529}
---- !u!114 &3203852344706053483
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2332247048513844423}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 064faedf006038049862b333e1920717, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _obstaclesLayerMask:
-    serializedVersion: 2
-    m_Bits: 192
-  _walkingSpeed: 0.05
-  _runningSpeed: 0.1
-  _rotateSpeed: 12
 --- !u!114 &8566789751215023668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2215,6 +2198,36 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 73c1ef35f3d74528bb6a046ea7c7341b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2423541706222419549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2332247048513844423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93a0f020f2615854884752da065cde2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _obstaclesLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
+  _walkingSpeed: 0.05
+  _runningSpeed: 0.5
+  _rotateSpeed: 10
+--- !u!114 &5629092091354524885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2332247048513844423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 086b16a2a459440c974fa5fa337fc86e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2540343304331429259

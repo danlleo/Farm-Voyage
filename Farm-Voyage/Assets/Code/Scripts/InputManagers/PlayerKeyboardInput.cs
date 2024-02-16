@@ -1,10 +1,11 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Zenject;
 
 namespace InputManagers
 {
-    [DisallowMultipleComponent]
-    public class PlayerInput : MonoBehaviour
+    public class PlayerKeyboardInput : IInitializable, IDisposable, ITickable, IPlayerInput
     {
         public Vector2 MovementInput { get; private set; }
         public float MoveAmount { get; private set; }
@@ -14,7 +15,7 @@ namespace InputManagers
         private float _verticalInput;
         private float _horizontalInput;
         
-        private void OnEnable()
+        public void Initialize()
         {
             if (_playerControls == null)
             {
@@ -25,16 +26,16 @@ namespace InputManagers
             _playerControls.Enable();
         }
 
-        private void OnDisable()
+        public void Dispose()
         {
             _playerControls.Disable();
         }
-
-        private void Update()
+        
+        public void Tick()
         {
             HandleMovementInput();
         }
-
+        
         private void ReadMovementValue(InputAction.CallbackContext callbackContext)
         {
             MovementInput = callbackContext.ReadValue<Vector2>();

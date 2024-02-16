@@ -13,6 +13,8 @@ namespace Farm.Plants.ConcreteStates
         
         private readonly float _plantPartitionGrowTimeInSeconds;
         private readonly float[] _wateringThresholds;
+
+        private readonly Transform _plantVisual;
         
         public GrowingState(Plant plant, StateMachine stateMachine) : base(plant, stateMachine)
         {
@@ -21,6 +23,7 @@ namespace Farm.Plants.ConcreteStates
             _targetScale = plant.TargetScale;
             _plantPartitionGrowTimeInSeconds = plant.PlantPartitionGrowTimeInSecond;
             _wateringThresholds = plant.WateringThresholds;
+            _plantVisual = Plant.PlantVisual;
         }
 
         public override void OnEnter()
@@ -42,7 +45,9 @@ namespace Farm.Plants.ConcreteStates
             float targetPartitionScale =
                 FindTargetPartitionScale(nearestWateringThreshold, _initialScale.z, _targetScale.z);
 
-            _plant.transform.DOScale(targetPartitionScale, _plantPartitionGrowTimeInSeconds).OnComplete(() =>
+            Debug.Log(targetPartitionScale);
+            
+            _plantVisual.transform.DOScale(targetPartitionScale, _plantPartitionGrowTimeInSeconds).OnComplete(() =>
             {
                 _stateMachine.ChangeState(_plant.StateFactory.NeedsWatering());
             });

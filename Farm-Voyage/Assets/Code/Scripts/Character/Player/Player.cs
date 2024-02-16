@@ -1,5 +1,4 @@
-using System;
-using Attributes.Self;
+using Attributes.WithinParent;
 using Character.Player.StateMachine;
 using Farm.Corral;
 using InputManagers;
@@ -37,10 +36,10 @@ namespace Character.Player
         public PlayerCarryingStorageBoxStateChangedEvent PlayerCarryingStorageBoxStateChangedEvent { get; private set; }
         public PlayerFoundCollectableEvent PlayerFoundCollectableEvent { get; private set; }
         
-        public PlayerInput Input { get; private set; }
+        public IPlayerInput Input { get; private set; }
         
         [Header("External references")]
-        [SerializeField, Self] private Transform _carryPoint;
+        [SerializeField, WithinParent] private Transform _carryPoint;
 
         private StateMachine.StateMachine _stateMachine;
         
@@ -48,7 +47,7 @@ namespace Character.Player
         private StorageBox _storageBox;
         
         [Inject]
-        private void Construct(PlayerInput playerInput)
+        private void Construct(IPlayerInput playerInput)
         {
             Input = playerInput;
         }

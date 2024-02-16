@@ -13,16 +13,17 @@ namespace Installers
     {
         public bool IsValid { get; private set; } = true;
         
-        [SerializeField] private PlayerInput _playerInput;
         [SerializeField] private Player _playerPrefab;
         [SerializeField] private Transform _playerSpawnPoint;
         [SerializeField] private PlayerFollowCamera _playerFollowCamera;
+        
+        private IPlayerInput _playerKeyboardInput;
 
         private void OnValidate()
         {
             IsValid = true;
 
-            if (_playerInput == null)
+            if (_playerKeyboardInput == null)
             {
                 IsValid = false;
                 return;
@@ -74,11 +75,8 @@ namespace Installers
 
         private void BindPlayerInputManager()
         {
-            PlayerInput playerInput =
-                Container.InstantiatePrefabForComponent<PlayerInput>(_playerInput);
-
             Container
-                .BindInstance(playerInput)
+                .BindInterfacesAndSelfTo<PlayerKeyboardInput>()
                 .AsSingle()
                 .NonLazy();
         }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Farm;
 using Level;
 using Misc;
@@ -42,9 +41,17 @@ namespace Installers
                 return;
             }
 
-            if (_gatherableResourcesSpawnPoints.Length != 0) return;
-            
-            IsValid = false;
+            if (_gatherableResourcesSpawnPoints.Length == 0)
+            {
+                IsValid = false;
+                return;
+            }
+
+            if (_iconManagerPrefab == null)
+            {
+                IsValid = false;
+                return;
+            }
         }
 
         public override void InstallBindings()
