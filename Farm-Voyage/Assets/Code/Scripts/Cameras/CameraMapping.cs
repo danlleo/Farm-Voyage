@@ -1,12 +1,16 @@
 ﻿using Cinemachine;
-using UnityEngine;
 
 namespace Cameras
 {
-    [System.Serializable]
     public struct CameraMapping
     {
-        [field:SerializeField] public CameraState State { get; private set; }
-        [field:SerializeField] public CinemachineVirtualCamera Camera { get; private set; }
+        public readonly CameraState State;
+        public readonly CinemachineVirtualCamera Camera;
+
+        public CameraMapping(CameraState state, CinemachineVirtualCamera camera)
+        {
+            State = state;
+            Camera = camera;
+        }
     }
 }

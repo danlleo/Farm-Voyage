@@ -1,14 +1,18 @@
+using Cameras;
 using Cinemachine;
 using DG.Tweening;
 using UnityEngine;
 using Zenject;
+using CameraState = Cameras.CameraState;
 
 namespace Character.Player
 {
     [RequireComponent(typeof(CinemachineVirtualCamera))]
     [DisallowMultipleComponent]
-    public class PlayerFollowCamera : MonoBehaviour
+    public class PlayerFollowCamera : MonoBehaviour, IControllableCamera
     {
+        public CameraState State { get; private set; } = CameraState.Main;
+        
         private float _rotateDuration = .20f;
         private float _zoomDuration = .30f;
         private float _targetZoomInValue = 35f;
