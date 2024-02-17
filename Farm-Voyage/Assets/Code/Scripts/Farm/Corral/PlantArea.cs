@@ -28,22 +28,43 @@ namespace Farm.Corral
         private Tool.Tool _playerTool;
 
         private Plant _plant;
+        
         private PlayerInventory _playerInventory;
+        private Day.Day _day;
         
         private BoxCollider _boxCollider;
 
         private Coroutine _diggingRoutine;
         private Coroutine _delayBeforePlantingNewRoutine;
+
+        private bool _canDig;
         
         [Inject]
-        private void Construct(PlayerInventory playerInventory)
+        private void Construct(PlayerInventory playerInventory, Day.Day day)
         {
             _playerInventory = playerInventory;
+            _day = day;
         }
         
         private void Awake()
         {
             _boxCollider = GetComponent<BoxCollider>();
+            _canDig = true;
+        }
+
+        private void OnEnable()
+        {
+            _day.OnDayEnded += Day_OnDayEnded;
+        }
+
+        private void OnDisable()
+        {
+            _day.OnDayEnded -= Day_OnDayEnded;
+        }
+
+        private void Day_OnDayEnded()
+        {
+            _canDig = false;
         }
 
         public void Initialize(Corral corral, Player player, PlantFactory plantFactory)
@@ -55,6 +76,7 @@ namespace Farm.Corral
 
         public void Interact()
         {
+            if (!_canDig) return;
             if (!TryAllowDigging(out Tool.Tool _)) return;
             if (_delayBeforePlantingNewRoutine != null) return;
             

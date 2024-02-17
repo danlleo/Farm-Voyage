@@ -27,5 +27,10 @@ namespace Character.Player.StateMachine
         {
             return new FoundCollectableState(_player, _stateMachine);
         }
+
+        public State Shopping()
+        {
+            return new ShoppingState(_player, _stateMachine);
+        }
     }
 }
