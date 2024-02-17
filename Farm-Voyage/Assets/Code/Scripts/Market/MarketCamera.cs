@@ -1,11 +1,14 @@
 using Cameras;
+using Cinemachine;
 using UnityEngine;
+using CameraState = Cameras.CameraState;
 
 namespace Market
 {
+    [RequireComponent(typeof(CinemachineVirtualCamera))]
     [DisallowMultipleComponent]
     public class MarketCamera : MonoBehaviour, IControllableCamera
     {
-        public CameraState State { get; private set; } = CameraState.Shopping;
+        public CameraMapping Mapping => new(CameraState.Market, GetComponent<CinemachineVirtualCamera>());
     }
 }

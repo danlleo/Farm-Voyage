@@ -11,7 +11,7 @@ namespace Character.Player
     [DisallowMultipleComponent]
     public class PlayerFollowCamera : MonoBehaviour, IControllableCamera
     {
-        public CameraState State { get; private set; } = CameraState.Main;
+        public CameraMapping Mapping => new(CameraState.Main, GetComponent<CinemachineVirtualCamera>());
         
         private float _rotateDuration = .20f;
         private float _zoomDuration = .30f;

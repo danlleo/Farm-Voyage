@@ -3,6 +3,6 @@
     public enum CameraState
     {
         Main = 10,
-        Shopping = 20,
+        Market = 20,
     }
 }

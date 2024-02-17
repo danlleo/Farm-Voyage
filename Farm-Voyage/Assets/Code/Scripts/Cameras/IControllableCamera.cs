@@ -2,6 +2,6 @@
 {
     public interface IControllableCamera
     {
-        public CameraState State { get; }
+        public CameraMapping Mapping { get; }
     }
 }

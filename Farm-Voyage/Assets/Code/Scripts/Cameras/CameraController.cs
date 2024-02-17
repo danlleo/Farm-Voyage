@@ -7,8 +7,11 @@ namespace Cameras
     [DisallowMultipleComponent]
     public class CameraController : MonoBehaviour
     {
-        private HashSet<CameraMapping> _camerasHashSet;
-        private Dictionary<CameraState, CinemachineVirtualCamera> _camerasDictionary;
+        private const int BasePriority = 10;
+        private const int ActivePriority = 100;
+        
+        private readonly HashSet<CameraMapping> _camerasHashSet = new();
+        private readonly Dictionary<CameraState, CinemachineVirtualCamera> _camerasDictionary = new();
 
         private void Awake()
         {
@@ -22,29 +25,27 @@ namespace Cameras
             
             foreach (CinemachineVirtualCamera camera in _camerasDictionary.Values)
             {
-                camera.gameObject.SetActive(false);
+                camera.Priority = BasePriority;
             }
-            
-            cameraToActivate.gameObject.SetActive(true);
+
+            cameraToActivate.Priority = ActivePriority;
         }
         
         private void FindAllControllableCameras()
         {
-            CinemachineVirtualCamera[] allCameras = FindObjectsOfType<CinemachineVirtualCamera>();
+            MonoBehaviour[] allMonoBehaviours = FindObjectsOfType<MonoBehaviour>();
 
-            foreach (CinemachineVirtualCamera cinemachineVirtualCamera in allCameras)
+            foreach (MonoBehaviour monoBehaviour in allMonoBehaviours)
             {
-                if (cinemachineVirtualCamera is IControllableCamera controllableCamera)
+                if (monoBehaviour is IControllableCamera controllableCamera)
                 {
-                    _camerasHashSet.Add(new CameraMapping(controllableCamera.State, cinemachineVirtualCamera));
+                    _camerasHashSet.Add(controllableCamera.Mapping);
                 }
             }
         }
         
         private void InitializeCamerasDictionary()
         {
-            _camerasDictionary = new Dictionary<CameraState, CinemachineVirtualCamera>();
-
             foreach (CameraMapping mapping in _camerasHashSet)
             {
                 _camerasDictionary[mapping.State] = mapping.Camera;

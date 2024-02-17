@@ -54,6 +54,12 @@ namespace Installers
                 IsValid = false;
                 return;
             }
+
+            if (_cameraControllerPrefab == null)
+            {
+                IsValid = false;
+                return;
+            }
         }
 
         public override void InstallBindings()
@@ -64,17 +70,7 @@ namespace Installers
             BindIconManager();
             BindCameraController();
         }
-
-        private void BindCameraController()
-        {
-            CameraController cameraController =
-                Container.InstantiatePrefabForComponent<CameraController>(_cameraControllerPrefab);
-
-            Container
-                .BindInstance(cameraController)
-                .AsSingle();
-        }
-
+        
         private void BindDay()
         {
             Day.Day day = Container.InstantiatePrefabForComponent<Day.Day>(_dayPrefab);
@@ -110,6 +106,16 @@ namespace Installers
                 .BindInstance(iconManager)
                 .AsSingle()
                 .NonLazy();
+        }
+        
+        private void BindCameraController()
+        {
+            CameraController cameraController =
+                Container.InstantiatePrefabForComponent<CameraController>(_cameraControllerPrefab);
+
+            Container
+                .BindInstance(cameraController)
+                .AsSingle();
         }
     }
 }
