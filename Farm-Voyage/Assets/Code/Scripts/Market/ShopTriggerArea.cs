@@ -8,6 +8,9 @@ namespace Market
     [DisallowMultipleComponent]
     public class ShopTriggerArea : MonoBehaviour
     {
+        [Header("External references")]
+        [SerializeField] private Market _market;
+        
         private CameraController _cameraController;
 
         [Inject]
@@ -20,6 +23,7 @@ namespace Market
         {
             if (!other.TryGetComponent(out Player player)) return;
             _cameraController.SwitchToCamera(CameraState.Market);
+            _market.StartedShoppingEvent.Call(this);
         }
 
         private void OnTriggerExit(Collider other)

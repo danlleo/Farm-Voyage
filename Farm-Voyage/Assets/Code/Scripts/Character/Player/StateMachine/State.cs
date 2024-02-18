@@ -13,6 +13,8 @@
         
         public virtual void OnEnter() { }
         public virtual void OnExit() { }
+        public virtual void SubscribeToEvents() { }
+        public virtual void UnsubscribeFromEvents() { }
         public virtual void Tick() { }
     }
 }

@@ -27,6 +27,11 @@ namespace Character.Player
             HandleRotation();
         }
 
+        public void StopAllMovement()
+        {
+            _player.PlayerIdleEvent.Call(this);
+        }
+        
         private void HandleGroundedMovement()
         {
             _moveDirection = new Vector3(_player.Input.MovementInput.x, 0f, _player.Input.MovementInput.y) * -1f;

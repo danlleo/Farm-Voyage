@@ -4,5 +4,6 @@
     {
         Main = 10,
         Market = 20,
+        Seller = 30,
     }
 }

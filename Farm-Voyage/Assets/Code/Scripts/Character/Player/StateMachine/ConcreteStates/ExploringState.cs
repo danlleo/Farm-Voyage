@@ -13,14 +13,21 @@ namespace Character.Player.StateMachine.ConcreteStates
             _stateMachine = stateMachine;
         }
 
-        public override void OnEnter()
+        public override void SubscribeToEvents()
         {
             _player.PlayerFoundCollectableEvent.OnPlayerFoundCollectable += PlayerFoundCollectableEvent_OnPlayerFoundCollectable;
+            _player.PlayerShoppingEvent.OnPlayerShopping += PlayerShoppingEvent_OnPlayerShopping;
+        }
+
+        public override void UnsubscribeFromEvents()
+        {
+            _player.PlayerFoundCollectableEvent.OnPlayerFoundCollectable -= PlayerFoundCollectableEvent_OnPlayerFoundCollectable;
+            _player.PlayerShoppingEvent.OnPlayerShopping -= PlayerShoppingEvent_OnPlayerShopping;
         }
 
         public override void OnExit()
         {
-            _player.PlayerFoundCollectableEvent.OnPlayerFoundCollectable -= PlayerFoundCollectableEvent_OnPlayerFoundCollectable;
+            _player.PlayerLocomotion.StopAllMovement();
         }
         
         public override void Tick()
@@ -32,6 +39,11 @@ namespace Character.Player.StateMachine.ConcreteStates
         private void PlayerFoundCollectableEvent_OnPlayerFoundCollectable(object sender, EventArgs e)
         {
             _stateMachine.ChangeState(_player.StateFactory.FoundCollectable());
+        }
+        
+        private void PlayerShoppingEvent_OnPlayerShopping(object sender, EventArgs e)
+        {
+            _stateMachine.ChangeState(_player.StateFactory.Shopping());
         }
     }
 }

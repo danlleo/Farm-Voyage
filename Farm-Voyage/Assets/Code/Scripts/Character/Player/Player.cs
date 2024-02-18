@@ -16,6 +16,7 @@ namespace Character.Player
     [RequireComponent(typeof(PlayerGatheringEvent))]
     [RequireComponent(typeof(PlayerCarryingStorageBoxStateChangedEvent))]
     [RequireComponent(typeof(PlayerFoundCollectableEvent))]
+    [RequireComponent(typeof(PlayerShoppingEvent))]
     [DisallowMultipleComponent]
     public class Player : MonoBehaviour, IValidate
     {
@@ -35,6 +36,7 @@ namespace Character.Player
         public PlayerDiggingPlantAreaEvent PlayerDiggingPlantAreaEvent { get; private set; }
         public PlayerCarryingStorageBoxStateChangedEvent PlayerCarryingStorageBoxStateChangedEvent { get; private set; }
         public PlayerFoundCollectableEvent PlayerFoundCollectableEvent { get; private set; }
+        public PlayerShoppingEvent PlayerShoppingEvent { get; private set; }
         
         public IPlayerInput Input { get; private set; }
         
@@ -60,12 +62,24 @@ namespace Character.Player
             PlayerDiggingPlantAreaEvent = GetComponent<PlayerDiggingPlantAreaEvent>();
             PlayerCarryingStorageBoxStateChangedEvent = GetComponent<PlayerCarryingStorageBoxStateChangedEvent>();
             PlayerFoundCollectableEvent = GetComponent<PlayerFoundCollectableEvent>();
+            PlayerShoppingEvent = GetComponent<PlayerShoppingEvent>();
+            
             PlayerLocomotion = GetComponent<PlayerLocomotion>();
             PlayerInteract = GetComponent<PlayerInteract>();
             
             _playerMapLimitBoundaries = new PlayerMapLimitBoundaries(transform, -25, 25, -25, 25);
             _stateMachine = new StateMachine.StateMachine();
             StateFactory = new StateFactory(this, _stateMachine);
+        }
+
+        private void OnEnable()
+        {
+            _stateMachine.CurrentState?.SubscribeToEvents();
+        }
+
+        private void OnDisable()
+        {
+            _stateMachine.CurrentState.UnsubscribeFromEvents();
         }
 
         private void Start()

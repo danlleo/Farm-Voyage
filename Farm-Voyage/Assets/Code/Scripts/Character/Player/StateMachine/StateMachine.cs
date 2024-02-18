@@ -8,6 +8,7 @@ namespace Character.Player.StateMachine
         {
             CurrentState = initialState;
             CurrentState.OnEnter();
+            CurrentState.SubscribeToEvents();
         }
 
         public void ChangeState(State targetState)

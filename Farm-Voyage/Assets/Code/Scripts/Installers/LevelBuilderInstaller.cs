@@ -17,7 +17,7 @@ namespace Installers
         [SerializeField] private Day.Day _dayPrefab;
         [SerializeField] private ResourcesGatherer _resourcesGathererPrefab;
         [SerializeField] private ResourceSO[] _resourcesSOArray;
-        [SerializeField] private Transform[] _gatherableResourcesSpawnPoints;
+        [SerializeField] private Transform _gatherableResourcesSpawnContainer;
         [SerializeField] private IconManager _iconManagerPrefab;
         [SerializeField] private CameraController _cameraControllerPrefab;
         
@@ -43,7 +43,7 @@ namespace Installers
                 return;
             }
 
-            if (_gatherableResourcesSpawnPoints.Length == 0)
+            if (_gatherableResourcesSpawnContainer == null)
             {
                 IsValid = false;
                 return;
@@ -90,11 +90,9 @@ namespace Installers
         
         private void BindResourcesGathererSpawner()
         {
-            IEnumerable<Transform> spawnPointsEnumerable = _gatherableResourcesSpawnPoints;
-            
             Container.Bind<GatherableResourcesSpawner>()
                 .AsSingle()
-                .WithArguments(_resourcesSOArray, spawnPointsEnumerable)
+                .WithArguments(_resourcesSOArray, _gatherableResourcesSpawnContainer)
                 .NonLazy();
         }
         

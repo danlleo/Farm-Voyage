@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Character.Player.StateMachine.ConcreteStates
 {
     public class ShoppingState : State
@@ -9,6 +11,11 @@ namespace Character.Player.StateMachine.ConcreteStates
         {
             _player = player;
             _stateMachine = stateMachine;
+        }
+
+        public override void OnEnter()
+        {
+            Debug.Log("Shopping");
         }
     }
 }
