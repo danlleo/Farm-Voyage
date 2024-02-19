@@ -1,4 +1,4 @@
-﻿namespace Farm
+﻿namespace Farm.FarmResources
 {
     public enum ResourceType
     {

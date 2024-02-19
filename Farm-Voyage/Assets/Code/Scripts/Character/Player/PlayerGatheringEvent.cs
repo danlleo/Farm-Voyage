@@ -1,5 +1,6 @@
 using System;
 using Farm;
+using Farm.FarmResources;
 using UnityEngine;
 
 namespace Character.Player

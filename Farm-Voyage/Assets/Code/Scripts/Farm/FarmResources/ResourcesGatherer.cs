@@ -7,7 +7,7 @@ using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
 
-namespace Farm
+namespace Farm.FarmResources
 {
     [SelectionBase]
     [DisallowMultipleComponent]
@@ -76,7 +76,7 @@ namespace Farm
             
             yield return new WaitForSeconds(delayTime);
             
-            OnResourceGathered(gatheredResource);
+            Gather(gatheredResource);
         }
         
         private bool TryGatherResources(out GatheredResource gatheredResource)
@@ -160,14 +160,14 @@ namespace Farm
             return true;
         }
         
-        private void OnResourceGathered(GatheredResource gatheredResource)
+        private void Gather(GatheredResource gatheredResource)
         {
-            print("Gathered");
-            
             StopGathering();
             IncreaseTimeInteracted();
             DestroyIfFullyGathered();
 
+            _playerInventory.AddResourceQuantity(gatheredResource.Type, gatheredResource.Quantity);
+            
             if (gatheredResource.Type != ResourceType.Dirt) return;
             
             if (TryCollectCollectable(out CollectableSO collectable))
