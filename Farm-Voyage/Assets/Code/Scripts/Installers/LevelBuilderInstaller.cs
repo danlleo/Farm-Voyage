@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Cameras;
+﻿using Cameras;
 using Farm;
 using Farm.FarmResources;
 using Level;
@@ -21,6 +20,7 @@ namespace Installers
         [SerializeField] private Transform _gatherableResourcesSpawnContainer;
         [SerializeField] private IconManager _iconManagerPrefab;
         [SerializeField] private CameraController _cameraControllerPrefab;
+        [SerializeField] private UI.UI _uiPrefab;
         
         private void OnValidate()
         {
@@ -70,8 +70,9 @@ namespace Installers
             BindResourcesGathererSpawner();
             BindIconManager();
             BindCameraController();
+            BindUI();
         }
-        
+
         private void BindDay()
         {
             Day.Day day = Container.InstantiatePrefabForComponent<Day.Day>(_dayPrefab);
@@ -115,6 +116,16 @@ namespace Installers
             Container
                 .BindInstance(cameraController)
                 .AsSingle();
+        }
+        
+        private void BindUI()
+        {
+            UI.UI ui = Container.InstantiatePrefabForComponent<UI.UI>(_uiPrefab);
+
+            Container
+                .BindInstance(ui)
+                .AsSingle()
+                .NonLazy();
         }
     }
 }

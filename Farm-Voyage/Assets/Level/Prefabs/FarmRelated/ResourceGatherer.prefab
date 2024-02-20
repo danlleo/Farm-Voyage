@@ -77,6 +77,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5010bf48be148624e8d0edbbfd39e911, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <Icon>k__BackingField: {fileID: 11400000, guid: 7ab8db968019c0944b79ff3456ca4803,
+    type: 2}
   _visualSpawnPoint: {fileID: 6740767589455296970}
   _collectableSOArray:
   - {fileID: 11400000, guid: 95b55d4903eb750448cacf74d511fad7, type: 2}

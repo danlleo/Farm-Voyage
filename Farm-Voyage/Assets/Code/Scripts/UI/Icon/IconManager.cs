@@ -6,27 +6,29 @@ namespace UI.Icon
     [DisallowMultipleComponent]
     public class IconManager : MonoBehaviour
     {
-        // Dictionary approach seems like doesn't fit,
-        // change it in the future
-        private readonly Dictionary<Transform, DisplayIcon> _iconsDictionary = new();
-
-        private void Awake()
+        private readonly Dictionary<Transform, IconView> _iconsDictionary = new();
+        private readonly HashSet<Transform> _keysToRemove = new();
+        
+        private void Start()
         {
             FindAndCreateAllIcons();
         }
 
         private void Update()
         {
-            foreach (KeyValuePair<Transform, DisplayIcon> icon in _iconsDictionary)
+            foreach (KeyValuePair<Transform, IconView> icon in _iconsDictionary)
             {
-                UpdateIconPosition(icon.Key, icon.Value);
+                if (icon.Key == null)
+                {
+                    DestroyNotPresentIcon(icon);
+                }
+                else
+                {
+                    UpdateIconPosition(icon.Key, icon.Value);
+                }
             }
-        }
-
-        public void RegisterNewIcon(Transform objectToFollow, IconSO icon)
-        {
-            RectTransform rectTransform = Instantiate(icon.IconRectTransform, transform);
-            _iconsDictionary.Add(objectToFollow, new DisplayIcon(rectTransform, icon));
+            
+            ClearNotPresentIconsFromDictionary();
         }
         
         private void FindAndCreateAllIcons()
@@ -38,27 +40,45 @@ namespace UI.Icon
             foreach (MonoBehaviour monoBehaviour in allMonoBehaviours)
             {
                 if (monoBehaviour is not IDisplayIcon displayIcon) continue;
-                
-                RectTransform rectTransform = Instantiate(displayIcon.Icon.IconRectTransform, transform);
-                _iconsDictionary.Add(monoBehaviour.transform, new DisplayIcon(rectTransform, displayIcon.Icon));
+
+                RectTransform followRectTransform = Instantiate(displayIcon.Icon.IconRectTransform, transform);
+                _iconsDictionary.Add(monoBehaviour.transform, new IconView(displayIcon.Icon.Offset, followRectTransform));
+            }
+        }
+
+        private void ClearNotPresentIconsFromDictionary()
+        {
+            foreach (Transform key in _keysToRemove)
+            {
+                _iconsDictionary.Remove(key);
             }
         }
         
-        private void UpdateIconPosition(Transform objectToFollow, DisplayIcon displayIcon)
+        private void UpdateIconPosition(Transform objectToFollow, IconView iconView)
         {
-            if (objectToFollow == null && displayIcon.RectTransform == null)
+            if (objectToFollow == null || iconView.FollowRectTransform == null)
                 return;
 
-            Vector3 screenPosition = Camera.main.WorldToScreenPoint(objectToFollow.position + displayIcon.Icon.Offset);
+            Vector3 screenPosition = Camera.main.WorldToScreenPoint(objectToFollow.position + iconView.Offset);
 
             if (screenPosition.z < 0)
             {
-                displayIcon.Icon.IconRectTransform.gameObject.SetActive(false);
+                iconView.FollowRectTransform.gameObject.SetActive(false);
             }
             else
             {
-                displayIcon.RectTransform.gameObject.SetActive(true);
-                displayIcon.RectTransform.position = screenPosition;
+                iconView.FollowRectTransform.gameObject.SetActive(true);
+                iconView.FollowRectTransform.position = screenPosition;
+            }
+        }
+        
+        private void DestroyNotPresentIcon(KeyValuePair<Transform, IconView> icon)
+        {
+            _keysToRemove.Add(icon.Key);
+
+            if (icon.Value.FollowRectTransform.gameObject != null)
+            {
+                Destroy(icon.Value.FollowRectTransform.gameObject);
             }
         }
     }

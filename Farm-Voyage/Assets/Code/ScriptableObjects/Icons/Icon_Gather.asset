@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90b66cc1bd5046d2995caa98fd43bb50, type: 3}
+  m_Name: Icon_Gather
+  m_EditorClassIdentifier: 
+  <IconRectTransform>k__BackingField: {fileID: 3904776310436891662, guid: 46e697898f28e8d4ba6c6077aedef064,
+    type: 3}
+  <Offset>k__BackingField: {x: 0, y: 0, z: 0}

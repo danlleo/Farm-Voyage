@@ -105,8 +105,6 @@ namespace UI
             int startQuantity = _resourceTextQuantityDictionary[textMeshProUGUI];
             float time = 0f;
 
-            Debug.Log(startQuantity);
-            
             while (time < _lerpQuantityTimeInSeconds)
             {
                 time += Time.deltaTime;

@@ -3,6 +3,7 @@ using System.Collections;
 using Attributes.WithinParent;
 using Character.Player;
 using Common;
+using UI.Icon;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
@@ -11,8 +12,10 @@ namespace Farm.FarmResources
 {
     [SelectionBase]
     [DisallowMultipleComponent]
-    public class ResourcesGatherer : MonoBehaviour, IInteractable
+    public class ResourcesGatherer : MonoBehaviour, IInteractable, IDisplayIcon
     {
+        [field:SerializeField] public IconSO Icon { get; private set; }
+        
         [Header("External reference")]
         [SerializeField, WithinParent] private Transform _visualSpawnPoint;
         [SerializeField] private CollectableSO[] _collectableSOArray;

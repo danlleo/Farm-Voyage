@@ -22,7 +22,7 @@ namespace Character.Player
             {
                 new Dirt(0, ResourceType.Dirt),
                 new Rock(0, ResourceType.Rock),
-                new Wood(0, ResourceType.Wood)
+                new Wood(0, ResourceType.Wood),
             };
         }
         
