@@ -3,6 +3,8 @@ using System.Collections;
 using Attributes.WithinParent;
 using Character.Player;
 using Common;
+using Misc;
+using Misc.ObjectPool;
 using UI.Icon;
 using UnityEngine;
 using Zenject;
@@ -170,6 +172,8 @@ namespace Farm.FarmResources
             DestroyIfFullyGathered();
 
             _playerInventory.AddResourceQuantity(gatheredResource.Type, gatheredResource.Quantity);
+
+            ObjectPoolManager.SpawnObject(GameResources.Retrieve.TestPrefab, transform.position, transform.rotation);
             
             if (gatheredResource.Type != ResourceType.Dirt) return;
             
