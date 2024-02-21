@@ -1,4 +1,6 @@
-﻿namespace Farm.FarmResources
+﻿using Farm.FarmResources;
+
+namespace Farm.ResourceGatherer
 {
     public struct GatheredResource
     {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Attributes.WithinParent;
 using Character.Player;
 using Common;
-using DG.Tweening;
+using Farm.FarmResources;
 using Misc;
 using Misc.ObjectPool;
 using UI;
@@ -14,13 +14,18 @@ using Utilities;
 using Zenject;
 using Random = UnityEngine.Random;
 
-namespace Farm.FarmResources
+namespace Farm.ResourceGatherer
 {
     [SelectionBase]
     [RequireComponent(typeof(BoxCollider))]
+    [RequireComponent(typeof(GatheredResourceEvent))]
+    [RequireComponent(typeof(FullyGatheredEvent))]
     [DisallowMultipleComponent]
     public class ResourcesGatherer : MonoBehaviour, IInteractable, IDisplayIcon
     {
+        public GatheredResourceEvent GatheredResourceEvent { get; private set; }
+        public FullyGatheredEvent FullyGatheredEvent { get; private set; }
+        
         [field:SerializeField] public IconSO Icon { get; private set; }
         
         [Header("External reference")]
@@ -39,14 +44,11 @@ namespace Farm.FarmResources
         private bool _canGather;
 
         private Coroutine _delayGatheringResourcesRoutine;
-        private Coroutine _gatherAnimationRoutine;
         
         private int _timesInteracted;
 
         private readonly List<Material> _allMaterials = new();
-        
-        // TODO: CLEAN THIS MESS
-        
+
         [Inject]
         private void Construct(Player player, PlayerInventory playerInventory)
         {
@@ -57,6 +59,8 @@ namespace Farm.FarmResources
         private void Awake()
         {
             _boxCollider = GetComponent<BoxCollider>();
+            GatheredResourceEvent = GetComponent<GatheredResourceEvent>();
+            FullyGatheredEvent = GetComponent<FullyGatheredEvent>();
         }
 
         public void Initialize(ResourceSO resourceSO, Vector3 position, Quaternion rotation)
@@ -153,7 +157,6 @@ namespace Farm.FarmResources
             _timesInteracted++;
         }
 
-
         private void SetCanGatherIfPlayerHasRequiredTool()
         {
             Type toolType = _resourceSO.RequiredToolType;
@@ -195,64 +198,17 @@ namespace Farm.FarmResources
             if (_timesInteracted != _resourceSO.InteractAmountToDestroy) return;
             
             _boxCollider.Disable();
-            PlayDestroyAnimation();
-        }
-
-        private void PlayDestroyAnimation()
-        {
-            Sequence destroyAnimationSequence = DOTween.Sequence();
-            destroyAnimationSequence.Append(transform.DOScale(transform.localScale * 1.25f, .35f));
-            destroyAnimationSequence.Append(transform.DOScale(Vector3.zero, .35f));
-            destroyAnimationSequence.OnComplete(() => Destroy(gameObject));
-        }
-
-        private void PlayGatherAnimation()
-        {
-            if (_gatherAnimationRoutine != null)
-                StopCoroutine(_gatherAnimationRoutine);
-
-            _gatherAnimationRoutine = StartCoroutine(GatherAnimationRoutine(.25f));
-        }
-        
-        private IEnumerator GatherAnimationRoutine(float duration)
-        {
-            transform.DOShakeScale(duration, 0.5f);
-
-            int flashIntensity = Shader.PropertyToID("_FlashIntensity");
-            
-            float timer = 0f;
-            float durationHalfWay = duration / 2;
-
-            while (timer <= duration)
-            {
-                foreach (Material material in _allMaterials)
-                {
-                    timer += Time.deltaTime;
-                    
-                    float t = timer / durationHalfWay;
-                    float value = timer < durationHalfWay 
-                        ? Mathf.Lerp(0, 1, t) 
-                        : Mathf.Lerp(1, 0, t);
-                    
-                    material.SetFloat(flashIntensity, value);
-                }
-
-                yield return null;
-            }
+            FullyGatheredEvent.Call(this);
         }
         
         private void Gather(GatheredResource gatheredResource)
         {
-            PlayGatherAnimation();
+            GatheredResourceEvent.Call(this, new GatheredResourceEventArgs(gatheredResource.Quantity, _allMaterials));
             StopGathering();
             IncreaseTimeInteracted();
             DestroyIfFullyGathered();
 
             _playerInventory.AddResourceQuantity(gatheredResource.Type, gatheredResource.Quantity);
-
-            PopupText popupText = ObjectPoolManager.SpawnObject(GameResources.Retrieve.PopupText, transform.position,
-                transform.rotation, PoolType.GameObject);
-            popupText.Initialize(gatheredResource.Quantity, () => ObjectPoolManager.ReturnObjectToPool(popupText));
             
             if (gatheredResource.Type != ResourceType.Dirt) return;
             

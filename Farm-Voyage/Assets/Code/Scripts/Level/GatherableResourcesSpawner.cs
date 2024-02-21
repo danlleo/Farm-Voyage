@@ -1,5 +1,6 @@
 using Farm;
 using Farm.FarmResources;
+using Farm.ResourceGatherer;
 using UnityEngine;
 using Utilities;
 

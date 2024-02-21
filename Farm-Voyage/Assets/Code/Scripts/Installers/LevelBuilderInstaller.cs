@@ -1,6 +1,7 @@
 ﻿using Cameras;
 using Farm;
 using Farm.FarmResources;
+using Farm.ResourceGatherer;
 using Level;
 using Misc;
 using UI.Icon;
