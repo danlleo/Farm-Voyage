@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Attributes.WithinParent;
 using Character.Player;
 using Common;
@@ -38,8 +39,13 @@ namespace Farm.FarmResources
         private bool _canGather;
 
         private Coroutine _delayGatheringResourcesRoutine;
-
+        private Coroutine _gatherAnimationRoutine;
+        
         private int _timesInteracted;
+
+        private readonly List<Material> _allMaterials = new();
+        
+        // TODO: CLEAN THIS MESS
         
         [Inject]
         private void Construct(Player player, PlayerInventory playerInventory)
@@ -57,10 +63,24 @@ namespace Farm.FarmResources
         {
             _resourceSO = resourceSO;
             transform.SetPositionAndRotation(position, rotation);
-            Instantiate(resourceSO.VisualObject, _visualSpawnPoint, false);
+            GameObject visualGameObject = Instantiate(resourceSO.VisualObject, _visualSpawnPoint, false);
             SetCanGatherIfPlayerHasRequiredTool();
+            GetMaterialsFromVisual(visualGameObject);
         }
-        
+
+        private void GetMaterialsFromVisual(GameObject visualGameObject)
+        {
+            Renderer[] renderers = visualGameObject.GetComponentsInChildren<Renderer>(true);
+
+            foreach (Renderer renderer in renderers)
+            {
+                foreach (Material mat in renderer.materials)
+                {
+                    _allMaterials.Add(mat);
+                }
+            }
+        }
+
         public void Interact()
         {
             if (!TryGatherResources(out GatheredResource gatheredResource)) return;
@@ -188,7 +208,37 @@ namespace Farm.FarmResources
 
         private void PlayGatherAnimation()
         {
-            transform.DOShakeScale(0.2f, 0.5f);
+            if (_gatherAnimationRoutine != null)
+                StopCoroutine(_gatherAnimationRoutine);
+
+            _gatherAnimationRoutine = StartCoroutine(GatherAnimationRoutine(.25f));
+        }
+        
+        private IEnumerator GatherAnimationRoutine(float duration)
+        {
+            transform.DOShakeScale(duration, 0.5f);
+
+            int flashIntensity = Shader.PropertyToID("_FlashIntensity");
+            
+            float timer = 0f;
+            float durationHalfWay = duration / 2;
+
+            while (timer <= duration)
+            {
+                foreach (Material material in _allMaterials)
+                {
+                    timer += Time.deltaTime;
+                    
+                    float t = timer / durationHalfWay;
+                    float value = timer < durationHalfWay 
+                        ? Mathf.Lerp(0, 1, t) 
+                        : Mathf.Lerp(1, 0, t);
+                    
+                    material.SetFloat(flashIntensity, value);
+                }
+
+                yield return null;
+            }
         }
         
         private void Gather(GatheredResource gatheredResource)
