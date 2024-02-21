@@ -1,3 +1,4 @@
+using UI;
 using UnityEngine;
 
 namespace Misc
@@ -17,6 +18,6 @@ namespace Misc
             }
         }
         
-        [field: SerializeField] public GameObject TestPrefab { get; private set; }
+        [field: SerializeField] public PopupText PopupText { get; private set; }
     }
 }

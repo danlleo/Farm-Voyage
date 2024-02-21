@@ -59,11 +59,11 @@ namespace Installers
         {
             HashSet<Tool> inventoryTools = new()
             {
-                new Axe(3f, 1),
+                new Axe(3f, 5),
                 new Pickaxe(3f, 5),
-                new Shovel(3f, 1),
-                new Scythe(3f, 1),
-                new WaterCan(3f, 1),
+                new Shovel(3f, 5),
+                new Scythe(3f, 5),
+                new WaterCan(3f, 5),
             };
 
             Container

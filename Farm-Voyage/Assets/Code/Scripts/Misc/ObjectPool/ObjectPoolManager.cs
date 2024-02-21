@@ -22,27 +22,27 @@ namespace Misc.ObjectPool
             SetupEmptyContainers();
         }
 
-        public static GameObject SpawnObject(GameObject objectToSpawn, Vector3 spawnPosition, Quaternion spawnRotation, PoolType poolType = PoolType.None)
+        public static T SpawnObject<T>(T objectToSpawn, Vector3 spawnPosition, Quaternion spawnRotation,
+            PoolType poolType = PoolType.None) where T : Component
         {
-            PooledObjectInfo pool = ObjectPools.Find(p => p.LookupString == objectToSpawn.name);
+            // Find the pool based on the prefab's name
+            PooledObjectInfo pool = ObjectPools.Find(p => p.LookupString == objectToSpawn.gameObject.name);
 
-            // If the pool doesn't exist (we didn't find it), then create it
+            // If the pool doesn't exist, then create it
             if (pool == null)
             {
-                pool = new PooledObjectInfo { LookupString = objectToSpawn.name };
+                pool = new PooledObjectInfo { LookupString = objectToSpawn.gameObject.name };
                 ObjectPools.Add(pool);
             }
-            
-            // Check if there are any inactive objects in the pool, meaning that there's something in the pool we can use
+
+            // Check for any inactive objects in the pool
             GameObject spawnableObject = pool.InactiveObjects.FirstOrDefault();
 
             if (spawnableObject == null)
             {
                 GameObject parentObject = SetParentObject(poolType);
-                
-                // If there are no inactive objects, create a new one
-                spawnableObject = Instantiate(objectToSpawn, spawnPosition, spawnRotation);
-                spawnableObject.name = objectToSpawn.name;
+                spawnableObject = Instantiate(objectToSpawn.gameObject, spawnPosition, spawnRotation);
+                spawnableObject.name = objectToSpawn.gameObject.name;
 
                 if (parentObject != null)
                 {
@@ -51,32 +51,31 @@ namespace Misc.ObjectPool
             }
             else
             {
-                // If there is inactive object, reactivate it
                 spawnableObject.transform.position = spawnPosition;
                 spawnableObject.transform.rotation = spawnRotation;
                 pool.InactiveObjects.Remove(spawnableObject);
                 spawnableObject.SetActive(true);
             }
 
-            return spawnableObject;
+            return spawnableObject.GetComponent<T>();
         }
 
-        public static GameObject SpawnObject(GameObject objectToSpawn, Transform parent)
+        public static T SpawnObject<T>(T objectToSpawn, Transform parent) where T : Component
         {
-            PooledObjectInfo pool = ObjectPools.Find(p => p.LookupString == objectToSpawn.name);
+            PooledObjectInfo pool = ObjectPools.Find(p => p.LookupString == objectToSpawn.gameObject.name);
 
             if (pool == null)
             {
-                pool = new PooledObjectInfo { LookupString = objectToSpawn.name };
+                pool = new PooledObjectInfo { LookupString = objectToSpawn.gameObject.name };
                 ObjectPools.Add(pool);
             }
-            
+
             GameObject spawnableObject = pool.InactiveObjects.FirstOrDefault();
 
             if (spawnableObject == null)
             {
-                spawnableObject = Instantiate(objectToSpawn, parent);
-                spawnableObject.name = objectToSpawn.name;
+                spawnableObject = Instantiate(objectToSpawn.gameObject, parent);
+                spawnableObject.name = objectToSpawn.gameObject.name;
             }
             else
             {
@@ -84,21 +83,22 @@ namespace Misc.ObjectPool
                 spawnableObject.SetActive(true);
             }
 
-            return spawnableObject;
+            spawnableObject.transform.SetParent(parent);
+            return spawnableObject.GetComponent<T>();
         }
-        
-        public static void ReturnObjectToPool(GameObject obj)
+
+        public static void ReturnObjectToPool<T>(T obj) where T : Component
         {
-            PooledObjectInfo pool = ObjectPools.Find(p => p.LookupString == obj.name);
+            PooledObjectInfo pool = ObjectPools.Find(p => p.LookupString == obj.gameObject.name);
 
             if (pool == null)
             {
-                Debug.LogWarning($"Trying to release an object that is not pooled: {obj.name}");
+                Debug.LogWarning($"Trying to release an object that is not pooled: {obj.gameObject.name}");
             }
             else
             {
-                obj.SetActive(false);
-                pool.InactiveObjects.Add(obj);
+                obj.gameObject.SetActive(false);
+                pool.InactiveObjects.Add(obj.gameObject);
             }
         }
 

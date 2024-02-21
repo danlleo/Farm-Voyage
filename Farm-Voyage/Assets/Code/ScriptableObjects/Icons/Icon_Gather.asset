@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <IconRectTransform>k__BackingField: {fileID: 3904776310436891662, guid: 46e697898f28e8d4ba6c6077aedef064,
     type: 3}
-  <Offset>k__BackingField: {x: 0, y: 0, z: 0}
+  <Offset>k__BackingField: {x: 0, y: 1, z: 0}

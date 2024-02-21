@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77a1a811efd7bb64f839186e0ff04d0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <TestPrefab>k__BackingField: {fileID: 6638996388564715443, guid: f6dfc7942b9cd564ebe86e4e97e12aba,
+  <PopupText>k__BackingField: {fileID: 5817660579509522974, guid: 7c9486a96179d7944abedd9cfbdcd1e9,
     type: 3}

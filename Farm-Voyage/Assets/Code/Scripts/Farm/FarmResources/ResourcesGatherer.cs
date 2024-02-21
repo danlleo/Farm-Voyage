@@ -3,16 +3,20 @@ using System.Collections;
 using Attributes.WithinParent;
 using Character.Player;
 using Common;
+using DG.Tweening;
 using Misc;
 using Misc.ObjectPool;
+using UI;
 using UI.Icon;
 using UnityEngine;
+using Utilities;
 using Zenject;
 using Random = UnityEngine.Random;
 
 namespace Farm.FarmResources
 {
     [SelectionBase]
+    [RequireComponent(typeof(BoxCollider))]
     [DisallowMultipleComponent]
     public class ResourcesGatherer : MonoBehaviour, IInteractable, IDisplayIcon
     {
@@ -22,6 +26,8 @@ namespace Farm.FarmResources
         [SerializeField, WithinParent] private Transform _visualSpawnPoint;
         [SerializeField] private CollectableSO[] _collectableSOArray;
         [SerializeField, Range(1f, 100f)] private float _chanceToGetCollectable;
+
+        private BoxCollider _boxCollider;
         
         private ResourceSO _resourceSO;
         
@@ -40,6 +46,11 @@ namespace Farm.FarmResources
         {
             _player = player;
             _playerInventory = playerInventory;
+        }
+
+        private void Awake()
+        {
+            _boxCollider = GetComponent<BoxCollider>();
         }
 
         public void Initialize(ResourceSO resourceSO, Vector3 position, Quaternion rotation)
@@ -122,12 +133,6 @@ namespace Farm.FarmResources
             _timesInteracted++;
         }
 
-        private void DestroyIfFullyGathered()
-        {
-            if (_timesInteracted != _resourceSO.InteractAmountToDestroy) return;
-            
-            Destroy(gameObject);
-        }
 
         private void SetCanGatherIfPlayerHasRequiredTool()
         {
@@ -165,15 +170,39 @@ namespace Farm.FarmResources
             return true;
         }
         
+        private void DestroyIfFullyGathered()
+        {
+            if (_timesInteracted != _resourceSO.InteractAmountToDestroy) return;
+            
+            _boxCollider.Disable();
+            PlayDestroyAnimation();
+        }
+
+        private void PlayDestroyAnimation()
+        {
+            Sequence destroyAnimationSequence = DOTween.Sequence();
+            destroyAnimationSequence.Append(transform.DOScale(transform.localScale * 1.25f, .35f));
+            destroyAnimationSequence.Append(transform.DOScale(Vector3.zero, .35f));
+            destroyAnimationSequence.OnComplete(() => Destroy(gameObject));
+        }
+
+        private void PlayGatherAnimation()
+        {
+            transform.DOShakeScale(0.2f, 0.5f);
+        }
+        
         private void Gather(GatheredResource gatheredResource)
         {
+            PlayGatherAnimation();
             StopGathering();
             IncreaseTimeInteracted();
             DestroyIfFullyGathered();
 
             _playerInventory.AddResourceQuantity(gatheredResource.Type, gatheredResource.Quantity);
 
-            ObjectPoolManager.SpawnObject(GameResources.Retrieve.TestPrefab, transform.position, transform.rotation);
+            PopupText popupText = ObjectPoolManager.SpawnObject(GameResources.Retrieve.PopupText, transform.position,
+                transform.rotation, PoolType.GameObject);
+            popupText.Initialize(gatheredResource.Quantity, () => ObjectPoolManager.ReturnObjectToPool(popupText));
             
             if (gatheredResource.Type != ResourceType.Dirt) return;
             
