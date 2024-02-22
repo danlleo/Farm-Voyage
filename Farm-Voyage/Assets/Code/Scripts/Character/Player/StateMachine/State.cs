@@ -5,7 +5,7 @@
         protected readonly Player Player;
         protected readonly StateMachine StateMachine;
 
-        protected State(Player player, StateMachine stateMachine)
+        public State(Player player, StateMachine stateMachine)
         {
             Player = player;
             StateMachine = stateMachine;

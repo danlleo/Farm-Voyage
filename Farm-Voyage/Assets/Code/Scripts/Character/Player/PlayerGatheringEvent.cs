@@ -1,5 +1,4 @@
 using System;
-using Farm;
 using Farm.FarmResources;
 using UnityEngine;
 
@@ -19,13 +18,18 @@ namespace Character.Player
     public class PlayerGatheringEventArgs : EventArgs
     {
         public readonly bool IsGathering;
+        public readonly bool HasFullyGathered;
         public readonly float GatheringSpeed;
-        public ResourceType ResourceType;
-        
-        public PlayerGatheringEventArgs(bool isGathering, ResourceType resourceType, float gatheringSpeed = 1f)
+        public readonly ResourceType ResourceType;
+        public readonly Transform LockedTransform;
+
+        public PlayerGatheringEventArgs(bool isGathering, bool hasFullyGathered, ResourceType resourceType,
+            Transform lockedTransform, float gatheringSpeed = 1f)
         {
             IsGathering = isGathering;
+            HasFullyGathered = hasFullyGathered;
             ResourceType = resourceType;
+            LockedTransform = lockedTransform;
             GatheringSpeed = gatheringSpeed;
         }
     }

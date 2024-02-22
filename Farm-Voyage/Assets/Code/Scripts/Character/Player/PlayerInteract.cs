@@ -12,13 +12,15 @@ namespace Character.Player
         [SerializeField, WithinParent] private Transform _raycastPoint;
 
         [Header("Settings")] 
-        [SerializeField] private float _raycastDistance = 5f;
-
+        [SerializeField, Min(0.1f)] private float _castDistance = 5f;
+        [SerializeField, Min(0.1f)] private float _sphereRadius = 1f;
+        
         private IInteractable _currentInteractable;
         
         public void TryInteract()
         {
-            if (Physics.Raycast(_raycastPoint.position, _raycastPoint.forward, out RaycastHit hit, _raycastDistance, _interactableLayerMask))
+            if (Physics.SphereCast(_raycastPoint.position, _sphereRadius, _raycastPoint.forward, out RaycastHit hit,
+                    _castDistance, _interactableLayerMask))
             {
                 if (!hit.collider.TryGetComponent(out IInteractable interactable)) return;
                 
@@ -27,7 +29,7 @@ namespace Character.Player
                 {
                     _currentInteractable.StopInteract();
                 }
-
+            
                 // Start interacting with the new object
                 _currentInteractable = interactable;
                 _currentInteractable.Interact();
@@ -42,5 +44,15 @@ namespace Character.Player
             }
         }
 
+#if UNITY_EDITOR
+        private void OnDrawGizmos()
+        {
+            Vector3 spherePosition = _raycastPoint.position + _raycastPoint.forward * _castDistance;
+            
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(_raycastPoint.position, spherePosition);
+            Gizmos.DrawWireSphere(spherePosition, _sphereRadius);
+        }
+#endif
     }
 }

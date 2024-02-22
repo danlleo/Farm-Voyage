@@ -29,7 +29,8 @@ namespace Character.Player
         
         public PlayerInteract PlayerInteract { get; private set; }
         public PlayerLocomotion PlayerLocomotion { get; private set; }
-        
+        public IPlayerInput Input { get; private set; }
+        public Transform LockedResourcesGatherer;
         public PlayerWalkingEvent PlayerWalkingEvent { get; private set; }
         public PlayerIdleEvent PlayerIdleEvent { get; private set; }
         public PlayerGatheringEvent PlayerGatheringEvent { get; private set; }
@@ -37,8 +38,6 @@ namespace Character.Player
         public PlayerCarryingStorageBoxStateChangedEvent PlayerCarryingStorageBoxStateChangedEvent { get; private set; }
         public PlayerFoundCollectableEvent PlayerFoundCollectableEvent { get; private set; }
         public PlayerShoppingEvent PlayerShoppingEvent { get; private set; }
-        
-        public IPlayerInput Input { get; private set; }
         
         [Header("External references")]
         [SerializeField, WithinParent] private Transform _carryPoint;

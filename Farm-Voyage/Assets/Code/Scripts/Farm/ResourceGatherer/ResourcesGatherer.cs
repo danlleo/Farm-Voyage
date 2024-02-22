@@ -5,9 +5,6 @@ using Attributes.WithinParent;
 using Character.Player;
 using Common;
 using Farm.FarmResources;
-using Misc;
-using Misc.ObjectPool;
-using UI;
 using UI.Icon;
 using UnityEngine;
 using Utilities;
@@ -42,7 +39,7 @@ namespace Farm.ResourceGatherer
         private Tool.Tool _playerTool;
         
         private bool _canGather;
-
+        
         private Coroutine _delayGatheringResourcesRoutine;
         
         private int _timesInteracted;
@@ -88,7 +85,7 @@ namespace Farm.ResourceGatherer
         public void Interact()
         {
             if (!TryGatherResources(out GatheredResource gatheredResource)) return;
-
+            
             _delayGatheringResourcesRoutine ??= StartCoroutine(DelayGatheringResourcesRoutine(gatheredResource));
         }
 
@@ -103,16 +100,17 @@ namespace Farm.ResourceGatherer
                 StopCoroutine(_delayGatheringResourcesRoutine);
             
             _delayGatheringResourcesRoutine = null;
-            _player.PlayerGatheringEvent.Call(this, new PlayerGatheringEventArgs(false, _resourceSO.ResourceToGather));
+            _player.PlayerGatheringEvent.Call(this,
+                new PlayerGatheringEventArgs(false, false, _resourceSO.ResourceToGather, transform));
         }
 
         private IEnumerator DelayGatheringResourcesRoutine(GatheredResource gatheredResource)
         {
             float delayTime = CalculateTimeToGatherBasedOnToolLevel(_playerTool);
             float gatherTime = CalculateTimeToGatherBasedOnToolLevel(_playerTool);
-            
+
             _player.PlayerGatheringEvent.Call(this,
-                new PlayerGatheringEventArgs(true, _resourceSO.ResourceToGather, gatherTime));
+                new PlayerGatheringEventArgs(true, false, _resourceSO.ResourceToGather, transform, gatherTime));
             
             yield return new WaitForSeconds(delayTime);
             
@@ -199,6 +197,8 @@ namespace Farm.ResourceGatherer
             
             _boxCollider.Disable();
             FullyGatheredEvent.Call(this);
+            _player.PlayerGatheringEvent.Call(this,
+                new PlayerGatheringEventArgs(false, true, _resourceSO.ResourceToGather, transform));
         }
         
         private void Gather(GatheredResource gatheredResource)

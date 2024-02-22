@@ -32,5 +32,10 @@ namespace Character.Player.StateMachine
         {
             return new ShoppingState(_player, _stateMachine);
         }
+
+        public State Gathering()
+        {
+            return new GatheringState(_player, _stateMachine);
+        }
     }
 }

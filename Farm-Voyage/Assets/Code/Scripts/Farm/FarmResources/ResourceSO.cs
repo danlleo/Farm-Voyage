@@ -1,9 +1,8 @@
 ﻿using System;
-using Farm.FarmResources;
 using Farm.Tool;
 using UnityEngine;
 
-namespace Farm
+namespace Farm.FarmResources
 {
     [CreateAssetMenu(fileName = "Resource_", menuName = "Scriptable Objects/Resources/Resource")]
     public class ResourceSO : ScriptableObject
