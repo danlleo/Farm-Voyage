@@ -21,11 +21,12 @@ namespace Cameras
 
         public void SwitchToCamera(CameraState cameraState)
         {
-            if (!_camerasDictionary.TryGetValue(cameraState, out CinemachineVirtualCamera cameraToActivate)) return;
+            if (!_camerasDictionary.TryGetValue(cameraState, out CinemachineVirtualCamera cameraToActivate))
+                return;
             
-            foreach (CinemachineVirtualCamera camera in _camerasDictionary.Values)
+            foreach (CinemachineVirtualCamera cinemachineVirtualCamera in _camerasDictionary.Values)
             {
-                camera.Priority = BasePriority;
+                cinemachineVirtualCamera.Priority = BasePriority;
             }
 
             cameraToActivate.Priority = ActivePriority;

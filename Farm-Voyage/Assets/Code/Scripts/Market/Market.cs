@@ -1,4 +1,5 @@
 using System;
+using Cameras;
 using Character.Player;
 using UnityEngine;
 using Zenject;
@@ -12,11 +13,13 @@ namespace Market
         public StartedShoppingEvent StartedShoppingEvent { get; private set; }
 
         private Player _player;
+        private CameraController _cameraController;
 
         [Inject]
-        private void Construct(Player player)
+        private void Construct(Player player, CameraController cameraController)
         {
             _player = player;
+            _cameraController = cameraController;
         }
         
         private void Awake()
@@ -37,6 +40,7 @@ namespace Market
         private void StartedShoppingEvent_OnStartedShopping(object sender, EventArgs e)
         {
             _player.PlayerShoppingEvent.Call(this);
+            _cameraController.SwitchToCamera(CameraState.Market);
         }
     }
 }

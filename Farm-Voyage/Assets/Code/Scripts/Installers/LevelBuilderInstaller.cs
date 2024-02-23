@@ -1,5 +1,4 @@
 ﻿using Cameras;
-using Farm;
 using Farm.FarmResources;
 using Farm.ResourceGatherer;
 using Level;
@@ -16,6 +15,7 @@ namespace Installers
         public bool IsValid { get; private set; } = true;
         
         [SerializeField] private Day.Day _dayPrefab;
+        [SerializeField] private Market.Market _marketPrefab;
         [SerializeField] private ResourcesGatherer _resourcesGathererPrefab;
         [SerializeField] private ResourceSO[] _resourcesSOArray;
         [SerializeField] private Transform _gatherableResourcesSpawnContainer;
@@ -33,6 +33,12 @@ namespace Installers
                 return;
             }
 
+            if (_marketPrefab == null)
+            {
+                IsValid = false;
+                return;
+            }
+            
             if (_resourcesGathererPrefab == null)
             {
                 IsValid = false;
@@ -72,6 +78,7 @@ namespace Installers
             BindIconManager();
             BindCameraController();
             BindUI();
+            BindMarket();
         }
 
         private void BindDay()
@@ -84,6 +91,16 @@ namespace Installers
                 .NonLazy();
         }
 
+        private void BindMarket()
+        {
+            Market.Market market = Container.InstantiatePrefabForComponent<Market.Market>(_marketPrefab);
+
+            Container
+                .BindInstance(market)
+                .AsSingle()
+                .NonLazy();
+        }
+        
         private void BindResourcesGathererFactory()
         {
             Container

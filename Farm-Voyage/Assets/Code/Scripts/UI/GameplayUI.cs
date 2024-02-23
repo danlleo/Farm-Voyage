@@ -14,9 +14,6 @@ namespace UI
     public class GameplayUI : MonoBehaviour
     {
         [Header("External references")]
-        [SerializeField, WithinParent] private GameObject _gamePlayUI;
-
-        [Space(10)] 
         [SerializeField, WithinParent] private TextMeshProUGUI _dirtQuantityText;
         [SerializeField, WithinParent] private TextMeshProUGUI _woodQuantityText;
         [SerializeField, WithinParent] private TextMeshProUGUI _rockQuantityText;
