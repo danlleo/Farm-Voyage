@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Character.Player
+namespace Character.Player.Locomotion
 {
     [RequireComponent(typeof(Player))]
     [DisallowMultipleComponent]

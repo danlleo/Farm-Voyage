@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Character.Player
+namespace Character.Player.Locomotion
 {
     [DisallowMultipleComponent]
     public class PlayerIdleEvent : MonoBehaviour

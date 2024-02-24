@@ -77,8 +77,8 @@ namespace Installers
             BindResourcesGathererSpawner();
             BindIconManager();
             BindCameraController();
-            BindUI();
             BindMarket();
+            BindUI();
         }
 
         private void BindDay()

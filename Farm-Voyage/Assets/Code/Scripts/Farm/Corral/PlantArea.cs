@@ -17,7 +17,7 @@ namespace Farm.Corral
         [field:SerializeField] public IconSO Icon { get; private set; }
         
         [Header("Settings")]
-        [SerializeField] private PlantType _plantType;
+        [SerializeField] private PlantDetails _plantDetails;
         [SerializeField, Range(0.1f, 2f)] private float _timeToDigInSeconds = 1f;
         [SerializeField, Range(0.1f, 3f)] private float _delayBeforePlantingNewTimeInSeconds = 1.4f;
 
@@ -37,7 +37,7 @@ namespace Farm.Corral
         private Coroutine _diggingRoutine;
         private Coroutine _delayBeforePlantingNewRoutine;
 
-        private bool _canDig;
+        private bool _dayEnded;
         
         [Inject]
         private void Construct(PlayerInventory playerInventory, Day.Day day)
@@ -49,7 +49,6 @@ namespace Farm.Corral
         private void Awake()
         {
             _boxCollider = GetComponent<BoxCollider>();
-            _canDig = true;
         }
 
         private void OnEnable()
@@ -64,7 +63,7 @@ namespace Farm.Corral
 
         private void Day_OnDayEnded()
         {
-            _canDig = false;
+            _dayEnded = true;
         }
 
         public void Initialize(Corral corral, Player player, PlantFactory plantFactory)
@@ -76,9 +75,12 @@ namespace Farm.Corral
 
         public void Interact()
         {
-            if (!_canDig) return;
-            if (!TryAllowDigging(out Tool.Tool _)) return;
+            if (_dayEnded) return;
             if (_delayBeforePlantingNewRoutine != null) return;
+            if (!TryAllowDigging(out Tool.Tool _)) return;
+            if (!_playerInventory.HasEnoughSeedQuantity(_plantDetails.RequiredSeedType,
+                    _plantDetails.RequiredSeedQuantityToPlant))
+                return;
             
             _diggingRoutine ??= StartCoroutine(DiggingRoutine());
         }
@@ -131,7 +133,7 @@ namespace Farm.Corral
         
         private void SpawnPlant()
         {
-            Plant plant = _plantFactory.Create(_plantType);
+            Plant plant = _plantFactory.Create(_plantDetails.RequiredPlantType);
             plant.Initialize(transform.position, Quaternion.identity, this, _playerInventory);
             _plant = plant;
         }

@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace Character.Player.StateMachine.ConcreteStates
 {
     public class ShoppingState : State
@@ -13,9 +11,21 @@ namespace Character.Player.StateMachine.ConcreteStates
             _stateMachine = stateMachine;
         }
 
-        public override void OnEnter()
+        public override void SubscribeToEvents()
         {
-            Debug.Log("Shopping");
+            _player.PlayerShoppingEvent.OnPlayerShopping += PlayerShoppingEvent_OnPlayerShopping;
+        }
+
+        public override void UnsubscribeFromEvents()
+        {
+            _player.PlayerShoppingEvent.OnPlayerShopping -= PlayerShoppingEvent_OnPlayerShopping;
+        }
+
+        private void PlayerShoppingEvent_OnPlayerShopping(object sender, PlayerShoppingEventArgs e)
+        {
+            if (e.IsShopping) return;
+
+            _stateMachine.ChangeState(_player.StateFactory.Exploring());
         }
     }
 }

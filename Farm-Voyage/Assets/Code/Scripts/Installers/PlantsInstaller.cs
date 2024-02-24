@@ -1,7 +1,8 @@
 using Farm.Plants;
-using Farm.Plants.Concrete;
+using Farm.Plants.ConcretePlants;
 using Misc;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace Installers
@@ -11,48 +12,48 @@ namespace Installers
     {
         public bool IsValid { get; private set; }
         
-        [SerializeField] private Carrot _carrotPrefab;
-        [SerializeField] private Tomato _tomatoPrefab;
-        [SerializeField] private Corn _cornPrefab;
-        [SerializeField] private Eggplant _eggplantPrefab;
-        [SerializeField] private Pumpkin _pumpkinPrefab;
-        [SerializeField] private Turnip _turnipPrefab;
+        [FormerlySerializedAs("_carrotPrefab")] [SerializeField] private CarrotPlant _carrotPlantPrefab;
+        [FormerlySerializedAs("_tomatoPrefab")] [SerializeField] private TomatoPlant _tomatoPlantPrefab;
+        [FormerlySerializedAs("_cornPrefab")] [SerializeField] private CornPlant _cornPlantPrefab;
+        [FormerlySerializedAs("_eggplantPrefab")] [SerializeField] private EggplantPlant _eggplantPlantPrefab;
+        [FormerlySerializedAs("_pumpkinPrefab")] [SerializeField] private PumpkinPlant _pumpkinPlantPrefab;
+        [FormerlySerializedAs("_turnipPrefab")] [SerializeField] private TurnipPlant _turnipPlantPrefab;
 
         private void OnValidate()
         {
             IsValid = true;
 
-            if (_carrotPrefab == null)
+            if (_carrotPlantPrefab == null)
             {
                 IsValid = false;
                 return;
             }
             
-            if (_tomatoPrefab == null)
+            if (_tomatoPlantPrefab == null)
             {
                 IsValid = false;
                 return;
             }
             
-            if (_cornPrefab == null)
+            if (_cornPlantPrefab == null)
             {
                 IsValid = false;
                 return;
             }
             
-            if (_eggplantPrefab == null)
+            if (_eggplantPlantPrefab == null)
             {
                 IsValid = false;
                 return;
             }
             
-            if (_pumpkinPrefab == null)
+            if (_pumpkinPlantPrefab == null)
             {
                 IsValid = false;
                 return;
             }
             
-            if (_turnipPrefab == null)
+            if (_turnipPlantPrefab == null)
             {
                 IsValid = false;
             }
@@ -68,8 +69,8 @@ namespace Installers
             Container
                 .Bind<PlantFactory>()
                 .AsSingle()
-                .WithArguments(_carrotPrefab, _tomatoPrefab, _cornPrefab, _eggplantPrefab,
-                    _pumpkinPrefab, _turnipPrefab);
+                .WithArguments(_carrotPlantPrefab, _tomatoPlantPrefab, _cornPlantPrefab, _eggplantPlantPrefab,
+                    _pumpkinPlantPrefab, _turnipPlantPrefab);
         }
     }
 }

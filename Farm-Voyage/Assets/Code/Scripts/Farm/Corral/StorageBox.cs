@@ -76,13 +76,14 @@ namespace Farm.Corral
             transform.position = _initialPosition;
             _canCarry = false;
             _player.PlayerCarryingStorageBoxStateChangedEvent.Call(this,
-                new PlayerCarryingStorageBoxStateChangedEventArgs(false));
+                new PlayerCarryingStorageBoxStateChangedEventArgs(this, false));
         }
         
         private void Pickup()
         {
             _boxCollider.Disable();
-            _player.CarryStorageBox(this);
+            _player.PlayerCarryingStorageBoxStateChangedEvent.Call(this,
+                new PlayerCarryingStorageBoxStateChangedEventArgs(this, true));
         }
         
         private void StorePlant(Plant plant)

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Farm.FarmResources;
 using Farm.FarmResources.ConcreteFarmResources;
+using Farm.Plants.Seeds;
+using Farm.Plants.Seeds.ConcreteSeeds;
 using Farm.Tool;
 using UnityEngine;
 
@@ -14,6 +16,7 @@ namespace Character.Player
         
         private readonly HashSet<Tool> _toolsHashSet;
         private readonly HashSet<FarmResource> _farmResourcesHashSet;
+        private readonly HashSet<Seed> _seedsHashSet;
         
         public PlayerInventory(HashSet<Tool> toolsHashSet)
         {
@@ -23,6 +26,16 @@ namespace Character.Player
                 new Dirt(0, ResourceType.Dirt),
                 new Rock(0, ResourceType.Rock),
                 new Wood(0, ResourceType.Wood),
+            };
+            _seedsHashSet = new HashSet<Seed>
+            {
+                new CarrotSeed(SeedType.Carrot, 0),
+                new PumpkinSeed(SeedType.Pumpkin, 0),
+                new EggplantSeed(SeedType.Eggplant, 10),
+                new TurnipSeed(SeedType.Turnip, 0),
+                new CornSeed(SeedType.Corn, 0),
+                new CarrotSeed(SeedType.Carrot, 0),
+                new TomatoSeed(SeedType.Tomato, 10),
             };
         }
         
@@ -72,6 +85,47 @@ namespace Character.Player
                 OnResourceQuantityChanged?.Invoke(resourceType, farmResource.Quantity);
                 return;
             }
+        }
+
+        public int GetSeedsQuantity(SeedType seedType)
+        {
+            foreach (Seed seed in _seedsHashSet)
+            {
+                if (seed.SeedType != seedType) continue;
+
+                return seed.Quantity;
+            }
+
+            return 0;
+        }
+        
+        public void AddSeedQuantity(SeedType seedType, int quantity)
+        {
+            foreach (Seed seed in _seedsHashSet)
+            {
+                if (seed.SeedType != seedType) continue;
+                
+                if (quantity < 0)
+                {
+                    Debug.LogError("Quantity can't be less than a null");
+                    quantity = 0;
+                }
+                
+                seed.AddQuantity(quantity);
+                return;
+            }
+        }
+
+        public bool HasEnoughSeedQuantity(SeedType seedType, int quantity)
+        {
+            foreach (Seed seed in _seedsHashSet)
+            {
+                if (seed.SeedType != seedType) continue;
+
+                return seed.Quantity >= quantity;
+            }
+
+            return false;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Farm.Corral;
 using UnityEngine;
 
 namespace Character.Player
@@ -16,10 +17,12 @@ namespace Character.Player
 
     public class PlayerCarryingStorageBoxStateChangedEventArgs : EventArgs
     {
+        public readonly StorageBox StorageBox;
         public readonly bool IsCarrying;
 
-        public PlayerCarryingStorageBoxStateChangedEventArgs(bool isCarrying)
+        public PlayerCarryingStorageBoxStateChangedEventArgs(StorageBox storageBox, bool isCarrying)
         {
+            StorageBox = storageBox;
             IsCarrying = isCarrying;
         }
     }

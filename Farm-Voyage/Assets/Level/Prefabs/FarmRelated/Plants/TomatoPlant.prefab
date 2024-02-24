@@ -150,6 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4bf37f4471944c1bfcef612064a184d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <PlantVisual>k__BackingField: {fileID: 3801969109286297235}
   _grownScale: 2.5
   _initialScale: 0.5
   _plantCompressedScale: 0.75

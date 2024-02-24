@@ -20,6 +20,8 @@ namespace Character.Player.StateMachine.ConcreteStates
             _player.PlayerFoundCollectableEvent.OnPlayerFoundCollectable += PlayerFoundCollectableEvent_OnPlayerFoundCollectable;
             _player.PlayerShoppingEvent.OnPlayerShopping += PlayerShoppingEvent_OnPlayerShopping;
             _player.PlayerGatheringEvent.OnPlayerGathering += PlayerGatheringEvent_OnPlayerGathering;
+            _player.PlayerCarryingStorageBoxStateChangedEvent.OnPlayerCarryingStorageBoxStateChanged +=
+                PlayerCarryingStorageBoxStateChangedEvent_OnPlayerCarryingStorageBoxStateChanged;
         }
 
         public override void UnsubscribeFromEvents()
@@ -27,6 +29,8 @@ namespace Character.Player.StateMachine.ConcreteStates
             _player.PlayerFoundCollectableEvent.OnPlayerFoundCollectable -= PlayerFoundCollectableEvent_OnPlayerFoundCollectable;
             _player.PlayerShoppingEvent.OnPlayerShopping -= PlayerShoppingEvent_OnPlayerShopping;
             _player.PlayerGatheringEvent.OnPlayerGathering -= PlayerGatheringEvent_OnPlayerGathering;
+            _player.PlayerCarryingStorageBoxStateChangedEvent.OnPlayerCarryingStorageBoxStateChanged -=
+                PlayerCarryingStorageBoxStateChangedEvent_OnPlayerCarryingStorageBoxStateChanged;
         }
 
         public override void OnExit()
@@ -60,6 +64,13 @@ namespace Character.Player.StateMachine.ConcreteStates
             _startedGathering = true;
             _player.LockedResourcesGatherer = e.LockedTransform;
             _stateMachine.ChangeState(_player.StateFactory.Gathering());
+        }
+        
+        // Свiдомий iвент
+        private void PlayerCarryingStorageBoxStateChangedEvent_OnPlayerCarryingStorageBoxStateChanged(object sender, PlayerCarryingStorageBoxStateChangedEventArgs e)
+        {
+            if (e.IsCarrying)
+                _stateMachine.ChangeState(_player.StateFactory.CarryingStorageBox());
         }
     }
 }

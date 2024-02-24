@@ -1,9 +1,9 @@
 ﻿using System;
-using Farm;
+using Character.Player.Locomotion;
 using Farm.FarmResources;
 using UnityEngine;
 
-namespace Character.Player
+namespace Character.Player.Animations
 {
     [RequireComponent(typeof(PlayerWalkingEvent))]
     [RequireComponent(typeof(PlayerIdleEvent))]

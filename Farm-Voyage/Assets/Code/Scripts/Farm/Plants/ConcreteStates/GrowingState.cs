@@ -1,18 +1,18 @@
-﻿using System.Collections.Generic;
-using DG.Tweening;
+﻿using DG.Tweening;
 using UnityEngine;
 
 namespace Farm.Plants.ConcreteStates
 {
     public class GrowingState : State
     {
+        private const float MaxWateringThreshold = 1f;
+        
         private readonly Plant _plant;
         private readonly StateMachine _stateMachine;
         private readonly Vector3 _initialScale;
         private readonly Vector3 _targetScale;
         
         private readonly float _plantPartitionGrowTimeInSeconds;
-        private readonly float[] _wateringThresholds;
 
         private readonly Transform _plantVisual;
         
@@ -22,7 +22,6 @@ namespace Farm.Plants.ConcreteStates
             _stateMachine = stateMachine;
             _targetScale = plant.TargetScale;
             _plantPartitionGrowTimeInSeconds = plant.PlantPartitionGrowTimeInSecond;
-            _wateringThresholds = plant.WateringThresholds;
             _plantVisual = Plant.PlantVisual;
         }
 
@@ -30,23 +29,20 @@ namespace Farm.Plants.ConcreteStates
         {
             Grow();
         }
-
+        
         private void Grow()
         {
-            if (_plant.CurrentScale == _targetScale)
+            float nearestWateringThreshold = GetNearestWateringThreshold();
+            
+            if (HasReachedMaximumWateringThreshold(nearestWateringThreshold))
             {
                 _stateMachine.ChangeState(_plant.StateFactory.ReadyToHarvest());
                 return;
             }
 
-            float currentScalePercentage = CalculateCurrentScalePercentage(_plant.CurrentScale.z, _targetScale.z);
-            float nearestWateringThreshold = FindNearestWateringThreshold(currentScalePercentage, _wateringThresholds);
-
             float targetPartitionScale =
                 FindTargetPartitionScale(nearestWateringThreshold, _initialScale.z, _targetScale.z);
 
-            Debug.Log(targetPartitionScale);
-            
             _plantVisual.transform.DOScale(targetPartitionScale, _plantPartitionGrowTimeInSeconds).OnComplete(() =>
             {
                 _stateMachine.ChangeState(_plant.StateFactory.NeedsWatering());
@@ -59,30 +55,22 @@ namespace Farm.Plants.ConcreteStates
             return targetPartitionScale;
         }
         
-        private float CalculateCurrentScalePercentage(float currentScale, float targetScale)
+        private float GetNearestWateringThreshold()
         {
-            float currentScalePercentage = Mathf.InverseLerp(currentScale, targetScale, 100);
-            return currentScalePercentage;
-        }
-
-        private float FindNearestWateringThreshold(float currentScalePercentage, IReadOnlyList<float> thresholds)
-        {
-            float currentPercentageNormalized = currentScalePercentage / 100f;
-
-            float nearestThreshold = thresholds[0];
-            float smallestDifference = Mathf.Abs(currentPercentageNormalized - nearestThreshold);
-
-            foreach (float threshold in thresholds)
+            if (_plant.WateringThresholds.Count == 0)
             {
-                float currentDifference = Mathf.Abs(currentPercentageNormalized - threshold);
-
-                if (!(currentDifference < smallestDifference)) continue;
-                
-                smallestDifference = currentDifference;
-                nearestThreshold = threshold;
+                return MaxWateringThreshold;
             }
 
-            return nearestThreshold;
+            float nearestWateringThreshold = _plant.WateringThresholds[0];
+            _plant.WateringThresholds.RemoveAt(0);
+            
+            return nearestWateringThreshold;
+        }
+
+        private bool HasReachedMaximumWateringThreshold(float nearestWateringThreshold)
+        {
+            return nearestWateringThreshold == MaxWateringThreshold;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Character.Player
+﻿namespace Character.Player.Animations
 {
     public static class PlayerAnimationLayers
     {
