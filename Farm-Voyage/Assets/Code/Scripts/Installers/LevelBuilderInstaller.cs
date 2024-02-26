@@ -16,6 +16,7 @@ namespace Installers
         
         [SerializeField] private Day.Day _dayPrefab;
         [SerializeField] private Market.Market _marketPrefab;
+        [SerializeField] private Workbench.Workbench _workbenchPrefab;
         [SerializeField] private ResourcesGatherer _resourcesGathererPrefab;
         [SerializeField] private ResourceSO[] _resourcesSOArray;
         [SerializeField] private Transform _gatherableResourcesSpawnContainer;
@@ -34,6 +35,12 @@ namespace Installers
             }
 
             if (_marketPrefab == null)
+            {
+                IsValid = false;
+                return;
+            }
+
+            if (_workbenchPrefab == null)
             {
                 IsValid = false;
                 return;
@@ -77,6 +84,7 @@ namespace Installers
             BindResourcesGathererSpawner();
             BindIconManager();
             BindCameraController();
+            BindWorkbench();
             BindMarket();
             BindUI();
         }
@@ -97,6 +105,17 @@ namespace Installers
 
             Container
                 .BindInstance(market)
+                .AsSingle()
+                .NonLazy();
+        }
+
+        private void BindWorkbench()
+        {
+            Workbench.Workbench workbench =
+                Container.InstantiatePrefabForComponent<Workbench.Workbench>(_workbenchPrefab);
+
+            Container
+                .BindInstance(workbench)
                 .AsSingle()
                 .NonLazy();
         }

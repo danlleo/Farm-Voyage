@@ -1,18 +1,17 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Character.Player.StateMachine.ConcreteStates
 {
-    public class ShoppingState : State
+    public class UsingWorkbenchState : State
     {
         private Player _player;
         private StateMachine _stateMachine;
         
-        public ShoppingState(Player player, StateMachine stateMachine) : base(player, stateMachine)
+        public UsingWorkbenchState(Player player, StateMachine stateMachine) : base(player, stateMachine)
         {
             _player = player;
             _stateMachine = stateMachine;
         }
-
         public override void SubscribeToEvents()
         {
             _player.PlayerShoppingEvent.OnPlayerShopping += PlayerShoppingEvent_OnPlayerShopping;
@@ -25,14 +24,12 @@ namespace Character.Player.StateMachine.ConcreteStates
 
         public override void Tick()
         {
-            _player.PlayerLocomotion.HandleMoveDestination(_player.EmmaStoreStayPoint.position, Quaternion.identity);
+            _player.PlayerLocomotion.HandleMoveDestination(_player.WorkbenchStayPoint.position, Quaternion.identity);
         }
 
         private void PlayerShoppingEvent_OnPlayerShopping(object sender, PlayerShoppingEventArgs e)
         {
             if (e.IsShopping) return;
-
-            _stateMachine.ChangeState(_player.StateFactory.Exploring());
         }
     }
 }

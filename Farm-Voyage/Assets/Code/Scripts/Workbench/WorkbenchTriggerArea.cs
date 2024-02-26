@@ -1,18 +1,18 @@
 using Character.Player;
 using UnityEngine;
 
-namespace Market
+namespace Workbench
 {
     [DisallowMultipleComponent]
-    public class ShopTriggerArea : MonoBehaviour
+    public class WorkbenchTriggerArea : MonoBehaviour
     {
         [Header("External references")]
-        [SerializeField] private Market _market;
+        [SerializeField] private Workbench _workbench;
         
         private void OnTriggerEnter(Collider other)
         {
             if (!other.TryGetComponent(out Player _)) return;
-            _market.StartedShoppingEvent.Call(this);
+            _workbench.StartedUsingWorkbenchEvent.Call(this);
         }
     }
 }

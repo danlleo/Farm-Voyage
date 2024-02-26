@@ -10,24 +10,29 @@ namespace UI
         [Header("External references")]
         [SerializeField] private GameplayUI _gameplayUI;
         [SerializeField] private EmmaShopUI _emmaShopUI;
-
+        [SerializeField] private WorkbenchUI _workbenchUI;
+        
         private Market.Market _market;
-
+        private Workbench.Workbench _workbench;
+        
         [Inject]
-        private void Construct(Market.Market market)
+        private void Construct(Market.Market market, Workbench.Workbench workbench)
         {
             _market = market;
+            _workbench = workbench;
         }
         
         private void OnEnable()
         {
             _market.StartedShoppingEvent.OnStartedShopping += Market_OnStartedShopping;
+            _workbench.StartedUsingWorkbenchEvent.OnStartedUsingWorkbench += Workbench_OnStartedUsingWorkbench;
             _emmaShopUI.OnClosed += EmmaShopUI_OnClosed;
         }
-        
+
         private void OnDisable()
         {
             _market.StartedShoppingEvent.OnStartedShopping -= Market_OnStartedShopping;
+            _workbench.StartedUsingWorkbenchEvent.OnStartedUsingWorkbench -= Workbench_OnStartedUsingWorkbench;
             _emmaShopUI.OnClosed -= EmmaShopUI_OnClosed;
         }
 
@@ -35,6 +40,12 @@ namespace UI
         {
             _gameplayUI.gameObject.SetActive(false);
             _emmaShopUI.gameObject.SetActive(true);
+        }
+        
+        private void Workbench_OnStartedUsingWorkbench(object sender, EventArgs e)
+        {
+            _gameplayUI.gameObject.SetActive(false);
+            _workbench.gameObject.SetActive(true);
         }
         
         private void EmmaShopUI_OnClosed()

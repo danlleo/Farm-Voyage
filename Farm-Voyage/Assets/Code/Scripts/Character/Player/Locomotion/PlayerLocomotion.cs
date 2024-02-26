@@ -12,6 +12,7 @@ namespace Character.Player.Locomotion
         [SerializeField, Range(1f, 100f)] private float _runningSpeed;
         [SerializeField, Range(0f, 20f)] private float _rotateSpeed;
         [SerializeField, Range(0f, 50f)] private float _stickRotateSpeed;
+        [SerializeField, Min(0f)] private float _stoppingDestinationDistance = 1f;
         
         private Player _player;
 
@@ -20,11 +21,6 @@ namespace Character.Player.Locomotion
         private void Awake()
         {
             _player = GetComponent<Player>();
-        }
-
-        public void StopAllMovement()
-        {
-            _player.PlayerIdleEvent.Call(this);
         }
         
         public void HandleGroundedMovement()
@@ -68,21 +64,31 @@ namespace Character.Player.Locomotion
                 transform.position += _moveDirection.normalized * moveDistance;
             }
 
-            if (_moveDirection != Vector3.zero)
+            InvokePlayersLocomotionEvents();
+        }
+
+        public void HandleMoveDestination(Vector3 targetPosition, Quaternion endRotation)
+        {
+            if (Vector3.Distance(transform.position, targetPosition) <= _stoppingDestinationDistance)
             {
-                _player.PlayerWalkingEvent.Call(this);
+                HandelTargetRotation(endRotation);
+                _moveDirection = Vector3.zero;
             }
             else
             {
-                _player.PlayerIdleEvent.Call(this);
+                HandleRotation();
+                _moveDirection = targetPosition - transform.position;
+                transform.position += _moveDirection.normalized * (_runningSpeed * Time.deltaTime);
             }
+            
+            InvokePlayersLocomotionEvents();
         }
-
+        
         public void HandleRotation()
         {
             transform.forward = Vector3.Slerp(transform.forward, _moveDirection, Time.deltaTime * _rotateSpeed);
         }
-
+        
         public void HandleStickRotation(Transform lookTransform)
         {
             Vector3 lookDirection = lookTransform.position - transform.position;
@@ -92,6 +98,32 @@ namespace Character.Player.Locomotion
             
             Vector3 forward = Vector3.Slerp(transform.forward, lookDirection.normalized, Time.deltaTime * _stickRotateSpeed);
             transform.forward = forward;
+        }
+        
+        public void StopAllMovement()
+        {
+            _player.PlayerIdleEvent.Call(this);
+        }
+        
+        private void HandelTargetRotation(Quaternion rotation)
+        {
+            if (transform.rotation != rotation)
+            {
+                transform.forward =
+                    Vector3.Slerp(transform.forward, rotation.eulerAngles, Time.deltaTime * _rotateSpeed);
+            }
+        }
+        
+        private void InvokePlayersLocomotionEvents()
+        {
+            if (_moveDirection != Vector3.zero)
+            {
+                _player.PlayerWalkingEvent.Call(this);
+            }
+            else
+            {
+                _player.PlayerIdleEvent.Call(this);
+            }
         }
     }
 }

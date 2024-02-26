@@ -19,6 +19,7 @@ namespace Character.Player.StateMachine.ConcreteStates
         {
             _player.PlayerFoundCollectableEvent.OnPlayerFoundCollectable += PlayerFoundCollectableEvent_OnPlayerFoundCollectable;
             _player.PlayerShoppingEvent.OnPlayerShopping += PlayerShoppingEvent_OnPlayerShopping;
+            _player.PlayerUsingWorkbenchEvent.OnPlayerUsingWorkbench += PlayerUsingWorkbenchEvent_OnPlayerUsingWorkbench;
             _player.PlayerGatheringEvent.OnPlayerGathering += PlayerGatheringEvent_OnPlayerGathering;
             _player.PlayerCarryingStorageBoxStateChangedEvent.OnPlayerCarryingStorageBoxStateChanged +=
                 PlayerCarryingStorageBoxStateChangedEvent_OnPlayerCarryingStorageBoxStateChanged;
@@ -28,6 +29,7 @@ namespace Character.Player.StateMachine.ConcreteStates
         {
             _player.PlayerFoundCollectableEvent.OnPlayerFoundCollectable -= PlayerFoundCollectableEvent_OnPlayerFoundCollectable;
             _player.PlayerShoppingEvent.OnPlayerShopping -= PlayerShoppingEvent_OnPlayerShopping;
+            _player.PlayerUsingWorkbenchEvent.OnPlayerUsingWorkbench -= PlayerUsingWorkbenchEvent_OnPlayerUsingWorkbench;
             _player.PlayerGatheringEvent.OnPlayerGathering -= PlayerGatheringEvent_OnPlayerGathering;
             _player.PlayerCarryingStorageBoxStateChangedEvent.OnPlayerCarryingStorageBoxStateChanged -=
                 PlayerCarryingStorageBoxStateChangedEvent_OnPlayerCarryingStorageBoxStateChanged;
@@ -55,6 +57,12 @@ namespace Character.Player.StateMachine.ConcreteStates
         private void PlayerShoppingEvent_OnPlayerShopping(object sender, EventArgs e)
         {
             _stateMachine.ChangeState(_player.StateFactory.Shopping());
+        }
+        
+        private void PlayerUsingWorkbenchEvent_OnPlayerUsingWorkbench(object sender, PlayerUsingWorkbenchEventArgs e)
+        {
+            if (e.IsUsingWorkbench)
+                _stateMachine.ChangeState(_player.StateFactory.UsingWorkbench());
         }
         
         private void PlayerGatheringEvent_OnPlayerGathering(object sender, PlayerGatheringEventArgs e)

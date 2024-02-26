@@ -2002,6 +2002,7 @@ GameObject:
   - component: {fileID: 8877078944766500134}
   - component: {fileID: 5629092091354524885}
   - component: {fileID: 870748822972303142}
+  - component: {fileID: 2037895269044020871}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2112,7 +2113,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LockedResourcesGatherer: {fileID: 0}
-  _carryPoint: {fileID: 6270281534764410529}
+  <WorkbenchStayPoint>k__BackingField: {fileID: 4672652186341752203, guid: 1d884846c4567fe42ab0a1aafc3aa145,
+    type: 3}
+  <EmmaStoreStayPoint>k__BackingField: {fileID: 8776830052267347194, guid: df07e4230fb7e07459a24a5288f85680,
+    type: 3}
 --- !u!114 &2423541706222419549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2132,6 +2136,7 @@ MonoBehaviour:
   _runningSpeed: 8
   _rotateSpeed: 10
   _stickRotateSpeed: 40
+  _stoppingDestinationDistance: 1.2
 --- !u!114 &8566789751215023668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2244,6 +2249,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d74462ec68d4cb6a9e8dc905f92f139, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2037895269044020871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2332247048513844423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f330e65e7aea453baad247fad63215e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2540343304331429259

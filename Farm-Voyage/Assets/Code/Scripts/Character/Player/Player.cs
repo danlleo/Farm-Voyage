@@ -14,6 +14,7 @@ namespace Character.Player
     [RequireComponent(typeof(PlayerCarryingStorageBoxStateChangedEvent))]
     [RequireComponent(typeof(PlayerFoundCollectableEvent))]
     [RequireComponent(typeof(PlayerShoppingEvent))]
+    [RequireComponent(typeof(PlayerUsingWorkbenchEvent))]
     [DisallowMultipleComponent]
     public class Player : MonoBehaviour
     {
@@ -25,7 +26,7 @@ namespace Character.Player
         public PlayerInteract PlayerInteract { get; private set; }
         public PlayerLocomotion PlayerLocomotion { get; private set; }
         public IPlayerInput Input { get; private set; }
-        public Transform LockedResourcesGatherer;
+        
         public PlayerWalkingEvent PlayerWalkingEvent { get; private set; }
         public PlayerIdleEvent PlayerIdleEvent { get; private set; }
         public PlayerGatheringEvent PlayerGatheringEvent { get; private set; }
@@ -33,7 +34,13 @@ namespace Character.Player
         public PlayerCarryingStorageBoxStateChangedEvent PlayerCarryingStorageBoxStateChangedEvent { get; private set; }
         public PlayerFoundCollectableEvent PlayerFoundCollectableEvent { get; private set; }
         public PlayerShoppingEvent PlayerShoppingEvent { get; private set; }
+        public PlayerUsingWorkbenchEvent PlayerUsingWorkbenchEvent { get; private set; }
+        
+        [HideInInspector] public Transform LockedResourcesGatherer;
 
+        [field:SerializeField] public Transform WorkbenchStayPoint { get; private set; }
+        [field:SerializeField] public Transform EmmaStoreStayPoint { get; private set; }
+        
         private StateMachine.StateMachine _stateMachine;
         
         private PlayerMapLimitBoundaries _playerMapLimitBoundaries;
@@ -53,6 +60,7 @@ namespace Character.Player
             PlayerCarryingStorageBoxStateChangedEvent = GetComponent<PlayerCarryingStorageBoxStateChangedEvent>();
             PlayerFoundCollectableEvent = GetComponent<PlayerFoundCollectableEvent>();
             PlayerShoppingEvent = GetComponent<PlayerShoppingEvent>();
+            PlayerUsingWorkbenchEvent = GetComponent<PlayerUsingWorkbenchEvent>();
             
             PlayerLocomotion = GetComponent<PlayerLocomotion>();
             PlayerInteract = GetComponent<PlayerInteract>();
@@ -87,7 +95,5 @@ namespace Character.Player
         {
             _stateMachine.CurrentState.OnExit();
         }
-
-        
     }
 }
