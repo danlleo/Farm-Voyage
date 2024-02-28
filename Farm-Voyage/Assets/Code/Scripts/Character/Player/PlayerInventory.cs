@@ -31,7 +31,7 @@ namespace Character.Player
             {
                 new CarrotSeed(SeedType.Carrot, 0),
                 new PumpkinSeed(SeedType.Pumpkin, 0),
-                new EggplantSeed(SeedType.Eggplant, 10),
+                new EggplantSeed(SeedType.Eggplant, 0),
                 new TurnipSeed(SeedType.Turnip, 0),
                 new CornSeed(SeedType.Corn, 0),
                 new CarrotSeed(SeedType.Carrot, 0),
@@ -82,6 +82,30 @@ namespace Character.Player
                 }
                 
                 farmResource.AddQuantity(quantity);
+                OnResourceQuantityChanged?.Invoke(resourceType, farmResource.Quantity);
+                return;
+            }
+        }
+
+        public void RemoveResourceQuantity(ResourceType resourceType, int quantity)
+        {
+            foreach (FarmResource farmResource in _farmResourcesHashSet)
+            {
+                if (farmResource.Type != resourceType) continue;
+                
+                if (quantity < 0)
+                {
+                    Debug.LogError("Quantity can't be less than a null");
+                    quantity = 0;
+                }
+
+                if (GetResourceQuantity(farmResource.Type) < quantity)
+                {
+                    Debug.LogError("Remove quantity is bigger than resource quantity");
+                    quantity = 0;
+                }
+                
+                farmResource.RemoveQuantity(quantity);
                 OnResourceQuantityChanged?.Invoke(resourceType, farmResource.Quantity);
                 return;
             }

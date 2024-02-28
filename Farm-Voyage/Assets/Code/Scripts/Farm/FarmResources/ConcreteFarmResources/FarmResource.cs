@@ -16,15 +16,9 @@
             Quantity += amount;
         }
 
-        public bool TryRemoveQuantity(int amount)
+        public void RemoveQuantity(int amount)
         {
-            if (Quantity < amount)
-            {
-                return false;
-            }
-
             Quantity -= amount;
-            return true;
         }
     }
 }
