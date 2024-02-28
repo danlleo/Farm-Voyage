@@ -60,6 +60,8 @@ namespace UI
         private void OnDisable()
         {
             _playerInventory.OnResourceQuantityChanged -= PlayerInventory_OnResourceQuantityChanged;
+
+            if (!_playerInventory.TryGetTool(out WaterCan _)) return;
             _waterCan.OnWaterAmountChanged -= WaterCan_OnWaterAmountChanged;
         }
 
@@ -72,7 +74,7 @@ namespace UI
 
         private void InitializeRecourseTextQuantityDictionary()
         {
-            _resourceTextQuantityDictionary = new()
+            _resourceTextQuantityDictionary = new Dictionary<TextMeshProUGUI, int>
             {
                 { _dirtQuantityText, _playerInventory.GetResourceQuantity(ResourceType.Dirt) },
                 { _woodQuantityText, _playerInventory.GetResourceQuantity(ResourceType.Wood) },

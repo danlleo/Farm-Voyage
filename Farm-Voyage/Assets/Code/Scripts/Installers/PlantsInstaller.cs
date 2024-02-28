@@ -2,7 +2,6 @@ using Farm.Plants;
 using Farm.Plants.ConcretePlants;
 using Misc;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Zenject;
 
 namespace Installers
@@ -12,12 +11,12 @@ namespace Installers
     {
         public bool IsValid { get; private set; }
         
-        [FormerlySerializedAs("_carrotPrefab")] [SerializeField] private CarrotPlant _carrotPlantPrefab;
-        [FormerlySerializedAs("_tomatoPrefab")] [SerializeField] private TomatoPlant _tomatoPlantPrefab;
-        [FormerlySerializedAs("_cornPrefab")] [SerializeField] private CornPlant _cornPlantPrefab;
-        [FormerlySerializedAs("_eggplantPrefab")] [SerializeField] private EggplantPlant _eggplantPlantPrefab;
-        [FormerlySerializedAs("_pumpkinPrefab")] [SerializeField] private PumpkinPlant _pumpkinPlantPrefab;
-        [FormerlySerializedAs("_turnipPrefab")] [SerializeField] private TurnipPlant _turnipPlantPrefab;
+        [SerializeField] private CarrotPlant _carrotPlantPrefab;
+        [SerializeField] private TomatoPlant _tomatoPlantPrefab;
+        [SerializeField] private CornPlant _cornPlantPrefab;
+        [SerializeField] private EggplantPlant _eggplantPlantPrefab;
+        [SerializeField] private PumpkinPlant _pumpkinPlantPrefab;
+        [SerializeField] private TurnipPlant _turnipPlantPrefab;
 
         private void OnValidate()
         {

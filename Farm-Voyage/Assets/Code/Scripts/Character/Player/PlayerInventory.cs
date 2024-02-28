@@ -57,6 +57,30 @@ namespace Character.Player
             return false;
         }
 
+        public void AddTool(ToolType toolType)
+        {
+            switch (toolType)
+            {
+                case ToolType.Shovel:
+                    _toolsHashSet.Add(new Shovel(1f, 5));
+                    break;
+                case ToolType.Axe:
+                    _toolsHashSet.Add(new Axe(1f, 5));
+                    break;
+                case ToolType.Pickaxe:
+                    _toolsHashSet.Add(new Pickaxe(1f, 5));
+                    break;
+                case ToolType.WaterCan:
+                    _toolsHashSet.Add(new WaterCan(1f, 5));
+                    break;
+                case ToolType.Scythe:
+                    _toolsHashSet.Add(new Scythe(1f, 5));
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(toolType), toolType, null);
+            }
+        }
+        
         public int GetResourceQuantity(ResourceType resourceType)
         {
             foreach (FarmResource farmResource in _farmResourcesHashSet)

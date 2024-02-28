@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Attributes.WithinParent;
 using Character.Player;
 using Common;
+using DG.Tweening;
 using Farm.FarmResources;
 using UI.Icon;
 using UnityEngine;
@@ -69,6 +70,18 @@ namespace Farm.ResourceGatherer
             GetMaterialsFromVisual(visualGameObject);
         }
 
+        public void Interact()
+        {
+            if (!TryGatherResources(out GatheredResource gatheredResource)) return;
+            
+            _delayGatheringResourcesRoutine ??= StartCoroutine(DelayGatheringResourcesRoutine(gatheredResource));
+        }
+
+        public void StopInteract()
+        {
+            StopGathering();
+        }
+        
         private void GetMaterialsFromVisual(GameObject visualGameObject)
         {
             Renderer[] renderers = visualGameObject.GetComponentsInChildren<Renderer>(true);
@@ -80,18 +93,6 @@ namespace Farm.ResourceGatherer
                     _allMaterials.Add(mat);
                 }
             }
-        }
-
-        public void Interact()
-        {
-            if (!TryGatherResources(out GatheredResource gatheredResource)) return;
-            
-            _delayGatheringResourcesRoutine ??= StartCoroutine(DelayGatheringResourcesRoutine(gatheredResource));
-        }
-
-        public void StopInteract()
-        {
-            StopGathering();
         }
 
         private void StopGathering()

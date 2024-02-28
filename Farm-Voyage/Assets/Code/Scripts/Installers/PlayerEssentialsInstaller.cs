@@ -62,8 +62,6 @@ namespace Installers
                 new Axe(3f, 5),
                 new Pickaxe(3f, 5),
                 new Shovel(3f, 5),
-                new Scythe(3f, 5),
-                new WaterCan(3f, 5),
             };
 
             Container

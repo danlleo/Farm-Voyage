@@ -28,6 +28,7 @@ namespace UI
         {
             if (!HasEnoughResources())
             {
+                print("Not enough resources");
                 return;
             }
             
@@ -42,6 +43,8 @@ namespace UI
                     shopItemResourcePrice.Price);
             }
             
+            print($"Purchased");
+            
             OnPurchase();
         }
         
@@ -53,7 +56,6 @@ namespace UI
 
                 if (resourceQuantity < shopItemResourcesPrice.Price)
                 {
-                    print(resourceQuantity);
                     return false;
                 }
             }
