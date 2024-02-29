@@ -1,5 +1,6 @@
 using System;
 using UI.EmmaShop;
+using UI.Workbench;
 using UnityEngine;
 using Zenject;
 
@@ -14,10 +15,10 @@ namespace UI
         [SerializeField] private WorkbenchUI _workbenchUI;
         
         private Market.Market _market;
-        private Workbench.Workbench _workbench;
+        private global::Workbench.Workbench _workbench;
         
         [Inject]
-        private void Construct(Market.Market market, Workbench.Workbench workbench)
+        private void Construct(Market.Market market, global::Workbench.Workbench workbench)
         {
             _market = market;
             _workbench = workbench;
@@ -46,7 +47,7 @@ namespace UI
         private void Workbench_OnStartedUsingWorkbench(object sender, EventArgs e)
         {
             _gameplayUI.gameObject.SetActive(false);
-            _workbench.gameObject.SetActive(true);
+            _workbenchUI.gameObject.SetActive(true);
         }
         
         private void EmmaShopUI_OnClosed()

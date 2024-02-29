@@ -57,7 +57,7 @@ namespace Installers
 
         private void BindPlayerInventory()
         {
-            HashSet<Tool> inventoryTools = new()
+            List<Tool> inventoryTools = new()
             {
                 new Axe(3f, 5),
                 new Pickaxe(3f, 5),

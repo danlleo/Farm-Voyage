@@ -14,20 +14,20 @@ namespace Character.Player
     {
         public event Action<ResourceType, int> OnResourceQuantityChanged; 
         
-        private readonly HashSet<Tool> _toolsHashSet;
-        private readonly HashSet<FarmResource> _farmResourcesHashSet;
-        private readonly HashSet<Seed> _seedsHashSet;
+        private readonly List<Tool> _toolsHashSet;
+        private readonly List<FarmResource> _farmResourcesHashSet;
+        private readonly List<Seed> _seedsHashSet;
         
-        public PlayerInventory(HashSet<Tool> toolsHashSet)
+        public PlayerInventory(List<Tool> toolsHashSet)
         {
             _toolsHashSet = toolsHashSet;
-            _farmResourcesHashSet = new HashSet<FarmResource>
+            _farmResourcesHashSet = new List<FarmResource>
             {
                 new Dirt(0, ResourceType.Dirt),
                 new Rock(0, ResourceType.Rock),
                 new Wood(0, ResourceType.Wood),
             };
-            _seedsHashSet = new HashSet<Seed>
+            _seedsHashSet = new List<Seed>
             {
                 new CarrotSeed(SeedType.Carrot, 0),
                 new PumpkinSeed(SeedType.Pumpkin, 0),
@@ -37,12 +37,24 @@ namespace Character.Player
                 new CarrotSeed(SeedType.Carrot, 0),
                 new TomatoSeed(SeedType.Tomato, 10),
             };
+
+            for (int i = 0; i < 5; i++)
+            {
+                _toolsHashSet.Add(new Shovel(1f, 1));
+            }
+            
+            Debug.Log(_toolsHashSet.Count);
         }
         
         public bool TryGetTool<T>(out T tool) where T : Tool
         {
             tool = _toolsHashSet.OfType<T>().FirstOrDefault();
             return tool != null;
+        }
+
+        public IEnumerable<Tool> GetAllTools()
+        {
+            return _toolsHashSet;
         }
         
         public bool TryGetToolOfType(Type toolType, out Tool foundTool)
@@ -62,19 +74,19 @@ namespace Character.Player
             switch (toolType)
             {
                 case ToolType.Shovel:
-                    _toolsHashSet.Add(new Shovel(1f, 5));
+                    _toolsHashSet.Add(new Shovel(1f, 1));
                     break;
                 case ToolType.Axe:
-                    _toolsHashSet.Add(new Axe(1f, 5));
+                    _toolsHashSet.Add(new Axe(1f, 1));
                     break;
                 case ToolType.Pickaxe:
-                    _toolsHashSet.Add(new Pickaxe(1f, 5));
+                    _toolsHashSet.Add(new Pickaxe(1f, 1));
                     break;
                 case ToolType.WaterCan:
-                    _toolsHashSet.Add(new WaterCan(1f, 5));
+                    _toolsHashSet.Add(new WaterCan(1f, 1));
                     break;
                 case ToolType.Scythe:
-                    _toolsHashSet.Add(new Scythe(1f, 5));
+                    _toolsHashSet.Add(new Scythe(1f, 1));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(toolType), toolType, null);

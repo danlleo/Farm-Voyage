@@ -4,6 +4,8 @@ namespace Farm.Tool
 {
     public class WaterCan : Tool
     {
+        public sealed override string Name { get; protected set; }
+        
         public event Action<int, int> OnWaterAmountChanged;
         
         private const int MaxTimesCanWater = 3;
@@ -11,7 +13,7 @@ namespace Farm.Tool
         
         public WaterCan(float timeToGather, int level) : base(timeToGather, level)
         {
-            
+            Name = "Water Can";
         }
 
         public void EmptyCan()
