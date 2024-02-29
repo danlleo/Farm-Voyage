@@ -1,7 +1,7 @@
 ﻿using Farm.Plants.Seeds;
 using UnityEngine;
 
-namespace UI
+namespace UI.EmmaShop.ConcreteShopItems
 {
     public class SeedShopItem : ShopItem
     {

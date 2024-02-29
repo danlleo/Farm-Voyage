@@ -1,7 +1,7 @@
 ﻿using Farm.Tool;
 using UnityEngine;
 
-namespace UI
+namespace UI.EmmaShop.ConcreteShopItems
 {
     public class ToolShopItem : ShopItem
     {

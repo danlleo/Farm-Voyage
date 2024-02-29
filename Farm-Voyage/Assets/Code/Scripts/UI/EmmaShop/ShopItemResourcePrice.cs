@@ -1,7 +1,7 @@
 ﻿using Farm.FarmResources;
 using UnityEngine;
 
-namespace UI
+namespace UI.EmmaShop
 {
     [System.Serializable]
     public struct ShopItemResourcePrice
