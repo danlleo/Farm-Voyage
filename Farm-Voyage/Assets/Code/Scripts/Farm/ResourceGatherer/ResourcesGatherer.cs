@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Attributes.WithinParent;
 using Character.Player;
 using Common;
+using DG.Tweening;
 using Farm.FarmResources;
 using UI.Icon;
 using UnityEngine;
@@ -20,6 +21,8 @@ namespace Farm.ResourceGatherer
     [DisallowMultipleComponent]
     public class ResourcesGatherer : MonoBehaviour, IInteractable, IDisplayIcon
     {
+        private static readonly int s_progressAmount = Shader.PropertyToID("_ProgressAmount");
+        
         public GatheredResourceEvent GatheredResourceEvent { get; private set; }
         public FullyGatheredEvent FullyGatheredEvent { get; private set; }
         
@@ -31,6 +34,9 @@ namespace Farm.ResourceGatherer
         [SerializeField] private CollectableSO[] _collectableSOArray;
         [SerializeField, Range(1f, 100f)] private float _chanceToGetCollectable;
 
+        [Header("Settings")]
+        [SerializeField] private float _circleProgressMoveDurationInSeconds = .2f;
+        
         private BoxCollider _boxCollider;
         
         private ResourceSO _resourceSO;
@@ -46,6 +52,7 @@ namespace Farm.ResourceGatherer
         private int _timesInteracted;
 
         private readonly List<Material> _allMaterials = new();
+        private Material _circleProgressMaterial;
 
         [Inject]
         private void Construct(Player player, PlayerInventory playerInventory)
@@ -59,6 +66,9 @@ namespace Farm.ResourceGatherer
             _boxCollider = GetComponent<BoxCollider>();
             GatheredResourceEvent = GetComponent<GatheredResourceEvent>();
             FullyGatheredEvent = GetComponent<FullyGatheredEvent>();
+            _circleProgressMaterial = _progressCircle.material;
+            
+            ToggleProgressCircle(false);
         }
 
         public void Initialize(ResourceSO resourceSO, Vector3 position, Quaternion rotation)
@@ -74,12 +84,26 @@ namespace Farm.ResourceGatherer
         {
             if (!TryGatherResources(out GatheredResource gatheredResource)) return;
             
+            ToggleProgressCircle(true);
             _delayGatheringResourcesRoutine ??= StartCoroutine(DelayGatheringResourcesRoutine(gatheredResource));
         }
 
         public void StopInteract()
         {
+            ToggleProgressCircle(false);
             StopGathering();
+        }
+
+        private void ToggleProgressCircle(bool isActive)
+        {
+            _progressCircle.enabled = isActive;
+        }
+
+        private void UpdateProgressCircle()
+        {
+            int normalizedProgress = _timesInteracted / _resourceSO.InteractAmountToDestroy;
+            _circleProgressMaterial.DOKill();
+            _circleProgressMaterial.DOFloat(normalizedProgress, s_progressAmount, _circleProgressMoveDurationInSeconds);
         }
         
         private void GetMaterialsFromVisual(GameObject visualGameObject)
@@ -190,7 +214,8 @@ namespace Farm.ResourceGatherer
             StopGathering();
             IncreaseTimeInteracted();
             DestroyIfFullyGathered();
-
+            UpdateProgressCircle();
+            
             _playerInventory.AddResourceQuantity(gatheredResource.Type, gatheredResource.Quantity);
             
             if (gatheredResource.Type != ResourceType.Dirt) return;

@@ -4,6 +4,8 @@ using InputManagers;
 using UnityEngine;
 using Zenject;
 
+// TODO: MAKE PLAYER PRODUCE PARTICLES WHEN WALKING
+
 namespace Character.Player
 {
     [RequireComponent(typeof(PlayerWalkingEvent))]
