@@ -27,6 +27,7 @@ namespace Farm.ResourceGatherer
         
         [Header("External reference")]
         [SerializeField, WithinParent] private Transform _visualSpawnPoint;
+        [SerializeField, WithinParent] private MeshRenderer _progressCircle;
         [SerializeField] private CollectableSO[] _collectableSOArray;
         [SerializeField, Range(1f, 100f)] private float _chanceToGetCollectable;
 
