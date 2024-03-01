@@ -1,8 +1,8 @@
-using System;
 using System.Collections.Generic;
 using Attributes.WithinParent;
 using Character.Player;
 using Farm.Tool;
+using Level;
 using UnityEngine;
 using Zenject;
 
@@ -13,21 +13,23 @@ namespace UI.Workbench
     {
         [Header("External references")] 
         [SerializeField, WithinParent] private Transform _workbenchToolContainer;
-        [SerializeField] private WorkbenchTool _workbenchToolPrefab;
+        [SerializeField] private WorkbenchToolUIElement _workbenchToolUIElementPrefab;
 
-        private readonly Dictionary<Type, WorkbenchTool> _toolsToWorkbenchMappings = new();
+        private readonly Dictionary<Tool, WorkbenchToolUIElement> _toolsToWorkbenchMappings = new();
 
         private PlayerInventory _playerInventory;
-
+        private Economy _economy;
+        
         [Inject]
-        private void Construct(PlayerInventory playerInventory)
+        private void Construct(PlayerInventory playerInventory, Economy economy)
         {
             _playerInventory = playerInventory;
+            _economy = economy;
         }
         
         private void OnEnable()
         {
-            UpdateVisuals();
+            DisplayTools();
         }
         
         private void OnDisable()
@@ -35,16 +37,16 @@ namespace UI.Workbench
             
         }
             
-        private void UpdateVisuals()
+        private void DisplayTools()
         {
             foreach (Tool tool in _playerInventory.GetAllTools())
             {
-                if (_toolsToWorkbenchMappings.ContainsKey(tool.GetType())) continue;
+                if (_toolsToWorkbenchMappings.ContainsKey(tool)) continue;
                 
-                WorkbenchTool workbenchTool = Instantiate(_workbenchToolPrefab, _workbenchToolContainer);
-                workbenchTool.Initialize(tool.Name, tool.Level);
+                WorkbenchToolUIElement workbenchToolUIElement = Instantiate(_workbenchToolUIElementPrefab, _workbenchToolContainer);
+                workbenchToolUIElement.Initialize(_economy, tool, tool.Name, tool.Level);
                 
-                _toolsToWorkbenchMappings.Add(tool.GetType(), workbenchTool);
+                _toolsToWorkbenchMappings.Add(tool, workbenchToolUIElement);
             }
         }
     }

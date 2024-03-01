@@ -6,6 +6,7 @@ using Farm.FarmResources.ConcreteFarmResources;
 using Farm.Plants.Seeds;
 using Farm.Plants.Seeds.ConcreteSeeds;
 using Farm.Tool;
+using Farm.Tool.ConcreteTools;
 using UnityEngine;
 
 namespace Character.Player
@@ -14,6 +15,7 @@ namespace Character.Player
     {
         public event Action<ResourceType, int> OnResourceQuantityChanged; 
         
+        // TODO: Fix these lists
         private readonly List<Tool> _toolsHashSet;
         private readonly List<FarmResource> _farmResourcesHashSet;
         private readonly List<Seed> _seedsHashSet;
@@ -37,13 +39,6 @@ namespace Character.Player
                 new CarrotSeed(SeedType.Carrot, 0),
                 new TomatoSeed(SeedType.Tomato, 10),
             };
-
-            for (int i = 0; i < 5; i++)
-            {
-                _toolsHashSet.Add(new Shovel(1f, 1));
-            }
-            
-            Debug.Log(_toolsHashSet.Count);
         }
         
         public bool TryGetTool<T>(out T tool) where T : Tool

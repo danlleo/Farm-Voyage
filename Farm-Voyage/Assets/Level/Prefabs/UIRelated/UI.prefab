@@ -1389,7 +1389,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _workbenchToolContainer: {fileID: 8379775922410831001}
-  _workbenchToolPrefab: {fileID: 1854834877554298237, guid: ca337b893a9adb6488b8055c65783b77,
+  _workbenchToolUIElementPrefab: {fileID: 1854834877554298237, guid: ca337b893a9adb6488b8055c65783b77,
     type: 3}
 --- !u!1 &4066690168450892703
 GameObject:

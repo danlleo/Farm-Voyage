@@ -79,6 +79,7 @@ namespace Installers
 
         public override void InstallBindings()
         {
+            BindEconomy();
             BindDay();
             BindResourcesGathererFactory();
             BindResourcesGathererSpawner();
@@ -129,7 +130,8 @@ namespace Installers
         
         private void BindResourcesGathererSpawner()
         {
-            Container.Bind<GatherableResourcesSpawner>()
+            Container
+                .Bind<GatherableResourcesSpawner>()
                 .AsSingle()
                 .WithArguments(_resourcesSOArray, _gatherableResourcesSpawnContainer)
                 .NonLazy();
@@ -161,6 +163,14 @@ namespace Installers
 
             Container
                 .BindInstance(ui)
+                .AsSingle()
+                .NonLazy();
+        }
+
+        private void BindEconomy()
+        {
+            Container
+                .Bind<Economy>()
                 .AsSingle()
                 .NonLazy();
         }

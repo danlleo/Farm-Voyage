@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Character.Player;
 using Farm.Tool;
+using Farm.Tool.ConcreteTools;
 using InputManagers;
 using Misc;
 using UnityEngine;
@@ -59,9 +60,9 @@ namespace Installers
         {
             List<Tool> inventoryTools = new()
             {
-                new Axe(3f, 5),
-                new Pickaxe(3f, 5),
-                new Shovel(3f, 5),
+                new Axe(3f, 1),
+                new Pickaxe(3f, 1),
+                new Shovel(3f, 1),
             };
 
             Container

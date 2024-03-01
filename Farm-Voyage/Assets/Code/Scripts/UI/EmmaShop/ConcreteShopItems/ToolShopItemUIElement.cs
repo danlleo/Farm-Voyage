@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace UI.EmmaShop.ConcreteShopItems
 {
-    public class ToolShopItem : ShopItem
+    public class ToolShopItemUIElement : ShopItemUIElement
     {
         [SerializeField] private ToolType _toolToBuyType;
         

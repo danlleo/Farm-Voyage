@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Attributes.WithinParent;
 using Character.Player;
 using Common;
-using DG.Tweening;
 using Farm.FarmResources;
 using UI.Icon;
 using UnityEngine;
@@ -107,8 +106,8 @@ namespace Farm.ResourceGatherer
 
         private IEnumerator DelayGatheringResourcesRoutine(GatheredResource gatheredResource)
         {
-            float delayTime = CalculateTimeToGatherBasedOnToolLevel(_playerTool);
-            float gatherTime = CalculateTimeToGatherBasedOnToolLevel(_playerTool);
+            float delayTime = _playerTool.CalculateTimeToGatherBasedOnLevel();
+            float gatherTime = _playerTool.CalculateTimeToGatherBasedOnLevel();
 
             _player.PlayerGatheringEvent.Call(this,
                 new PlayerGatheringEventArgs(true, false, _resourceSO.ResourceToGather, transform, gatherTime));
@@ -123,32 +122,14 @@ namespace Farm.ResourceGatherer
             gatheredResource = new GatheredResource();
 
             if (!_canGather) return false;
-    
-            int quantityGathered = CalculateQuantityBasedOnToolLevel(_playerTool);
+
+            int quantityGathered = _playerTool.CalculateQuantityBasedOnLevel();
 
             if (quantityGathered <= 0) return false;
             
             gatheredResource = new GatheredResource(_resourceSO.ResourceToGather, quantityGathered);
             
             return true;
-        }
-
-        private int CalculateQuantityBasedOnToolLevel(Tool.Tool tool)
-        {
-            const int minimumRandomValue = 1;
-            const int maximumRandomValue = 5;
-
-            int calculatedQuantity = tool.Level * Random.Range(minimumRandomValue, maximumRandomValue);
-            
-            return calculatedQuantity;
-        }
-
-        private float CalculateTimeToGatherBasedOnToolLevel(Tool.Tool tool)
-        {
-            float calculatedTimeReducer = tool.Level == 1 ? 0 : 0.5f * tool.Level;
-            float calculatedTime = tool.TimeToGather - calculatedTimeReducer;
-            
-            return calculatedTime;
         }
         
         private void IncreaseTimeInteracted()

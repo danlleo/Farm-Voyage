@@ -1,6 +1,7 @@
 using Attributes.WithinParent;
 using Character.Player;
 using Farm.FarmResources;
+using Level;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Zenject;
@@ -8,7 +9,7 @@ using Zenject;
 namespace UI.EmmaShop
 {
     [DisallowMultipleComponent]
-    public abstract class ShopItem : MonoBehaviour, IPointerClickHandler
+    public abstract class ShopItemUIElement : MonoBehaviour, IPointerClickHandler
     {
         protected PlayerInventory PlayerInventory;
         
@@ -17,11 +18,14 @@ namespace UI.EmmaShop
         [SerializeField, WithinParent] private GameObject _lockedContent;
         [SerializeField, WithinParent] private GameObject _unlockedContent;
         [SerializeField, WithinParent] private ShopItemVisualContainer _shopItemVisualContainer;
+
+        private Economy _economy;
         
         [Inject]
-        private void Construct(PlayerInventory playerInventory)
+        private void Construct(PlayerInventory playerInventory, Economy economy)
         {
             PlayerInventory = playerInventory;
+            _economy = economy;
         }
 
         private void Awake()
@@ -33,39 +37,15 @@ namespace UI.EmmaShop
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (!HasEnoughResources())
-            {
-                print("Not enough resources");
-                return;
-            }
-            
             Purchase();
         }
 
         private void Purchase()
         {
-            foreach (ShopItemResourcePrice shopItemResourcePrice in ShopItemData.ShopItemResourcePrices)
+            if (_economy.TryPurchaseWithResources(ShopItemData.ShopItemResourcePrices))
             {
-                PlayerInventory.RemoveResourceQuantity(shopItemResourcePrice.ResourceType,
-                    shopItemResourcePrice.Price);
+                OnPurchase();
             }
-            
-            OnPurchase();
-        }
-        
-        private bool HasEnoughResources()
-        {
-            foreach (ShopItemResourcePrice shopItemResourcesPrice in ShopItemData.ShopItemResourcePrices)
-            {
-                int resourceQuantity = PlayerInventory.GetResourceQuantity(shopItemResourcesPrice.ResourceType);
-
-                if (resourceQuantity < shopItemResourcesPrice.Price)
-                {
-                    return false;
-                }
-            }
-
-            return true;
         }
         
         private void UpdateShopItemContainerVisuals()

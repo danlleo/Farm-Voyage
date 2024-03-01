@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace UI.EmmaShop.ConcreteShopItems
 {
-    public class SeedShopItem : ShopItem
+    public class SeedShopItemUIElement : ShopItemUIElement
     {
         [SerializeField] private SeedType _seedToBuyType;
         [SerializeField, Range(1, 8)] private int _quantityToBuy;

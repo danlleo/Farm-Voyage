@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Farm;
 using Farm.FarmResources;
 using UnityEngine;
 
@@ -8,13 +9,14 @@ namespace UI.EmmaShop
     public class ShopItemDataSO : ScriptableObject
     {
         [field:SerializeField] public Sprite Icon { get; private set; }
-        public IEnumerable<ShopItemResourcePrice> ShopItemResourcePrices => _shopItemResourcesPrices;
+        public IEnumerable<ResourcePrice> ShopItemResourcePrices => _shopItemResourcesPrices;
+        public bool CanPurchaseMultiple { get; private set; }
         
-        [SerializeField] private List<ShopItemResourcePrice> _shopItemResourcesPrices;
+        [SerializeField] private List<ResourcePrice> _shopItemResourcesPrices;
 
         public int GetPriceByRecourseType(ResourceType resourceType)
         {
-            foreach (ShopItemResourcePrice shopItemResourcePrice in  _shopItemResourcesPrices)
+            foreach (ResourcePrice shopItemResourcePrice in  _shopItemResourcesPrices)
             {
                 if (shopItemResourcePrice.ResourceType == resourceType)
                 {
