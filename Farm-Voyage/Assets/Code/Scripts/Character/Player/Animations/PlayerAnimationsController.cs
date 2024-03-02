@@ -14,6 +14,9 @@ namespace Character.Player.Animations
     [DisallowMultipleComponent]
     public class PlayerAnimationsController : MonoBehaviour
     {
+        [Header("External references")]
+        [SerializeField] private ParticleSystem _walkingEffectParticleSystem;
+        
         private PlayerWalkingEvent _playerWalkingEvent;
         private PlayerIdleEvent _playerIdleEvent;
         private PlayerGatheringEvent _playerGatheringEvent;
@@ -54,11 +57,15 @@ namespace Character.Player.Animations
         private void PlayerIdleEvent_OnPlayerIdle(object sender, EventArgs e)
         {
             _animator.SetBool(PlayerAnimationParams.IsWalking, false);
+            _walkingEffectParticleSystem.Stop();
         }
 
         private void PlayerWalkingEvent_OnPlayerWalking(object sender, EventArgs e)
         {
             _animator.SetBool(PlayerAnimationParams.IsWalking, true);
+            
+            if (!_walkingEffectParticleSystem.isPlaying)
+                _walkingEffectParticleSystem.Play();
         }
         
         private void PlayerGatheringEvent_OnPlayerGathering(object sender, PlayerGatheringEventArgs e)

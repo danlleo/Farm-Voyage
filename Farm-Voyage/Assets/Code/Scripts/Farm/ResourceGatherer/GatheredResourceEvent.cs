@@ -18,12 +18,14 @@ namespace Farm.ResourceGatherer
     public class GatheredResourceEventArgs : EventArgs
     {
         public readonly int GatheredQuantity;
-        public readonly List<Material> AllMaterials;
+        public readonly int TimesInteractedAmount;
+        public readonly int InteractAmountToDestroy;
 
-        public GatheredResourceEventArgs(int gatheredQuantity, List<Material> allMaterials)
+        public GatheredResourceEventArgs(int gatheredQuantity, int timesInteractedAmount, int interactAmountToDestroy)
         {
             GatheredQuantity = gatheredQuantity;
-            AllMaterials = allMaterials;
+            TimesInteractedAmount = timesInteractedAmount;
+            InteractAmountToDestroy = interactAmountToDestroy;
         }
     }
 }

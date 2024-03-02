@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using Attributes.WithinParent;
 using DG.Tweening;
 using Misc;
 using Misc.ObjectPool;
@@ -11,29 +11,57 @@ namespace Farm.ResourceGatherer
 {
     [RequireComponent(typeof(GatheredResourceEvent))]
     [RequireComponent(typeof(FullyGatheredEvent))]
+    [RequireComponent(typeof(GatheringStateChangedEvent))]
+    [RequireComponent(typeof(ResourcesGathererInitializeEvent))]
     [DisallowMultipleComponent]
     public class ResourceGathererAnimator : MonoBehaviour
     {
+        private static readonly int s_progressAmount = Shader.PropertyToID("_ProgressAmount");
+        private static readonly int s_flashIntensity = Shader.PropertyToID("_FlashIntensity");
+        
+        [Header("External references")]
+        [SerializeField, WithinParent] private MeshRenderer _progressCircle;
+        
+        [Header("Settings")]
+        [SerializeField] private float _circleProgressMoveDurationInSeconds = .2f;
+        [SerializeField] private float _gatherAnimationDurationInSeconds = .25f;
+        
         private GatheredResourceEvent _gatheredResourceEvent;
         private FullyGatheredEvent _fullyGatheredEvent;
+        private GatheringStateChangedEvent _gatheringStateChangedEvent;
+        private ResourcesGathererInitializeEvent _resourcesGathererInitializeEvent;
         
         private Coroutine _gatherAnimationRoutine;
 
+        private Material _circleProgressMaterial;
+        
+        private readonly List<Material> _allMaterials = new();
+        
         private void Awake()
         {
             _gatheredResourceEvent = GetComponent<GatheredResourceEvent>();
             _fullyGatheredEvent = GetComponent<FullyGatheredEvent>();
+            _gatheringStateChangedEvent = GetComponent<GatheringStateChangedEvent>();
+            _resourcesGathererInitializeEvent = GetComponent<ResourcesGathererInitializeEvent>();
+            
+            _circleProgressMaterial = _progressCircle.material;
+            
+            ToggleProgressCircle(false);
         }
 
         private void OnEnable()
         {
+            _resourcesGathererInitializeEvent.OnResourcesGathererInitialize += ResourcesGathererInitializeEvent_OnResourcesGathererInitialize;
             _gatheredResourceEvent.OnGatheredResource += GatheredResourceEvent_OnGatheredResource;
+            _gatheringStateChangedEvent.OnGatheringStateChanged += GatheringStateChangedEvent_OnGatheringStateChanged;
             _fullyGatheredEvent.OnFullyGathered += FullyGatheredEvent_OnFullyGathered;
         }
 
         private void OnDisable()
         {
+            _resourcesGathererInitializeEvent.OnResourcesGathererInitialize -= ResourcesGathererInitializeEvent_OnResourcesGathererInitialize;
             _gatheredResourceEvent.OnGatheredResource -= GatheredResourceEvent_OnGatheredResource;
+            _gatheringStateChangedEvent.OnGatheringStateChanged -= GatheringStateChangedEvent_OnGatheringStateChanged;
             _fullyGatheredEvent.OnFullyGathered -= FullyGatheredEvent_OnFullyGathered;
         }
         
@@ -45,39 +73,32 @@ namespace Farm.ResourceGatherer
             destroyAnimationSequence.OnComplete(() => Destroy(gameObject));
         }
 
-        private void PlayGatherAnimation(float duration, List<Material> allMaterials)
+        private void PlayGatherAnimation()
         {
             if (_gatherAnimationRoutine != null)
                 StopCoroutine(_gatherAnimationRoutine);
 
-            _gatherAnimationRoutine = StartCoroutine(GatherAnimationRoutine(duration, allMaterials));
+            transform.DOShakeScale(_gatherAnimationDurationInSeconds, 0.5f);
+            
+            float halfDuration = _gatherAnimationDurationInSeconds / 2;
+
+            foreach (Material material in _allMaterials)
+            {
+                material.DOFloat(1f, s_flashIntensity, halfDuration)
+                    .OnComplete(() => material.DOFloat(0f, s_flashIntensity, halfDuration));
+            }
         }
         
-        private IEnumerator GatherAnimationRoutine(float duration, List<Material> allMaterials)
+        private void UpdateProgressCircle(int timesInteracted, int interactAmountToDestroy)
         {
-            transform.DOShakeScale(duration, 0.5f);
+            float normalizedProgress = (float)timesInteracted / interactAmountToDestroy;
 
-            int flashIntensity = Shader.PropertyToID("_FlashIntensity");
-            
-            float timer = 0f;
-            float durationHalfWay = duration / 2;
-
-            while (timer <= duration)
-            {
-                foreach (Material material in allMaterials)
-                {
-                    timer += Time.deltaTime;
-                    
-                    float t = timer / durationHalfWay;
-                    float value = timer < durationHalfWay 
-                        ? Mathf.Lerp(0, 1, t) 
-                        : Mathf.Lerp(1, 0, t);
-                    
-                    material.SetFloat(flashIntensity, value);
-                }
-
-                yield return null;
-            }
+            _circleProgressMaterial.DOFloat(normalizedProgress, s_progressAmount, _circleProgressMoveDurationInSeconds);
+        }
+        
+        private void ToggleProgressCircle(bool isActive)
+        {
+            _progressCircle.enabled = isActive;
         }
         
         private void PlayPopupTextAnimation(int quantity)
@@ -87,10 +108,34 @@ namespace Farm.ResourceGatherer
             popupText.Initialize(quantity, () => ObjectPoolManager.ReturnObjectToPool(popupText));
         }
         
+        private void GetMaterialsFromVisual(GameObject visualGameObject)
+        {
+            Renderer[] renderers = visualGameObject.GetComponentsInChildren<Renderer>(true);
+
+            foreach (Renderer renderer in renderers)
+            {
+                foreach (Material mat in renderer.materials)
+                {
+                    _allMaterials.Add(mat);
+                }
+            }
+        }
+        
+        private void ResourcesGathererInitializeEvent_OnResourcesGathererInitialize(object sender, ResourcesGathererInitializeEventArgs e)
+        {
+            GetMaterialsFromVisual(e.VisualGameObject);
+        }
+        
         private void GatheredResourceEvent_OnGatheredResource(object sender, GatheredResourceEventArgs e)
         {
-            PlayGatherAnimation(0.25f, e.AllMaterials);
+            PlayGatherAnimation();
             PlayPopupTextAnimation(e.GatheredQuantity);
+            UpdateProgressCircle(e.TimesInteractedAmount, e.InteractAmountToDestroy);
+        }
+        
+        private void GatheringStateChangedEvent_OnGatheringStateChanged(object sender, GatheringStateChangedEventArgs e)
+        {
+            ToggleProgressCircle(e.IsGathering);
         }
         
         private void FullyGatheredEvent_OnFullyGathered(object sender, EventArgs e)
