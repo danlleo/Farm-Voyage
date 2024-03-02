@@ -24,6 +24,9 @@ namespace UI
         [Space(10)] 
         [SerializeField, WithinParent] private Image _waterCanBarImage;
         [SerializeField, WithinParent] private Image _clockImage;
+
+        [Space(10)] 
+        [SerializeField, WithinParent] private List<SeedChooseItem> _seedChooseItemsList;
         
         [Header("Settings")]
         [SerializeField, Range(0.1f, 1f)] private float _lerpQuantityTimeInSeconds;
@@ -48,6 +51,7 @@ namespace UI
         {
             InitializeRecourseTextQuantityDictionary();
             InitializeResourcesQuantityText();
+            InitializeSeedChooseItems();
         }
 
         private void OnEnable()
@@ -59,6 +63,8 @@ namespace UI
             
             _waterCan = waterCan;
             _waterCan.OnWaterAmountChanged += WaterCan_OnWaterAmountChanged;
+            
+            InitializeSeedChooseItems();
         }
 
         private void OnDisable()
@@ -145,6 +151,15 @@ namespace UI
         {
             float percent = currentTime / maxTime;
             _clockImage.fillAmount = percent;
+        }
+
+        private void InitializeSeedChooseItems()
+        {
+            foreach (SeedChooseItem seedChooseItem in _seedChooseItemsList)
+            {
+                int seedQuantity = _playerInventory.GetSeedsQuantity(seedChooseItem.SeedType);
+                seedChooseItem.Initialize(_playerInventory, seedQuantity);
+            }
         }
         
         private void PlayerInventory_OnResourceQuantityChanged(ResourceType resourceType, int quantity)

@@ -19,6 +19,8 @@ namespace Character.Player
         private readonly List<Tool> _toolsHashSet;
         private readonly List<FarmResource> _farmResourcesHashSet;
         private readonly List<Seed> _seedsHashSet;
+
+        private Seed _selectedSeed;
         
         public PlayerInventory(List<Tool> toolsHashSet)
         {
@@ -36,7 +38,6 @@ namespace Character.Player
                 new EggplantSeed(SeedType.Eggplant, 0),
                 new TurnipSeed(SeedType.Turnip, 0),
                 new CornSeed(SeedType.Corn, 0),
-                new CarrotSeed(SeedType.Carrot, 0),
                 new TomatoSeed(SeedType.Tomato, 10),
             };
         }
@@ -142,6 +143,22 @@ namespace Character.Player
             }
         }
 
+        public void SetSelectedSeed(SeedType seedType)
+        {
+            foreach (Seed seed in _seedsHashSet)
+            {
+                if (seed.SeedType != seedType) continue;
+                if (seed.SeedType == default)
+                {
+                    _selectedSeed = null;
+                    return;
+                }
+                
+                _selectedSeed = seed;
+                return;
+            }
+        }
+        
         public int GetSeedsQuantity(SeedType seedType)
         {
             foreach (Seed seed in _seedsHashSet)

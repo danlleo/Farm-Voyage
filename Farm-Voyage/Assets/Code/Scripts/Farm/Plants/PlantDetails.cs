@@ -3,7 +3,7 @@
 namespace Farm.Plants
 {
     [System.Serializable]
-    public class PlantDetails
+    public struct PlantDetails
     {
         public PlantType RequiredPlantType;
         public SeedType RequiredSeedType;

@@ -8,5 +8,6 @@
         Pumpkin = 40,
         Turnip = 50,
         Corn = 60,
+        Default = 70,
     }
 }
