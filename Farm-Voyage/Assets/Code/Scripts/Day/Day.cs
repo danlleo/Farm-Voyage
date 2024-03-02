@@ -7,7 +7,7 @@ namespace Day
     [DisallowMultipleComponent]
     public class Day : MonoBehaviour
     {
-        public event Action<float> OnTimeChanged;
+        public event Action<float, float> OnTimeChanged;
         public event Action OnReachedSunset;
         public event Action OnDayEnded;
         
@@ -30,7 +30,7 @@ namespace Day
             while (_currentTime < DayDurationInSeconds)
             {
                 _currentTime += Time.deltaTime;
-                OnTimeChanged?.Invoke(_currentTime);
+                OnTimeChanged?.Invoke(_currentTime, DayDurationInSeconds);
                 
                 if (!reachedSunset && _currentTime >= sunsetStartTime)
                 {

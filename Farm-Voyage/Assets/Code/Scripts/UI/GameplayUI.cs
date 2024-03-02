@@ -5,7 +5,6 @@ using Attributes.WithinParent;
 using Character.Player;
 using DG.Tweening;
 using Farm.FarmResources;
-using Farm.Tool;
 using Farm.Tool.ConcreteTools;
 using TMPro;
 using UnityEngine;
@@ -21,9 +20,10 @@ namespace UI
         [SerializeField, WithinParent] private TextMeshProUGUI _dirtQuantityText;
         [SerializeField, WithinParent] private TextMeshProUGUI _woodQuantityText;
         [SerializeField, WithinParent] private TextMeshProUGUI _rockQuantityText;
-
+        
         [Space(10)] 
         [SerializeField, WithinParent] private Image _waterCanBarImage;
+        [SerializeField, WithinParent] private Image _clockImage;
         
         [Header("Settings")]
         [SerializeField, Range(0.1f, 1f)] private float _lerpQuantityTimeInSeconds;
@@ -33,13 +33,15 @@ namespace UI
         
         private PlayerInventory _playerInventory;
         private WaterCan _waterCan;
+        private Day.Day _day;
         
         private Coroutine _quantityTextLerpingRoutine;
         
         [Inject]
-        private void Construct(PlayerInventory playerInventory)
+        private void Construct(PlayerInventory playerInventory, Day.Day day)
         {
             _playerInventory = playerInventory;
+            _day = day;
         }
 
         private void Awake()
@@ -51,7 +53,8 @@ namespace UI
         private void OnEnable()
         {
             _playerInventory.OnResourceQuantityChanged += PlayerInventory_OnResourceQuantityChanged;
-
+            _day.OnTimeChanged += Day_OnTimeChanged;
+            
             if (!_playerInventory.TryGetTool(out WaterCan waterCan)) return;
             
             _waterCan = waterCan;
@@ -61,6 +64,7 @@ namespace UI
         private void OnDisable()
         {
             _playerInventory.OnResourceQuantityChanged -= PlayerInventory_OnResourceQuantityChanged;
+            _day.OnTimeChanged -= Day_OnTimeChanged;
 
             if (!_playerInventory.TryGetTool(out WaterCan _)) return;
             _waterCan.OnWaterAmountChanged -= WaterCan_OnWaterAmountChanged;
@@ -136,6 +140,12 @@ namespace UI
             _waterCanBarImage.DOKill();
             _waterCanBarImage.DOFillAmount(percent, _timeToFillWaterCanBarInSeconds);
         }
+
+        private void UpdateClockBarFilledAmount(float currentTime, float maxTime)
+        {
+            float percent = currentTime / maxTime;
+            _clockImage.fillAmount = percent;
+        }
         
         private void PlayerInventory_OnResourceQuantityChanged(ResourceType resourceType, int quantity)
         {
@@ -145,6 +155,11 @@ namespace UI
         private void WaterCan_OnWaterAmountChanged(int timesCanWater, int maxTimesCanWater)
         {
             UpdateWaterCanBarFilledAmount(timesCanWater, maxTimesCanWater);
+        }
+        
+        private void Day_OnTimeChanged(float currentTime, float dayDuration)
+        {
+            UpdateClockBarFilledAmount(currentTime, dayDuration);
         }
     }
 }

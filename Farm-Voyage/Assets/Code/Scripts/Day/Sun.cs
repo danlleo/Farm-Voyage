@@ -66,7 +66,7 @@ namespace Day
             transform.RotateAround(transform.position, Vector3.forward, angleThisFrame);
         }
         
-        private void Day_OnTimeChanged(float currentTime)
+        private void Day_OnTimeChanged(float currentTime, float dayDuration)
         {
             RotateSun();
             BlendSunTemperatureDependingOnCurrentTime(currentTime);
