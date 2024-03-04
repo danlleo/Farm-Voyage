@@ -1,26 +1,35 @@
 using System;
 using System.Collections;
+using Misc;
 using UnityEngine;
+using Zenject;
 
-namespace Day
+namespace Timespan
 {
-    [DisallowMultipleComponent]
-    public class Day : MonoBehaviour
+    public class Day : IInitializable
     {
         public event Action<float, float> OnTimeChanged;
         public event Action OnReachedSunset;
         public event Action OnDayEnded;
+
+        private AsyncProcessor _asyncProcessor;
         
         public float DayInitialTimeInSeconds { get; private set; }
         public float DayDurationInSeconds { get; private set; } = 180f;
         
         private float _currentTime;
 
-        private void Start()
+        [Inject]
+        private void Construct(AsyncProcessor asyncProcessor)
         {
-            StartCoroutine(TrackDayCycleRoutine());
+            _asyncProcessor = asyncProcessor;
         }
-
+        
+        public void Initialize()
+        {
+            _asyncProcessor.StartCoroutine(TrackDayCycleRoutine());
+        }
+        
         private IEnumerator TrackDayCycleRoutine()
         {
             float sunsetStartTime = DayDurationInSeconds * 0.8f;

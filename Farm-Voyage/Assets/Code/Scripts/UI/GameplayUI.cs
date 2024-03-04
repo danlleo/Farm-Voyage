@@ -36,12 +36,12 @@ namespace UI
         
         private PlayerInventory _playerInventory;
         private WaterCan _waterCan;
-        private Day.Day _day;
+        private Timespan.Day _day;
         
         private Coroutine _quantityTextLerpingRoutine;
         
         [Inject]
-        private void Construct(PlayerInventory playerInventory, Day.Day day)
+        private void Construct(PlayerInventory playerInventory, Timespan.Day day)
         {
             _playerInventory = playerInventory;
             _day = day;

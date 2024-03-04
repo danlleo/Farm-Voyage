@@ -1431,6 +1431,7 @@ GameObject:
   m_Component:
   - component: {fileID: 112054815}
   - component: {fileID: 112054814}
+  - component: {fileID: 112054819}
   - component: {fileID: 112054818}
   - component: {fileID: 112054816}
   - component: {fileID: 112054817}
@@ -1455,6 +1456,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
   _monoInstallers:
+  - {fileID: 112054819}
   - {fileID: 112054818}
   - {fileID: 112054817}
   - {fileID: 112054816}
@@ -1526,8 +1528,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05c8cd23a5f747bb8d8fc6231e5cafc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dayPrefab: {fileID: 3727010634156287555, guid: eecb51d936fec2840883624967817061,
-    type: 3}
   _marketPrefab: {fileID: 2212453912977770970, guid: 108d88109551a36409df5ec2fa4e1c9f,
     type: 3}
   _workbenchPrefab: {fileID: 7477851575104013303, guid: c0efa54a5a3984b448bf901d321ea520,
@@ -1562,6 +1562,18 @@ MonoBehaviour:
   _playerSpawnPoint: {fileID: 514933920}
   _playerFollowCamera: {fileID: 1356475655053503466, guid: 6f866d0a230c6a94da05a9d14d43b6c3,
     type: 3}
+--- !u!114 &112054819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 112054813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2119d65a665644cfa968c0db9b12afea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &116695919 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4263922822445036487, guid: 3cdafb3c2f54d434894928d72d282874,
@@ -11271,7 +11283,7 @@ Transform:
   m_GameObject: {fileID: 1389374529}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 16.02, y: 0, z: 27.58}
+  m_LocalPosition: {x: 24.98, y: 0, z: 25.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

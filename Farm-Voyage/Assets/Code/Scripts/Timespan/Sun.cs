@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Zenject;
 
-namespace Day
+namespace Timespan
 {
     [RequireComponent(typeof(Light))]
     [DisallowMultipleComponent]
@@ -14,10 +14,10 @@ namespace Day
         private float _sunRotationSpeed;
         
         private Light _sunLightSource;
-        private Day _day;
+        private Timespan.Day _day;
         
         [Inject]
-        private void Construct(Day day)
+        private void Construct(Timespan.Day day)
         {
             _day = day;
         }

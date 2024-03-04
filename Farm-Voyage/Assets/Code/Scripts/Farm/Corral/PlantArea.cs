@@ -32,7 +32,7 @@ namespace Farm.Corral
         private Seed _selectedSeed;
         
         private PlayerInventory _playerInventory;
-        private Day.Day _day;
+        private Timespan.Day _day;
         
         private BoxCollider _boxCollider;
 
@@ -42,7 +42,7 @@ namespace Farm.Corral
         private bool _dayEnded;
         
         [Inject]
-        private void Construct(PlayerInventory playerInventory, Day.Day day)
+        private void Construct(PlayerInventory playerInventory, Timespan.Day day)
         {
             _playerInventory = playerInventory;
             _day = day;

@@ -1,4 +1,5 @@
-﻿using Zenject;
+﻿using Misc;
+using Zenject;
 
 namespace Installers
 {
@@ -6,7 +7,17 @@ namespace Installers
     {
         public override void InstallBindings()
         {
-            // TODO: Install needed bindings
+            BindAsyncProcessor();
+        }
+
+        private void BindAsyncProcessor()
+        {
+            AsyncProcessor asyncProcessor = Container.InstantiateComponentOnNewGameObject<AsyncProcessor>();
+            
+            Container
+                .BindInstance(asyncProcessor)
+                .AsSingle()
+                .NonLazy();
         }
     }
 }

@@ -7,12 +7,12 @@ namespace House
     [DisallowMultipleComponent]
     public class House : MonoBehaviour
     {
-        private Day.Day _day;
+        private Timespan.Day _day;
 
         private bool _canSleep;
         
         [Inject]
-        private void Construct(Day.Day day)
+        private void Construct(Timespan.Day day)
         {
             _day = day;
         }

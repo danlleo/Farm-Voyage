@@ -3,6 +3,7 @@ using Farm.FarmResources;
 using Farm.ResourceGatherer;
 using Level;
 using Misc;
+using Timespan;
 using UI.Icon;
 using UnityEngine;
 using Zenject;
@@ -14,7 +15,6 @@ namespace Installers
     {
         public bool IsValid { get; private set; } = true;
         
-        [SerializeField] private Day.Day _dayPrefab;
         [SerializeField] private Market.Market _marketPrefab;
         [SerializeField] private Workbench.Workbench _workbenchPrefab;
         [SerializeField] private ResourcesGatherer _resourcesGathererPrefab;
@@ -27,12 +27,6 @@ namespace Installers
         private void OnValidate()
         {
             IsValid = true;
-
-            if (_dayPrefab == null)
-            {
-                IsValid = false;
-                return;
-            }
 
             if (_marketPrefab == null)
             {
@@ -92,10 +86,8 @@ namespace Installers
 
         private void BindDay()
         {
-            Day.Day day = Container.InstantiatePrefabForComponent<Day.Day>(_dayPrefab);
-
             Container
-                .BindInstance(day)
+                .BindInterfacesAndSelfTo<Day>()
                 .AsSingle()
                 .NonLazy();
         }
