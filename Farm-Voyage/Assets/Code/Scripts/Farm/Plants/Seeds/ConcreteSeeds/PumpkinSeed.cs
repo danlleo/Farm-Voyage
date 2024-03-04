@@ -2,8 +2,9 @@
 {
     public class PumpkinSeed : Seed
     {
-        public PumpkinSeed(SeedType seedType, int quantity) : base(seedType, quantity)
+        public PumpkinSeed(SeedType seedType, PlantType plant, int quantity) : base(seedType, plant, quantity)
         {
+            
         }
     }
 }

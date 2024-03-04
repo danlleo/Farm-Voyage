@@ -2,7 +2,7 @@ using System.Collections;
 using Character.Player;
 using Common;
 using Farm.Plants;
-using Farm.Tool;
+using Farm.Plants.Seeds;
 using Farm.Tool.ConcreteTools;
 using UI.Icon;
 using UnityEngine;
@@ -16,9 +16,9 @@ namespace Farm.Corral
     public sealed class PlantArea : MonoBehaviour, IInteractable, IDisplayIcon
     {
         [field:SerializeField] public IconSO Icon { get; private set; }
-        
-        [Header("Settings")]
-        [SerializeField] private PlantDetails _plantDetails;
+
+        [Header("Settings")] 
+        [SerializeField, Range(1, 2)] private int _seedsNeededToPlant = 1;
         [SerializeField, Range(0.1f, 2f)] private float _timeToDigInSeconds = 1f;
         [SerializeField, Range(0.1f, 3f)] private float _delayBeforePlantingNewTimeInSeconds = 1.4f;
 
@@ -29,6 +29,7 @@ namespace Farm.Corral
         private Tool.Tool _playerTool;
 
         private Plant _plant;
+        private Seed _selectedSeed;
         
         private PlayerInventory _playerInventory;
         private Day.Day _day;
@@ -79,8 +80,16 @@ namespace Farm.Corral
             if (_dayEnded) return;
             if (_delayBeforePlantingNewRoutine != null) return;
             if (!TryAllowDigging(out Tool.Tool _)) return;
-            if (!_playerInventory.HasEnoughSeedQuantity(_plantDetails.RequiredSeedType,
-                    _plantDetails.RequiredSeedQuantityToPlant))
+            if (!_playerInventory.TryGetSelectedSeed(out Seed selectedSeed))
+            {
+                _selectedSeed = null;
+                return;
+            }
+
+            _selectedSeed = selectedSeed;
+            
+            if (!_playerInventory.HasEnoughSeedQuantity(selectedSeed.SeedType,
+                    _seedsNeededToPlant))
                 return;
             
             _diggingRoutine ??= StartCoroutine(DiggingRoutine());
@@ -104,6 +113,7 @@ namespace Farm.Corral
             _player.PlayerDiggingPlantAreaEvent.Call(this, new PlayerDiggingPlantAreaEventArgs(true));
             yield return new WaitForSeconds(_timeToDigInSeconds);
             SpawnPlant();
+            _playerInventory.RemoveSeedQuantity(_selectedSeed.SeedType, _seedsNeededToPlant);
             _boxCollider.Disable();
         }
 
@@ -134,7 +144,7 @@ namespace Farm.Corral
         
         private void SpawnPlant()
         {
-            Plant plant = _plantFactory.Create(_plantDetails.RequiredPlantType);
+            Plant plant = _plantFactory.Create(_selectedSeed.Plant);
             plant.Initialize(transform.position, Quaternion.identity, this, _playerInventory);
             _plant = plant;
         }

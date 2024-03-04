@@ -13,7 +13,8 @@ namespace Farm.Plants
         private PumpkinPlant _pumpkinPlantPrefab;
         private TurnipPlant _turnipPlantPrefab;
 
-        public PlantFactory(CarrotPlant carrotPlantPrefab, TomatoPlant tomatoPlantPrefab, CornPlant cornPlantPrefab, EggplantPlant eggplantPlantPrefab, PumpkinPlant pumpkinPlantPrefab, TurnipPlant turnipPlantPrefab)
+        public PlantFactory(CarrotPlant carrotPlantPrefab, TomatoPlant tomatoPlantPrefab, CornPlant cornPlantPrefab,
+            EggplantPlant eggplantPlantPrefab, PumpkinPlant pumpkinPlantPrefab, TurnipPlant turnipPlantPrefab)
         {
             _carrotPlantPrefab = carrotPlantPrefab;
             _tomatoPlantPrefab = tomatoPlantPrefab;

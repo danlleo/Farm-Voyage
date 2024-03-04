@@ -5,6 +5,7 @@ using Attributes.WithinParent;
 using Character.Player;
 using DG.Tweening;
 using Farm.FarmResources;
+using Farm.Plants.Seeds;
 using Farm.Tool.ConcreteTools;
 using TMPro;
 using UnityEngine;

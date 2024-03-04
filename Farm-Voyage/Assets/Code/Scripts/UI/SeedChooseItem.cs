@@ -29,17 +29,29 @@ namespace UI
         private void OnEnable()
         {
             OnAnySelectedSeedChooseItemEvent += SeedChooseItem_OnAnySelectedSeedChooseItem;
+
+            if (_playerInventory != null)
+            {
+                _playerInventory.OnSeedQuantityChanged += PlayerInventory_OnSeedQuantityChanged;
+            }
         }
 
         private void OnDisable()
         {
             OnAnySelectedSeedChooseItemEvent -= SeedChooseItem_OnAnySelectedSeedChooseItem;
+            
+            if (_playerInventory != null)
+            {
+                _playerInventory.OnSeedQuantityChanged -= PlayerInventory_OnSeedQuantityChanged;
+            }
         }
 
         public void Initialize(PlayerInventory playerInventory, int seedAmount)
         {
             _playerInventory = playerInventory;
             _seedQuantityText.text = $"{seedAmount}";
+            
+            _playerInventory.OnSeedQuantityChanged += PlayerInventory_OnSeedQuantityChanged;
         }
 
         public void OnPointerClick(PointerEventData eventData)
@@ -75,6 +87,15 @@ namespace UI
             if (ReferenceEquals(this, seedChooseItem)) return;
             
             Deselect();
+        }
+        
+        private void PlayerInventory_OnSeedQuantityChanged(SeedType seedType, int quantity)
+        {
+            if (seedType != SeedType) return;
+            if (quantity == 0) 
+                Deselect();
+            
+            _seedQuantityText.text = $"{quantity}";
         }
     }
 }

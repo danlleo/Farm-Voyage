@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Farm.FarmResources;
 using Farm.FarmResources.ConcreteFarmResources;
+using Farm.Plants;
 using Farm.Plants.Seeds;
 using Farm.Plants.Seeds.ConcreteSeeds;
 using Farm.Tool;
@@ -13,49 +14,49 @@ namespace Character.Player
 {
     public class PlayerInventory
     {
-        public event Action<ResourceType, int> OnResourceQuantityChanged; 
+        public event Action<ResourceType, int> OnResourceQuantityChanged;
+        public event Action<SeedType, int> OnSeedQuantityChanged;
         
-        // TODO: Fix these lists
-        private readonly List<Tool> _toolsHashSet;
-        private readonly List<FarmResource> _farmResourcesHashSet;
-        private readonly List<Seed> _seedsHashSet;
-
+        private readonly List<Tool> _toolsList;
+        private readonly List<FarmResource> _farmResourcesList;
+        private readonly List<Seed> _seedsList;
+        
         private Seed _selectedSeed;
         
-        public PlayerInventory(List<Tool> toolsHashSet)
+        public PlayerInventory(List<Tool> toolsList)
         {
-            _toolsHashSet = toolsHashSet;
-            _farmResourcesHashSet = new List<FarmResource>
+            _toolsList = toolsList;
+            _farmResourcesList = new List<FarmResource>
             {
                 new Dirt(0, ResourceType.Dirt),
                 new Rock(0, ResourceType.Rock),
                 new Wood(0, ResourceType.Wood),
             };
-            _seedsHashSet = new List<Seed>
+            _seedsList = new List<Seed>
             {
-                new CarrotSeed(SeedType.Carrot, 0),
-                new PumpkinSeed(SeedType.Pumpkin, 0),
-                new EggplantSeed(SeedType.Eggplant, 0),
-                new TurnipSeed(SeedType.Turnip, 0),
-                new CornSeed(SeedType.Corn, 0),
-                new TomatoSeed(SeedType.Tomato, 10),
+                new CarrotSeed(SeedType.Carrot,  PlantType.Carrot, 0),
+                new PumpkinSeed(SeedType.Pumpkin,  PlantType.Pumpkin, 0),
+                new EggplantSeed(SeedType.Eggplant, PlantType.Eggplant, 0),
+                new TurnipSeed(SeedType.Turnip, PlantType.Turnip, 0),
+                new CornSeed(SeedType.Corn, PlantType.Corn, 0),
+                new TomatoSeed(SeedType.Tomato, PlantType.Tomato, 1),
             };
         }
         
         public bool TryGetTool<T>(out T tool) where T : Tool
         {
-            tool = _toolsHashSet.OfType<T>().FirstOrDefault();
+            tool = _toolsList.OfType<T>().FirstOrDefault();
             return tool != null;
         }
 
         public IEnumerable<Tool> GetAllTools()
         {
-            return _toolsHashSet;
+            return _toolsList;
         }
         
         public bool TryGetToolOfType(Type toolType, out Tool foundTool)
         {
-            foreach (Tool tool in _toolsHashSet.Where(tool => tool.GetType() == toolType))
+            foreach (Tool tool in _toolsList.Where(tool => tool.GetType() == toolType))
             {
                 foundTool = tool;
                 return true;
@@ -70,19 +71,19 @@ namespace Character.Player
             switch (toolType)
             {
                 case ToolType.Shovel:
-                    _toolsHashSet.Add(new Shovel(1f, 1));
+                    _toolsList.Add(new Shovel(1f, 1));
                     break;
                 case ToolType.Axe:
-                    _toolsHashSet.Add(new Axe(1f, 1));
+                    _toolsList.Add(new Axe(1f, 1));
                     break;
                 case ToolType.Pickaxe:
-                    _toolsHashSet.Add(new Pickaxe(1f, 1));
+                    _toolsList.Add(new Pickaxe(1f, 1));
                     break;
                 case ToolType.WaterCan:
-                    _toolsHashSet.Add(new WaterCan(1f, 1));
+                    _toolsList.Add(new WaterCan(1f, 1));
                     break;
                 case ToolType.Scythe:
-                    _toolsHashSet.Add(new Scythe(1f, 1));
+                    _toolsList.Add(new Scythe(1f, 1));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(toolType), toolType, null);
@@ -91,7 +92,7 @@ namespace Character.Player
         
         public int GetResourceQuantity(ResourceType resourceType)
         {
-            foreach (FarmResource farmResource in _farmResourcesHashSet)
+            foreach (FarmResource farmResource in _farmResourcesList)
             {
                 if (farmResource.Type != resourceType) continue;
                 
@@ -103,7 +104,7 @@ namespace Character.Player
         
         public void AddResourceQuantity(ResourceType resourceType, int quantity)
         {
-            foreach (FarmResource farmResource in _farmResourcesHashSet)
+            foreach (FarmResource farmResource in _farmResourcesList)
             {
                 if (farmResource.Type != resourceType) continue;
                 
@@ -121,7 +122,7 @@ namespace Character.Player
 
         public void RemoveResourceQuantity(ResourceType resourceType, int quantity)
         {
-            foreach (FarmResource farmResource in _farmResourcesHashSet)
+            foreach (FarmResource farmResource in _farmResourcesList)
             {
                 if (farmResource.Type != resourceType) continue;
                 
@@ -145,7 +146,7 @@ namespace Character.Player
 
         public void SetSelectedSeed(SeedType seedType)
         {
-            foreach (Seed seed in _seedsHashSet)
+            foreach (Seed seed in _seedsList)
             {
                 if (seed.SeedType != seedType) continue;
                 if (seed.SeedType == default)
@@ -158,10 +159,22 @@ namespace Character.Player
                 return;
             }
         }
+
+        public bool TryGetSelectedSeed(out Seed selectedSeed)
+        {
+            if (_selectedSeed == null)
+            {
+                selectedSeed = null;
+                return false;
+            }
+
+            selectedSeed = _selectedSeed;
+            return true;
+        }
         
         public int GetSeedsQuantity(SeedType seedType)
         {
-            foreach (Seed seed in _seedsHashSet)
+            foreach (Seed seed in _seedsList)
             {
                 if (seed.SeedType != seedType) continue;
 
@@ -173,7 +186,7 @@ namespace Character.Player
         
         public void AddSeedQuantity(SeedType seedType, int quantity)
         {
-            foreach (Seed seed in _seedsHashSet)
+            foreach (Seed seed in _seedsList)
             {
                 if (seed.SeedType != seedType) continue;
                 
@@ -187,13 +200,39 @@ namespace Character.Player
                 return;
             }
         }
+        
+        public void RemoveSeedQuantity(SeedType seedType, int quantity)
+        {
+            foreach (Seed seed in _seedsList)
+            {
+                if (seed.SeedType != seedType) continue;
+                
+                if (quantity < 0)
+                {
+                    Debug.LogError("Quantity can't be less than a null");
+                    quantity = 0;
+                }
+
+                if (GetSeedsQuantity(seed.SeedType) < quantity)
+                {
+                    Debug.LogError("Remove quantity is bigger than resource quantity");
+                    quantity = 0;
+                }
+                
+                seed.RemoveQuantity(quantity);
+                OnSeedQuantityChanged?.Invoke(seedType, seed.Quantity);
+                return;
+            }
+        }
 
         public bool HasEnoughSeedQuantity(SeedType seedType, int quantity)
         {
-            foreach (Seed seed in _seedsHashSet)
+            foreach (Seed seed in _seedsList)
             {
                 if (seed.SeedType != seedType) continue;
-
+                if (seed.SeedType == SeedType.Default) 
+                    return false;
+                
                 return seed.Quantity >= quantity;
             }
 

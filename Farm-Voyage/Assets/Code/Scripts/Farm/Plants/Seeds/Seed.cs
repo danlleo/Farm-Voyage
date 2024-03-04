@@ -6,10 +6,12 @@
         
         public int Quantity { get; private set; }
         public readonly SeedType SeedType;
-
-        protected Seed(SeedType seedType, int quantity)
+        public readonly PlantType Plant;
+        
+        protected Seed(SeedType seedType, PlantType plant, int quantity)
         {
             SeedType = seedType;
+            Plant = plant;
             Quantity = quantity;
         }
 
@@ -21,15 +23,9 @@
                 Quantity = MaxSeedsCanCarry;
         }
         
-        public bool TryRemoveQuantity(int amount)
+        public void RemoveQuantity(int amount)
         {
-            if (Quantity < amount)
-            {
-                return false;
-            }
-
             Quantity -= amount;
-            return true;
         }
     }
 }
