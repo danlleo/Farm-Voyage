@@ -5,7 +5,6 @@ using Attributes.WithinParent;
 using Character.Player;
 using DG.Tweening;
 using Farm.FarmResources;
-using Farm.Plants.Seeds;
 using Farm.Tool.ConcreteTools;
 using TMPro;
 using UnityEngine;
@@ -27,7 +26,7 @@ namespace UI
         [SerializeField, WithinParent] private Image _clockImage;
 
         [Space(10)] 
-        [SerializeField, WithinParent] private List<SeedChooseItem> _seedChooseItemsList;
+        [SerializeField, WithinParent] private List<SeedChooseUIItem> _seedChooseItemsList;
         
         [Header("Settings")]
         [SerializeField, Range(0.1f, 1f)] private float _lerpQuantityTimeInSeconds;
@@ -50,7 +49,7 @@ namespace UI
 
         private void Awake()
         {
-            InitializeRecourseTextQuantityDictionary();
+            InitializeResourceTextQuantityDictionary();
             InitializeResourcesQuantityText();
             InitializeSeedChooseItems();
         }
@@ -60,12 +59,12 @@ namespace UI
             _playerInventory.OnResourceQuantityChanged += PlayerInventory_OnResourceQuantityChanged;
             _day.OnTimeChanged += Day_OnTimeChanged;
             
+            UpdateAllResourcesQuantityText();
+            
             if (!_playerInventory.TryGetTool(out WaterCan waterCan)) return;
             
             _waterCan = waterCan;
             _waterCan.OnWaterAmountChanged += WaterCan_OnWaterAmountChanged;
-            
-            InitializeSeedChooseItems();
         }
 
         private void OnDisable()
@@ -84,7 +83,7 @@ namespace UI
             _rockQuantityText.text = $"{_resourceTextQuantityDictionary[_rockQuantityText]}";
         }
 
-        private void InitializeRecourseTextQuantityDictionary()
+        private void InitializeResourceTextQuantityDictionary()
         {
             _resourceTextQuantityDictionary = new Dictionary<TextMeshProUGUI, int>
             {
@@ -93,8 +92,8 @@ namespace UI
                 { _rockQuantityText, _playerInventory.GetResourceQuantity(ResourceType.Rock) }
             };
         }
-
-        private void UpdateResourceQuantityQuantityText(ResourceType resourceType, int quantity)
+        
+        private void UpdateResourceQuantityText(ResourceType resourceType, int quantity)
         {
             switch (resourceType)
             {
@@ -117,6 +116,12 @@ namespace UI
             }
         }
 
+        private void UpdateAllResourcesQuantityText()
+        {
+            InitializeResourceTextQuantityDictionary();
+            InitializeResourcesQuantityText();
+        }
+        
         private void InterpolateQuantityText(TextMeshProUGUI textMeshProUGUI, int quantity)
         {
             if (_quantityTextLerpingRoutine != null)
@@ -156,16 +161,15 @@ namespace UI
 
         private void InitializeSeedChooseItems()
         {
-            foreach (SeedChooseItem seedChooseItem in _seedChooseItemsList)
+            foreach (SeedChooseUIItem seedChooseItem in _seedChooseItemsList)
             {
-                int seedQuantity = _playerInventory.GetSeedsQuantity(seedChooseItem.SeedType);
-                seedChooseItem.Initialize(_playerInventory, seedQuantity);
+                seedChooseItem.Initialize(_playerInventory);
             }
         }
         
         private void PlayerInventory_OnResourceQuantityChanged(ResourceType resourceType, int quantity)
         {
-            UpdateResourceQuantityQuantityText(resourceType, quantity);
+            UpdateResourceQuantityText(resourceType, quantity);
         }
         
         private void WaterCan_OnWaterAmountChanged(int timesCanWater, int maxTimesCanWater)

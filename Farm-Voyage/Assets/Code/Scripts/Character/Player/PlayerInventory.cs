@@ -28,9 +28,9 @@ namespace Character.Player
             _toolsList = toolsList;
             _farmResourcesList = new List<FarmResource>
             {
-                new Dirt(0, ResourceType.Dirt),
-                new Rock(0, ResourceType.Rock),
-                new Wood(0, ResourceType.Wood),
+                new Dirt(10, ResourceType.Dirt),
+                new Rock(10, ResourceType.Rock),
+                new Wood(10, ResourceType.Wood),
             };
             _seedsList = new List<Seed>
             {

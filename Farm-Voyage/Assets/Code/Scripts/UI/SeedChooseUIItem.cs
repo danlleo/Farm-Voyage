@@ -10,9 +10,9 @@ using UnityEngine.UI;
 namespace UI
 {
     [DisallowMultipleComponent]
-    public class SeedChooseItem : MonoBehaviour, IPointerClickHandler
+    public class SeedChooseUIItem : MonoBehaviour, IPointerClickHandler
     {
-        public static event Action<SeedChooseItem> OnAnySelectedSeedChooseItemEvent;
+        public static event Action<SeedChooseUIItem> OnAnySelectedSeedChooseItemEvent;
         
         [field:SerializeField] public SeedType SeedType { get; private set; }
 
@@ -30,6 +30,8 @@ namespace UI
         {
             OnAnySelectedSeedChooseItemEvent += SeedChooseItem_OnAnySelectedSeedChooseItem;
 
+            UpdateSeedQuantityText(_playerInventory.GetSeedsQuantity(SeedType));
+            
             if (_playerInventory != null)
             {
                 _playerInventory.OnSeedQuantityChanged += PlayerInventory_OnSeedQuantityChanged;
@@ -46,11 +48,9 @@ namespace UI
             }
         }
 
-        public void Initialize(PlayerInventory playerInventory, int seedAmount)
+        public void Initialize(PlayerInventory playerInventory)
         {
             _playerInventory = playerInventory;
-            _seedQuantityText.text = $"{seedAmount}";
-            
             _playerInventory.OnSeedQuantityChanged += PlayerInventory_OnSeedQuantityChanged;
         }
 
@@ -81,10 +81,15 @@ namespace UI
             _backgroundImage.sprite = _defaultBackgroundSprite;
             _playerInventory.SetSelectedSeed(SeedType.Default);
         }
-        
-        private void SeedChooseItem_OnAnySelectedSeedChooseItem(SeedChooseItem seedChooseItem)
+
+        private void UpdateSeedQuantityText(int quantity)
         {
-            if (ReferenceEquals(this, seedChooseItem)) return;
+            _seedQuantityText.text = $"{quantity}";
+        }
+        
+        private void SeedChooseItem_OnAnySelectedSeedChooseItem(SeedChooseUIItem seedChooseUIItem)
+        {
+            if (ReferenceEquals(this, seedChooseUIItem)) return;
             
             Deselect();
         }
@@ -95,7 +100,7 @@ namespace UI
             if (quantity == 0) 
                 Deselect();
             
-            _seedQuantityText.text = $"{quantity}";
+            UpdateSeedQuantityText(quantity);
         }
     }
 }

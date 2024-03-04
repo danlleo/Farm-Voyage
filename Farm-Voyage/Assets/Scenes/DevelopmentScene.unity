@@ -779,7 +779,7 @@ Transform:
   m_GameObject: {fileID: 61013890}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.19, y: 0, z: 17.23}
+  m_LocalPosition: {x: 3, y: 0, z: 24.88}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1699,10 +1699,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Icon>k__BackingField: {fileID: 11400000, guid: 1a22a9da4e7b0514c8d50f42df7f481a,
     type: 2}
-  _plantDetails:
-    RequiredPlantType: 40
-    RequiredSeedType: 20
-    RequiredSeedQuantityToPlant: 4
+  _seedsNeededToPlant: 1
   _timeToDigInSeconds: 0.35
   _delayBeforePlantingNewTimeInSeconds: 1
 --- !u!65 &131511926
@@ -6353,10 +6350,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Icon>k__BackingField: {fileID: 11400000, guid: 1a22a9da4e7b0514c8d50f42df7f481a,
     type: 2}
-  _plantDetails:
-    RequiredPlantType: 10
-    RequiredSeedType: 10
-    RequiredSeedQuantityToPlant: 4
+  _seedsNeededToPlant: 1
   _timeToDigInSeconds: 0.35
   _delayBeforePlantingNewTimeInSeconds: 1
 --- !u!65 &732782434
@@ -11277,7 +11271,7 @@ Transform:
   m_GameObject: {fileID: 1389374529}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.54, y: 0, z: 17.52}
+  m_LocalPosition: {x: 16.02, y: 0, z: 27.58}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
