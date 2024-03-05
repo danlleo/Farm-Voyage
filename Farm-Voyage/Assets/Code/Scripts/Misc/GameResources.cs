@@ -17,7 +17,7 @@ namespace Misc
                 return s_instance;
             }
         }
-        
+
         [field: SerializeField] public PopupText PopupText { get; private set; }
     }
 }

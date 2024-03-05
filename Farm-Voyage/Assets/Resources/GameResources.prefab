@@ -46,3 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <PopupText>k__BackingField: {fileID: 5817660579509522974, guid: 7c9486a96179d7944abedd9cfbdcd1e9,
     type: 3}
+  EasyQuotaData: {fileID: 11400000, guid: b3c0b42c057216341919d105574b798c, type: 2}
+  MediumQuotaData: {fileID: 11400000, guid: 6d2d67a54840445498557d1ab6283ff8, type: 2}
+  HardQuotaData: {fileID: 11400000, guid: cbabd42d54437f54daffb5165d82b9fd, type: 2}
+  NightmareQuotaData: {fileID: 11400000, guid: b04d0da1cda0b6a4abe933254566f258, type: 2}

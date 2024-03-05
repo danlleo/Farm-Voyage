@@ -1433,8 +1433,8 @@ GameObject:
   - component: {fileID: 112054814}
   - component: {fileID: 112054819}
   - component: {fileID: 112054818}
-  - component: {fileID: 112054816}
   - component: {fileID: 112054817}
+  - component: {fileID: 112054816}
   m_Layer: 0
   m_Name: SceneContext
   m_TagString: Untagged
@@ -1545,6 +1545,7 @@ MonoBehaviour:
     type: 3}
   _uiPrefab: {fileID: 6702967034922878079, guid: 04a993f449496fb44a508264a3d4eaad,
     type: 3}
+  _quotaPlanSettings: {fileID: 11400000, guid: a2eef6c4ff6b1c74985759ce02b5997f, type: 2}
 --- !u!114 &112054818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6386,55 +6387,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!1 &738986401
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 738986403}
-  - component: {fileID: 738986402}
-  m_Layer: 0
-  m_Name: QuotaPlan
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &738986402
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 738986401}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3dbda0315f3d094ab84a28de5ac53bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _easyQuotaData: {fileID: 11400000, guid: b3c0b42c057216341919d105574b798c, type: 2}
-  _mediumQuotaData: {fileID: 11400000, guid: 6d2d67a54840445498557d1ab6283ff8, type: 2}
-  _hardQuotaData: {fileID: 11400000, guid: cbabd42d54437f54daffb5165d82b9fd, type: 2}
-  _nightmareQuotaData: {fileID: 11400000, guid: b04d0da1cda0b6a4abe933254566f258,
-    type: 2}
---- !u!4 &738986403
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 738986401}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &749863525 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4680757731159730826, guid: 0fde05fa0f3321942a21896ff4f0856f,
@@ -37003,4 +36955,3 @@ SceneRoots:
   - {fileID: 543450653154774839}
   - {fileID: 576710034}
   - {fileID: 1069665250}
-  - {fileID: 738986403}

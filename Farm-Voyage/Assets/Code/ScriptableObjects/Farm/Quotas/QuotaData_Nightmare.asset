@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea527a50b03347d9810a6a9a65e3854f, type: 3}
   m_Name: QuotaData_Nightmare
   m_EditorClassIdentifier: 
-  <GenerateQuotaMeetDataItemsCount>k__BackingField: 3
+  <GenerateQuotaMeetDataItemsCount>k__BackingField: 4
   _quotaItemsList:
   - _seed: 10
     _quantityMinimal: 16

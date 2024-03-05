@@ -4,17 +4,19 @@ using Random = UnityEngine.Random;
 
 namespace Timespan.Quota
 {
-    public class Quota
+    public abstract class Quota
     {
+        public readonly IEnumerable<MeetQuotaData> MeetQuotaDatas;
         private readonly QuotaDataSO _quotaDataSO;
-        private readonly IEnumerable<MeetQuotaData> _meetQuotaDatas;
         
         protected Quota(QuotaDataSO quotaDataSO)
         {
             _quotaDataSO = quotaDataSO;
-            _meetQuotaDatas = GenerateMeetQuotaData(quotaDataSO);
+            MeetQuotaDatas = GenerateMeetQuotaData(quotaDataSO);
         }
-
+        
+        public abstract void OnMetQuota();
+        
         private IEnumerable<MeetQuotaData> GenerateMeetQuotaData(QuotaDataSO quotaData)
         {
             List<QuotaItem> deepCopyQuotaItems = new(quotaData.QuotaItemsList);

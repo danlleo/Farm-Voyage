@@ -15,14 +15,14 @@ MonoBehaviour:
   <GenerateQuotaMeetDataItemsCount>k__BackingField: 3
   _quotaItemsList:
   - _seed: 30
-    _quantityMinimal: 6
-    _quantityMaximum: 10
+    _quantityMinimal: 10
+    _quantityMaximum: 15
   - _seed: 20
-    _quantityMinimal: 6
-    _quantityMaximum: 10
+    _quantityMinimal: 10
+    _quantityMaximum: 15
   - _seed: 60
-    _quantityMinimal: 6
-    _quantityMaximum: 10
+    _quantityMinimal: 10
+    _quantityMaximum: 15
   - _seed: 40
-    _quantityMinimal: 6
-    _quantityMaximum: 10
+    _quantityMinimal: 10
+    _quantityMaximum: 15

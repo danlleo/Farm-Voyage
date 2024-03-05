@@ -4,6 +4,7 @@ using Farm.ResourceGatherer;
 using Level;
 using Misc;
 using Timespan;
+using Timespan.Quota;
 using UI.Icon;
 using UnityEngine;
 using Zenject;
@@ -23,6 +24,9 @@ namespace Installers
         [SerializeField] private IconManager _iconManagerPrefab;
         [SerializeField] private CameraController _cameraControllerPrefab;
         [SerializeField] private UI.UI _uiPrefab;
+
+        [Space(10)] 
+        [SerializeField] private QuotaPlanSettingsSO _quotaPlanSettings;
         
         private void OnValidate()
         {
@@ -74,6 +78,7 @@ namespace Installers
         public override void InstallBindings()
         {
             BindEconomy();
+            BindQuotaPlan();
             BindDay();
             BindResourcesGathererFactory();
             BindResourcesGathererSpawner();
@@ -164,6 +169,15 @@ namespace Installers
             Container
                 .Bind<Economy>()
                 .AsSingle()
+                .NonLazy();
+        }
+
+        private void BindQuotaPlan()
+        {
+            Container
+                .Bind<QuotaPlan>()
+                .AsSingle()
+                .WithArguments(_quotaPlanSettings)
                 .NonLazy();
         }
     }

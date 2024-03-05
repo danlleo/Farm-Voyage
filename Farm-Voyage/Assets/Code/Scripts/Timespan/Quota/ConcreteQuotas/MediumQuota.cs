@@ -6,5 +6,10 @@
         {
             
         }
+
+        public override void OnMetQuota()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
