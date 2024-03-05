@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea527a50b03347d9810a6a9a65e3854f, type: 3}
+  m_Name: QuotaData_Easy
+  m_EditorClassIdentifier: 
+  <GenerateQuotaMeetDataItemsCount>k__BackingField: 2
+  _quotaItemsList:
+  - _seed: 10
+    _quantityMinimal: 2
+    _quantityMaximum: 5
+  - _seed: 20
+    _quantityMinimal: 2
+    _quantityMaximum: 5
+  - _seed: 30
+    _quantityMinimal: 2
+    _quantityMaximum: 5
+  - _seed: 50
+    _quantityMinimal: 2
+    _quantityMaximum: 5
+  - _seed: 60
+    _quantityMinimal: 2
+    _quantityMaximum: 5
