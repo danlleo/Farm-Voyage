@@ -14,10 +14,10 @@ namespace Timespan
         private float _sunRotationSpeed;
         
         private Light _sunLightSource;
-        private Timespan.Day _day;
+        private Day _day;
         
         [Inject]
-        private void Construct(Timespan.Day day)
+        private void Construct(Day day)
         {
             _day = day;
         }
@@ -39,7 +39,7 @@ namespace Timespan
         {
             _day.OnTimeChanged -= Day_OnTimeChanged;
         }
-
+        
         private void SetInitialSunTemperature()
         {
             _sunLightSource.colorTemperature = _maxTemperature;
