@@ -18,7 +18,7 @@ public class DummyClass : MonoBehaviour, IBind<DummyClassData>
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            _dummyClassData.Position = transform.position;
+            _dummyClassData.Position = transform.position * Random.Range(1, 5);
             _dummyClassData.Rotation = transform.rotation;
         }        
     }

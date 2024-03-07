@@ -18,7 +18,7 @@ namespace DataPersistence
             base.Awake();
             _dataService = new FileDataService(new JsonSerializer());
         }
-
+        
         private void OnEnable()
         {
             SceneManager.sceneLoaded += SceneManager_OnSceneLoaded;
@@ -27,6 +27,12 @@ namespace DataPersistence
         private void OnDisable()
         {
             SceneManager.sceneLoaded -= SceneManager_OnSceneLoaded;
+        }
+
+        private void Start()
+        {
+            LoadGame(Data.Name);
+            Bind<DummyClass, DummyClassData>(Data.DummyClassData);
         }
 
         public void NewGame()
