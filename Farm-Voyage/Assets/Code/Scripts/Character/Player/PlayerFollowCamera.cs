@@ -1,3 +1,4 @@
+using System;
 using Cameras;
 using Cinemachine;
 using DG.Tweening;
@@ -36,8 +37,17 @@ namespace Character.Player
             _initialZoomValue = _cinemachineVirtualCamera.m_Lens.FieldOfView;
             _initialRotation = transform.rotation; 
                 
-            SetPlayerFollowTarget();
             SetCameraBoundaries();
+        }
+
+        private void OnEnable()
+        {
+            _player.PlayerLeftHomeEvent.OnPlayerLeftHome += Player_OnPlayerLeftHome;
+        }
+
+        private void OnDisable()
+        {
+            _player.PlayerLeftHomeEvent.OnPlayerLeftHome -= Player_OnPlayerLeftHome;
         }
 
         public void ZoomIn()
@@ -86,7 +96,7 @@ namespace Character.Player
 
         private void SetCameraBoundaries()
         {
-            GameObject cameraBoundaryObject = new GameObject("Camera Boundary");
+            GameObject cameraBoundaryObject = new("Camera Boundary");
             cameraBoundaryObject.transform.position = Vector3.zero;
 
             BoxCollider collider = cameraBoundaryObject.AddComponent<BoxCollider>();
@@ -101,5 +111,10 @@ namespace Character.Player
         
         private void UpdateFOVValue(float value)
             => _cinemachineVirtualCamera.m_Lens.FieldOfView = value;
+        
+        private void Player_OnPlayerLeftHome(object sender, EventArgs e)
+        {
+            SetPlayerFollowTarget();
+        }
     }
 }

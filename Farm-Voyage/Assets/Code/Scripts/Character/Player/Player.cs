@@ -15,6 +15,7 @@ namespace Character.Player
     [RequireComponent(typeof(PlayerFoundCollectableEvent))]
     [RequireComponent(typeof(PlayerShoppingEvent))]
     [RequireComponent(typeof(PlayerUsingWorkbenchEvent))]
+    [RequireComponent(typeof(PlayerLeftHomeEvent))]
     [RequireComponent(typeof(PlayerEnteringHomeEvent))]
     [DisallowMultipleComponent]
     public class Player : MonoBehaviour
@@ -36,6 +37,7 @@ namespace Character.Player
         public PlayerFoundCollectableEvent PlayerFoundCollectableEvent { get; private set; }
         public PlayerShoppingEvent PlayerShoppingEvent { get; private set; }
         public PlayerUsingWorkbenchEvent PlayerUsingWorkbenchEvent { get; private set; }
+        public PlayerLeftHomeEvent PlayerLeftHomeEvent { get; private set; }
         public PlayerEnteringHomeEvent PlayerEnteringHomeEvent { get; private set; }
         
         [HideInInspector] public Transform LockedResourcesGatherer;
@@ -66,6 +68,7 @@ namespace Character.Player
             PlayerFoundCollectableEvent = GetComponent<PlayerFoundCollectableEvent>();
             PlayerShoppingEvent = GetComponent<PlayerShoppingEvent>();
             PlayerUsingWorkbenchEvent = GetComponent<PlayerUsingWorkbenchEvent>();
+            PlayerLeftHomeEvent = GetComponent<PlayerLeftHomeEvent>();
             PlayerEnteringHomeEvent = GetComponent<PlayerEnteringHomeEvent>();
             
             PlayerLocomotion = GetComponent<PlayerLocomotion>();
