@@ -2119,6 +2119,8 @@ MonoBehaviour:
     type: 3}
   <EmmaStoreStayPoint>k__BackingField: {fileID: 8776830052267347194, guid: df07e4230fb7e07459a24a5288f85680,
     type: 3}
+  <HomeLeavePoint>k__BackingField: {fileID: 4643783985421661418, guid: 0cc2c063b0d66834292b8bf28f757469,
+    type: 3}
   <HomeStayPoint>k__BackingField: {fileID: 8776830052267347194, guid: 313b3a2d936ddfc4ab9328ab03244149,
     type: 3}
 --- !u!114 &2423541706222419549

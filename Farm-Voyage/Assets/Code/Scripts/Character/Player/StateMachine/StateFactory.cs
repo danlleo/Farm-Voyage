@@ -43,6 +43,11 @@ namespace Character.Player.StateMachine
             return new GatheringState(_player, _stateMachine);
         }
 
+        public State LeavingHome()
+        {
+            return new LeavingHomeState(_player, _stateMachine);
+        }
+        
         public State EnteringHome()
         {
             return new EnteringHomeState(_player, _stateMachine);

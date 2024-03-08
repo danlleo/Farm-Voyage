@@ -28,7 +28,17 @@ public class SceneTransitionView : MonoBehaviour
         _canvas = GetComponent<Canvas>();
         _transitionMaterial = _transitionImage.material;
     }
-    
+
+    private void OnEnable()
+    {
+        SceneTransition.OnAnyTransitionNormalizedProgressChanged += SceneTransition_OnAnyTransitionNormalizedProgressChanged;
+    }
+
+    private void OnDisable()
+    {
+        SceneTransition.OnAnyTransitionNormalizedProgressChanged -= SceneTransition_OnAnyTransitionNormalizedProgressChanged;
+    }
+
     private void Start()
     {
         InitializeCanvas();
@@ -38,5 +48,10 @@ public class SceneTransitionView : MonoBehaviour
     {
         _canvas.worldCamera = _camera;
         _canvas.planeDistance = 1;
+    }
+    
+    private void SceneTransition_OnAnyTransitionNormalizedProgressChanged(float normalizedProgress)
+    {
+        _transitionMaterial.SetFloat(s_progress, normalizedProgress);
     }
 }

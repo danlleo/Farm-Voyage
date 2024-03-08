@@ -23,9 +23,17 @@ namespace UI
             _market = market;
             _workbench = workbench;
         }
-        
+
+        private void Awake()
+        {
+            _gameplayUI.gameObject.SetActive(false);
+            _emmaShopUI.gameObject.SetActive(false);
+            _workbenchUI.gameObject.SetActive(false);
+        }
+
         private void OnEnable()
         {
+            SceneTransition.OnAnySceneTransitionEnded += SceneTransition_OnAnySceneTransitionEnded;
             _market.StartedShoppingEvent.OnStartedShopping += Market_OnStartedShopping;
             _workbench.StartedUsingWorkbenchEvent.OnStartedUsingWorkbench += Workbench_OnStartedUsingWorkbench;
             _emmaShopUI.OnClosed += EmmaShopUI_OnClosed;
@@ -33,11 +41,17 @@ namespace UI
 
         private void OnDisable()
         {
+            SceneTransition.OnAnySceneTransitionEnded -= SceneTransition_OnAnySceneTransitionEnded;
             _market.StartedShoppingEvent.OnStartedShopping -= Market_OnStartedShopping;
             _workbench.StartedUsingWorkbenchEvent.OnStartedUsingWorkbench -= Workbench_OnStartedUsingWorkbench;
             _emmaShopUI.OnClosed -= EmmaShopUI_OnClosed;
         }
 
+        private void SceneTransition_OnAnySceneTransitionEnded()
+        {
+            _gameplayUI.gameObject.SetActive(true);
+        }
+        
         private void Market_OnStartedShopping(object sender, EventArgs e)
         {
             _gameplayUI.gameObject.SetActive(false);

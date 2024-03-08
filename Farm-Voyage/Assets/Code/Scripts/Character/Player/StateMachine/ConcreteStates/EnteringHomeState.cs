@@ -4,8 +4,8 @@ namespace Character.Player.StateMachine.ConcreteStates
 {
     public class EnteringHomeState : State
     {
-        private Player _player;
-        private StateMachine _stateMachine;
+        private readonly Player _player;
+        private readonly StateMachine _stateMachine;
         
         public EnteringHomeState(Player player, StateMachine stateMachine) : base(player, stateMachine)
         {

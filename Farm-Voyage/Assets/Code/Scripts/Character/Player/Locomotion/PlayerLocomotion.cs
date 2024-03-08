@@ -67,21 +67,27 @@ namespace Character.Player.Locomotion
             InvokePlayersLocomotionEvents();
         }
 
-        public void HandleMoveDestination(Vector3 targetPosition, Quaternion endRotation)
+        public bool HandleMoveDestination(Vector3 targetPosition, Quaternion endRotation)
         {
+            bool reachedPosition;
+            
             if (Vector3.Distance(transform.position, targetPosition) <= _stoppingDestinationDistance)
             {
-                HandelTargetRotation(endRotation);
+                HandleTargetRotation(endRotation);
                 _moveDirection = Vector3.zero;
+                reachedPosition = true;
             }
             else
             {
                 HandleRotation();
                 _moveDirection = targetPosition - transform.position;
                 transform.position += _moveDirection.normalized * (_runningSpeed * Time.deltaTime);
+                reachedPosition = false;
             }
             
             InvokePlayersLocomotionEvents();
+
+            return reachedPosition;
         }
         
         public void HandleRotation()
@@ -105,7 +111,7 @@ namespace Character.Player.Locomotion
             _player.PlayerIdleEvent.Call(this);
         }
         
-        private void HandelTargetRotation(Quaternion rotation)
+        private void HandleTargetRotation(Quaternion rotation)
         {
             if (transform.rotation != rotation)
             {

@@ -4,7 +4,7 @@ using Misc;
 using UnityEngine;
 using Zenject;
 
-public class SceneTransition
+public sealed class SceneTransition
 {
     private const float TransitionTimeInSeconds = 1f;
     
@@ -23,7 +23,7 @@ public class SceneTransition
     
     public void StartTransition()
     {
-        
+        _asyncProcessor.StartCoroutine(StartTransitionRoutine());
     }
 
     private IEnumerator StartTransitionRoutine()

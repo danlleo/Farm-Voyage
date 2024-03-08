@@ -42,7 +42,9 @@ namespace Character.Player
 
         [field:SerializeField] public Transform WorkbenchStayPoint { get; private set; }
         [field:SerializeField] public Transform EmmaStoreStayPoint { get; private set; }
+        [field:SerializeField] public Transform HomeLeavePoint { get; private set; }
         [field:SerializeField] public Transform HomeStayPoint { get; private set; }
+        
         
         private StateMachine.StateMachine _stateMachine;
         
@@ -86,7 +88,7 @@ namespace Character.Player
 
         private void Start()
         {
-            _stateMachine.Initialize(StateFactory.Exploring());
+            _stateMachine.Initialize(StateFactory.LeavingHome());
         }
 
         private void Update()

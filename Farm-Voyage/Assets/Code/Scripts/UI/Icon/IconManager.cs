@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Attributes.WithinParent;
 using UnityEngine;
 
 namespace UI.Icon
@@ -6,9 +7,24 @@ namespace UI.Icon
     [DisallowMultipleComponent]
     public class IconManager : MonoBehaviour
     {
+        [Header("External references")] 
+        [SerializeField, WithinParent] private Transform _iconsHolder;
+        
         private readonly Dictionary<Transform, IconView> _iconsDictionary = new();
         private readonly HashSet<Transform> _keysToRemove = new();
         
+        private void OnEnable()
+        {
+            SceneTransition.OnAnySceneTransitionStarted += SceneTransition_OnAnySceneTransitionStarted;
+            SceneTransition.OnAnySceneTransitionEnded += SceneTransition_OnAnySceneTransitionEnded;
+        }
+
+        private void OnDisable()
+        {
+            SceneTransition.OnAnySceneTransitionStarted -= SceneTransition_OnAnySceneTransitionStarted;
+            SceneTransition.OnAnySceneTransitionEnded -= SceneTransition_OnAnySceneTransitionEnded;
+        }
+
         private void Start()
         {
             FindAndCreateAllIcons();
@@ -41,7 +57,7 @@ namespace UI.Icon
             {
                 if (monoBehaviour is not IDisplayIcon displayIcon) continue;
 
-                RectTransform followRectTransform = Instantiate(displayIcon.Icon.IconRectTransform, transform);
+                RectTransform followRectTransform = Instantiate(displayIcon.Icon.IconRectTransform, _iconsHolder);
                 _iconsDictionary.Add(monoBehaviour.transform, new IconView(displayIcon.Icon.Offset, followRectTransform));
             }
         }
@@ -80,6 +96,16 @@ namespace UI.Icon
             {
                 Destroy(icon.Value.FollowRectTransform.gameObject);
             }
+        }
+        
+        private void SceneTransition_OnAnySceneTransitionEnded()
+        {
+            _iconsHolder.gameObject.SetActive(true);
+        }
+
+        private void SceneTransition_OnAnySceneTransitionStarted()
+        {
+            _iconsHolder.gameObject.SetActive(false);
         }
     }
 }
