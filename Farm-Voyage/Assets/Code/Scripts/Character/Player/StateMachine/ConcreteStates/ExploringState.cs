@@ -17,22 +17,24 @@ namespace Character.Player.StateMachine.ConcreteStates
 
         public override void SubscribeToEvents()
         {
-            _player.PlayerFoundCollectableEvent.OnPlayerFoundCollectable += PlayerFoundCollectableEvent_OnPlayerFoundCollectable;
-            _player.PlayerShoppingEvent.OnPlayerShopping += PlayerShoppingEvent_OnPlayerShopping;
-            _player.PlayerUsingWorkbenchEvent.OnPlayerUsingWorkbench += PlayerUsingWorkbenchEvent_OnPlayerUsingWorkbench;
-            _player.PlayerGatheringEvent.OnPlayerGathering += PlayerGatheringEvent_OnPlayerGathering;
+            _player.PlayerFoundCollectableEvent.OnPlayerFoundCollectable += Player_OnPlayerFoundCollectable;
+            _player.PlayerShoppingEvent.OnPlayerShopping += Player_OnPlayerShopping;
+            _player.PlayerUsingWorkbenchEvent.OnPlayerUsingWorkbench += Player_OnPlayerUsingWorkbench;
+            _player.PlayerGatheringEvent.OnPlayerGathering += Player_OnPlayerGathering;
             _player.PlayerCarryingStorageBoxStateChangedEvent.OnPlayerCarryingStorageBoxStateChanged +=
-                PlayerCarryingStorageBoxStateChangedEvent_OnPlayerCarryingStorageBoxStateChanged;
+                Player_OnPlayerCarryingStorageBoxStateChanged;
+            _player.PlayerEnteringHomeEvent.OnPlayerEnteringHome += Player_OnPlayerEnteringHome;
         }
 
         public override void UnsubscribeFromEvents()
         {
-            _player.PlayerFoundCollectableEvent.OnPlayerFoundCollectable -= PlayerFoundCollectableEvent_OnPlayerFoundCollectable;
-            _player.PlayerShoppingEvent.OnPlayerShopping -= PlayerShoppingEvent_OnPlayerShopping;
-            _player.PlayerUsingWorkbenchEvent.OnPlayerUsingWorkbench -= PlayerUsingWorkbenchEvent_OnPlayerUsingWorkbench;
-            _player.PlayerGatheringEvent.OnPlayerGathering -= PlayerGatheringEvent_OnPlayerGathering;
+            _player.PlayerFoundCollectableEvent.OnPlayerFoundCollectable -= Player_OnPlayerFoundCollectable;
+            _player.PlayerShoppingEvent.OnPlayerShopping -= Player_OnPlayerShopping;
+            _player.PlayerUsingWorkbenchEvent.OnPlayerUsingWorkbench -= Player_OnPlayerUsingWorkbench;
+            _player.PlayerGatheringEvent.OnPlayerGathering -= Player_OnPlayerGathering;
             _player.PlayerCarryingStorageBoxStateChangedEvent.OnPlayerCarryingStorageBoxStateChanged -=
-                PlayerCarryingStorageBoxStateChangedEvent_OnPlayerCarryingStorageBoxStateChanged;
+                Player_OnPlayerCarryingStorageBoxStateChanged;
+            _player.PlayerEnteringHomeEvent.OnPlayerEnteringHome -= Player_OnPlayerEnteringHome;
         }
 
         public override void OnExit()
@@ -49,23 +51,23 @@ namespace Character.Player.StateMachine.ConcreteStates
             _player.PlayerInteract.TryInteract();
         }
         
-        private void PlayerFoundCollectableEvent_OnPlayerFoundCollectable(object sender, EventArgs e)
+        private void Player_OnPlayerFoundCollectable(object sender, EventArgs e)
         {
             _stateMachine.ChangeState(_player.StateFactory.FoundCollectable());
         }
         
-        private void PlayerShoppingEvent_OnPlayerShopping(object sender, EventArgs e)
+        private void Player_OnPlayerShopping(object sender, EventArgs e)
         {
             _stateMachine.ChangeState(_player.StateFactory.Shopping());
         }
         
-        private void PlayerUsingWorkbenchEvent_OnPlayerUsingWorkbench(object sender, PlayerUsingWorkbenchEventArgs e)
+        private void Player_OnPlayerUsingWorkbench(object sender, PlayerUsingWorkbenchEventArgs e)
         {
             if (e.IsUsingWorkbench)
                 _stateMachine.ChangeState(_player.StateFactory.UsingWorkbench());
         }
         
-        private void PlayerGatheringEvent_OnPlayerGathering(object sender, PlayerGatheringEventArgs e)
+        private void Player_OnPlayerGathering(object sender, PlayerGatheringEventArgs e)
         {
             if (!e.IsGathering) return;
             
@@ -74,11 +76,15 @@ namespace Character.Player.StateMachine.ConcreteStates
             _stateMachine.ChangeState(_player.StateFactory.Gathering());
         }
         
-        // Свiдомий iвент
-        private void PlayerCarryingStorageBoxStateChangedEvent_OnPlayerCarryingStorageBoxStateChanged(object sender, PlayerCarryingStorageBoxStateChangedEventArgs e)
+        private void Player_OnPlayerCarryingStorageBoxStateChanged(object sender, PlayerCarryingStorageBoxStateChangedEventArgs e)
         {
             if (e.IsCarrying)
                 _stateMachine.ChangeState(_player.StateFactory.CarryingStorageBox());
+        }
+        
+        private void Player_OnPlayerEnteringHome(object sender, EventArgs e)
+        {
+            _stateMachine.ChangeState(_player.StateFactory.EnteringHome());
         }
     }
 }

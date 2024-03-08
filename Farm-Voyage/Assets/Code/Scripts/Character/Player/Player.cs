@@ -15,6 +15,7 @@ namespace Character.Player
     [RequireComponent(typeof(PlayerFoundCollectableEvent))]
     [RequireComponent(typeof(PlayerShoppingEvent))]
     [RequireComponent(typeof(PlayerUsingWorkbenchEvent))]
+    [RequireComponent(typeof(PlayerEnteringHomeEvent))]
     [DisallowMultipleComponent]
     public class Player : MonoBehaviour
     {
@@ -35,11 +36,13 @@ namespace Character.Player
         public PlayerFoundCollectableEvent PlayerFoundCollectableEvent { get; private set; }
         public PlayerShoppingEvent PlayerShoppingEvent { get; private set; }
         public PlayerUsingWorkbenchEvent PlayerUsingWorkbenchEvent { get; private set; }
+        public PlayerEnteringHomeEvent PlayerEnteringHomeEvent { get; private set; }
         
         [HideInInspector] public Transform LockedResourcesGatherer;
 
         [field:SerializeField] public Transform WorkbenchStayPoint { get; private set; }
         [field:SerializeField] public Transform EmmaStoreStayPoint { get; private set; }
+        [field:SerializeField] public Transform HomeStayPoint { get; private set; }
         
         private StateMachine.StateMachine _stateMachine;
         
@@ -61,6 +64,7 @@ namespace Character.Player
             PlayerFoundCollectableEvent = GetComponent<PlayerFoundCollectableEvent>();
             PlayerShoppingEvent = GetComponent<PlayerShoppingEvent>();
             PlayerUsingWorkbenchEvent = GetComponent<PlayerUsingWorkbenchEvent>();
+            PlayerEnteringHomeEvent = GetComponent<PlayerEnteringHomeEvent>();
             
             PlayerLocomotion = GetComponent<PlayerLocomotion>();
             PlayerInteract = GetComponent<PlayerInteract>();

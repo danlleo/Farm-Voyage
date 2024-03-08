@@ -79,7 +79,7 @@ namespace Installers
         {
             BindEconomy();
             BindQuotaPlan();
-            BindDay();
+            BindDayManger();
             BindResourcesGathererFactory();
             BindResourcesGathererSpawner();
             BindIconManager();
@@ -89,10 +89,10 @@ namespace Installers
             BindUI();
         }
 
-        private void BindDay()
+        private void BindDayManger()
         {
             Container
-                .BindInterfacesAndSelfTo<Day>()
+                .BindInterfacesAndSelfTo<DayManager>()
                 .AsSingle()
                 .NonLazy();
         }

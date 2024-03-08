@@ -8,6 +8,7 @@ namespace Installers
         public override void InstallBindings()
         {
             BindAsyncProcessor();
+            BindSceneTransition();
         }
 
         private void BindAsyncProcessor()
@@ -16,6 +17,14 @@ namespace Installers
             
             Container
                 .BindInstance(asyncProcessor)
+                .AsSingle()
+                .NonLazy();
+        }
+
+        private void BindSceneTransition()
+        {
+            Container
+                .Bind<SceneTransition>()
                 .AsSingle()
                 .NonLazy();
         }

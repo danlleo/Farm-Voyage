@@ -41,10 +41,10 @@ namespace UI
         private Coroutine _quantityTextLerpingRoutine;
         
         [Inject]
-        private void Construct(PlayerInventory playerInventory, Timespan.Day day)
+        private void Construct(PlayerInventory playerInventory, Timespan.DayManager dayManager)
         {
             _playerInventory = playerInventory;
-            _day = day;
+            _day = dayManager.CurrentDay;
         }
 
         private void Awake()

@@ -53,6 +53,15 @@ namespace Character.Player
             DOVirtual.Float(currentZoomValue, _initialZoomValue, _zoomDuration, UpdateFOVValue)
                 .SetEase(Ease.Linear);
         }
+
+        public void ZoomOutOfPlayer()
+        {
+            float currentZoomValue = _cinemachineVirtualCamera.m_Lens.FieldOfView;
+            const float targetZoomValue = 65f;
+            
+            DOVirtual.Float(currentZoomValue, targetZoomValue, _zoomDuration, UpdateFOVValue)
+                .SetEase(Ease.Linear);
+        }
         
         public void RotateCameraTowardsAngles(Vector2 targetRotation)
         {
@@ -63,6 +72,11 @@ namespace Character.Player
         public void ResetCameraRotation()
         {
             transform.DORotate(_initialRotation.eulerAngles, _rotateDuration);
+        }
+
+        public void LooseTarget()
+        {
+            _cinemachineVirtualCamera.Follow = null;
         }
         
         private void SetPlayerFollowTarget()

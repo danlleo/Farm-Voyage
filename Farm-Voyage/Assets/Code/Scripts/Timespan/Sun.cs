@@ -17,9 +17,9 @@ namespace Timespan
         private Day _day;
         
         [Inject]
-        private void Construct(Day day)
+        private void Construct(DayManager dayManager)
         {
-            _day = day;
+            _day = dayManager.CurrentDay;
         }
 
         private void Awake()
@@ -62,7 +62,7 @@ namespace Timespan
         
         private void RotateSun()
         {
-            float angleThisFrame = _sunRotationSpeed * Time.deltaTime / 2;
+            float angleThisFrame = _sunRotationSpeed * Time.deltaTime / 5;
             transform.RotateAround(transform.position, Vector3.forward, angleThisFrame);
         }
         
