@@ -22,7 +22,7 @@ namespace Character.Player.StateMachine.ConcreteStates
             _player.PlayerShoppingEvent.OnPlayerShopping -= PlayerShoppingEvent_OnPlayerShopping;
         }
 
-        public override void Tick()
+        public override void OnEnter()
         {
             _player.PlayerLocomotion.HandleMoveDestination(_player.WorkbenchStayPoint.position, Quaternion.identity);
         }

@@ -13,13 +13,13 @@ namespace Character.Player.StateMachine.ConcreteStates
             _stateMachine = stateMachine;
         }
 
-        public override void Tick()
+        public override void OnEnter()
         {
-            if (_player.PlayerLocomotion.HandleMoveDestination(_player.HomeLeavePoint.position, Quaternion.identity))
+            _player.PlayerLocomotion.HandleMoveDestination(_player.HomeLeavePoint.position, Quaternion.identity, () =>
             {
                 _stateMachine.ChangeState(_player.StateFactory.Exploring());
                 _player.PlayerLeftHomeEvent.Call(this);
-            }
+            });
         }
     }
 }

@@ -4,8 +4,8 @@ namespace Character.Player.StateMachine.ConcreteStates
 {
     public class ShoppingState : State
     {
-        private Player _player;
-        private StateMachine _stateMachine;
+        private readonly Player _player;
+        private readonly StateMachine _stateMachine;
         
         public ShoppingState(Player player, StateMachine stateMachine) : base(player, stateMachine)
         {
@@ -23,7 +23,7 @@ namespace Character.Player.StateMachine.ConcreteStates
             _player.PlayerShoppingEvent.OnPlayerShopping -= PlayerShoppingEvent_OnPlayerShopping;
         }
 
-        public override void Tick()
+        public override void OnEnter()
         {
             _player.PlayerLocomotion.HandleMoveDestination(_player.EmmaStoreStayPoint.position, Quaternion.identity);
         }

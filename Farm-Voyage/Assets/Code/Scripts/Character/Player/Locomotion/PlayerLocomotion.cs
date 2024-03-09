@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Character.Player.Locomotion
@@ -17,6 +19,8 @@ namespace Character.Player.Locomotion
         private Player _player;
 
         private Vector3 _moveDirection;
+
+        private Coroutine _moveDestinationRoutine;
         
         private void Awake()
         {
@@ -39,20 +43,24 @@ namespace Character.Player.Locomotion
             if (!canMove)
             {
                 Vector3 moveDirectionX = new Vector3(_moveDirection.x, 0f, 0f);
+                
                 if (moveDirectionX != Vector3.zero)
                 {
                     canMove = !Physics.CapsuleCast(playerBottomPoint, playerTopPoint, Player.Radius, moveDirectionX.normalized,
                         out hit, moveDistance, _obstaclesLayerMask);
+                    
                     if (canMove) _moveDirection = moveDirectionX.normalized;
                 }
 
                 if (!canMove)
                 {
                     Vector3 moveDirectionZ = new Vector3(0f, 0f, _moveDirection.z);
+                    
                     if (moveDirectionZ != Vector3.zero)
                     {
                         canMove = !Physics.CapsuleCast(playerBottomPoint, playerTopPoint, Player.Radius, moveDirectionZ.normalized,
                             out hit, moveDistance, _obstaclesLayerMask);
+                        
                         if (canMove) _moveDirection = moveDirectionZ.normalized;
                     }
                 }
@@ -67,27 +75,13 @@ namespace Character.Player.Locomotion
             InvokePlayersLocomotionEvents();
         }
 
-        public bool HandleMoveDestination(Vector3 targetPosition, Quaternion endRotation)
+        public void HandleMoveDestination(Vector3 targetPosition, Quaternion endRotation, Action onFinishedMoving = null)
         {
-            bool reachedPosition;
-            
-            if (Vector3.Distance(transform.position, targetPosition) <= _stoppingDestinationDistance)
-            {
-                HandleTargetRotation(endRotation);
-                _moveDirection = Vector3.zero;
-                reachedPosition = true;
-            }
-            else
-            {
-                HandleRotation();
-                _moveDirection = targetPosition - transform.position;
-                transform.position += _moveDirection.normalized * (_runningSpeed * Time.deltaTime);
-                reachedPosition = false;
-            }
-            
-            InvokePlayersLocomotionEvents();
+            if (_moveDestinationRoutine != null)
+                StopCoroutine(_moveDestinationRoutine);
 
-            return reachedPosition;
+            _moveDestinationRoutine =
+                StartCoroutine(MoveDestinationRoutine(targetPosition, endRotation, onFinishedMoving));
         }
         
         public void HandleRotation()
@@ -109,6 +103,26 @@ namespace Character.Player.Locomotion
         public void StopAllMovement()
         {
             _player.PlayerIdleEvent.Call(this);
+        }
+
+        private IEnumerator MoveDestinationRoutine(Vector3 targetPosition, Quaternion endRotation, Action onFinishedMoving)
+        {
+            while (!(Vector3.Distance(transform.position, targetPosition) <= _stoppingDestinationDistance))
+            {
+                InvokePlayersLocomotionEvents();
+                HandleRotation();
+                _moveDirection = targetPosition - transform.position;
+                transform.position += _moveDirection.normalized * (_runningSpeed * Time.deltaTime);
+                yield return null;
+            }
+            
+            _moveDirection = Vector3.zero;
+            onFinishedMoving?.Invoke();
+
+            InvokePlayersLocomotionEvents();
+            HandleTargetRotation(endRotation);
+            
+            yield return null;
         }
         
         private void HandleTargetRotation(Quaternion rotation)

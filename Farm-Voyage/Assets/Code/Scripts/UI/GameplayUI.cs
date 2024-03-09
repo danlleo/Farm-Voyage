@@ -21,6 +21,10 @@ namespace UI
         [SerializeField, WithinParent] private TextMeshProUGUI _woodQuantityText;
         [SerializeField, WithinParent] private TextMeshProUGUI _rockQuantityText;
         
+        [Space(10)]
+        [SerializeField, WithinParent] private CanvasGroup _timeToWorkCanvasGroup;
+        [SerializeField, WithinParent] private TextMeshProUGUI _timeToWorkText;
+        
         [Space(10)] 
         [SerializeField, WithinParent] private Image _waterCanBarImage;
         [SerializeField, WithinParent] private Image _clockImage;
@@ -52,6 +56,11 @@ namespace UI
             InitializeResourceTextQuantityDictionary();
             InitializeResourcesQuantityText();
             InitializeSeedChooseItems();
+        }
+
+        private void Start()
+        {
+            AnimateTimeToWorkText();
         }
 
         private void OnEnable()
@@ -91,6 +100,17 @@ namespace UI
                 { _woodQuantityText, _playerInventory.GetResourceQuantity(ResourceType.Wood) },
                 { _rockQuantityText, _playerInventory.GetResourceQuantity(ResourceType.Rock) }
             };
+        }
+        
+        private void AnimateTimeToWorkText()
+        {
+            _timeToWorkCanvasGroup.alpha = 0f;
+            
+            Sequence animateTimeToWorkTextSequence = DOTween.Sequence();
+            animateTimeToWorkTextSequence.Append(_timeToWorkCanvasGroup.DOFade(1f, .25f));
+            animateTimeToWorkTextSequence.Append(_timeToWorkText.rectTransform.DOShakeScale(.4f, 0.6f, 20));
+            animateTimeToWorkTextSequence.AppendInterval(1f);
+            animateTimeToWorkTextSequence.Append(_timeToWorkCanvasGroup.DOFade(0f, .25f));
         }
         
         private void UpdateResourceQuantityText(ResourceType resourceType, int quantity)

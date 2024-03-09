@@ -12,11 +12,11 @@ namespace Character.Player
     [DisallowMultipleComponent]
     public class PlayerFollowCamera : MonoBehaviour, IControllableCamera
     {
+        private const float RotateDuration = .20f;
+        private const float ZoomDuration = .30f;
+        private const float TargetZoomInValue = 35f;
+
         public CameraMapping Mapping => new(CameraState.Main, GetComponent<CinemachineVirtualCamera>());
-        
-        private float _rotateDuration = .20f;
-        private float _zoomDuration = .30f;
-        private float _targetZoomInValue = 35f;
         
         private CinemachineVirtualCamera _cinemachineVirtualCamera;
 
@@ -52,7 +52,7 @@ namespace Character.Player
 
         public void ZoomIn()
         {
-            DOVirtual.Float(_initialZoomValue, _targetZoomInValue, _zoomDuration, UpdateFOVValue)
+            DOVirtual.Float(_initialZoomValue, TargetZoomInValue, ZoomDuration, UpdateFOVValue)
                 .SetEase(Ease.Linear);
         }
         
@@ -60,7 +60,7 @@ namespace Character.Player
         {
             float currentZoomValue = _cinemachineVirtualCamera.m_Lens.FieldOfView;
             
-            DOVirtual.Float(currentZoomValue, _initialZoomValue, _zoomDuration, UpdateFOVValue)
+            DOVirtual.Float(currentZoomValue, _initialZoomValue, ZoomDuration, UpdateFOVValue)
                 .SetEase(Ease.Linear);
         }
 
@@ -69,19 +69,19 @@ namespace Character.Player
             float currentZoomValue = _cinemachineVirtualCamera.m_Lens.FieldOfView;
             const float targetZoomValue = 65f;
             
-            DOVirtual.Float(currentZoomValue, targetZoomValue, _zoomDuration, UpdateFOVValue)
+            DOVirtual.Float(currentZoomValue, targetZoomValue, ZoomDuration, UpdateFOVValue)
                 .SetEase(Ease.Linear);
         }
         
         public void RotateCameraTowardsAngles(Vector2 targetRotation)
         {
             transform.DORotate(new Vector3(targetRotation.x, targetRotation.y, _initialRotation.z),
-                _rotateDuration);
+                RotateDuration);
         }
 
         public void ResetCameraRotation()
         {
-            transform.DORotate(_initialRotation.eulerAngles, _rotateDuration);
+            transform.DORotate(_initialRotation.eulerAngles, RotateDuration);
         }
 
         public void LooseTarget()
@@ -96,17 +96,22 @@ namespace Character.Player
 
         private void SetCameraBoundaries()
         {
-            GameObject cameraBoundaryObject = new("Camera Boundary");
-            cameraBoundaryObject.transform.position = Vector3.zero;
+            GameObject cameraBoundaryObject = new("Camera Boundary")
+            {
+                transform =
+                {
+                    position = Vector3.zero
+                }
+            };
 
-            BoxCollider collider = cameraBoundaryObject.AddComponent<BoxCollider>();
-            collider.isTrigger = true;
-            collider.size = new Vector3(40f, 50f, 60f);
+            BoxCollider boxCollider = cameraBoundaryObject.AddComponent<BoxCollider>();
+            boxCollider.isTrigger = true;
+            boxCollider.size = new Vector3(40f, 50f, 60f);
             
             CinemachineConfiner cinemachineConfiner = _cinemachineVirtualCamera.gameObject.AddComponent<CinemachineConfiner>();
 
             cinemachineConfiner.m_ConfineMode = CinemachineConfiner.Mode.Confine3D;
-            cinemachineConfiner.m_BoundingVolume = collider;
+            cinemachineConfiner.m_BoundingVolume = boxCollider;
         }
         
         private void UpdateFOVValue(float value)
