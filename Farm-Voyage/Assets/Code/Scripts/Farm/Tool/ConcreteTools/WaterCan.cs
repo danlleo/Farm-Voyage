@@ -13,7 +13,7 @@ namespace Farm.Tool.ConcreteTools
         public event Action<int, int> OnWaterAmountChanged;
         
         private const int MaxTimesCanWater = 3;
-        private int _timesCanWater = MaxTimesCanWater;
+        private int _timesCanWater;
         
         public WaterCan(float timeToGather, int level) : base(timeToGather, level)
         {

@@ -25871,6 +25871,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30018ab368657574682bd2ae3a2ae16e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <Icon>k__BackingField: {fileID: 11400000, guid: 076f8069a914be04b8ec7f748a4797ed,
+    type: 2}
 --- !u!33 &3487337403930411557
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -26470,6 +26472,74 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3330934523954363878}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &4013035906515156548
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3313319925898483215, guid: 2b9651510ee725048920c2c5841b461d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 8.82
+      objectReference: {fileID: 0}
+    - target: {fileID: 3313319925898483215, guid: 2b9651510ee725048920c2c5841b461d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3313319925898483215, guid: 2b9651510ee725048920c2c5841b461d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.144
+      objectReference: {fileID: 0}
+    - target: {fileID: 3313319925898483215, guid: 2b9651510ee725048920c2c5841b461d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3313319925898483215, guid: 2b9651510ee725048920c2c5841b461d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3313319925898483215, guid: 2b9651510ee725048920c2c5841b461d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3313319925898483215, guid: 2b9651510ee725048920c2c5841b461d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3313319925898483215, guid: 2b9651510ee725048920c2c5841b461d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3313319925898483215, guid: 2b9651510ee725048920c2c5841b461d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3313319925898483215, guid: 2b9651510ee725048920c2c5841b461d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3767522622060077161, guid: 2b9651510ee725048920c2c5841b461d,
+        type: 3}
+      propertyPath: m_Name
+      value: WellStayPoint
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2b9651510ee725048920c2c5841b461d, type: 3}
 --- !u!1 &4139325789077022418
 GameObject:
   m_ObjectHideFlags: 0
@@ -37307,3 +37377,4 @@ SceneRoots:
   - {fileID: 1356978770}
   - {fileID: 41712283}
   - {fileID: 310305268}
+  - {fileID: 4013035906515156548}

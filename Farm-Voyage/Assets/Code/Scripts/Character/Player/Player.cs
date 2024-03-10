@@ -17,6 +17,7 @@ namespace Character.Player
     [RequireComponent(typeof(PlayerUsingWorkbenchEvent))]
     [RequireComponent(typeof(PlayerLeftHomeEvent))]
     [RequireComponent(typeof(PlayerEnteringHomeEvent))]
+    [RequireComponent(typeof(PlayerExtractingWaterEvent))]
     [DisallowMultipleComponent]
     public class Player : MonoBehaviour
     {
@@ -39,6 +40,7 @@ namespace Character.Player
         public PlayerUsingWorkbenchEvent PlayerUsingWorkbenchEvent { get; private set; }
         public PlayerLeftHomeEvent PlayerLeftHomeEvent { get; private set; }
         public PlayerEnteringHomeEvent PlayerEnteringHomeEvent { get; private set; }
+        public PlayerExtractingWaterEvent PlayerExtractingWaterEvent { get; private set; }
         
         [HideInInspector] public Transform LockedResourcesGatherer;
 
@@ -46,7 +48,7 @@ namespace Character.Player
         [field:SerializeField] public Transform EmmaStoreStayPoint { get; private set; }
         [field:SerializeField] public Transform HomeLeavePoint { get; private set; }
         [field:SerializeField] public Transform HomeStayPoint { get; private set; }
-        
+        [field:SerializeField] public Transform WellStayPoint { get; private set; }
         
         private StateMachine.StateMachine _stateMachine;
         
@@ -70,6 +72,7 @@ namespace Character.Player
             PlayerUsingWorkbenchEvent = GetComponent<PlayerUsingWorkbenchEvent>();
             PlayerLeftHomeEvent = GetComponent<PlayerLeftHomeEvent>();
             PlayerEnteringHomeEvent = GetComponent<PlayerEnteringHomeEvent>();
+            PlayerExtractingWaterEvent = GetComponent<PlayerExtractingWaterEvent>();
             
             PlayerLocomotion = GetComponent<PlayerLocomotion>();
             PlayerInteract = GetComponent<PlayerInteract>();

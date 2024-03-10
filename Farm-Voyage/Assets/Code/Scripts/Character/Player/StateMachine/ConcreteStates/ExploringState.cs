@@ -24,6 +24,7 @@ namespace Character.Player.StateMachine.ConcreteStates
             _player.PlayerCarryingStorageBoxStateChangedEvent.OnPlayerCarryingStorageBoxStateChanged +=
                 Player_OnPlayerCarryingStorageBoxStateChanged;
             _player.PlayerEnteringHomeEvent.OnPlayerEnteringHome += Player_OnPlayerEnteringHome;
+            _player.PlayerExtractingWaterEvent.OnPlayerExtractingWater += Player_OnPlayerExtractingWater;
         }
 
         public override void UnsubscribeFromEvents()
@@ -35,6 +36,7 @@ namespace Character.Player.StateMachine.ConcreteStates
             _player.PlayerCarryingStorageBoxStateChangedEvent.OnPlayerCarryingStorageBoxStateChanged -=
                 Player_OnPlayerCarryingStorageBoxStateChanged;
             _player.PlayerEnteringHomeEvent.OnPlayerEnteringHome -= Player_OnPlayerEnteringHome;
+            _player.PlayerExtractingWaterEvent.OnPlayerExtractingWater -= Player_OnPlayerExtractingWater;
         }
 
         public override void OnExit()
@@ -85,6 +87,11 @@ namespace Character.Player.StateMachine.ConcreteStates
         private void Player_OnPlayerEnteringHome(object sender, EventArgs e)
         {
             _stateMachine.ChangeState(_player.StateFactory.EnteringHome());
+        }
+        
+        private void Player_OnPlayerExtractingWater(object sender, EventArgs e)
+        {
+            _stateMachine.ChangeState(_player.StateFactory.ExtractingWater());
         }
     }
 }

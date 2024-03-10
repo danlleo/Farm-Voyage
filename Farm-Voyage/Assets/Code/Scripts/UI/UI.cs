@@ -1,4 +1,5 @@
 using System;
+using Character.Player;
 using UI.EmmaShop;
 using UI.Workbench;
 using UnityEngine;
@@ -13,13 +14,16 @@ namespace UI
         [SerializeField] private GameplayUI _gameplayUI;
         [SerializeField] private EmmaShopUI _emmaShopUI;
         [SerializeField] private WorkbenchUI _workbenchUI;
-        
+        [SerializeField] private WellUI _wellUI;
+
+        private Player _player;
         private Market.Market _market;
         private global::Workbench.Workbench _workbench;
         
         [Inject]
-        private void Construct(Market.Market market, global::Workbench.Workbench workbench)
+        private void Construct(Player player, Market.Market market, global::Workbench.Workbench workbench)
         {
+            _player = player;
             _market = market;
             _workbench = workbench;
         }
@@ -29,6 +33,7 @@ namespace UI
             _gameplayUI.gameObject.SetActive(false);
             _emmaShopUI.gameObject.SetActive(false);
             _workbenchUI.gameObject.SetActive(false);
+            _wellUI.gameObject.SetActive(false);
         }
 
         private void OnEnable()
@@ -37,6 +42,7 @@ namespace UI
             _market.StartedShoppingEvent.OnStartedShopping += Market_OnStartedShopping;
             _workbench.StartedUsingWorkbenchEvent.OnStartedUsingWorkbench += Workbench_OnStartedUsingWorkbench;
             _emmaShopUI.OnClosed += EmmaShopUI_OnClosed;
+            _player.PlayerExtractingWaterEvent.OnPlayerExtractingWater += Player_OnPlayerExtractingWater;
         }
 
         private void OnDisable()
@@ -45,6 +51,7 @@ namespace UI
             _market.StartedShoppingEvent.OnStartedShopping -= Market_OnStartedShopping;
             _workbench.StartedUsingWorkbenchEvent.OnStartedUsingWorkbench -= Workbench_OnStartedUsingWorkbench;
             _emmaShopUI.OnClosed -= EmmaShopUI_OnClosed;
+            _player.PlayerExtractingWaterEvent.OnPlayerExtractingWater -= Player_OnPlayerExtractingWater;
         }
 
         private void SceneTransition_OnAnySceneTransitionEnded()
@@ -69,6 +76,12 @@ namespace UI
             _emmaShopUI.gameObject.SetActive(false);
             _gameplayUI.gameObject.SetActive(true);
             _market.StoppedShoppingEvent.Call(this);
+        }
+        
+        private void Player_OnPlayerExtractingWater(object sender, EventArgs e)
+        {
+            _gameplayUI.gameObject.SetActive(false);
+            _wellUI.gameObject.SetActive(true);
         }
     }
 }

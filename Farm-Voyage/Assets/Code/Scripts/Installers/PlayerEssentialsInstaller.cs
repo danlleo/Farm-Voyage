@@ -63,6 +63,7 @@ namespace Installers
                 new Axe(3f, 1),
                 new Pickaxe(3f, 1),
                 new Shovel(3f, 1),
+                new WaterCan(3f, 1),
             };
 
             Container
@@ -75,7 +76,7 @@ namespace Installers
         private void BindPlayerInputManager()
         {
             Container
-                .BindInterfacesAndSelfTo<PlayerKeyboardInput>()
+                .BindInterfacesAndSelfTo<PlayerPCInput>()
                 .AsSingle()
                 .NonLazy();
         }

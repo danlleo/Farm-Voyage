@@ -5,8 +5,9 @@ using Zenject;
 
 namespace InputManagers
 {
-    public class PlayerKeyboardInput : IInitializable, IDisposable, ITickable, IPlayerInput
+    public class PlayerPCInput : IInitializable, IDisposable, ITickable, IPlayerInput
     {
+        public event Action OnInteract;
         public Vector2 MovementInput { get; private set; }
         public float MoveAmount { get; private set; }
 
@@ -24,11 +25,13 @@ namespace InputManagers
             }
             
             _playerControls.Enable();
+            _playerControls.PlayerMovement.MouseClick.performed += MouseClick_OnPerformed;
         }
 
         public void Dispose()
         {
             _playerControls.Disable();
+            _playerControls.PlayerMovement.MouseClick.performed -= MouseClick_OnPerformed;
         }
         
         public void Tick()
@@ -56,6 +59,11 @@ namespace InputManagers
                     MoveAmount = 1f;
                     break;
             }
+        }
+        
+        private void MouseClick_OnPerformed(InputAction.CallbackContext obj)
+        {
+            OnInteract?.Invoke();
         }
     }
 }
