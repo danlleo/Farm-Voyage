@@ -89,8 +89,9 @@ namespace Character.Player.StateMachine.ConcreteStates
             _stateMachine.ChangeState(_player.StateFactory.EnteringHome());
         }
         
-        private void Player_OnPlayerExtractingWater(object sender, EventArgs e)
+        private void Player_OnPlayerExtractingWater(object sender, PlayerExtractingWaterEventArgs e)
         {
+            if (!e.IsExtracting) return;
             _stateMachine.ChangeState(_player.StateFactory.ExtractingWater());
         }
     }

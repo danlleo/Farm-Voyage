@@ -6,11 +6,21 @@ namespace Character.Player
     [DisallowMultipleComponent]
     public class PlayerExtractingWaterEvent : MonoBehaviour
     {
-        public event EventHandler OnPlayerExtractingWater;
+        public event EventHandler<PlayerExtractingWaterEventArgs> OnPlayerExtractingWater;
 
-        public void Call(object sender)
+        public void Call(object sender, PlayerExtractingWaterEventArgs playerExtractingWaterEventArgs)
         {
-            OnPlayerExtractingWater?.Invoke(sender, EventArgs.Empty);
+            OnPlayerExtractingWater?.Invoke(sender, playerExtractingWaterEventArgs);
+        }
+    }
+
+    public class PlayerExtractingWaterEventArgs : EventArgs
+    {
+        public readonly bool IsExtracting;
+
+        public PlayerExtractingWaterEventArgs(bool isExtracting)
+        {
+            IsExtracting = isExtracting;
         }
     }
 }

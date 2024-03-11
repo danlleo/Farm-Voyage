@@ -20382,7 +20382,7 @@ Transform:
   m_GameObject: {fileID: 919132149069703686}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 9.969999, y: 0, z: -0.40999985}
+  m_LocalPosition: {x: 10, y: 0, z: -0.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -20841,6 +20841,7 @@ GameObject:
   - component: {fileID: 1711813855998331859}
   - component: {fileID: 3469287836569550618}
   - component: {fileID: 3469287836569550619}
+  - component: {fileID: 3469287836569550620}
   m_Layer: 7
   m_Name: Well
   m_TagString: Untagged
@@ -25873,6 +25874,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Icon>k__BackingField: {fileID: 11400000, guid: 076f8069a914be04b8ec7f748a4797ed,
     type: 2}
+--- !u!114 &3469287836569550620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132149069703686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d861cd3bd564b3399e4423c6bf39062, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!33 &3487337403930411557
 MeshFilter:
   m_ObjectHideFlags: 0

@@ -78,10 +78,18 @@ namespace UI
             _market.StoppedShoppingEvent.Call(this);
         }
         
-        private void Player_OnPlayerExtractingWater(object sender, EventArgs e)
+        private void Player_OnPlayerExtractingWater(object sender, PlayerExtractingWaterEventArgs e)
         {
-            _gameplayUI.gameObject.SetActive(false);
-            _wellUI.gameObject.SetActive(true);
+            if (e.IsExtracting)
+            {
+                _gameplayUI.gameObject.SetActive(false);
+                _wellUI.gameObject.SetActive(true);
+
+                return;
+            }
+            
+            _gameplayUI.gameObject.SetActive(true);
+            _wellUI.gameObject.SetActive(false);
         }
     }
 }

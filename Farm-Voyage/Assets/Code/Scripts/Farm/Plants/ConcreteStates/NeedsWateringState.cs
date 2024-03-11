@@ -6,14 +6,14 @@ namespace Farm.Plants.ConcreteStates
 {
     public class NeedsWateringState : State
     {
-        private readonly float _timeToWaterInSeconds = 2f;
-        
+        private const float TimeToWaterInSeconds = 2f;
+
         private readonly Plant _plant;
         private readonly StateMachine _stateMachine;
 
-        private Coroutine _wateringRoutine;
+        private readonly WaterCan _waterCan;
 
-        private WaterCan _waterCan;
+        private Coroutine _wateringRoutine;
         
         public NeedsWateringState(Plant plant, StateMachine stateMachine) : base(plant, stateMachine)
         {
@@ -31,7 +31,7 @@ namespace Farm.Plants.ConcreteStates
         public override void OnInteracted()
         {
             if (_waterCan == null) return;
-            if (!_waterCan.HasWaterLeft()) return;
+            if (!(_waterCan.CurrentWaterCapacityAmount > 0)) return;
             
             _wateringRoutine ??= _plant.StartCoroutine(WateringRoutine());
         }
@@ -46,7 +46,7 @@ namespace Farm.Plants.ConcreteStates
 
         private IEnumerator WateringRoutine()
         {
-            yield return new WaitForSeconds(_timeToWaterInSeconds);
+            yield return new WaitForSeconds(TimeToWaterInSeconds);
             
             _waterCan.EmptyCan();
             _stateMachine.ChangeState(_plant.StateFactory.Growing());

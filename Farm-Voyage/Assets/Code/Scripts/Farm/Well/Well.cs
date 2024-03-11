@@ -1,5 +1,4 @@
-using System.Collections;
-using Cameras;
+using System;
 using Character.Player;
 using Common;
 using Farm.Tool.ConcreteTools;
@@ -9,47 +8,63 @@ using Zenject;
 
 namespace Farm.Well
 {
+    [RequireComponent(typeof(WaterCanFilledEvent))]
     [DisallowMultipleComponent]
     public class Well : MonoBehaviour, IInteractable, IDisplayIcon
     {
+        public WaterCanFilledEvent WaterCanFilledEvent { get; private set; }
+        
         [field:SerializeField] public IconSO Icon { get; private set; }
 
         private Player _player;
         private PlayerInventory _playerInventory;
-        private CameraController _cameraController;
-
-        private Coroutine _extractWaterRoutine;
+        private PlayerFollowCamera _playerFollowCamera;
+        
+        private bool _isExtractingWater;
         
         [Inject]
-        private void Construct(Player player, PlayerInventory playerInventory, CameraController cameraController)
+        private void Construct(Player player, PlayerInventory playerInventory, PlayerFollowCamera playerFollowCamera)
         {
             _player = player;
             _playerInventory = playerInventory;
-            _cameraController = cameraController;
+            _playerFollowCamera = playerFollowCamera;
+        }
+
+        private void Awake()
+        {
+            WaterCanFilledEvent = GetComponent<WaterCanFilledEvent>();
+        }
+
+        private void OnEnable()
+        {
+            _player.PlayerExtractingWaterEvent.OnPlayerExtractingWater += Player_OnPlayerExtractingWater;
+        }
+
+        private void OnDisable()
+        {
+            _player.PlayerExtractingWaterEvent.OnPlayerExtractingWater -= Player_OnPlayerExtractingWater;
         }
 
         public void Interact()
         {
             if (!_playerInventory.TryGetTool(out WaterCan waterCan)) return;
-            if (_extractWaterRoutine != null) return;
-            if (waterCan.IsFullyFilled()) return;
-
-            _extractWaterRoutine = StartCoroutine(ExtractWaterRoutine(waterCan));
+            if (_isExtractingWater) return;
+            if (waterCan.CurrentWaterCapacityAmount == WaterCan.WaterCanCapacityAmount) return;
+            
+            _isExtractingWater = true;
+            _player.PlayerExtractingWaterEvent.Call(this, new PlayerExtractingWaterEventArgs(true));
+            _playerFollowCamera.ZoomIn();
         }
 
         public void StopInteract()
         {
-            if (_extractWaterRoutine == null) return;
             
-            StopCoroutine(_extractWaterRoutine);
-            _extractWaterRoutine = null;
         }
-
-        private IEnumerator ExtractWaterRoutine(WaterCan waterCan)
+        
+        private void Player_OnPlayerExtractingWater(object sender, PlayerExtractingWaterEventArgs e)
         {
-            _player.PlayerExtractingWaterEvent.Call(this);
-            yield return new WaitForSeconds(waterCan.CalculateTimeToGatherBasedOnLevel());
-            waterCan.FillWaterCan();
+            if (e.IsExtracting) return;
+            _playerFollowCamera.ZoomOut();
         }
     }
 }

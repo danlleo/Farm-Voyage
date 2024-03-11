@@ -7,13 +7,12 @@ namespace Farm.Tool.ConcreteTools
 {
     public class WaterCan : Tool
     {
+        public const int WaterCanCapacityAmount = 3;
+        public int CurrentWaterCapacityAmount { get; private set; }
         public sealed override string Name { get; protected set; }
         public sealed override IEnumerable<ResourcePrice> ResourcesPrices { get; protected set; }
 
         public event Action<int, int> OnWaterAmountChanged;
-        
-        private const int MaxTimesCanWater = 3;
-        private int _timesCanWater;
         
         public WaterCan(float timeToGather, int level) : base(timeToGather, level)
         {
@@ -29,36 +28,26 @@ namespace Farm.Tool.ConcreteTools
 
         public void EmptyCan()
         {
-            if (_timesCanWater <= 0)
+            if (CurrentWaterCapacityAmount <= 0)
             {
-                _timesCanWater = 0;
+                CurrentWaterCapacityAmount = 0;
                 return;
             }
             
-            _timesCanWater--;
-            OnWaterAmountChanged?.Invoke(_timesCanWater, MaxTimesCanWater);
+            CurrentWaterCapacityAmount--;
+            OnWaterAmountChanged?.Invoke(CurrentWaterCapacityAmount, WaterCanCapacityAmount);
         }
 
         public void FillWaterCan()
         {
-            if (_timesCanWater >= MaxTimesCanWater)
+            if (CurrentWaterCapacityAmount >= WaterCanCapacityAmount)
             {
-                _timesCanWater = MaxTimesCanWater;
+                CurrentWaterCapacityAmount = WaterCanCapacityAmount;
                 return;
             }
             
-            _timesCanWater++;
-            OnWaterAmountChanged?.Invoke(_timesCanWater, MaxTimesCanWater);
-        }
-
-        public bool IsFullyFilled()
-        {
-            return _timesCanWater == MaxTimesCanWater;
-        }
-        
-        public bool HasWaterLeft()
-        {
-            return _timesCanWater > 0;
+            CurrentWaterCapacityAmount++;
+            OnWaterAmountChanged?.Invoke(CurrentWaterCapacityAmount, WaterCanCapacityAmount);
         }
     }
 }

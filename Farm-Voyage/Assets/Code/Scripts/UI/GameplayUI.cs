@@ -106,11 +106,11 @@ namespace UI
         {
             _timeToWorkCanvasGroup.alpha = 0f;
             
-            Sequence animateTimeToWorkTextSequence = DOTween.Sequence();
-            animateTimeToWorkTextSequence.Append(_timeToWorkCanvasGroup.DOFade(1f, .25f));
-            animateTimeToWorkTextSequence.Append(_timeToWorkText.rectTransform.DOShakeScale(.4f, 0.6f, 20));
-            animateTimeToWorkTextSequence.AppendInterval(1f);
-            animateTimeToWorkTextSequence.Append(_timeToWorkCanvasGroup.DOFade(0f, .25f));
+            Sequence sequence = DOTween.Sequence();
+            sequence.Append(_timeToWorkCanvasGroup.DOFade(1f, .25f));
+            sequence.Append(_timeToWorkText.rectTransform.DOShakeScale(.4f, 0.6f, 20));
+            sequence.AppendInterval(1f);
+            sequence.Append(_timeToWorkCanvasGroup.DOFade(0f, .25f));
         }
         
         private void UpdateResourceQuantityText(ResourceType resourceType, int quantity)
