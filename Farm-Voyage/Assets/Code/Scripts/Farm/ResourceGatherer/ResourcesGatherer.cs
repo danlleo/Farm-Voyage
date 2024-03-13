@@ -27,7 +27,8 @@ namespace Farm.ResourceGatherer
         public ResourcesGathererInitializeEvent ResourcesGathererInitializeEvent { get; private set; }
         
         [field:SerializeField] public IconSO Icon { get; private set; }
-        
+        public Guid ID { get; } = Guid.NewGuid();
+
         [Header("External reference")]
         [SerializeField, WithinParent] private Transform _visualSpawnPoint;
         [SerializeField] private CollectableSO[] _collectableSOArray;

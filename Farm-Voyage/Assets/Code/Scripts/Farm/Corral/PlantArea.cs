@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Character.Player;
 using Common;
@@ -16,6 +17,7 @@ namespace Farm.Corral
     public sealed class PlantArea : MonoBehaviour, IInteractable, IDisplayIcon
     {
         [field:SerializeField] public IconSO Icon { get; private set; }
+        public Guid ID { get; } = Guid.NewGuid();
 
         [Header("Settings")] 
         [SerializeField, Range(1, 2)] private int _seedsNeededToPlant = 1;
@@ -63,11 +65,6 @@ namespace Farm.Corral
             _day.OnDayEnded -= Day_OnDayEnded;
         }
 
-        private void Day_OnDayEnded()
-        {
-            _dayEnded = true;
-        }
-
         public void Initialize(Corral corral, Player player, PlantFactory plantFactory)
         {
             _corral = corral;
@@ -111,10 +108,14 @@ namespace Farm.Corral
         private IEnumerator DiggingRoutine()
         {
             _player.PlayerDiggingPlantAreaEvent.Call(this, new PlayerDiggingPlantAreaEventArgs(true));
+            
             yield return new WaitForSeconds(_timeToDigInSeconds);
+            
             SpawnPlant();
+            
             _playerInventory.RemoveSeedQuantity(_selectedSeed.SeedType, _seedsNeededToPlant);
             _boxCollider.Disable();
+            Icon.SetVisuals(this, false);
         }
 
         private IEnumerator DelayBeforePlantingNewRoutine()
@@ -164,6 +165,10 @@ namespace Farm.Corral
             StopCoroutine(_delayBeforePlantingNewRoutine);
             _delayBeforePlantingNewRoutine = null;
         }
-
+        
+        private void Day_OnDayEnded()
+        {
+            _dayEnded = true;
+        }
     }
 }

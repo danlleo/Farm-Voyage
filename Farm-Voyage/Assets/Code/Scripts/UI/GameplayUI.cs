@@ -74,6 +74,8 @@ namespace UI
             
             _waterCan = waterCan;
             _waterCan.OnWaterAmountChanged += WaterCan_OnWaterAmountChanged;
+
+            UpdateWaterCanBarFilledAmount(_waterCan.CurrentWaterCapacityAmount, WaterCan.WaterCanCapacityAmount);
         }
 
         private void OnDisable()

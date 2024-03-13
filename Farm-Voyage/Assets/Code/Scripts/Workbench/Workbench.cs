@@ -13,6 +13,7 @@ namespace Workbench
     public class Workbench : MonoBehaviour, IDisplayIcon
     {
         public StartedUsingWorkbenchEvent StartedUsingWorkbenchEvent { get; private set; }
+        public Guid ID { get; private set; } = Guid.NewGuid();
         
         [field:SerializeField] public IconSO Icon { get; private set; }
 

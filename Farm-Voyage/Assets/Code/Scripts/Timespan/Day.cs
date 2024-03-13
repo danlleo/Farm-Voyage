@@ -12,7 +12,7 @@ namespace Timespan
         public event Action OnDayEnded;
         
         public float DayInitialTimeInSeconds { get; private set; }
-        public float DayDurationInSeconds { get; private set; } = 10f;
+        public float DayDurationInSeconds { get; private set; } = 180f;
         
         private float _currentTime;
 

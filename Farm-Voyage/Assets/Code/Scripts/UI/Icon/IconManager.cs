@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Attributes.WithinParent;
 using UnityEngine;
 
@@ -10,19 +11,21 @@ namespace UI.Icon
         [Header("External references")] 
         [SerializeField, WithinParent] private Transform _iconsHolder;
         
-        private readonly Dictionary<Transform, IconView> _iconsDictionary = new();
-        private readonly HashSet<Transform> _keysToRemove = new();
+        private readonly Dictionary<Guid, IconView> _iconsDictionary = new();
+        private readonly HashSet<Guid> _keysToRemove = new();
         
         private void OnEnable()
         {
             SceneTransition.OnAnySceneTransitionStarted += SceneTransition_OnAnySceneTransitionStarted;
             SceneTransition.OnAnySceneTransitionEnded += SceneTransition_OnAnySceneTransitionEnded;
+            IconSO.OnAnyIconVisibilityChanged += IconSO_OnAnyIconVisibilityChanged;
         }
 
         private void OnDisable()
         {
             SceneTransition.OnAnySceneTransitionStarted -= SceneTransition_OnAnySceneTransitionStarted;
             SceneTransition.OnAnySceneTransitionEnded -= SceneTransition_OnAnySceneTransitionEnded;
+            IconSO.OnAnyIconVisibilityChanged -= IconSO_OnAnyIconVisibilityChanged;
         }
 
         private void Start()
@@ -32,21 +35,24 @@ namespace UI.Icon
 
         private void Update()
         {
-            foreach (KeyValuePair<Transform, IconView> icon in _iconsDictionary)
+            RefreshIcons();
+        }
+
+        private void RefreshIcons()
+        {
+            foreach (KeyValuePair<Guid, IconView> icon in _iconsDictionary)
             {
-                if (icon.Key == null)
+                if (icon.Value.OwnerTransform == null)
                 {
                     DestroyNotPresentIcon(icon);
+                    ClearNotPresentIconsFromDictionary();
+                    break;
                 }
-                else
-                {
-                    UpdateIconPosition(icon.Key, icon.Value);
-                }
+
+                UpdateIconPosition(icon);
             }
-            
-            ClearNotPresentIconsFromDictionary();
         }
-        
+
         private void FindAndCreateAllIcons()
         {
             _iconsDictionary.Clear();
@@ -58,43 +64,45 @@ namespace UI.Icon
                 if (monoBehaviour is not IDisplayIcon displayIcon) continue;
 
                 RectTransform followRectTransform = Instantiate(displayIcon.Icon.IconRectTransform, _iconsHolder);
-                _iconsDictionary.Add(monoBehaviour.transform, new IconView(displayIcon.Icon.Offset, followRectTransform));
+                _iconsDictionary.Add(displayIcon.ID, new IconView(displayIcon.Icon.Offset, followRectTransform,
+                    monoBehaviour.transform));
             }
         }
 
         private void ClearNotPresentIconsFromDictionary()
         {
-            foreach (Transform key in _keysToRemove)
+            foreach (Guid key in _keysToRemove)
             {
                 _iconsDictionary.Remove(key);
             }
         }
         
-        private void UpdateIconPosition(Transform objectToFollow, IconView iconView)
+        private void UpdateIconPosition(KeyValuePair<Guid, IconView> icon)
         {
-            if (objectToFollow == null || iconView.FollowRectTransform == null)
+            if (icon.Value.OwnerTransform == null || icon.Value.FollowRectTransform == null)
                 return;
 
-            Vector3 screenPosition = Camera.main.WorldToScreenPoint(objectToFollow.position + iconView.Offset);
+            Vector3 screenPosition =
+                Camera.main.WorldToScreenPoint(icon.Value.OwnerTransform.position + icon.Value.Offset);
 
-            if (screenPosition.z < 0)
-            {
-                iconView.FollowRectTransform.gameObject.SetActive(false);
-            }
-            else
-            {
-                iconView.FollowRectTransform.gameObject.SetActive(true);
-                iconView.FollowRectTransform.position = screenPosition;
-            }
+            icon.Value.FollowRectTransform.position = screenPosition;
         }
         
-        private void DestroyNotPresentIcon(KeyValuePair<Transform, IconView> icon)
+        private void DestroyNotPresentIcon(KeyValuePair<Guid, IconView> icon)
         {
             _keysToRemove.Add(icon.Key);
 
             if (icon.Value.FollowRectTransform.gameObject != null)
             {
                 Destroy(icon.Value.FollowRectTransform.gameObject);
+            }
+        }
+        
+        private void ChangeIconVisibility(Guid id, bool isActive)
+        {
+            if (_iconsDictionary.TryGetValue(id, out IconView iconView))
+            {
+                iconView.FollowRectTransform.gameObject.SetActive(isActive);
             }
         }
         
@@ -106,6 +114,11 @@ namespace UI.Icon
         private void SceneTransition_OnAnySceneTransitionStarted()
         {
             _iconsHolder.gameObject.SetActive(false);
+        }
+        
+        private void IconSO_OnAnyIconVisibilityChanged(Guid id, bool isActive)
+        {
+            ChangeIconVisibility(id, isActive);
         }
     }
 }

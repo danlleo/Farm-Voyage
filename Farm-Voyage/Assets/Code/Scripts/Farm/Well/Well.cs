@@ -15,6 +15,7 @@ namespace Farm.Well
         public WaterCanFilledEvent WaterCanFilledEvent { get; private set; }
         
         [field:SerializeField] public IconSO Icon { get; private set; }
+        public Guid ID { get; } = Guid.NewGuid();
 
         private Player _player;
         private PlayerInventory _playerInventory;
