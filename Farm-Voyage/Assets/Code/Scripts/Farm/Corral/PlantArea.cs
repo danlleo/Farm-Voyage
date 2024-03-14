@@ -14,9 +14,9 @@ namespace Farm.Corral
 {
     [RequireComponent(typeof(BoxCollider))]
     [DisallowMultipleComponent]
-    public sealed class PlantArea : MonoBehaviour, IInteractable, IDisplayIcon
+    public sealed class PlantArea : MonoBehaviour, IInteractable, IDisplayProgressIcon
     {
-        [field:SerializeField] public IconSO Icon { get; private set; }
+        [field:SerializeField] public ProgressIconSO ProgressIcon { get; private set; }
         public Guid ID { get; } = Guid.NewGuid();
 
         [Header("Settings")] 
@@ -115,7 +115,6 @@ namespace Farm.Corral
             
             _playerInventory.RemoveSeedQuantity(_selectedSeed.SeedType, _seedsNeededToPlant);
             _boxCollider.Disable();
-            Icon.SetVisuals(this, false);
         }
 
         private IEnumerator DelayBeforePlantingNewRoutine()

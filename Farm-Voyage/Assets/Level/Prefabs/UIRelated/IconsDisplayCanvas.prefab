@@ -98,6 +98,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _iconsHolder: {fileID: 8733919581053231353}
+  _progressIconUpdaterPrefab: {fileID: 5223191559263663435, guid: 060fcaae9d9d1184e89cc0f2de17b403,
+    type: 3}
 --- !u!1 &7359478745100109661
 GameObject:
   m_ObjectHideFlags: 0

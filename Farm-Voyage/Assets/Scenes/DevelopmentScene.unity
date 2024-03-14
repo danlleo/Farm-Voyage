@@ -1754,7 +1754,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 949fdf9dc03f047468b3bcd44e92bf7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Icon>k__BackingField: {fileID: 11400000, guid: 1a22a9da4e7b0514c8d50f42df7f481a,
+  <ProgressIcon>k__BackingField: {fileID: 11400000, guid: 5593cbd86e91fda4d93116e48102b026,
     type: 2}
   _seedsNeededToPlant: 1
   _timeToDigInSeconds: 0.35
@@ -6597,7 +6597,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 949fdf9dc03f047468b3bcd44e92bf7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Icon>k__BackingField: {fileID: 11400000, guid: 1a22a9da4e7b0514c8d50f42df7f481a,
+  <ProgressIcon>k__BackingField: {fileID: 11400000, guid: 5593cbd86e91fda4d93116e48102b026,
     type: 2}
   _seedsNeededToPlant: 1
   _timeToDigInSeconds: 0.35
