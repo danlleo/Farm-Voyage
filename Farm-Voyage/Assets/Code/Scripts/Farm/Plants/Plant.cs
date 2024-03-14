@@ -16,6 +16,7 @@ namespace Farm.Plants
         
         public StateFactory StateFactory { get; private set; }
         public PlayerInventory PlayerInventory;
+        public PlantArea PlantArea;
         
         public Vector3 CurrentScale => PlantVisual.localScale;
         public Vector3 TargetScale => _grownScale * Vector3.one;
@@ -32,7 +33,6 @@ namespace Farm.Plants
         [SerializeField, Range(0.1f, 0.9f)] private List<float> _wateringThresholds = new() { 0.25f, 0.65f, 0.9f };
         
         private StateMachine _stateMachine;
-        private PlantArea _plantArea;
 
         private BoxCollider _boxCollider;
         
@@ -52,7 +52,7 @@ namespace Farm.Plants
         public void Initialize(Vector3 position, Quaternion rotation, PlantArea plantArea, PlayerInventory playerInventory)
         {
             transform.SetPositionAndRotation(position, rotation);
-            _plantArea = plantArea;
+            PlantArea = plantArea;
             PlayerInventory = playerInventory;
         }
         
@@ -69,7 +69,7 @@ namespace Farm.Plants
         public void Harvest()
         {
             _boxCollider.Disable();
-            _plantArea.ClearPlantArea();
+            PlantArea.ClearPlantArea();
         }
     }
 }

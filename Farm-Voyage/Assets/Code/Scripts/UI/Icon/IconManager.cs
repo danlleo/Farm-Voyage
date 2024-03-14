@@ -23,6 +23,7 @@ namespace UI.Icon
             SceneTransition.OnAnySceneTransitionStarted += SceneTransition_OnAnySceneTransitionStarted;
             SceneTransition.OnAnySceneTransitionEnded += SceneTransition_OnAnySceneTransitionEnded;
             IconSO.OnAnyIconVisibilityChanged += IconSO_OnAnyIconVisibilityChanged;
+            ProgressIconSO.OnAnyDisplayIconProgressChanged += ProgressIconSO_OnAnyDisplayIconProgressChanged;
         }
 
         private void OnDisable()
@@ -30,6 +31,7 @@ namespace UI.Icon
             SceneTransition.OnAnySceneTransitionStarted -= SceneTransition_OnAnySceneTransitionStarted;
             SceneTransition.OnAnySceneTransitionEnded -= SceneTransition_OnAnySceneTransitionEnded;
             IconSO.OnAnyIconVisibilityChanged -= IconSO_OnAnyIconVisibilityChanged;
+            ProgressIconSO.OnAnyDisplayIconProgressChanged -= ProgressIconSO_OnAnyDisplayIconProgressChanged;
         }
 
         private void Start()
@@ -174,6 +176,14 @@ namespace UI.Icon
         {
             _iconsHolder.gameObject.SetActive(isActive);
         }
+
+        private void UpdateProgressIcon(Guid id, float progress)
+        {
+            if (_progressIconsDictionary.TryGetValue(id, out ProgressIconView progressIconView))
+            {
+                progressIconView.ProgressIconUpdater.UpdateProgress(progress);
+            }
+        }
         
         private void SceneTransition_OnAnySceneTransitionEnded()
         {
@@ -188,6 +198,11 @@ namespace UI.Icon
         private void IconSO_OnAnyIconVisibilityChanged(Guid id, bool isActive)
         {
             ChangeIconVisibility(id, isActive);
+        }
+        
+        private void ProgressIconSO_OnAnyDisplayIconProgressChanged(Guid id, float progress)
+        {
+            UpdateProgressIcon(id, progress);
         }
     }
 }

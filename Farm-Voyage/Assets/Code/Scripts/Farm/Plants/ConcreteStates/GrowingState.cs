@@ -46,6 +46,7 @@ namespace Farm.Plants.ConcreteStates
             _plantVisual.transform.DOScale(targetPartitionScale, _plantPartitionGrowTimeInSeconds).OnComplete(() =>
             {
                 _stateMachine.ChangeState(_plant.StateFactory.NeedsWatering());
+                _plant.PlantArea.ProgressIcon.SetProgress(_plant.PlantArea, 0.5f);
             });
         }
 
