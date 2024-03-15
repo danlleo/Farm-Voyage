@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace Farm.Plants.ConcreteStates
 {
     public class ReadyToHarvestState : State
     {
         private readonly Plant _plant;
+        private Coroutine _delayHarvestingRoutine;
         
         public ReadyToHarvestState(Plant plant, StateMachine stateMachine) : base(plant, stateMachine)
         {
@@ -18,8 +20,18 @@ namespace Farm.Plants.ConcreteStates
 
         public override void OnInteracted()
         {
-            // TODO: Harvest here
             _plant.Harvest();
+        }
+
+        private void HarvestWithDelay()
+        {
+            if (_delayHarvestingRoutine != null)
+                _delayHarvestingRoutine = _plant.StartCoroutine(DelayHarvestingRoutine());
+        }
+
+        private IEnumerator DelayHarvestingRoutine()
+        {
+            yield return new WaitForSeconds(1f);
         }
     }
 }

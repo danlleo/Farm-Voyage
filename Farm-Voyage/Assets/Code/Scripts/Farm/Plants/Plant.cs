@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Attributes.WithinParent;
 using Character.Player;
 using Common;
@@ -12,25 +11,18 @@ namespace Farm.Plants
     [DisallowMultipleComponent]
     public abstract class Plant : MonoBehaviour, IInteractable
     {
-        [field:SerializeField, WithinParent] public Transform PlantVisual { get; private set; }
-        
         public StateFactory StateFactory { get; private set; }
-        public PlayerInventory PlayerInventory;
-        public PlantArea PlantArea;
+        public PlayerInventory PlayerInventory { get; private set; }
+        public PlantArea PlantArea { get; private set; }
         
-        public Vector3 CurrentScale => PlantVisual.localScale;
-        public Vector3 TargetScale => _grownScale * Vector3.one;
+        [field:SerializeField, WithinParent, Header("External references")] public Transform PlantVisual { get; private set; }
         
-        public float PlantPartitionGrowTimeInSecond => _plantPartitionGrowTimeInSeconds;
-        public float PlantCompressedScale => _plantCompressedScale;
-        public List<float> WateringThresholds => _wateringThresholds;
+        [field: SerializeField, Range(1f, 60f), Header("Settings")] public float PlantPartitionGrowTimeInSecond { get; private set; }
         
-        [Header("Settings")]
-        [SerializeField, Range(0.1f, 3f)] private float _grownScale;
-        [SerializeField, Range(0.1f, 3f)] private float _initialScale;
-        [SerializeField, Range(0.1f, 2f)] private float _plantCompressedScale = 0.75f;
-        [SerializeField, Range(1f, 60f)] private float _plantPartitionGrowTimeInSeconds;
-        [SerializeField, Range(0.1f, 0.9f)] private List<float> _wateringThresholds = new() { 0.25f, 0.65f, 0.9f };
+        [field: SerializeField, Range(0.1f, 2f)] public float PlantCompressedScale { get; private set; } = 0.75f;
+        [field: SerializeField, Range(0.1f, 3f)] public float InitialScale { get; private set; }
+        [field: SerializeField, Range(0.1f, 3f)] public float GrownScale { get; private set; }
+        [field: SerializeField, Range(1, 5)] public int Partitions { get; private set; } = 2;
         
         private StateMachine _stateMachine;
 
@@ -41,7 +33,7 @@ namespace Farm.Plants
             _boxCollider = GetComponent<BoxCollider>();
             _stateMachine = new StateMachine();
             StateFactory = new StateFactory(this, _stateMachine);
-            PlantVisual.localScale = _initialScale * Vector3.one;
+            PlantVisual.localScale = InitialScale * Vector3.one;
         }
 
         protected virtual void Start()

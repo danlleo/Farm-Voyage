@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <BeforeProgressSprite>k__BackingField: {fileID: 21300000, guid: 4e1e4e7bc1e404ba49f38d90db688820,
     type: 3}
-  <InProgressSprite>k__BackingField: {fileID: 21300000, guid: 22f0596543ce94bf5a521ca3139cfe02,
+  <InProgressSprite>k__BackingField: {fileID: 21300000, guid: e546e0fb39bdc4b23b9b6efe1c37aa70,
     type: 3}
   <AfterProgressSprite>k__BackingField: {fileID: 21300000, guid: 14ff9d9a457314dc4a9cc9541d595a8b,
     type: 3}

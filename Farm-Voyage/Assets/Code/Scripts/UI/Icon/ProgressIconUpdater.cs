@@ -9,6 +9,8 @@ namespace UI.Icon
     [DisallowMultipleComponent]
     public class ProgressIconUpdater : MonoBehaviour
     {
+        public RectTransform RectTransform { get; private set; }
+        
         [Header("External references")] 
         [SerializeField, WithinParent] private GameObject _container;
         [SerializeField, WithinParent] private Image _foreground;
@@ -23,6 +25,7 @@ namespace UI.Icon
 
         private void Awake()
         {
+            RectTransform = GetComponent<RectTransform>();
             ClearFillAmountProgress();
         }
 

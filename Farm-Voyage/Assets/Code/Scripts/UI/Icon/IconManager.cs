@@ -13,10 +13,9 @@ namespace UI.Icon
         [SerializeField] private ProgressIconUpdater _progressIconUpdaterPrefab;
         
         private readonly Dictionary<Guid, IconView> _iconsDictionary = new();
-        private readonly HashSet<Guid> _keysToRemove = new();
-
         private readonly Dictionary<Guid, ProgressIconView> _progressIconsDictionary = new();
-        private readonly HashSet<Guid> _progressIconsKeysToRemove = new();
+        
+        private readonly HashSet<Guid> _keysToRemove = new();
         
         private void OnEnable()
         {
@@ -52,7 +51,7 @@ namespace UI.Icon
                 if (icon.Value.OwnerTransform == null)
                 {
                     DestroyNotPresentIcon(icon);
-                    ClearNotPresentKeysFromDictionary();
+                    ClearNotPresentKeysFromIconsDictionary();
                     break;
                 }
 
@@ -67,7 +66,7 @@ namespace UI.Icon
                 if (icon.Value.OwnerTransform == null)
                 {
                     DestroyNotPresentProgressIcon(icon);
-                    ClearNotPresentKeysFromDictionary();
+                    ClearNotPresentKeysFromProgressIconsDictionary();
                     break;
                 }
 
@@ -114,11 +113,19 @@ namespace UI.Icon
             }
         }
 
-        private void ClearNotPresentKeysFromDictionary()
+        private void ClearNotPresentKeysFromIconsDictionary()
         {
             foreach (Guid key in _keysToRemove)
             {
                 _iconsDictionary.Remove(key);
+            }
+        }
+        
+        private void ClearNotPresentKeysFromProgressIconsDictionary()
+        {
+            foreach (Guid key in _keysToRemove)
+            {
+                _progressIconsDictionary.Remove(key);
             }
         }
         
@@ -135,13 +142,13 @@ namespace UI.Icon
         
         private void UpdateProgressIconPosition(KeyValuePair<Guid, ProgressIconView> icon)
         {
-            if (icon.Value.OwnerTransform == null || icon.Value.ProgressIconUpdater.GetComponent<RectTransform>() == null)
+            if (icon.Value.OwnerTransform == null || icon.Value.ProgressIconUpdater.RectTransform == null)
                 return;
 
             Vector3 screenPosition =
                 Camera.main.WorldToScreenPoint(icon.Value.OwnerTransform.position + icon.Value.Offset);
 
-            icon.Value.ProgressIconUpdater.GetComponent<RectTransform>().position = screenPosition;
+            icon.Value.ProgressIconUpdater.RectTransform.position = screenPosition;
         }
         
         private void DestroyNotPresentIcon(KeyValuePair<Guid, IconView> icon)
@@ -185,14 +192,14 @@ namespace UI.Icon
             }
         }
         
-        private void SceneTransition_OnAnySceneTransitionEnded()
-        {
-            ChangeIconsVisibility(true);
-        }
-
         private void SceneTransition_OnAnySceneTransitionStarted()
         {
             ChangeIconsVisibility(false);
+        }
+        
+        private void SceneTransition_OnAnySceneTransitionEnded()
+        {
+            ChangeIconsVisibility(true);
         }
         
         private void IconSO_OnAnyIconVisibilityChanged(Guid id, bool isActive)
