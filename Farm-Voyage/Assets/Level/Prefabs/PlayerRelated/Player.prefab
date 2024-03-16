@@ -2142,8 +2142,8 @@ MonoBehaviour:
   _obstaclesLayerMask:
     serializedVersion: 2
     m_Bits: 64
-  _walkingSpeed: 5
-  _runningSpeed: 8
+  _walkingSpeed: 3
+  _runningSpeed: 5
   _rotateSpeed: 10
   _stickRotateSpeed: 40
   _stoppingDestinationDistance: 1.2

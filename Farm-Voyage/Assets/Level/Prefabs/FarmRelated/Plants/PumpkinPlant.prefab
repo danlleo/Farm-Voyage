@@ -68,14 +68,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <PlantVisual>k__BackingField: {fileID: 423962022302921941}
-  _grownScale: 0
-  _initialScale: 0
-  _plantCompressedScale: 0.75
-  _plantPartitionGrowTimeInSeconds: 0
-  _wateringThresholds:
-  - 0.25
-  - 0.65
-  - 1
+  <PlantPartitionGrowTimeInSecond>k__BackingField: 20
+  <PlantCompressedScale>k__BackingField: 0.75
+  <InitialScale>k__BackingField: 0.5
+  <GrownScale>k__BackingField: 2
+  <Partitions>k__BackingField: 2
 --- !u!1 &6691265212943526538
 GameObject:
   m_ObjectHideFlags: 0

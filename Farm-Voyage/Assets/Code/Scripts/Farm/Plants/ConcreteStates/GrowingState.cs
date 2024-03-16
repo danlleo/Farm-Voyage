@@ -30,11 +30,14 @@ namespace Farm.Plants.ConcreteStates
                 return;
             }
 
-            _plantVisual.DOScale(GetGrowPartitionEndValue(), _plant.PlantPartitionGrowTimeInSecond)
+            float endScale = GetGrowPartitionEndValue();
+            
+            _plantVisual.DOScale(endScale, _plant.PlantPartitionGrowTimeInSecond)
                 .OnUpdate(() =>
                 {
-                    _plant.PlantArea.ProgressIcon.SetProgress(_plant.PlantArea,
-                        _plantVisual.localScale.z / _plant.GrownScale);
+                    float progress = (_plantVisual.localScale.z - _plant.InitialScale) /
+                                     (_plant.GrownScale - _plant.InitialScale);
+                    _plant.PlantArea.ProgressIcon.SetProgress(_plant.PlantArea, progress);
                 })
                 .OnComplete(() =>
                 {

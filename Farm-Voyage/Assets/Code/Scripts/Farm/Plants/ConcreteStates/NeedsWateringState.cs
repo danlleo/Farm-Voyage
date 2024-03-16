@@ -39,9 +39,11 @@ namespace Farm.Plants.ConcreteStates
         public override void OnStoppedInteracting()
         {
             Debug.Log("Stopped watering");
+
+            if (_wateringRoutine == null) return;
             
-            if (_wateringRoutine != null)
-                _plant.StopCoroutine(_wateringRoutine);
+            _plant.StopCoroutine(_wateringRoutine);
+            _wateringRoutine = null;
         }
 
         private IEnumerator WateringRoutine()

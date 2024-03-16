@@ -11,7 +11,7 @@ namespace UI.Icon
         [field: SerializeField] public Sprite BeforeProgressSprite { get; private set; }
         [field: SerializeField] public Sprite InProgressSprite { get; private set; }
         [field: SerializeField] public Sprite AfterProgressSprite { get; private set; }
-        [field:SerializeField] public Vector3 Offset { get; private set; }
+        [field: SerializeField] public Vector3 Offset { get; private set; }
 
         public void SetProgress(IDisplayProgressIcon displayProgressIcon, float progress)
         {

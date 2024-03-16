@@ -34,12 +34,12 @@ namespace Character.Player
             };
             _seedsList = new List<Seed>
             {
-                new CarrotSeed(SeedType.Carrot,  PlantType.Carrot, 0),
-                new PumpkinSeed(SeedType.Pumpkin,  PlantType.Pumpkin, 0),
-                new EggplantSeed(SeedType.Eggplant, PlantType.Eggplant, 0),
-                new TurnipSeed(SeedType.Turnip, PlantType.Turnip, 0),
-                new CornSeed(SeedType.Corn, PlantType.Corn, 0),
-                new TomatoSeed(SeedType.Tomato, PlantType.Tomato, 1),
+                new CarrotSeed(SeedType.Carrot,  PlantType.Carrot, 10),
+                new PumpkinSeed(SeedType.Pumpkin,  PlantType.Pumpkin, 10),
+                new EggplantSeed(SeedType.Eggplant, PlantType.Eggplant, 10),
+                new TurnipSeed(SeedType.Turnip, PlantType.Turnip, 10),
+                new CornSeed(SeedType.Corn, PlantType.Corn, 10),
+                new TomatoSeed(SeedType.Tomato, PlantType.Tomato, 10),
             };
         }
         

@@ -23,6 +23,12 @@ namespace Farm.Plants.ConcreteStates
             HarvestWithDelay();
         }
 
+        public override void OnStoppedInteracting()
+        {
+            _plant.StopCoroutine(DelayHarvestingRoutine());
+            _delayHarvestingRoutine = null;
+        }
+
         private void HarvestWithDelay()
         {
             _delayHarvestingRoutine ??= _plant.StartCoroutine(DelayHarvestingRoutine());

@@ -8,7 +8,7 @@ namespace Farm.Tool.ConcreteTools
     public class WaterCan : Tool
     {
         public const int WaterCanCapacityAmount = 3;
-        public int CurrentWaterCapacityAmount { get; private set; }
+        public int CurrentWaterCapacityAmount { get; private set; } = WaterCanCapacityAmount;
         public sealed override string Name { get; protected set; }
         public sealed override IEnumerable<ResourcePrice> ResourcesPrices { get; protected set; }
 

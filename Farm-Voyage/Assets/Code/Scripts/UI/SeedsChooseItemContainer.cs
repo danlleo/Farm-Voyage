@@ -19,7 +19,7 @@ namespace UI
         [SerializeField, WithinParent] private SeedChooseUIItem _seedChooseUIItemTurnip;
         [SerializeField, WithinParent] private SeedChooseUIItem _seedChooseUIItemCorn;
 
-        private Dictionary<SeedChooseUIItem, bool> _seedChooseUIItemsMapping;
+        private Dictionary<SeedChooseUIItem, bool> _keyToSeedItemMap;
 
         private void Awake()
         {
@@ -40,7 +40,7 @@ namespace UI
         
         private void InitializeDictionary()
         {
-            _seedChooseUIItemsMapping = new Dictionary<SeedChooseUIItem, bool>
+            _keyToSeedItemMap = new Dictionary<SeedChooseUIItem, bool>
             {
                 { _seedChooseUIItemTomato, false },
                 { _seedChooseUIItemCarrot, false },
@@ -53,22 +53,22 @@ namespace UI
 
         private void DeselectAllWithException(SeedChooseUIItem seedChooseUIItem)
         {
-            foreach (KeyValuePair<SeedChooseUIItem, bool> mapping in _seedChooseUIItemsMapping.ToList())
+            foreach (KeyValuePair<SeedChooseUIItem, bool> mapping in _keyToSeedItemMap.ToList())
             {
                 if (seedChooseUIItem == mapping.Key) continue;
                 
-                _seedChooseUIItemsMapping[mapping.Key] = false;
+                _keyToSeedItemMap[mapping.Key] = false;
                 mapping.Key.Deselect();
             }
         }
 
         private void HandleSelectionSingle(SeedChooseUIItem seedChooseUIItem)
         {
-            if (!_seedChooseUIItemsMapping.TryGetValue(seedChooseUIItem, out bool isSelected)) return;
+            if (!_keyToSeedItemMap.TryGetValue(seedChooseUIItem, out bool isSelected)) return;
             
             DeselectAllWithException(seedChooseUIItem);
             
-            _seedChooseUIItemsMapping[seedChooseUIItem] = !isSelected;
+            _keyToSeedItemMap[seedChooseUIItem] = !isSelected;
             
             if (!isSelected)
             {

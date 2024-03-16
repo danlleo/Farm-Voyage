@@ -151,11 +151,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <PlantVisual>k__BackingField: {fileID: 5064914416319305970}
-  _grownScale: 2
-  _initialScale: 0.3
-  _plantCompressedScale: 0.75
-  _plantPartitionGrowTimeInSeconds: 5
-  _wateringThresholds:
-  - 0.25
-  - 0.65
-  - 1
+  <PlantPartitionGrowTimeInSecond>k__BackingField: 10
+  <PlantCompressedScale>k__BackingField: 0.75
+  <InitialScale>k__BackingField: 1
+  <GrownScale>k__BackingField: 3
+  <Partitions>k__BackingField: 4
