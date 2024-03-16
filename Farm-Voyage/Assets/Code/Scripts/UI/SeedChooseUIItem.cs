@@ -24,12 +24,8 @@ namespace UI
         
         private PlayerInventory _playerInventory;
 
-        private bool _isSelected;
-
         private void OnEnable()
         {
-            OnAnySelectedSeedChooseItemEvent += SeedChooseItem_OnAnySelectedSeedChooseItem;
-
             UpdateSeedQuantityText(_playerInventory.GetSeedsQuantity(SeedType));
             
             if (_playerInventory != null)
@@ -40,8 +36,6 @@ namespace UI
 
         private void OnDisable()
         {
-            OnAnySelectedSeedChooseItemEvent -= SeedChooseItem_OnAnySelectedSeedChooseItem;
-            
             if (_playerInventory != null)
             {
                 _playerInventory.OnSeedQuantityChanged -= PlayerInventory_OnSeedQuantityChanged;
@@ -56,28 +50,17 @@ namespace UI
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            ToggleSelect();
+            OnAnySelectedSeedChooseItemEvent?.Invoke(this);
         }
 
-        private void ToggleSelect()
+        public void Select()
         {
-            _isSelected = !_isSelected;
-
-            if (_isSelected)
-            {
-                OnAnySelectedSeedChooseItemEvent?.Invoke(this);
-                _backgroundImage.sprite = _selectedBackgroundSprite;
-                _playerInventory.SetSelectedSeed(SeedType);
-                return;
-            }
-            
-            _backgroundImage.sprite = _defaultBackgroundSprite;
-            _playerInventory.SetSelectedSeed(SeedType.Default);
+            _backgroundImage.sprite = _selectedBackgroundSprite;
+            _playerInventory.SetSelectedSeed(SeedType);
         }
-
-        private void Deselect()
+        
+        public void Deselect()
         {
-            _isSelected = false;
             _backgroundImage.sprite = _defaultBackgroundSprite;
             _playerInventory.SetSelectedSeed(SeedType.Default);
         }
@@ -85,13 +68,6 @@ namespace UI
         private void UpdateSeedQuantityText(int quantity)
         {
             _seedQuantityText.text = $"{quantity}";
-        }
-        
-        private void SeedChooseItem_OnAnySelectedSeedChooseItem(SeedChooseUIItem seedChooseUIItem)
-        {
-            if (ReferenceEquals(this, seedChooseUIItem)) return;
-            
-            Deselect();
         }
         
         private void PlayerInventory_OnSeedQuantityChanged(SeedType seedType, int quantity)

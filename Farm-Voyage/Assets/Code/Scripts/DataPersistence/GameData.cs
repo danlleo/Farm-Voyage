@@ -1,4 +1,6 @@
-﻿namespace DataPersistence
+﻿using Dummy;
+
+namespace DataPersistence
 {
     [System.Serializable]
     public class GameData

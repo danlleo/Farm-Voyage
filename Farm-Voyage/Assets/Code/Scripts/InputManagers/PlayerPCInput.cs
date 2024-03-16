@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 using Zenject;
 
 namespace InputManagers
@@ -22,16 +23,18 @@ namespace InputManagers
             {
                 _playerControls = new PlayerControls();
                 _playerControls.PlayerMovement.KeyboardMovement.performed += ReadMovementValue;
+                _playerControls.PlayerMovement.MouseClick.performed += MouseClick_OnPerformed;
+                _playerControls.PlayerMovement.SeedsSelection.performed += SeedsSelection_OnPerformed;
             }
             
             _playerControls.Enable();
-            _playerControls.PlayerMovement.MouseClick.performed += MouseClick_OnPerformed;
         }
 
         public void Dispose()
         {
             _playerControls.Disable();
             _playerControls.PlayerMovement.MouseClick.performed -= MouseClick_OnPerformed;
+            _playerControls.PlayerMovement.SeedsSelection.performed -= SeedsSelection_OnPerformed;
         }
         
         public void Tick()
@@ -64,6 +67,11 @@ namespace InputManagers
         private void MouseClick_OnPerformed(InputAction.CallbackContext obj)
         {
             OnInteract?.Invoke();
+        }
+        
+        private void SeedsSelection_OnPerformed(InputAction.CallbackContext obj)
+        {
+            Debug.Log(obj.control is KeyControl key);
         }
     }
 }

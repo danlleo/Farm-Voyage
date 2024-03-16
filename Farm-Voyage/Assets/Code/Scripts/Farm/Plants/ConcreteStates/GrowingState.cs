@@ -29,11 +29,17 @@ namespace Farm.Plants.ConcreteStates
                 _stateMachine.ChangeState(_plant.StateFactory.ReadyToHarvest());
                 return;
             }
-            
-            _plantVisual.DOScale(GetGrowPartitionEndValue(), _plant.PlantPartitionGrowTimeInSecond).OnComplete(() =>
-            {
-                _stateMachine.ChangeState(_plant.StateFactory.NeedsWatering());
-            });
+
+            _plantVisual.DOScale(GetGrowPartitionEndValue(), _plant.PlantPartitionGrowTimeInSecond)
+                .OnUpdate(() =>
+                {
+                    _plant.PlantArea.ProgressIcon.SetProgress(_plant.PlantArea,
+                        _plantVisual.localScale.z / _plant.GrownScale);
+                })
+                .OnComplete(() =>
+                {
+                    _stateMachine.ChangeState(_plant.StateFactory.NeedsWatering());
+                });
         }
 
         private float GetGrowPartitionEndValue()

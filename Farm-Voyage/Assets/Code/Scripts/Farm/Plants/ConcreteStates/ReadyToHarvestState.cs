@@ -20,18 +20,18 @@ namespace Farm.Plants.ConcreteStates
 
         public override void OnInteracted()
         {
-            _plant.Harvest();
+            HarvestWithDelay();
         }
 
         private void HarvestWithDelay()
         {
-            if (_delayHarvestingRoutine != null)
-                _delayHarvestingRoutine = _plant.StartCoroutine(DelayHarvestingRoutine());
+            _delayHarvestingRoutine ??= _plant.StartCoroutine(DelayHarvestingRoutine());
         }
 
         private IEnumerator DelayHarvestingRoutine()
         {
             yield return new WaitForSeconds(1f);
+            _plant.Harvest();
         }
     }
 }

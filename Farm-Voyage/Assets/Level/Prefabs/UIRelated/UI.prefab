@@ -2255,8 +2255,9 @@ GameObject:
   m_Component:
   - component: {fileID: 9018941000845941132}
   - component: {fileID: 939027306332569669}
+  - component: {fileID: 3351903839044023879}
   m_Layer: 5
-  m_Name: SeedsChooseContainer
+  m_Name: SeedsChooseItemsContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2313,6 +2314,24 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &3351903839044023879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2682871220026341101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c27afcd71ab4bd446bfcb6213957c384, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _seedChooseUIItemTomato: {fileID: 2209419967966190677}
+  _seedChooseUIItemCarrot: {fileID: 6216610320025335425}
+  _seedChooseUIItemEggplant: {fileID: 9052660914469608950}
+  _seedChooseUIItemPumpkin: {fileID: 507218830220376456}
+  _seedChooseUIItemTurnip: {fileID: 5144673066810593362}
+  _seedChooseUIItemCorn: {fileID: 6852364463336320958}
 --- !u!1 &2840356604765301614
 GameObject:
   m_ObjectHideFlags: 0

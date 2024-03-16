@@ -44,6 +44,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SeedsSelection"",
+                    ""type"": ""Button"",
+                    ""id"": ""13f23890-2b05-4d1e-96cf-5b5dad53db85"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -112,6 +121,72 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""MouseClick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""362f15c7-3c85-4a78-a98f-1bf0191466cf"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SeedsSelection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""62c077d8-cfa5-456e-b984-b91db7536329"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SeedsSelection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cd71f884-a64f-4ac8-be1b-2d30efc8c8a9"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SeedsSelection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""604cc0d1-999f-40ac-a1c8-7ff1e7a4e68c"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SeedsSelection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6af26593-4d30-4f91-b4b6-31d564cad633"",
+                    ""path"": ""<Keyboard>/5"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SeedsSelection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8cc68751-fa63-4652-9e10-352cee199081"",
+                    ""path"": ""<Keyboard>/6"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SeedsSelection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -122,6 +197,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerMovement = asset.FindActionMap("PlayerMovement", throwIfNotFound: true);
         m_PlayerMovement_KeyboardMovement = m_PlayerMovement.FindAction("KeyboardMovement", throwIfNotFound: true);
         m_PlayerMovement_MouseClick = m_PlayerMovement.FindAction("MouseClick", throwIfNotFound: true);
+        m_PlayerMovement_SeedsSelection = m_PlayerMovement.FindAction("SeedsSelection", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -185,12 +261,14 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private List<IPlayerMovementActions> m_PlayerMovementActionsCallbackInterfaces = new List<IPlayerMovementActions>();
     private readonly InputAction m_PlayerMovement_KeyboardMovement;
     private readonly InputAction m_PlayerMovement_MouseClick;
+    private readonly InputAction m_PlayerMovement_SeedsSelection;
     public struct PlayerMovementActions
     {
         private @PlayerControls m_Wrapper;
         public PlayerMovementActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @KeyboardMovement => m_Wrapper.m_PlayerMovement_KeyboardMovement;
         public InputAction @MouseClick => m_Wrapper.m_PlayerMovement_MouseClick;
+        public InputAction @SeedsSelection => m_Wrapper.m_PlayerMovement_SeedsSelection;
         public InputActionMap Get() { return m_Wrapper.m_PlayerMovement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -206,6 +284,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @MouseClick.started += instance.OnMouseClick;
             @MouseClick.performed += instance.OnMouseClick;
             @MouseClick.canceled += instance.OnMouseClick;
+            @SeedsSelection.started += instance.OnSeedsSelection;
+            @SeedsSelection.performed += instance.OnSeedsSelection;
+            @SeedsSelection.canceled += instance.OnSeedsSelection;
         }
 
         private void UnregisterCallbacks(IPlayerMovementActions instance)
@@ -216,6 +297,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @MouseClick.started -= instance.OnMouseClick;
             @MouseClick.performed -= instance.OnMouseClick;
             @MouseClick.canceled -= instance.OnMouseClick;
+            @SeedsSelection.started -= instance.OnSeedsSelection;
+            @SeedsSelection.performed -= instance.OnSeedsSelection;
+            @SeedsSelection.canceled -= instance.OnSeedsSelection;
         }
 
         public void RemoveCallbacks(IPlayerMovementActions instance)
@@ -237,5 +321,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     {
         void OnKeyboardMovement(InputAction.CallbackContext context);
         void OnMouseClick(InputAction.CallbackContext context);
+        void OnSeedsSelection(InputAction.CallbackContext context);
     }
 }
