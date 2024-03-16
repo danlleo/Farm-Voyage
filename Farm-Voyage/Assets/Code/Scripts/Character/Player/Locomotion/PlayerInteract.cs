@@ -24,10 +24,12 @@ namespace Character.Player.Locomotion
             {
                 if (!hit.collider.TryGetComponent(out IInteractable interactable)) return;
                 
+                IStopInteractable stopInteractable = _currentInteractable as IStopInteractable;
+                
                 // If we are already interacting with an object, stop interacting with it first
-                if (_currentInteractable != null && _currentInteractable != interactable)
+                if (_currentInteractable != null && _currentInteractable != interactable && stopInteractable != null)
                 {
-                    _currentInteractable.StopInteract();
+                    stopInteractable.StopInteract();
                 }
             
                 // Start interacting with the new object
@@ -39,7 +41,11 @@ namespace Character.Player.Locomotion
                 // If the raycast doesn't hit an interactable object and we were interacting with an object, stop interacting
                 if (_currentInteractable == null) return;
                 
-                _currentInteractable.StopInteract();
+                if (_currentInteractable is IStopInteractable stopInteractable)
+                {
+                    stopInteractable.StopInteract();
+                }
+                
                 _currentInteractable = null;
             }
         }

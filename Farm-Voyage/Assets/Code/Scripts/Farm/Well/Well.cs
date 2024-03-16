@@ -56,11 +56,6 @@ namespace Farm.Well
             _player.PlayerExtractingWaterEvent.Call(this, new PlayerExtractingWaterEventArgs(true));
             _playerFollowCamera.ZoomIn();
         }
-
-        public void StopInteract()
-        {
-            
-        }
         
         private void Player_OnPlayerExtractingWater(object sender, PlayerExtractingWaterEventArgs e)
         {

@@ -61,11 +61,6 @@ namespace Farm.Corral
             Pickup();
         }
 
-        public void StopInteract()
-        {
-            // Decide what to do in here later
-        }
-
         public void ClearAndPutToInitialPosition()
         {
             ClearPlantValuesInDictionary();

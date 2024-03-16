@@ -19,7 +19,7 @@ namespace Farm.ResourceGatherer
     [RequireComponent(typeof(GatheringStateChangedEvent))]
     [RequireComponent(typeof(ResourcesGathererInitializeEvent))]
     [DisallowMultipleComponent]
-    public class ResourcesGatherer : MonoBehaviour, IInteractable, IDisplayIcon
+    public class ResourcesGatherer : MonoBehaviour, IInteractable, IStopInteractable, IDisplayIcon
     {
         public GatheredResourceEvent GatheredResourceEvent { get; private set; }
         public FullyGatheredEvent FullyGatheredEvent { get; private set; }

@@ -9,7 +9,7 @@ namespace Farm.Plants
 {
     [RequireComponent(typeof(BoxCollider))]
     [DisallowMultipleComponent]
-    public abstract class Plant : MonoBehaviour, IInteractable
+    public abstract class Plant : MonoBehaviour, IInteractable, IStopInteractable
     {
         public StateFactory StateFactory { get; private set; }
         public PlayerInventory PlayerInventory { get; private set; }
