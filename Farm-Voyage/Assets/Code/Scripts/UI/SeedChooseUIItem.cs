@@ -73,8 +73,6 @@ namespace UI
         private void PlayerInventory_OnSeedQuantityChanged(SeedType seedType, int quantity)
         {
             if (seedType != SeedType) return;
-            if (quantity == 0) 
-                Deselect();
             
             UpdateSeedQuantityText(quantity);
         }

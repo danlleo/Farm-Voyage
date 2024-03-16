@@ -1,7 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Attributes.WithinParent;
+using InputManagers;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
 namespace UI
 {
@@ -26,11 +29,13 @@ namespace UI
         private void OnEnable()
         {
             SeedChooseUIItem.OnAnySelectedSeedChooseItemEvent += SeedChooseUIItem_OnAnySelectedSeedChooseItem;
+            PlayerPCInput.OnAnySeedSelected += PlayerPCInput_OnAnySeedSelected;
         }
 
         private void OnDisable()
         {
             SeedChooseUIItem.OnAnySelectedSeedChooseItemEvent -= SeedChooseUIItem_OnAnySelectedSeedChooseItem;
+            PlayerPCInput.OnAnySeedSelected -= PlayerPCInput_OnAnySeedSelected;
         }
         
         private void InitializeDictionary()
@@ -61,6 +66,8 @@ namespace UI
         {
             if (!_seedChooseUIItemsMapping.TryGetValue(seedChooseUIItem, out bool isSelected)) return;
             
+            DeselectAllWithException(seedChooseUIItem);
+            
             _seedChooseUIItemsMapping[seedChooseUIItem] = !isSelected;
             
             if (!isSelected)
@@ -72,10 +79,44 @@ namespace UI
             seedChooseUIItem.Deselect();
         }
         
+        private void SelectSeedBySlot(InputControl obj)
+        {
+            if (obj is not KeyControl key) return;
+
+            switch (key.keyCode)
+            {
+                case Key.Digit1:
+                    HandleSelectionSingle(_seedChooseUIItemTomato);
+                    break;
+                case Key.Digit2:
+                    HandleSelectionSingle(_seedChooseUIItemCarrot);
+                    break;
+                case Key.Digit3:
+                    HandleSelectionSingle(_seedChooseUIItemEggplant);
+                    break;
+                case Key.Digit4:
+                    HandleSelectionSingle(_seedChooseUIItemPumpkin);
+                    break;
+                case Key.Digit5:
+                    HandleSelectionSingle(_seedChooseUIItemTurnip);
+                    break;
+                case Key.Digit6:
+                    HandleSelectionSingle(_seedChooseUIItemCorn);
+                    break;
+                default:
+                    Debug.LogWarning($"Unhandled key: {key.name}");
+                    break;
+            }
+        }
+        
         private void SeedChooseUIItem_OnAnySelectedSeedChooseItem(SeedChooseUIItem seedChooseUIItem)
         {
-            DeselectAllWithException(seedChooseUIItem);
             HandleSelectionSingle(seedChooseUIItem);
+        }
+        
+        private void PlayerPCInput_OnAnySeedSelected(InputControl obj)
+        {
+            SelectSeedBySlot(obj);
         }
     }
 }

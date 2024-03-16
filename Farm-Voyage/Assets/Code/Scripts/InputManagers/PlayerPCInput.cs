@@ -1,13 +1,14 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Controls;
 using Zenject;
 
 namespace InputManagers
 {
     public class PlayerPCInput : IInitializable, IDisposable, ITickable, IPlayerInput
     {
+        public static event Action<InputControl> OnAnySeedSelected;
+        
         public event Action OnInteract;
         public Vector2 MovementInput { get; private set; }
         public float MoveAmount { get; private set; }
@@ -71,7 +72,7 @@ namespace InputManagers
         
         private void SeedsSelection_OnPerformed(InputAction.CallbackContext obj)
         {
-            Debug.Log(obj.control is KeyControl key);
+            OnAnySeedSelected?.Invoke(obj.control);
         }
     }
 }
