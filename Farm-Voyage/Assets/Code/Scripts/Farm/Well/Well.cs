@@ -66,6 +66,7 @@ namespace Farm.Well
         {
             if (e.IsExtracting) return;
             _playerFollowCamera.ZoomOut();
+            _isExtractingWater = false;
         }
     }
 }

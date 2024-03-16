@@ -31,7 +31,8 @@ namespace Farm.Plants.ConcreteStates
 
         private void HarvestWithDelay()
         {
-            _delayHarvestingRoutine ??= _plant.StartCoroutine(DelayHarvestingRoutine());
+            if (_delayHarvestingRoutine == null)
+                _plant.StartCoroutine(DelayHarvestingRoutine());
         }
 
         private IEnumerator DelayHarvestingRoutine()

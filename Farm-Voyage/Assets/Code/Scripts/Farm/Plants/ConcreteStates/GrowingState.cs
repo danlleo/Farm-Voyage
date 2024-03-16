@@ -24,12 +24,6 @@ namespace Farm.Plants.ConcreteStates
         
         private void Grow()
         {
-            if (_plantVisual.localScale.z >= _plant.GrownScale)
-            {
-                _stateMachine.ChangeState(_plant.StateFactory.ReadyToHarvest());
-                return;
-            }
-
             float endScale = GetGrowPartitionEndValue();
             
             _plantVisual.DOScale(endScale, _plant.PlantPartitionGrowTimeInSecond)
@@ -41,6 +35,12 @@ namespace Farm.Plants.ConcreteStates
                 })
                 .OnComplete(() =>
                 {
+                    if (_plantVisual.localScale.z >= _plant.GrownScale)
+                    {
+                        _stateMachine.ChangeState(_plant.StateFactory.ReadyToHarvest());
+                        return;
+                    }
+                    
                     _stateMachine.ChangeState(_plant.StateFactory.NeedsWatering());
                 });
         }
