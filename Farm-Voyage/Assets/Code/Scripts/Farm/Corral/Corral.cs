@@ -49,6 +49,34 @@ namespace Farm.Corral
         {
             if (!other.TryGetComponent(out Player _)) return;
 
+            HandleCameraIn();
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (!other.TryGetComponent(out Player _)) return;
+
+            HandleCameraOut();
+        }
+
+        private void OnValidate()
+        {
+            IsValid = true;
+            
+            if (_plantAreaArray.Length == 0)
+            {
+                IsValid = false;
+                return;
+            }
+
+            if (_storageBox == null)
+            {
+                IsValid = false;
+            }
+        }
+        
+        private void HandleCameraIn()
+        {
             switch (_corralCardinalDirection)
             {
                 case CorralCardinalDirection.North:
@@ -69,11 +97,9 @@ namespace Farm.Corral
                     throw new ArgumentOutOfRangeException();
             }
         }
-
-        private void OnTriggerExit(Collider other)
+        
+        private void HandleCameraOut()
         {
-            if (!other.TryGetComponent(out Player _)) return;
-            
             switch (_corralCardinalDirection)
             {
                 case CorralCardinalDirection.North:
@@ -92,22 +118,6 @@ namespace Farm.Corral
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        private void OnValidate()
-        {
-            IsValid = true;
-            
-            if (_plantAreaArray.Length == 0)
-            {
-                IsValid = false;
-                return;
-            }
-
-            if (_storageBox == null)
-            {
-                IsValid = false;
             }
         }
 

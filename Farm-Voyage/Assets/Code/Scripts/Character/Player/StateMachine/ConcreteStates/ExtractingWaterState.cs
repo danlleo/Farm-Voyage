@@ -18,6 +18,11 @@ namespace Character.Player.StateMachine.ConcreteStates
             _player.PlayerLocomotion.HandleMoveDestination(_player.WellStayPoint.position, Quaternion.identity);
         }
 
+        public override void OnExit()
+        {
+            _player.PlayerLocomotion.StopAllMovement();
+        }
+
         public override void SubscribeToEvents()
         {
             _player.PlayerExtractingWaterEvent.OnPlayerExtractingWater += Player_OnPlayerExtractingWater;

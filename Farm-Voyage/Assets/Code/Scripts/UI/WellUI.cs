@@ -33,6 +33,8 @@ namespace UI
         private Player _player;
         
         private Coroutine _resistanceRoutine;
+
+        private bool _hasFinishedFilling;
         
         [Inject]
         private void Construct(PlayerInventory playerInventory, PlayerPCInput playerPCInput, Player player)
@@ -57,7 +59,8 @@ namespace UI
         {
             _playerPCInput.OnInteract += PlayerPCInput_OnInteract;
             _waterCan.OnWaterAmountChanged += WaterCan_OnWaterAmountChanged;
-            
+         
+            ResetUI();
             UpdateWaterCanFillAmountBackgroundImage();
         }
 
@@ -65,16 +68,6 @@ namespace UI
         {
             _playerPCInput.OnInteract -= PlayerPCInput_OnInteract;
             _waterCan.OnWaterAmountChanged -= WaterCan_OnWaterAmountChanged;
-        }
-        
-        private void PlayerPCInput_OnInteract()
-        {
-            if (_resistanceRoutine != null)
-            {
-                StopCoroutine(_resistanceRoutine);    
-            }
-            
-            _resistanceRoutine = StartCoroutine(ResistanceRoutine());
         }
 
         private void UpdateWaterCanFillAmountBackgroundImage()
@@ -98,6 +91,12 @@ namespace UI
         {
             _waterCanFilledBarBackgroundImage.fillAmount = 0f;
         }
+        
+        private void ResetUI()
+        {
+            _barsCanvasGroup.alpha = 1f;
+            _forceBarBackgroundImage.fillAmount = 0f;
+        }
 
         private void AnimatePopupText(Action onComplete)
         {
@@ -120,10 +119,13 @@ namespace UI
                 
                 if (_waterCan.CurrentWaterCapacityAmount == WaterCan.WaterCanCapacityAmount)
                 {
-                    AnimatePopupText(() =>
-                        _player.PlayerExtractingWaterEvent.Call(this, new PlayerExtractingWaterEventArgs(false)));
+                    _hasFinishedFilling = true;
                     
-                    _resistanceRoutine = null;
+                    AnimatePopupText(() =>
+                    {
+                        _player.PlayerExtractingWaterEvent.Call(this, new PlayerExtractingWaterEventArgs(false));
+                        _hasFinishedFilling = false;
+                    });
                     
                     yield break;
                 }
@@ -143,6 +145,18 @@ namespace UI
         private void WaterCan_OnWaterAmountChanged(int arg1, int arg2)
         {
             UpdateWaterCanFillAmountBackgroundImage();
+        }
+        
+        private void PlayerPCInput_OnInteract()
+        {
+            if (_hasFinishedFilling) return;
+            
+            if (_resistanceRoutine != null)
+            {
+                StopCoroutine(_resistanceRoutine);
+            }
+            
+            _resistanceRoutine = StartCoroutine(ResistanceRoutine());
         }
     }
 }

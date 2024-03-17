@@ -102,6 +102,7 @@ namespace Character.Player.Locomotion
         
         public void StopAllMovement()
         {
+            StopCoroutine(_moveDestinationRoutine);
             _player.PlayerIdleEvent.Call(this);
         }
 

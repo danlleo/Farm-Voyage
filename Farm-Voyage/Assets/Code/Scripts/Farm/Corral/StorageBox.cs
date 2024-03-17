@@ -36,11 +36,13 @@ namespace Farm.Corral
             _initialPosition = transform.position;
             InitializePlantsDictionary();
         }
-
+        
         private void OnEnable()
         {
-            if (_corral != null)    
+            if (_corral != null)
+            {
                 _corral.PlantAreaClearedEvent.OnPlantAreaCleared += PlantAreaClearedEvent_OnPlantAreaCleared;
+            }
         }
 
         private void OnDisable()

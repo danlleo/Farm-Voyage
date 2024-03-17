@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using Utilities;
 
 namespace Farm.Plants.ConcreteStates
 {
@@ -20,25 +21,30 @@ namespace Farm.Plants.ConcreteStates
 
         public override void OnInteracted()
         {
-            HarvestWithDelay();
+            DelayHarvest();
         }
 
         public override void OnStoppedInteracting()
         {
-            _plant.StopCoroutine(DelayHarvestingRoutine());
+            _plant.StopCoroutine(_delayHarvestingRoutine);
             _delayHarvestingRoutine = null;
         }
 
-        private void HarvestWithDelay()
+        private void DelayHarvest()
         {
-            if (_delayHarvestingRoutine == null)
-                _plant.StartCoroutine(DelayHarvestingRoutine());
+            _delayHarvestingRoutine ??= _plant.StartCoroutine(DelayHarvestingRoutine());
         }
-
+        
+        private void Harvest()
+        {
+            _plant.GetComponent<BoxCollider>().Disable();
+            _plant.PlantArea.ClearPlantArea();
+        }
+        
         private IEnumerator DelayHarvestingRoutine()
         {
             yield return new WaitForSeconds(1f);
-            _plant.Harvest();
+            Harvest();
         }
     }
 }

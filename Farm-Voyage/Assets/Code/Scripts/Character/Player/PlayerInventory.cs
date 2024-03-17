@@ -149,7 +149,7 @@ namespace Character.Player
             foreach (Seed seed in _seedsList)
             {
                 if (seed.SeedType != seedType) continue;
-                if (seed.SeedType == default)
+                if (seed.SeedType == SeedType.Default)
                 {
                     _selectedSeed = null;
                     return;

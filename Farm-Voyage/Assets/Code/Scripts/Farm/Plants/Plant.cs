@@ -3,7 +3,6 @@ using Character.Player;
 using Common;
 using Farm.Corral;
 using UnityEngine;
-using Utilities;
 
 namespace Farm.Plants
 {
@@ -26,11 +25,8 @@ namespace Farm.Plants
         
         private StateMachine _stateMachine;
 
-        private BoxCollider _boxCollider;
-        
         protected virtual void Awake()
         {
-            _boxCollider = GetComponent<BoxCollider>();
             _stateMachine = new StateMachine();
             StateFactory = new StateFactory(this, _stateMachine);
             PlantVisual.localScale = InitialScale * Vector3.one;
@@ -56,12 +52,6 @@ namespace Farm.Plants
         public void StopInteract()
         {
             _stateMachine.CurrentState.OnStoppedInteracting();
-        }
-
-        public void Harvest()
-        {
-            _boxCollider.Disable();
-            PlantArea.ClearPlantArea();
         }
     }
 }
