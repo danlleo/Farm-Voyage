@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Farm.Corral;
 using Farm.Plants;
 using Farm.Plants.ConcreteStates;
@@ -9,8 +10,13 @@ namespace Character.Michael
     [DisallowMultipleComponent]
     public class Waterar : MonoBehaviour
     {
-        private Dictionary<Plant, bool> _plantToNeedsWateringMapping;
-        
+        public ObservableDictionary<Plant, bool> PlantToNeedsWateringMapping;
+
+        private void Awake()
+        {
+            PlantToNeedsWateringMapping = new ObservableDictionary<Plant, bool>();
+        }
+
         private void OnEnable()
         {
             PlantArea.OnAnyPlantPlanted += PlantArea_OnAnyPlantPlanted;
@@ -27,7 +33,7 @@ namespace Character.Michael
 
         private void RegisterPlant(Plant plant)
         {
-            if (!_plantToNeedsWateringMapping.TryAdd(plant, false))
+            if (!PlantToNeedsWateringMapping.TryAdd(plant, false))
             {
                 Debug.LogWarning("There's already registered plant in dictionary.");
             }
@@ -35,12 +41,12 @@ namespace Character.Michael
 
         private void DeregisterPlant(Plant plant)
         {
-            _plantToNeedsWateringMapping.Remove(plant);
+            PlantToNeedsWateringMapping.Remove(plant);
         }
         
         private void SetPlantWateringValue(Plant plant, bool needsWatering)
         {
-            _plantToNeedsWateringMapping[plant] = needsWatering;
+            PlantToNeedsWateringMapping[plant] = needsWatering;
         }
         
         private void PlantArea_OnAnyPlantPlanted(Plant plant)

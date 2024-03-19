@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using UnityEngine;
 using UnityEngine.AI;
 
 namespace Character.Michael.Locomotion
@@ -14,6 +16,8 @@ namespace Character.Michael.Locomotion
         
         private NavMeshAgent _navMeshAgent;
 
+        private Coroutine _moveDestinationRoutine;
+        
         private void Awake()
         {
             _navMeshAgent = GetComponent<NavMeshAgent>();
@@ -21,9 +25,29 @@ namespace Character.Michael.Locomotion
             _navMeshAgent.angularSpeed = _rotationSpeed;
         }
 
-        public void HandleDestination(Vector3 destination)
+        public void HandleMoveDestination(Vector3 destination, Action onReachedDestination)
+        {
+            if (_moveDestinationRoutine != null)
+                StopCoroutine(_moveDestinationRoutine);
+
+            _moveDestinationRoutine = StartCoroutine(MoveDestinationRoutine(destination, onReachedDestination));
+        }
+
+        public void StopAllMovement()
+        {
+            StopCoroutine(_moveDestinationRoutine);
+        }
+
+        private IEnumerator MoveDestinationRoutine(Vector3 destination, Action onReachedPosition)
         {
             _navMeshAgent.destination = destination;
+
+            while (_navMeshAgent.remainingDistance > 0f)
+            {
+                yield return null;
+            }
+            
+            onReachedPosition?.Invoke();
         }
     }
 }

@@ -127,7 +127,7 @@ namespace Character.Player.Locomotion
             }
         }
         
-        private IEnumerator MoveDestinationRoutine(Vector3 targetPosition, Quaternion endRotation, Action onFinishedMoving)
+        private IEnumerator MoveDestinationRoutine(Vector3 targetPosition, Quaternion endRotation, Action onReachedDestination)
         {
             while (!(Vector3.Distance(transform.position, targetPosition) <= _stoppingDestinationDistance))
             {
@@ -141,7 +141,7 @@ namespace Character.Player.Locomotion
             }
             
             _moveDirection = Vector3.zero;
-            onFinishedMoving?.Invoke();
+            onReachedDestination?.Invoke();
 
             InvokePlayersLocomotionEvents();
             HandleTargetRotation(endRotation);

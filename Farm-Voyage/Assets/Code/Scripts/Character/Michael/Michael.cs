@@ -14,12 +14,18 @@ namespace Character.Michael
         public MichaelIdleEvent MichaelIdleEvent { get; private set; }
         public MichaelWalkingEvent MichaelWalkingEvent { get; private set; }
 
+        public MichaelLocomotion MichaelLocomotion { get; private set; }
+        public Waterar Waterar { get; private set; }
+        
         private StateMachine.StateMachine _stateMachine;
         
         private void Awake()
         {
             MichaelIdleEvent = GetComponent<MichaelIdleEvent>();
             MichaelWalkingEvent = GetComponent<MichaelWalkingEvent>();
+
+            MichaelLocomotion = GetComponent<MichaelLocomotion>();
+            Waterar = GetComponent<Waterar>();
             
             _stateMachine = new StateMachine.StateMachine();
             StateFactory = new StateFactory(this, _stateMachine);
