@@ -1,11 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Farm.Tool.ConcreteTools;
 using UnityEngine;
 
 namespace Farm.Plants.ConcreteStates
 {
-    public class NeedsWateringState : State
+    public class WateringState : State
     {
+        public static event Action<Plant, bool> OnAnyWateringStateChanged;
+        
         private const float TimeToWaterInSeconds = 2f;
 
         private readonly Plant _plant;
@@ -15,7 +18,7 @@ namespace Farm.Plants.ConcreteStates
 
         private Coroutine _wateringRoutine;
         
-        public NeedsWateringState(Plant plant, StateMachine stateMachine) : base(plant, stateMachine)
+        public WateringState(Plant plant, StateMachine stateMachine) : base(plant, stateMachine)
         {
             _plant = plant;
             _stateMachine = stateMachine;
@@ -25,6 +28,7 @@ namespace Farm.Plants.ConcreteStates
 
         public override void OnEnter()
         {
+            OnAnyWateringStateChanged?.Invoke(_plant, true);
             Debug.Log("Needs watering");
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using Utilities;
 
@@ -6,6 +7,8 @@ namespace Farm.Plants.ConcreteStates
 {
     public class ReadyToHarvestState : State
     {
+        public static event Action<Plant> OnAnyPlantHarvested; 
+        
         private readonly Plant _plant;
         private Coroutine _delayHarvestingRoutine;
         
@@ -39,6 +42,7 @@ namespace Farm.Plants.ConcreteStates
         {
             _plant.GetComponent<BoxCollider>().Disable();
             _plant.PlantArea.ClearPlantArea();
+            OnAnyPlantHarvested?.Invoke(_plant);
         }
         
         private IEnumerator DelayHarvestingRoutine()

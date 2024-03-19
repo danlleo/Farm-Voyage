@@ -16,6 +16,8 @@ namespace Farm.Corral
     [DisallowMultipleComponent]
     public sealed class PlantArea : MonoBehaviour, IInteractable, IStopInteractable, IDisplayProgressIcon
     {
+        public static event Action<Plant> OnAnyPlantPlanted;
+        
         [field:SerializeField] public ProgressIconSO ProgressIcon { get; private set; }
         public Guid ID { get; } = Guid.NewGuid();
 
@@ -146,6 +148,7 @@ namespace Farm.Corral
         {
             Plant plant = _plantFactory.Create(_selectedSeed.Plant);
             plant.Initialize(transform.position, Quaternion.identity, this, _playerInventory);
+            OnAnyPlantPlanted?.Invoke(plant);
             _plant = plant;
         }
 

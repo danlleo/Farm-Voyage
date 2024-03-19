@@ -18,9 +18,9 @@ namespace Farm.Plants
             return new GrowingState(_plant, _stateMachine);
         }
 
-        public State NeedsWatering()
+        public State Watering()
         {
-            return new NeedsWateringState(_plant, _stateMachine);
+            return new WateringState(_plant, _stateMachine);
         }
 
         public State ReadyToHarvest()

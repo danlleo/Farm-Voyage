@@ -41,7 +41,7 @@ namespace Farm.Plants.ConcreteStates
                         return;
                     }
                     
-                    _stateMachine.ChangeState(_plant.StateFactory.NeedsWatering());
+                    _stateMachine.ChangeState(_plant.StateFactory.Watering());
                 });
         }
 
