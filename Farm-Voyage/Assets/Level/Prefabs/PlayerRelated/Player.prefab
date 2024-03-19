@@ -2117,7 +2117,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ccb2114a347345479ea8f6c4d68618e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LockedResourcesGatherer: {fileID: 0}
   <WorkbenchStayPoint>k__BackingField: {fileID: 4672652186341752203, guid: 1d884846c4567fe42ab0a1aafc3aa145,
     type: 3}
   <EmmaStoreStayPoint>k__BackingField: {fileID: 8776830052267347194, guid: df07e4230fb7e07459a24a5288f85680,
@@ -2146,6 +2145,7 @@ MonoBehaviour:
   _walkingSpeed: 3
   _runningSpeed: 5
   _rotateSpeed: 10
+  _stickDistance: 4
   _stickRotateSpeed: 40
   _stoppingDestinationDistance: 1.2
 --- !u!114 &8566789751215023668

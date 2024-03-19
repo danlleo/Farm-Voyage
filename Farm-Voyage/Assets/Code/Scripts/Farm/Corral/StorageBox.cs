@@ -64,17 +64,10 @@ namespace Farm.Corral
 
         public void ClearAndPutToInitialPosition()
         {
-            ClearPlantValuesInDictionary();
-            ClearFromPlants();
-            
-            _boxCollider.Enable();
-            transform.SetParent(_corral.transform);
-            transform.position = _initialPosition;
-            _canCarry = false;
-            _player.PlayerCarryingStorageBoxStateChangedEvent.Call(this,
-                new PlayerCarryingStorageBoxStateChangedEventArgs(this, false));
+            ClearPlants();
+            ResetStorageBox();
         }
-        
+
         private void Pickup()
         {
             if (!_canCarry) return;
@@ -91,41 +84,44 @@ namespace Farm.Corral
 
             _plantsDictionary[emptyPoint] = plant;
             MoveToBox(plant, emptyPoint);
-            
-            if (IsBoxFull())
-                _canCarry = true;
+
+            _canCarry = IsBoxFull();
         }
         
         private void InitializePlantsDictionary()
         {
             foreach (Transform storePoint in _storePoints)
             {
-                _plantsDictionary.Add(storePoint, null);
+                _plantsDictionary[storePoint] = null;
             }
         }
 
-        private void ClearPlantValuesInDictionary()
-        {
-            foreach (Transform key in _plantsDictionary.Keys.ToList())
-            {
-                _plantsDictionary[key] = null;
-            }   
-        }
-
-        private void ClearFromPlants()
+        private void ClearPlants()
         {
             foreach (Transform storePoint in _storePoints)
             {
-                Transform plant = storePoint.transform.GetChild(0);
+                if (storePoint.childCount > 0)
+                {
+                    Destroy(storePoint.GetChild(0).gameObject);
+                }
 
-                if (plant != null)
-                    Destroy(plant.gameObject);
-            }   
+                _plantsDictionary[storePoint] = null;
+            }
+        }
+        
+        private void ResetStorageBox()
+        {
+            _boxCollider.Enable();
+            transform.SetParent(_corral.transform);
+            transform.position = _initialPosition;
+            _canCarry = false;
+            _player.PlayerCarryingStorageBoxStateChangedEvent.Call(this,
+                new PlayerCarryingStorageBoxStateChangedEventArgs(this, false));
         }
         
         private bool IsBoxFull()
         {
-            return _plantsDictionary.All(keyValuePair => keyValuePair.Value != null);
+            return _plantsDictionary.Values.All(value => value != null);
         }
 
         private void MoveToBox(Plant plant, Transform emptyPoint)
@@ -137,17 +133,8 @@ namespace Farm.Corral
 
         private bool TryGetEmptyBoxPoint(out Transform emptyPoint)
         {
-            foreach (Transform storePoint in _storePoints)
-            {
-                if (!_plantsDictionary.TryGetValue(storePoint, out Plant plant)) continue;
-                if (plant != null) continue;
-                
-                emptyPoint = storePoint;
-                return true;
-            }
-
-            emptyPoint = null;
-            return false;
+            emptyPoint = _storePoints.FirstOrDefault(point => _plantsDictionary[point] == null);
+            return emptyPoint != null;
         }
         
         private void PlantAreaClearedEvent_OnPlantAreaCleared(object sender, PlantAreaClearedEventArgs e)

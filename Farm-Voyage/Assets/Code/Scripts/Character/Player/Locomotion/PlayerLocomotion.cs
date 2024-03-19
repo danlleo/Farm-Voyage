@@ -8,14 +8,12 @@ namespace Character.Player.Locomotion
     [DisallowMultipleComponent]
     public class PlayerLocomotion : MonoBehaviour
     {
-        // TODO: make it visible in the inspector soon
-        private const float StickDistance = 3f;
-        
         [Header("Settings")]
         [SerializeField] private LayerMask _obstaclesLayerMask;
         [SerializeField, Range(1f, 100f)] private float _walkingSpeed;
         [SerializeField, Range(1f, 100f)] private float _runningSpeed;
         [SerializeField, Range(0f, 20f)] private float _rotateSpeed;
+        [SerializeField, Range(0.1f, 5f)] private float _stickDistance = 3f;
         [SerializeField, Range(0f, 50f)] private float _stickRotateSpeed;
         [SerializeField, Min(0f)] private float _stoppingDestinationDistance = 1f;
 
@@ -135,8 +133,10 @@ namespace Character.Player.Locomotion
             {
                 InvokePlayersLocomotionEvents();
                 HandleRotation();
+                
                 _moveDirection = targetPosition - transform.position;
                 transform.position += _moveDirection.normalized * (_runningSpeed * Time.deltaTime);
+                
                 yield return null;
             }
             
@@ -152,12 +152,12 @@ namespace Character.Player.Locomotion
         private IEnumerator StickRotationRoutine(Transform lookTransform, Action onOutOfZone = null)
         {
             while (Vector3.Distance(_player.transform.position, lookTransform.position) <=
-                StickDistance)
+                _stickDistance)
             {
                 Vector3 lookDirection = lookTransform.position - transform.position;
                 lookDirection.y = 0;
-
-                if (lookDirection == Vector3.zero) yield break;
+                
+                if (lookDirection == Vector3.zero) continue;
             
                 Vector3 forward = Vector3.Slerp(transform.forward, lookDirection.normalized, Time.deltaTime * _stickRotateSpeed);
                 transform.forward = forward;
