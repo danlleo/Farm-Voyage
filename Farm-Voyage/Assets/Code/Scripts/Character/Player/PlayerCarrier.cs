@@ -16,7 +16,6 @@ namespace Character.Player
         [SerializeField, WithinParent] private Transform _carryPoint;
         
         private StorageBox _storageBox;
-
         private PlayerCarryingStorageBoxStateChangedEvent _playerCarryingStorageBoxStateChangedEvent;
         
         private void Awake()
@@ -62,9 +61,6 @@ namespace Character.Player
         {
             if (_storageBox != null) return;
 
-            _playerCarryingStorageBoxStateChangedEvent.Call(this,
-                new PlayerCarryingStorageBoxStateChangedEventArgs(storageBox, true));
-            
             storageBox.transform.SetParent(_carryPoint);
             storageBox.transform.SetLocalPositionAndRotation(Vector3.zero, quaternion.identity);
 
@@ -75,8 +71,8 @@ namespace Character.Player
             PlayerCarryingStorageBoxStateChangedEventArgs e)
         {
             if (!e.IsCarrying) return;
-            
-            CarryStorageBox(_storageBox);
+
+            CarryStorageBox(e.StorageBox);
         }
     }
 }

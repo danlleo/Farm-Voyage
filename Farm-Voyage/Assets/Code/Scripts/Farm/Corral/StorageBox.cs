@@ -59,7 +59,6 @@ namespace Farm.Corral
         
         public void Interact()
         {
-            if (!_canCarry) return;
             Pickup();
         }
 
@@ -78,6 +77,8 @@ namespace Farm.Corral
         
         private void Pickup()
         {
+            if (!_canCarry) return;
+            
             _boxCollider.Disable();
             _player.PlayerCarryingStorageBoxStateChangedEvent.Call(this,
                 new PlayerCarryingStorageBoxStateChangedEventArgs(this, true));

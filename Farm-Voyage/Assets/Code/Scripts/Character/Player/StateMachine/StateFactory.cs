@@ -1,4 +1,5 @@
 ﻿using Character.Player.StateMachine.ConcreteStates;
+using UnityEngine;
 
 namespace Character.Player.StateMachine
 {
@@ -38,9 +39,9 @@ namespace Character.Player.StateMachine
             return new UsingWorkbenchState(_player, _stateMachine);
         }
 
-        public State Gathering()
+        public State Gathering(Transform resourceGathererTransform)
         {
-            return new GatheringState(_player, _stateMachine);
+            return new GatheringState(_player, _stateMachine, resourceGathererTransform);
         }
 
         public State LeavingHome()

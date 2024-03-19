@@ -23,6 +23,12 @@
                 Player_OnPlayerCarryingStorageBoxStateChanged;
         }
 
+        public override void Tick()
+        {
+            _player.PlayerLocomotion.HandleGroundedMovement();
+            _player.PlayerLocomotion.HandleRotation();
+        }
+
         private void Player_OnPlayerCarryingStorageBoxStateChanged(object sender, PlayerCarryingStorageBoxStateChangedEventArgs e)
         {
             if (!e.IsCarrying)

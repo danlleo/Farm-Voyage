@@ -1,76 +1,57 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Character.Player.StateMachine.ConcreteStates
 {
     public class GatheringState : State
     {
-        private const float StickDistance = 3f;
-        
         private readonly Player _player;
         private readonly StateMachine _stateMachine;
-
-        private bool _readyToLeaveGatheringState;
-
-        public GatheringState(Player player, StateMachine stateMachine) : base(player, stateMachine)
+        private readonly Transform _resourceGathererTransform;
+        
+        public GatheringState(Player player, StateMachine stateMachine, Transform resourceGathererTransform) : base(player, stateMachine)
         {
             _player = player;
             _stateMachine = stateMachine;
+            _resourceGathererTransform = resourceGathererTransform;
         }
 
         public override void SubscribeToEvents()
         {
-            _player.PlayerGatheringEvent.OnPlayerGathering += PlayerGatheringEvent_OnPlayerGathering;
-            _player.PlayerExtractingWaterEvent.OnPlayerExtractingWater +=
-                PlayerExtractingWaterEvent_OnPlayerExtractingWater;
+            _player.PlayerGatheringEvent.OnPlayerGathering += Player_OnPlayerGathering;
+            _player.PlayerExtractingWaterEvent.OnPlayerExtractingWater += Player_OnPlayerExtractingWater;
         }
 
         public override void UnsubscribeFromEvents()
         {
-            _player.PlayerGatheringEvent.OnPlayerGathering -= PlayerGatheringEvent_OnPlayerGathering;
-            _player.PlayerExtractingWaterEvent.OnPlayerExtractingWater -=
-                PlayerExtractingWaterEvent_OnPlayerExtractingWater;
+            _player.PlayerGatheringEvent.OnPlayerGathering -= Player_OnPlayerGathering;
+            _player.PlayerExtractingWaterEvent.OnPlayerExtractingWater -= Player_OnPlayerExtractingWater;
+        }
+
+        public override void OnEnter()
+        {
+            _player.PlayerLocomotion.HandleStickRotation(_resourceGathererTransform, () =>
+            {
+                _stateMachine.ChangeState(_player.StateFactory.Exploring());
+            });
         }
 
         public override void Tick()
         {
             _player.PlayerInteract.TryInteract();
             _player.PlayerLocomotion.HandleGroundedMovement();
-
-            StickPlayerToResourcesGatherer();
-        }
-
-        private void StickPlayerToResourcesGatherer()
-        {
-            if (_player.LockedResourcesGatherer == null) return;
-            
-            if (Vector3.Distance(_player.transform.position, _player.LockedResourcesGatherer.position) <=
-                StickDistance)
-            {
-                _player.PlayerLocomotion.HandleStickRotation(_player.LockedResourcesGatherer);
-                return;
-            }
-
-            if (_readyToLeaveGatheringState)
-            {
-                _stateMachine.ChangeState(_player.StateFactory.Exploring());
-            }
         }
         
-        private void PlayerGatheringEvent_OnPlayerGathering(object sender, PlayerGatheringEventArgs e)
+        private void Player_OnPlayerGathering(object sender, PlayerGatheringEventArgs e)
         {
-            if (e.HasFullyGathered)
-            {
-                _stateMachine.ChangeState(_player.StateFactory.Exploring());
-                return;
-            }
+            if (!e.HasFullyGathered) return;
             
-            _readyToLeaveGatheringState = !e.IsGathering;
+            _stateMachine.ChangeState(_player.StateFactory.Exploring());
         }
         
-        private void PlayerExtractingWaterEvent_OnPlayerExtractingWater(object sender, PlayerExtractingWaterEventArgs e)
+        private void Player_OnPlayerExtractingWater(object sender, PlayerExtractingWaterEventArgs e)
         {
             if (!e.IsExtracting) return;
+            
             _stateMachine.ChangeState(_player.StateFactory.ExtractingWater());
         }
     }

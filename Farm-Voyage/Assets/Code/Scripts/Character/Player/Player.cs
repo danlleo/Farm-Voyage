@@ -42,8 +42,6 @@ namespace Character.Player
         public PlayerEnteringHomeEvent PlayerEnteringHomeEvent { get; private set; }
         public PlayerExtractingWaterEvent PlayerExtractingWaterEvent { get; private set; }
         
-        [HideInInspector] public Transform LockedResourcesGatherer;
-
         [field:SerializeField] public Transform WorkbenchStayPoint { get; private set; }
         [field:SerializeField] public Transform EmmaStoreStayPoint { get; private set; }
         [field:SerializeField] public Transform HomeLeavePoint { get; private set; }

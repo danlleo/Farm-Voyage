@@ -65,8 +65,9 @@ namespace Character.Player.StateMachine.ConcreteStates
         
         private void Player_OnPlayerUsingWorkbench(object sender, PlayerUsingWorkbenchEventArgs e)
         {
-            if (e.IsUsingWorkbench)
-                _stateMachine.ChangeState(_player.StateFactory.UsingWorkbench());
+            if (!e.IsUsingWorkbench) return;
+            
+            _stateMachine.ChangeState(_player.StateFactory.UsingWorkbench());
         }
         
         private void Player_OnPlayerGathering(object sender, PlayerGatheringEventArgs e)
@@ -74,14 +75,14 @@ namespace Character.Player.StateMachine.ConcreteStates
             if (!e.IsGathering) return;
             
             _startedGathering = true;
-            _player.LockedResourcesGatherer = e.LockedTransform;
-            _stateMachine.ChangeState(_player.StateFactory.Gathering());
+            _stateMachine.ChangeState(_player.StateFactory.Gathering(e.LockedTransform));
         }
         
         private void Player_OnPlayerCarryingStorageBoxStateChanged(object sender, PlayerCarryingStorageBoxStateChangedEventArgs e)
         {
-            if (e.IsCarrying)
-                _stateMachine.ChangeState(_player.StateFactory.CarryingStorageBox());
+            if (!e.IsCarrying) return;
+            
+            _stateMachine.ChangeState(_player.StateFactory.CarryingStorageBox());
         }
         
         private void Player_OnPlayerEnteringHome(object sender, EventArgs e)
@@ -92,6 +93,7 @@ namespace Character.Player.StateMachine.ConcreteStates
         private void Player_OnPlayerExtractingWater(object sender, PlayerExtractingWaterEventArgs e)
         {
             if (!e.IsExtracting) return;
+            
             _stateMachine.ChangeState(_player.StateFactory.ExtractingWater());
         }
     }

@@ -13,7 +13,7 @@ namespace Character.Player.StateMachine.ConcreteStates
             _stateMachine = stateMachine;
         }
 
-        public override void Tick()
+        public override void OnEnter()
         {
             _player.PlayerLocomotion.HandleMoveDestination(_player.HomeStayPoint.position, Quaternion.identity);
         }

@@ -151,8 +151,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <PlantVisual>k__BackingField: {fileID: 3801969109286297235}
-  <PlantPartitionGrowTimeInSecond>k__BackingField: 3
+  <PlantPartitionGrowTimeInSecond>k__BackingField: 1
   <PlantCompressedScale>k__BackingField: 0.75
   <InitialScale>k__BackingField: 1
   <GrownScale>k__BackingField: 3
-  <Partitions>k__BackingField: 2
+  <Partitions>k__BackingField: 1
