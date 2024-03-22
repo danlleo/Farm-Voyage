@@ -1,4 +1,5 @@
 ﻿using Character.Michael.StateMachine.ConcreteStates;
+using Farm.Plants;
 
 namespace Character.Michael.StateMachine
 {
@@ -13,9 +14,19 @@ namespace Character.Michael.StateMachine
             _stateMachine = stateMachine;
         }
 
+        public State Idle()
+        {
+            return new IdleState(_michael, _stateMachine);
+        }
+        
         public State Gardening()
         {
             return new GardeningState(_michael, _stateMachine);
+        }
+
+        public State WalkingToPlant(Plant plant)
+        {
+            return new WalkingToPlantState(_michael, _stateMachine, plant);
         }
     }
 }

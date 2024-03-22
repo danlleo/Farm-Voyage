@@ -21800,7 +21800,6 @@ GameObject:
   - component: {fileID: 1125040235146897178}
   - component: {fileID: 1125040235146897179}
   - component: {fileID: 1125040235146897177}
-  - component: {fileID: 1125040235146897182}
   - component: {fileID: 1125040235146897181}
   m_Layer: 0
   m_Name: Michael
@@ -21880,6 +21879,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movingSpeed: 5
   _rotationSpeed: 200
+  _stoppingDistance: 5
 --- !u!195 &1125040235146897180
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -21912,18 +21912,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0f0652cc5aa34e688e338925c51825bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1125040235146897182
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1125040235146897174}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6655dd73f30c4dd692c1f86f5e39e9a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &1125040235157601432

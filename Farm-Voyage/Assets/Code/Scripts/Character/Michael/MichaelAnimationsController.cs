@@ -1,47 +1,36 @@
-﻿using System;
-using Character.Michael.Locomotion;
+﻿using Character.Michael.Locomotion;
 using UnityEngine;
 
 namespace Character.Michael
 {
-    [RequireComponent(typeof(MichaelIdleEvent))]
-    [RequireComponent(typeof(MichaelWalkingEvent))]
+    [RequireComponent(typeof(MichaelLocomotionStateChangedEvent))]
     [RequireComponent(typeof(Animator))]
     [DisallowMultipleComponent]
     public class MichaelAnimationsController : MonoBehaviour
     {
-        private MichaelIdleEvent _michaelIdleEvent;
-        private MichaelWalkingEvent _michaelWalkingEvent;
+        private MichaelLocomotionStateChangedEvent _michaelLocomotionStateChangedEvent;
         
         private Animator _animator;
 
         private void Awake()
         {
             _animator = GetComponent<Animator>();
-            _michaelIdleEvent = GetComponent<MichaelIdleEvent>();
-            _michaelWalkingEvent = GetComponent<MichaelWalkingEvent>();
+            _michaelLocomotionStateChangedEvent = GetComponent<MichaelLocomotionStateChangedEvent>();
         }
 
         private void OnEnable()
         {
-            _michaelIdleEvent.OnMichaelIdle += MichaelIdleEvent_OnMichaelIdle;
-            _michaelWalkingEvent.OnMichaelWalking += MichaelWalkingEvent_OnMichaelWalking;
+            _michaelLocomotionStateChangedEvent.OnMichaelWalking += Michael_OnMichaelLocomotionStateChanged;
         }
 
         private void OnDisable()
         {
-            _michaelIdleEvent.OnMichaelIdle -= MichaelIdleEvent_OnMichaelIdle;
-            _michaelWalkingEvent.OnMichaelWalking -= MichaelWalkingEvent_OnMichaelWalking;
+            _michaelLocomotionStateChangedEvent.OnMichaelWalking -= Michael_OnMichaelLocomotionStateChanged;
         }
 
-        private void MichaelWalkingEvent_OnMichaelWalking()
+        private void Michael_OnMichaelLocomotionStateChanged(bool isWalking)
         {
-            throw new NotImplementedException();
-        }
-
-        private void MichaelIdleEvent_OnMichaelIdle()
-        {
-            throw new NotImplementedException();
+            _animator.SetBool(MichaelAnimationsParams.IsWalking, isWalking);
         }
     }
 }

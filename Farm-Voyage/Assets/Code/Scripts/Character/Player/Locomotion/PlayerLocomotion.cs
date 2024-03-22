@@ -78,13 +78,18 @@ namespace Character.Player.Locomotion
             InvokePlayersLocomotionEvents();
         }
 
-        public void HandleMoveDestination(Vector3 targetPosition, Quaternion endRotation, Action onFinishedMoving = null)
+        public void HandleMoveDestination(Transform destination, Quaternion endRotation, Action onFinishedMoving = null)
+        {
+            HandleMoveDestination(destination.position, endRotation, onFinishedMoving);
+        }
+        
+        public void HandleMoveDestination(Vector3 destination, Quaternion endRotation, Action onFinishedMoving = null)
         {
             if (_moveDestinationRoutine != null)
                 StopCoroutine(_moveDestinationRoutine);
 
             _moveDestinationRoutine =
-                StartCoroutine(MoveDestinationRoutine(targetPosition, endRotation, onFinishedMoving));
+                StartCoroutine(MoveDestinationRoutine(destination, endRotation, onFinishedMoving));
         }
         
         public void HandleRotation()

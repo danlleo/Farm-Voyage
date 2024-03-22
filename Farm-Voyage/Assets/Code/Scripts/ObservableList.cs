@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 public class ObservableList<T>
 {
-    private readonly List<T> _list = new();
-
     public event Action<T> OnItemAdded;
     public event Action<T> OnItemRemoved;
+    
+    private readonly List<T> _list = new();
 
     public void Add(T item)
     {
@@ -24,9 +24,11 @@ public class ObservableList<T>
 
     public T this[int i]
     {
-        get { return _list[i]; }
-        set { _list[i] = value; }
+        get => _list[i];
+        set => _list[i] = value;
     }
 
     public int Count => _list.Count;
+
+    public bool Contains(T item) => _list.Contains(item);
 }

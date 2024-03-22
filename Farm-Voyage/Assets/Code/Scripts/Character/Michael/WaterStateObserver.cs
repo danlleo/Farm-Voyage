@@ -8,13 +8,15 @@ using UnityEngine;
 namespace Character.Michael
 {
     [DisallowMultipleComponent]
-    public class Waterar : MonoBehaviour
+    public class WaterStateObserver : MonoBehaviour
     {
-        public ObservableDictionary<Plant, bool> PlantToNeedsWateringMapping;
-
+        public event Action<Plant, bool> OnPlantWateringStateChanged;
+        
+        private Dictionary<Plant, bool> _plantToNeedsWateringMapping;
+        
         private void Awake()
         {
-            PlantToNeedsWateringMapping = new ObservableDictionary<Plant, bool>();
+            _plantToNeedsWateringMapping = new Dictionary<Plant, bool>();
         }
 
         private void OnEnable()
@@ -33,7 +35,7 @@ namespace Character.Michael
 
         private void RegisterPlant(Plant plant)
         {
-            if (!PlantToNeedsWateringMapping.TryAdd(plant, false))
+            if (!_plantToNeedsWateringMapping.TryAdd(plant, false))
             {
                 Debug.LogWarning("There's already registered plant in dictionary.");
             }
@@ -41,12 +43,13 @@ namespace Character.Michael
 
         private void DeregisterPlant(Plant plant)
         {
-            PlantToNeedsWateringMapping.Remove(plant);
+            _plantToNeedsWateringMapping.Remove(plant);
         }
         
         private void SetPlantWateringValue(Plant plant, bool needsWatering)
         {
-            PlantToNeedsWateringMapping[plant] = needsWatering;
+            _plantToNeedsWateringMapping[plant] = needsWatering;
+            OnPlantWateringStateChanged?.Invoke(plant, needsWatering);
         }
         
         private void PlantArea_OnAnyPlantPlanted(Plant plant)
