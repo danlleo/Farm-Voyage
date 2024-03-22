@@ -76,6 +76,8 @@ namespace Farm.Corral
 
         public void Interact()
         {
+            _player.PlayerLocomotion.HandleStickRotation(transform, 2.5f);
+            
             if (_dayEnded) return;
             if (_delayBeforePlantingNewRoutine != null) return;
             if (!TryAllowDigging(out Tool.Tool _)) return;
@@ -91,7 +93,7 @@ namespace Farm.Corral
                     _seedsNeededToPlant))
                 return;
             
-            _diggingRoutine ??= StartCoroutine(DiggingRoutine());
+            StartDigging();
         }
 
         public void StopInteract()
@@ -123,6 +125,11 @@ namespace Farm.Corral
         {
             yield return new WaitForSeconds(_delayBeforePlantingNewTimeInSeconds);
             ClearDelayBeforePlantingNewRoutine();
+        }
+
+        private void StartDigging()
+        {
+            _diggingRoutine ??= StartCoroutine(DiggingRoutine());
         }
         
         private void StopDigging()

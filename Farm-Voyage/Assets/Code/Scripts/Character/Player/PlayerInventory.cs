@@ -148,12 +148,13 @@ namespace Character.Player
         {
             foreach (Seed seed in _seedsList)
             {
-                if (seed.SeedType != seedType) continue;
-                if (seed.SeedType == SeedType.Default)
+                if (seedType == SeedType.Default)
                 {
                     _selectedSeed = null;
                     return;
                 }
+                
+                if (seed.SeedType != seedType) continue;
                 
                 _selectedSeed = seed;
                 return;

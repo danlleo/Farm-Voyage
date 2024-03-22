@@ -92,12 +92,25 @@ namespace Character.Player.Locomotion
             transform.forward = Vector3.Slerp(transform.forward, _moveDirection, Time.deltaTime * _rotateSpeed);
         }
         
+        public void HandleStickRotation(Transform lookTransform, float stickDistance, Action onOutOfZone = null)
+        {
+            if (stickDistance < 0f)
+            {
+                stickDistance = 0f;
+                Debug.LogWarning("Stick distance is below zero, please take a look.");
+            }
+            
+            if (_stickRotationRoutine != null)
+            {
+                StopCoroutine(_stickRotationRoutine);
+            }
+
+            _stickRotationRoutine = StartCoroutine(StickRotationRoutine(lookTransform, stickDistance, onOutOfZone));
+        }
+        
         public void HandleStickRotation(Transform lookTransform, Action onOutOfZone = null)
         {
-            if (_stickRotationRoutine != null)
-                StopCoroutine(_stickRotationRoutine);
-
-            _stickRotationRoutine = StartCoroutine(StickRotationRoutine(lookTransform, onOutOfZone));
+            HandleStickRotation(lookTransform, _stickDistance, onOutOfZone);
         }
         
         public void StopAllMovement()
@@ -149,10 +162,10 @@ namespace Character.Player.Locomotion
             yield return null;
         }
 
-        private IEnumerator StickRotationRoutine(Transform lookTransform, Action onOutOfZone = null)
+        private IEnumerator StickRotationRoutine(Transform lookTransform, float stickDistance, Action onOutOfZone = null)
         {
             while (Vector3.Distance(_player.transform.position, lookTransform.position) <=
-                _stickDistance)
+                   stickDistance)
             {
                 Vector3 lookDirection = lookTransform.position - transform.position;
                 lookDirection.y = 0;
