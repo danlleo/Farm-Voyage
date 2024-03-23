@@ -2160,6 +2160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7ada7a40d4a407b947b897d2eb19671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _player: {fileID: 7534990748196741893}
   _interactableLayerMask:
     serializedVersion: 2
     m_Bits: 128

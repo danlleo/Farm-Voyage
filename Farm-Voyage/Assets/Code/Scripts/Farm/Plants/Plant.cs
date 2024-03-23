@@ -1,4 +1,5 @@
 using Attributes.WithinParent;
+using Character;
 using Character.Player;
 using Common;
 using Farm.Corral;
@@ -6,10 +7,13 @@ using UnityEngine;
 
 namespace Farm.Plants
 {
+    [RequireComponent(typeof(PlantFinishedWateringEvent))]
     [RequireComponent(typeof(BoxCollider))]
     [DisallowMultipleComponent]
     public abstract class Plant : MonoBehaviour, IInteractable, IStopInteractable
     {
+        public PlantFinishedWateringEvent PlantFinishedWateringEvent { get; private set; }
+        
         public StateFactory StateFactory { get; private set; }
         public PlayerInventory PlayerInventory { get; private set; }
         public PlantArea PlantArea { get; private set; }
@@ -27,26 +31,42 @@ namespace Farm.Plants
 
         protected virtual void Awake()
         {
+            PlantFinishedWateringEvent = GetComponent<PlantFinishedWateringEvent>();
             _stateMachine = new StateMachine();
             StateFactory = new StateFactory(this, _stateMachine);
             PlantVisual.localScale = InitialScale * Vector3.one;
         }
 
+        private void OnEnable()
+        {
+            _stateMachine.CurrentState?.SubscribeToEvents();
+        }
+
+        private void OnDisable()
+        {
+            _stateMachine.CurrentState.UnsubscribeFromEvents();
+        }
+        
         protected virtual void Start()
         {
             _stateMachine.Initialize(StateFactory.Growing());
         }
 
+        private void OnDestroy()
+        {
+            _stateMachine.CurrentState.OnExit();
+        }
+        
         public void Initialize(Vector3 position, Quaternion rotation, PlantArea plantArea, PlayerInventory playerInventory)
         {
             transform.SetPositionAndRotation(position, rotation);
             PlantArea = plantArea;
             PlayerInventory = playerInventory;
         }
-        
-        public void Interact()
+   
+        public void Interact(ICharacter initiator)
         {
-            _stateMachine.CurrentState.OnInteracted();
+            _stateMachine.CurrentState.OnInteracted(initiator);
         }
 
         public void StopInteract()

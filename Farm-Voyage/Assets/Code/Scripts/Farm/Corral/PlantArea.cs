@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Character;
 using Character.Player;
 using Common;
 using Farm.Plants;
@@ -74,7 +75,7 @@ namespace Farm.Corral
             _plantFactory = plantFactory;
         }
 
-        public void Interact()
+        public void Interact(ICharacter initiator)
         {
             _player.PlayerLocomotion.HandleStickRotation(transform, 2.5f);
             

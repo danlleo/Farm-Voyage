@@ -23,14 +23,14 @@ namespace Character.Michael.StateMachine.ConcreteStates
             _michael.WaterStateObserver.OnPlantWateringStateChanged -= WaterStateObserver_OnPlantWateringStateChanged;
         }
 
-        private void ProceedToWalkIfPlantNeedsWatering(Plant plant, bool needsWatering)
+        private void ProceedToWalkIfPlantNeedsWatering(Farm.Plants.Plant plant, bool needsWatering)
         {
             if (!needsWatering) return;
             
             _stateMachine.ChangeState(_michael.StateFactory.WalkingToPlant(plant));
         }
         
-        private void WaterStateObserver_OnPlantWateringStateChanged(Plant plant, bool needsWatering)
+        private void WaterStateObserver_OnPlantWateringStateChanged(Farm.Plants.Plant plant, bool needsWatering)
         {
             ProceedToWalkIfPlantNeedsWatering(plant, needsWatering);
         }

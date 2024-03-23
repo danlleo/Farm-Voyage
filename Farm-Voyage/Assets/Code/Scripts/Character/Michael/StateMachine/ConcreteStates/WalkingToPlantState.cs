@@ -1,15 +1,12 @@
-﻿using Farm.Plants;
-using UnityEngine;
-
-namespace Character.Michael.StateMachine.ConcreteStates
+﻿namespace Character.Michael.StateMachine.ConcreteStates
 {
     public class WalkingToPlantState : State
     {
         private readonly Michael _michael;
         private readonly StateMachine _stateMachine;
-        private readonly Plant _plant;
+        private readonly Farm.Plants.Plant _plant;
         
-        public WalkingToPlantState(Michael michael, StateMachine stateMachine, Plant plant) : base(michael, stateMachine)
+        public WalkingToPlantState(Michael michael, StateMachine stateMachine, Farm.Plants.Plant plant) : base(michael, stateMachine)
         {
             _michael = michael;
             _stateMachine = stateMachine;
@@ -30,11 +27,11 @@ namespace Character.Michael.StateMachine.ConcreteStates
         {
             _michael.MichaelLocomotion.HandleMoveDestination(_plant.transform, () =>
             {
-                Debug.Log("Finished moving");
+                _stateMachine.ChangeState(_michael.StateFactory.Watering(_plant));
             });
         }
         
-        private void HandleWateredPlant(Plant plant)
+        private void HandleWateredPlant(Farm.Plants.Plant plant)
         {
             if (!ReferenceEquals(_plant, plant)) return;
             
@@ -42,7 +39,7 @@ namespace Character.Michael.StateMachine.ConcreteStates
             _stateMachine.ChangeState(_michael.StateFactory.Idle());
         }
         
-        private void WaterStateObserver_OnPlantWateringStateChanged(Plant plant, bool needsWatering)
+        private void WaterStateObserver_OnPlantWateringStateChanged(Farm.Plants.Plant plant, bool needsWatering)
         {
             HandleWateredPlant(plant);
         }

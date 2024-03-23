@@ -7,7 +7,8 @@ namespace Character.Player.Locomotion
     [DisallowMultipleComponent]
     public class PlayerInteract : MonoBehaviour
     {
-        [Header("External references")]
+        [Header("External references")] 
+        [SerializeField] private Player _player;
         [SerializeField] private LayerMask _interactableLayerMask;
         [SerializeField, WithinParent] private Transform _raycastPoint;
 
@@ -34,7 +35,7 @@ namespace Character.Player.Locomotion
             
                 // Start interacting with the new object
                 _currentInteractable = interactable;
-                _currentInteractable.Interact();
+                _currentInteractable.Interact(_player);
             }
             else
             {

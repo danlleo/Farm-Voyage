@@ -8,6 +8,9 @@ namespace Character.Michael
     [DisallowMultipleComponent]
     public class MichaelAnimationsController : MonoBehaviour
     {
+        [Header("External references")]
+        [SerializeField] private ParticleSystem _walkingEffectParticleSystem;
+        
         private MichaelLocomotionStateChangedEvent _michaelLocomotionStateChangedEvent;
         
         private Animator _animator;
@@ -30,6 +33,16 @@ namespace Character.Michael
 
         private void Michael_OnMichaelLocomotionStateChanged(bool isWalking)
         {
+            if (isWalking)
+            {
+                if (!_walkingEffectParticleSystem.isPlaying)
+                    _walkingEffectParticleSystem.Play();
+            }
+            else
+            {
+                _walkingEffectParticleSystem.Stop();
+            }
+            
             _animator.SetBool(MichaelAnimationsParams.IsWalking, isWalking);
         }
     }

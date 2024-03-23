@@ -24,9 +24,14 @@ namespace Character.Michael.StateMachine
             return new GardeningState(_michael, _stateMachine);
         }
 
-        public State WalkingToPlant(Plant plant)
+        public State WalkingToPlant(Farm.Plants.Plant plant)
         {
             return new WalkingToPlantState(_michael, _stateMachine, plant);
+        }
+
+        public State Watering(Farm.Plants.Plant plant)
+        {
+            return new WateringState(_michael, _stateMachine, plant);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Character;
 using UnityEngine;
 using Utilities;
 
@@ -22,7 +23,7 @@ namespace Farm.Plants.ConcreteStates
             Debug.Log("Ready to harvest");
         }
 
-        public override void OnInteracted()
+        public override void OnInteracted(ICharacter initiator)
         {
             DelayHarvest();
         }

@@ -17,9 +17,9 @@ namespace Farm.Corral
 
     public class PlantAreaClearedEventArgs : EventArgs
     {
-        public readonly Plant Plant;
+        public readonly Plants.Plant Plant;
 
-        public PlantAreaClearedEventArgs(Plant plant)
+        public PlantAreaClearedEventArgs(Plants.Plant plant)
         {
             Plant = plant;
         }

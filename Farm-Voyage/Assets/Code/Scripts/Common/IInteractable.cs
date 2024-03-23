@@ -1,7 +1,9 @@
-﻿namespace Common
+﻿using Character;
+
+namespace Common
 {
     public interface IInteractable
     {
-        public void Interact();
+        public void Interact(ICharacter initiator);
     }
 }

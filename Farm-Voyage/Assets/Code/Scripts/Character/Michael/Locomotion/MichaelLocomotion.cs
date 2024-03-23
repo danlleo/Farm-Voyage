@@ -13,7 +13,7 @@ namespace Character.Michael.Locomotion
     {
         [Header("Settings")]
         [SerializeField, Range(0.1f, 20f)] private float _movingSpeed;
-        [SerializeField, Range(80f, 200f)] private float _rotationSpeed;
+        [SerializeField, Range(80f, 300f)] private float _rotationSpeed;
         [SerializeField, Range(0f, 20f)] private float _stoppingDistance = 1f;
         
         private NavMeshAgent _navMeshAgent;
@@ -52,13 +52,13 @@ namespace Character.Michael.Locomotion
             _navMeshAgent = GetComponent<NavMeshAgent>();
             _navMeshAgent.speed = _movingSpeed;
             _navMeshAgent.angularSpeed = _rotationSpeed;
-            _navMeshAgent.stoppingDistance = _stoppingDistance;
         }
         
         private IEnumerator MoveDestinationRoutine(Vector3 destination, Action onReachedPosition)
         {
             destination = new Vector3(destination.x, 0f, destination.z);
-            
+
+            _navMeshAgent.isStopped = false;
             _michaelLocomotionStateChangedEvent.Call(true);
             _navMeshAgent.SetDestination(destination);
 
@@ -66,15 +66,13 @@ namespace Character.Michael.Locomotion
 
             while (isMoving)
             {
-                if (_navMeshAgent.pathPending)
-                    yield return null;
-            
-                while (_navMeshAgent.remainingDistance > 0f)
+                if (Vector3.Distance(transform.position, destination) <= _stoppingDistance)
                 {
-                    yield return null;
+                    _navMeshAgent.isStopped = true;
+                    isMoving = false;
                 }
 
-                isMoving = false;
+                yield return null;
             }
     
             _michaelLocomotionStateChangedEvent.Call(false);

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Attributes.WithinParent;
+using Character;
 using Character.Player;
 using Common;
 using DG.Tweening;
@@ -26,7 +27,7 @@ namespace Farm.Corral
 
         private Vector3 _initialPosition;
         
-        private readonly Dictionary<Transform, Plant> _plantsDictionary = new();
+        private readonly Dictionary<Transform, Plants.Plant> _plantsDictionary = new();
 
         private bool _canCarry;
 
@@ -57,7 +58,7 @@ namespace Farm.Corral
             _corral.PlantAreaClearedEvent.OnPlantAreaCleared += PlantAreaClearedEvent_OnPlantAreaCleared;
         }
         
-        public void Interact()
+        public void Interact(ICharacter initiator)
         {
             Pickup();
         }
