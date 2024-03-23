@@ -25,12 +25,12 @@ namespace Character.Player.StateMachine.ConcreteStates
 
         public override void SubscribeToEvents()
         {
-            _player.PlayerExtractingWaterEvent.OnPlayerExtractingWater += Player_OnPlayerExtractingWater;
+            _player.PlayerEvents.PlayerExtractingWaterEvent.OnPlayerExtractingWater += Player_OnPlayerExtractingWater;
         }
 
         public override void UnsubscribeFromEvents()
         {
-            _player.PlayerExtractingWaterEvent.OnPlayerExtractingWater -= Player_OnPlayerExtractingWater;
+            _player.PlayerEvents.PlayerExtractingWaterEvent.OnPlayerExtractingWater -= Player_OnPlayerExtractingWater;
         }
 
         private void Player_OnPlayerExtractingWater(object sender, PlayerExtractingWaterEventArgs e)

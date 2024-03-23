@@ -123,7 +123,7 @@ namespace UI
                     
                     AnimatePopupText(() =>
                     {
-                        _player.PlayerExtractingWaterEvent.Call(this, new PlayerExtractingWaterEventArgs(false));
+                        _player.PlayerEvents.PlayerExtractingWaterEvent.Call(this, new PlayerExtractingWaterEventArgs(false));
                         _hasFinishedFilling = false;
                     });
                     

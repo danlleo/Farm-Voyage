@@ -7,10 +7,11 @@ namespace Farm.Plants
 {
     public class PlantWateringVisitor : IPlantVisitor
     {
+        private const float TimeToWaterInSeconds = 3f;
+        
         private readonly Plant _plant;
         private readonly WaterCan _waterCan;
 
-        private float _timeToWaterInSeconds = 3f;
         private float _wateringTimeElapsed;
         
         public PlantWateringVisitor(Plant plant, PlayerInventory playerInventory)
@@ -28,18 +29,18 @@ namespace Farm.Plants
 
         public void Visit(Michael michael)
         {
-            
+            WaterPlant();
         }
 
         private void WaterPlant()
         {
-            if (_wateringTimeElapsed <= 0f)
+            if (_wateringTimeElapsed >= TimeToWaterInSeconds)
             {
-                
+                _plant.PlantFinishedWateringEvent.Call();
                 return;
             }
             
-            _wateringTimeElapsed -= Time.deltaTime;
+            _wateringTimeElapsed += Time.deltaTime;
         }
     }
 }

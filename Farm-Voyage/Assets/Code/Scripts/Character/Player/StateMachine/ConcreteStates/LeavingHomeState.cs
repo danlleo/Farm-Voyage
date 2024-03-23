@@ -18,7 +18,7 @@ namespace Character.Player.StateMachine.ConcreteStates
             _player.PlayerLocomotion.HandleMoveDestination(_player.HomeLeavePoint.position, Quaternion.identity, () =>
             {
                 _stateMachine.ChangeState(_player.StateFactory.Exploring());
-                _player.PlayerLeftHomeEvent.Call(this);
+                _player.PlayerEvents.PlayerLeftHomeEvent.Call(this);
             });
         }
     }

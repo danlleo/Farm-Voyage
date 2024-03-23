@@ -112,7 +112,7 @@ namespace Farm.Corral
 
         private IEnumerator DiggingRoutine()
         {
-            _player.PlayerDiggingPlantAreaEvent.Call(this, new PlayerDiggingPlantAreaEventArgs(true));
+            _player.PlayerEvents.PlayerDiggingPlantAreaEvent.Call(this, new PlayerDiggingPlantAreaEventArgs(true));
             
             yield return new WaitForSeconds(_timeToDigInSeconds);
             
@@ -136,7 +136,7 @@ namespace Farm.Corral
         private void StopDigging()
         {
             ClearDiggingRoutine();
-            _player.PlayerDiggingPlantAreaEvent.Call(this, new PlayerDiggingPlantAreaEventArgs(true));
+            _player.PlayerEvents.PlayerDiggingPlantAreaEvent.Call(this, new PlayerDiggingPlantAreaEventArgs(true));
         }
 
         private bool TryAllowDigging(out Tool.Tool playerTool)

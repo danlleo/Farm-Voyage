@@ -94,7 +94,7 @@ namespace Farm.ResourceGatherer
             _delayGatheringResourcesRoutine = null;
             
             GatheringStateChangedEvent.Call(this, new GatheringStateChangedEventArgs(false));
-            _player.PlayerGatheringEvent.Call(this,
+            _player.PlayerEvents.PlayerGatheringEvent.Call(this,
                 new PlayerGatheringEventArgs(false, false, _resourceSO.ResourceToGather, transform));
         }
 
@@ -104,7 +104,7 @@ namespace Farm.ResourceGatherer
             float gatherTime = _playerTool.CalculateTimeToGatherBasedOnLevel();
 
             GatheringStateChangedEvent.Call(this, new GatheringStateChangedEventArgs(true));
-            _player.PlayerGatheringEvent.Call(this,
+            _player.PlayerEvents.PlayerGatheringEvent.Call(this,
                 new PlayerGatheringEventArgs(true, false, _resourceSO.ResourceToGather, transform, gatherTime));
             
             yield return new WaitForSeconds(delayTime);
@@ -174,7 +174,7 @@ namespace Farm.ResourceGatherer
             
             _boxCollider.Disable();
             FullyGatheredEvent.Call(this);
-            _player.PlayerGatheringEvent.Call(this,
+            _player.PlayerEvents.PlayerGatheringEvent.Call(this,
                 new PlayerGatheringEventArgs(false, true, _resourceSO.ResourceToGather, transform));
         }
         
@@ -194,7 +194,7 @@ namespace Farm.ResourceGatherer
             
             if (TryGatherCollectable(out CollectableSO collectable))
             {
-                _player.PlayerFoundCollectableEvent.Call(this);
+                _player.PlayerEvents.PlayerFoundCollectableEvent.Call(this);
             }
         }
         

@@ -44,7 +44,7 @@ namespace Workbench
 
         private void StartedUsingWorkbenchEvent_OnStartedUsingWorkbench(object sender, EventArgs e)
         {
-            _player.PlayerUsingWorkbenchEvent.Call(this, new PlayerUsingWorkbenchEventArgs(true));
+            _player.PlayerEvents.PlayerUsingWorkbenchEvent.Call(this, new PlayerUsingWorkbenchEventArgs(true));
             _cameraController.SwitchToCamera(CameraState.Workbench);
         }
     }

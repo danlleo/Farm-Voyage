@@ -17,14 +17,14 @@ namespace Character.Player.StateMachine.ConcreteStates
 
         public override void SubscribeToEvents()
         {
-            _player.PlayerGatheringEvent.OnPlayerGathering += Player_OnPlayerGathering;
-            _player.PlayerExtractingWaterEvent.OnPlayerExtractingWater += Player_OnPlayerExtractingWater;
+            _player.PlayerEvents.PlayerGatheringEvent.OnPlayerGathering += Player_OnPlayerGathering;
+            _player.PlayerEvents.PlayerExtractingWaterEvent.OnPlayerExtractingWater += Player_OnPlayerExtractingWater;
         }
 
         public override void UnsubscribeFromEvents()
         {
-            _player.PlayerGatheringEvent.OnPlayerGathering -= Player_OnPlayerGathering;
-            _player.PlayerExtractingWaterEvent.OnPlayerExtractingWater -= Player_OnPlayerExtractingWater;
+            _player.PlayerEvents.PlayerGatheringEvent.OnPlayerGathering -= Player_OnPlayerGathering;
+            _player.PlayerEvents.PlayerExtractingWaterEvent.OnPlayerExtractingWater -= Player_OnPlayerExtractingWater;
         }
 
         public override void OnEnter()

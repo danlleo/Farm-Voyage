@@ -1,6 +1,5 @@
 ﻿using System;
 using Character;
-using UnityEngine;
 
 namespace Farm.Plants.ConcreteStates
 {
@@ -10,11 +9,13 @@ namespace Farm.Plants.ConcreteStates
         
         private readonly Plant _plant;
         private readonly StateMachine _stateMachine;
+        private readonly PlantWateringVisitor _plantWateringVisitor;
         
         public WateringState(Plant plant, StateMachine stateMachine) : base(plant, stateMachine)
         {
             _plant = plant;
             _stateMachine = stateMachine;
+            _plantWateringVisitor = new PlantWateringVisitor(_plant, _plant.PlayerInventory);
         }
 
         public override void SubscribeToEvents()
@@ -30,12 +31,11 @@ namespace Farm.Plants.ConcreteStates
         public override void OnEnter()
         {
             OnAnyWateringStateChanged?.Invoke(_plant, true);
-            Debug.Log("Needs watering");
         }
 
         public override void OnInteracted(ICharacter initiator)
         {
-            // TODO: Finish logic later.
+            initiator.Accept(_plantWateringVisitor);
         }
         
         private void Plant_OnPlantFinishedWatering()

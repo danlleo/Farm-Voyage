@@ -39,12 +39,12 @@ namespace Farm.Well
 
         private void OnEnable()
         {
-            _player.PlayerExtractingWaterEvent.OnPlayerExtractingWater += Player_OnPlayerExtractingWater;
+            _player.PlayerEvents.PlayerExtractingWaterEvent.OnPlayerExtractingWater += Player_OnPlayerExtractingWater;
         }
 
         private void OnDisable()
         {
-            _player.PlayerExtractingWaterEvent.OnPlayerExtractingWater -= Player_OnPlayerExtractingWater;
+            _player.PlayerEvents.PlayerExtractingWaterEvent.OnPlayerExtractingWater -= Player_OnPlayerExtractingWater;
         }
 
         public void Interact(ICharacter initiator)
@@ -54,7 +54,7 @@ namespace Farm.Well
             if (waterCan.CurrentWaterCapacityAmount == WaterCan.WaterCanCapacityAmount) return;
             
             _isExtractingWater = true;
-            _player.PlayerExtractingWaterEvent.Call(this, new PlayerExtractingWaterEventArgs(true));
+            _player.PlayerEvents.PlayerExtractingWaterEvent.Call(this, new PlayerExtractingWaterEventArgs(true));
             _playerFollowCamera.ZoomIn();
         }
         

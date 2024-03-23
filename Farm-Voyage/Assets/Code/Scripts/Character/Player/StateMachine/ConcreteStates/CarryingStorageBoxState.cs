@@ -13,13 +13,13 @@
 
         public override void SubscribeToEvents()
         {
-            _player.PlayerCarryingStorageBoxStateChangedEvent.OnPlayerCarryingStorageBoxStateChanged +=
+            _player.PlayerEvents.PlayerCarryingStorageBoxStateChangedEvent.OnPlayerCarryingStorageBoxStateChanged +=
                 Player_OnPlayerCarryingStorageBoxStateChanged;
         }
 
         public override void UnsubscribeFromEvents()
         {
-            _player.PlayerCarryingStorageBoxStateChangedEvent.OnPlayerCarryingStorageBoxStateChanged -=
+            _player.PlayerEvents.PlayerCarryingStorageBoxStateChangedEvent.OnPlayerCarryingStorageBoxStateChanged -=
                 Player_OnPlayerCarryingStorageBoxStateChanged;
         }
 

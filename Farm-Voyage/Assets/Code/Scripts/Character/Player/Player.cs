@@ -1,3 +1,4 @@
+using Character.Player.Events;
 using Character.Player.Locomotion;
 using Farm.Plants;
 using InputManagers;
@@ -26,22 +27,10 @@ namespace Character.Player
         public const float Radius = .5f;
         
         public StateFactory StateFactory { get; private set; }
-        
+        public PlayerEvents PlayerEvents { get; private set; }
         public PlayerInteract PlayerInteract { get; private set; }
         public PlayerLocomotion PlayerLocomotion { get; private set; }
         public IPlayerInput Input { get; private set; }
-        
-        public PlayerWalkingEvent PlayerWalkingEvent { get; private set; }
-        public PlayerIdleEvent PlayerIdleEvent { get; private set; }
-        public PlayerGatheringEvent PlayerGatheringEvent { get; private set; }
-        public PlayerDiggingPlantAreaEvent PlayerDiggingPlantAreaEvent { get; private set; }
-        public PlayerCarryingStorageBoxStateChangedEvent PlayerCarryingStorageBoxStateChangedEvent { get; private set; }
-        public PlayerFoundCollectableEvent PlayerFoundCollectableEvent { get; private set; }
-        public PlayerShoppingEvent PlayerShoppingEvent { get; private set; }
-        public PlayerUsingWorkbenchEvent PlayerUsingWorkbenchEvent { get; private set; }
-        public PlayerLeftHomeEvent PlayerLeftHomeEvent { get; private set; }
-        public PlayerEnteringHomeEvent PlayerEnteringHomeEvent { get; private set; }
-        public PlayerExtractingWaterEvent PlayerExtractingWaterEvent { get; private set; }
         
         [field:SerializeField] public Transform WorkbenchStayPoint { get; private set; }
         [field:SerializeField] public Transform EmmaStoreStayPoint { get; private set; }
@@ -61,17 +50,19 @@ namespace Character.Player
         
         private void Awake()
         {
-            PlayerWalkingEvent = GetComponent<PlayerWalkingEvent>();
-            PlayerIdleEvent = GetComponent<PlayerIdleEvent>();
-            PlayerGatheringEvent = GetComponent<PlayerGatheringEvent>();
-            PlayerDiggingPlantAreaEvent = GetComponent<PlayerDiggingPlantAreaEvent>();
-            PlayerCarryingStorageBoxStateChangedEvent = GetComponent<PlayerCarryingStorageBoxStateChangedEvent>();
-            PlayerFoundCollectableEvent = GetComponent<PlayerFoundCollectableEvent>();
-            PlayerShoppingEvent = GetComponent<PlayerShoppingEvent>();
-            PlayerUsingWorkbenchEvent = GetComponent<PlayerUsingWorkbenchEvent>();
-            PlayerLeftHomeEvent = GetComponent<PlayerLeftHomeEvent>();
-            PlayerEnteringHomeEvent = GetComponent<PlayerEnteringHomeEvent>();
-            PlayerExtractingWaterEvent = GetComponent<PlayerExtractingWaterEvent>();
+            PlayerEvents = new PlayerEvents(
+                GetComponent<PlayerWalkingEvent>(),
+                GetComponent<PlayerIdleEvent>(),
+                GetComponent<PlayerGatheringEvent>(),
+                GetComponent<PlayerDiggingPlantAreaEvent>(),
+                GetComponent<PlayerCarryingStorageBoxStateChangedEvent>(),
+                GetComponent<PlayerFoundCollectableEvent>(),
+                GetComponent<PlayerShoppingEvent>(),
+                GetComponent<PlayerUsingWorkbenchEvent>(),
+                GetComponent<PlayerLeftHomeEvent>(),
+                GetComponent<PlayerEnteringHomeEvent>(),
+                GetComponent<PlayerExtractingWaterEvent>()
+            );
             
             PlayerLocomotion = GetComponent<PlayerLocomotion>();
             PlayerInteract = GetComponent<PlayerInteract>();

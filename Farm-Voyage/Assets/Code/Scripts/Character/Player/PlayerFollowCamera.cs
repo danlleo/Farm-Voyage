@@ -42,12 +42,12 @@ namespace Character.Player
 
         private void OnEnable()
         {
-            _player.PlayerLeftHomeEvent.OnPlayerLeftHome += Player_OnPlayerLeftHome;
+            _player.PlayerEvents.PlayerLeftHomeEvent.OnPlayerLeftHome += Player_OnPlayerLeftHome;
         }
 
         private void OnDisable()
         {
-            _player.PlayerLeftHomeEvent.OnPlayerLeftHome -= Player_OnPlayerLeftHome;
+            _player.PlayerEvents.PlayerLeftHomeEvent.OnPlayerLeftHome -= Player_OnPlayerLeftHome;
         }
 
         public void ZoomIn()

@@ -17,26 +17,26 @@ namespace Character.Player.StateMachine.ConcreteStates
 
         public override void SubscribeToEvents()
         {
-            _player.PlayerFoundCollectableEvent.OnPlayerFoundCollectable += Player_OnPlayerFoundCollectable;
-            _player.PlayerShoppingEvent.OnPlayerShopping += Player_OnPlayerShopping;
-            _player.PlayerUsingWorkbenchEvent.OnPlayerUsingWorkbench += Player_OnPlayerUsingWorkbench;
-            _player.PlayerGatheringEvent.OnPlayerGathering += Player_OnPlayerGathering;
-            _player.PlayerCarryingStorageBoxStateChangedEvent.OnPlayerCarryingStorageBoxStateChanged +=
+            _player.PlayerEvents.PlayerFoundCollectableEvent.OnPlayerFoundCollectable += Player_OnPlayerFoundCollectable;
+            _player.PlayerEvents.PlayerShoppingEvent.OnPlayerShopping += Player_OnPlayerShopping;
+            _player.PlayerEvents.PlayerUsingWorkbenchEvent.OnPlayerUsingWorkbench += Player_OnPlayerUsingWorkbench;
+            _player.PlayerEvents.PlayerGatheringEvent.OnPlayerGathering += Player_OnPlayerGathering;
+            _player.PlayerEvents.PlayerCarryingStorageBoxStateChangedEvent.OnPlayerCarryingStorageBoxStateChanged +=
                 Player_OnPlayerCarryingStorageBoxStateChanged;
-            _player.PlayerEnteringHomeEvent.OnPlayerEnteringHome += Player_OnPlayerEnteringHome;
-            _player.PlayerExtractingWaterEvent.OnPlayerExtractingWater += Player_OnPlayerExtractingWater;
+            _player.PlayerEvents.PlayerEnteringHomeEvent.OnPlayerEnteringHome += Player_OnPlayerEnteringHome;
+            _player.PlayerEvents.PlayerExtractingWaterEvent.OnPlayerExtractingWater += Player_OnPlayerExtractingWater;
         }
 
         public override void UnsubscribeFromEvents()
         {
-            _player.PlayerFoundCollectableEvent.OnPlayerFoundCollectable -= Player_OnPlayerFoundCollectable;
-            _player.PlayerShoppingEvent.OnPlayerShopping -= Player_OnPlayerShopping;
-            _player.PlayerUsingWorkbenchEvent.OnPlayerUsingWorkbench -= Player_OnPlayerUsingWorkbench;
-            _player.PlayerGatheringEvent.OnPlayerGathering -= Player_OnPlayerGathering;
-            _player.PlayerCarryingStorageBoxStateChangedEvent.OnPlayerCarryingStorageBoxStateChanged -=
+            _player.PlayerEvents.PlayerFoundCollectableEvent.OnPlayerFoundCollectable -= Player_OnPlayerFoundCollectable;
+            _player.PlayerEvents.PlayerShoppingEvent.OnPlayerShopping -= Player_OnPlayerShopping;
+            _player.PlayerEvents.PlayerUsingWorkbenchEvent.OnPlayerUsingWorkbench -= Player_OnPlayerUsingWorkbench;
+            _player.PlayerEvents.PlayerGatheringEvent.OnPlayerGathering -= Player_OnPlayerGathering;
+            _player.PlayerEvents.PlayerCarryingStorageBoxStateChangedEvent.OnPlayerCarryingStorageBoxStateChanged -=
                 Player_OnPlayerCarryingStorageBoxStateChanged;
-            _player.PlayerEnteringHomeEvent.OnPlayerEnteringHome -= Player_OnPlayerEnteringHome;
-            _player.PlayerExtractingWaterEvent.OnPlayerExtractingWater -= Player_OnPlayerExtractingWater;
+            _player.PlayerEvents.PlayerEnteringHomeEvent.OnPlayerEnteringHome -= Player_OnPlayerEnteringHome;
+            _player.PlayerEvents.PlayerExtractingWaterEvent.OnPlayerExtractingWater -= Player_OnPlayerExtractingWater;
         }
 
         public override void OnExit()

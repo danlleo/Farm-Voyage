@@ -74,7 +74,7 @@ namespace Farm.Corral
             if (!_canCarry) return;
             
             _boxCollider.Disable();
-            _player.PlayerCarryingStorageBoxStateChangedEvent.Call(this,
+            _player.PlayerEvents.PlayerCarryingStorageBoxStateChangedEvent.Call(this,
                 new PlayerCarryingStorageBoxStateChangedEventArgs(this, true));
         }
         
@@ -116,7 +116,7 @@ namespace Farm.Corral
             transform.SetParent(_corral.transform);
             transform.position = _initialPosition;
             _canCarry = false;
-            _player.PlayerCarryingStorageBoxStateChangedEvent.Call(this,
+            _player.PlayerEvents.PlayerCarryingStorageBoxStateChangedEvent.Call(this,
                 new PlayerCarryingStorageBoxStateChangedEventArgs(this, false));
         }
         

@@ -15,12 +15,12 @@ namespace Character.Player.StateMachine.ConcreteStates
 
         public override void SubscribeToEvents()
         {
-            _player.PlayerShoppingEvent.OnPlayerShopping += PlayerShoppingEvent_OnPlayerShopping;
+            _player.PlayerEvents.PlayerShoppingEvent.OnPlayerShopping += PlayerShoppingEvent_OnPlayerShopping;
         }
 
         public override void UnsubscribeFromEvents()
         {
-            _player.PlayerShoppingEvent.OnPlayerShopping -= PlayerShoppingEvent_OnPlayerShopping;
+            _player.PlayerEvents.PlayerShoppingEvent.OnPlayerShopping -= PlayerShoppingEvent_OnPlayerShopping;
         }
 
         public override void OnEnter()

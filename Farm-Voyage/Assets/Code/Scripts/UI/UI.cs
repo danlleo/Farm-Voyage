@@ -42,7 +42,7 @@ namespace UI
             _market.StartedShoppingEvent.OnStartedShopping += Market_OnStartedShopping;
             _workbench.StartedUsingWorkbenchEvent.OnStartedUsingWorkbench += Workbench_OnStartedUsingWorkbench;
             _emmaShopUI.OnClosed += EmmaShopUI_OnClosed;
-            _player.PlayerExtractingWaterEvent.OnPlayerExtractingWater += Player_OnPlayerExtractingWater;
+            _player.PlayerEvents.PlayerExtractingWaterEvent.OnPlayerExtractingWater += Player_OnPlayerExtractingWater;
         }
 
         private void OnDisable()
@@ -51,7 +51,7 @@ namespace UI
             _market.StartedShoppingEvent.OnStartedShopping -= Market_OnStartedShopping;
             _workbench.StartedUsingWorkbenchEvent.OnStartedUsingWorkbench -= Workbench_OnStartedUsingWorkbench;
             _emmaShopUI.OnClosed -= EmmaShopUI_OnClosed;
-            _player.PlayerExtractingWaterEvent.OnPlayerExtractingWater -= Player_OnPlayerExtractingWater;
+            _player.PlayerEvents.PlayerExtractingWaterEvent.OnPlayerExtractingWater -= Player_OnPlayerExtractingWater;
         }
 
         private void SceneTransition_OnAnySceneTransitionEnded()
