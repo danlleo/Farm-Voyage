@@ -18,14 +18,14 @@ namespace Character.Michael.StateMachine.ConcreteStates
 
         public override void SubscribeToEvents()
         {
-            _michael.WaterStateObserver.OnPlantWateringStateChanged += WaterStateObserver_OnPlantWateringStateChanged;
+            _plant.PlantFinishedWateringEvent.OnPlantFinishedWatering += PlantFinishedWateringEvent_OnPlantFinishedWatering;
         }
 
         public override void UnsubscribeFromEvents()
         {
-            _michael.WaterStateObserver.OnPlantWateringStateChanged -= WaterStateObserver_OnPlantWateringStateChanged;
+            _plant.PlantFinishedWateringEvent.OnPlantFinishedWatering -= PlantFinishedWateringEvent_OnPlantFinishedWatering;
         }
-        
+
         public override void OnEnter()
         {
             Debug.Log("Entered WalkingToPlant State");
@@ -36,18 +36,10 @@ namespace Character.Michael.StateMachine.ConcreteStates
             });
         }
         
-        private void HandleWateredPlant(Plant plant, bool needsWatering)
+        private void PlantFinishedWateringEvent_OnPlantFinishedWatering()
         {
-            if (!needsWatering) return;
-            if (!ReferenceEquals(_plant, plant)) return;
-            
             _michael.MichaelLocomotion.StopAllMovement();
-            _stateMachine.ChangeState(_michael.StateFactory.Idle());
-        }
-        
-        private void WaterStateObserver_OnPlantWateringStateChanged(Plant plant, bool needsWatering)
-        {
-            HandleWateredPlant(plant, needsWatering);
+            _stateMachine.ChangeState(_michael.StateFactory.EvaluateWateringNeeds());
         }
     }
 }

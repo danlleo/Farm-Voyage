@@ -40,6 +40,7 @@ namespace Farm.Plants.ConcreteStates
         
         private void Plant_OnPlantFinishedWatering()
         {
+            OnAnyWateringStateChanged?.Invoke(_plant, false);
             _stateMachine.ChangeState(_plant.StateFactory.Growing());
         }
     }
