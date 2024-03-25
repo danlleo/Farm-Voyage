@@ -6,13 +6,17 @@ using StateFactory = Character.Michael.StateMachine.StateFactory;
 namespace Character.Michael
 {
     [RequireComponent(typeof(MichaelLocomotionStateChangedEvent))]
+    [RequireComponent(typeof(MichaelWateringPlantEvent))]
+    [RequireComponent(typeof(MichaelHarvestingPlantEvent))]
     [DisallowMultipleComponent]
     public sealed class Michael : MonoBehaviour, ICharacter
     {
         public StateFactory StateFactory { get; private set; }
         
         public MichaelLocomotionStateChangedEvent MichaelLocomotionStateChangedEvent { get; private set; }
-
+        public MichaelWateringPlantEvent MichaelWateringPlantEvent { get; private set; }
+        public MichaelHarvestingPlantEvent MichaelHarvestingPlantEvent { get; private set; }
+        
         public MichaelLocomotion MichaelLocomotion { get; private set; }
         public WaterStateObserver WaterStateObserver { get; private set; }
         
@@ -21,7 +25,9 @@ namespace Character.Michael
         private void Awake()
         {
             MichaelLocomotionStateChangedEvent = GetComponent<MichaelLocomotionStateChangedEvent>();
-
+            MichaelWateringPlantEvent = GetComponent<MichaelWateringPlantEvent>();
+            MichaelHarvestingPlantEvent = GetComponent<MichaelHarvestingPlantEvent>();
+            
             MichaelLocomotion = GetComponent<MichaelLocomotion>();
             WaterStateObserver = GetComponent<WaterStateObserver>();
             

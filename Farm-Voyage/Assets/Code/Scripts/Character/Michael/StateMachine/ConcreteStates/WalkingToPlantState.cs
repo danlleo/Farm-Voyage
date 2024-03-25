@@ -1,12 +1,15 @@
-﻿namespace Character.Michael.StateMachine.ConcreteStates
+﻿using Farm.Plants;
+using UnityEngine;
+
+namespace Character.Michael.StateMachine.ConcreteStates
 {
     public class WalkingToPlantState : State
     {
         private readonly Michael _michael;
         private readonly StateMachine _stateMachine;
-        private readonly Farm.Plants.Plant _plant;
+        private readonly Plant _plant;
         
-        public WalkingToPlantState(Michael michael, StateMachine stateMachine, Farm.Plants.Plant plant) : base(michael, stateMachine)
+        public WalkingToPlantState(Michael michael, StateMachine stateMachine, Plant plant) : base(michael, stateMachine)
         {
             _michael = michael;
             _stateMachine = stateMachine;
@@ -25,23 +28,26 @@
         
         public override void OnEnter()
         {
+            Debug.Log("Entered WalkingToPlant State");
+            
             _michael.MichaelLocomotion.HandleMoveDestination(_plant.transform, () =>
             {
                 _stateMachine.ChangeState(_michael.StateFactory.Watering(_plant));
             });
         }
         
-        private void HandleWateredPlant(Farm.Plants.Plant plant)
+        private void HandleWateredPlant(Plant plant, bool needsWatering)
         {
+            if (!needsWatering) return;
             if (!ReferenceEquals(_plant, plant)) return;
             
             _michael.MichaelLocomotion.StopAllMovement();
             _stateMachine.ChangeState(_michael.StateFactory.Idle());
         }
         
-        private void WaterStateObserver_OnPlantWateringStateChanged(Farm.Plants.Plant plant, bool needsWatering)
+        private void WaterStateObserver_OnPlantWateringStateChanged(Plant plant, bool needsWatering)
         {
-            HandleWateredPlant(plant);
+            HandleWateredPlant(plant, needsWatering);
         }
     }
 }

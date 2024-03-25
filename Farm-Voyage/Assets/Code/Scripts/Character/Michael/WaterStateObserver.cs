@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Farm.Corral;
 using Farm.Plants;
 using Farm.Plants.ConcreteStates;
@@ -23,16 +24,28 @@ namespace Character.Michael
         {
             PlantArea.OnAnyPlantPlanted += PlantArea_OnAnyPlantPlanted;
             WateringState.OnAnyWateringStateChanged += WateringState_OnAnyWateringStateChanged;
-            ReadyToHarvestState.OnAnyPlantHarvested += ReadyToHarvestState_OnAnyPlantHarvested;
+            PlantArea.OnAnyPlantHarvested += Plant_OnAnyPlantHarvested;
         }
 
         private void OnDisable()
         {
             PlantArea.OnAnyPlantPlanted -= PlantArea_OnAnyPlantPlanted;
             WateringState.OnAnyWateringStateChanged -= WateringState_OnAnyWateringStateChanged;
-            ReadyToHarvestState.OnAnyPlantHarvested -= ReadyToHarvestState_OnAnyPlantHarvested;
+            PlantArea.OnAnyPlantHarvested -= Plant_OnAnyPlantHarvested;
         }
 
+        public bool TryGetPlantToWater(out Plant plant)
+        {
+            if (_plantToNeedsWateringMapping.Count == 0)
+            {
+                plant = null;
+                return false;
+            }
+
+            plant = _plantToNeedsWateringMapping.First().Key;
+            return true;
+        }
+        
         private void RegisterPlant(Plant plant)
         {
             if (!_plantToNeedsWateringMapping.TryAdd(plant, false))
@@ -62,7 +75,7 @@ namespace Character.Michael
             SetPlantWateringValue(plant, needsWatering);
         }
         
-        private void ReadyToHarvestState_OnAnyPlantHarvested(Plant plant)
+        private void Plant_OnAnyPlantHarvested(Plant plant)
         {
             DeregisterPlant(plant);
         }

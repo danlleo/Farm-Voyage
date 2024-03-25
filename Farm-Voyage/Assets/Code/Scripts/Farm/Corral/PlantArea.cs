@@ -18,6 +18,7 @@ namespace Farm.Corral
     public sealed class PlantArea : MonoBehaviour, IInteractable, IStopInteractable, IDisplayProgressIcon
     {
         public static event Action<Plant> OnAnyPlantPlanted;
+        public static event Action<Plant> OnAnyPlantHarvested;
         
         [field:SerializeField] public ProgressIconSO ProgressIcon { get; private set; }
         public Guid ID { get; } = Guid.NewGuid();
@@ -106,6 +107,9 @@ namespace Farm.Corral
         {
             _boxCollider.Enable();
             _delayBeforePlantingNewRoutine ??= StartCoroutine(DelayBeforePlantingNewRoutine());
+            
+            // TODO: Clean this mess
+            OnAnyPlantHarvested?.Invoke(_plant);
             _corral.PlantAreaClearedEvent.Call(this, new PlantAreaClearedEventArgs(_plant));
             _plant = null;
         }

@@ -1,4 +1,5 @@
 ﻿using Farm.Plants;
+using UnityEngine;
 
 namespace Character.Michael.StateMachine.ConcreteStates
 {
@@ -24,6 +25,17 @@ namespace Character.Michael.StateMachine.ConcreteStates
         {
             _plant.PlantFinishedWateringEvent.OnPlantFinishedWatering -= Plant_OnPlantFinishedWatering;
         }
+        
+        public override void OnEnter()
+        {
+            Debug.Log("Entered Watering State");
+            _michael.MichaelWateringPlantEvent.Call(true);
+        }
+
+        public override void OnExit()
+        {
+            _michael.MichaelWateringPlantEvent.Call(false);
+        }
 
         public override void Tick()
         {
@@ -32,7 +44,7 @@ namespace Character.Michael.StateMachine.ConcreteStates
         
         private void Plant_OnPlantFinishedWatering()
         {
-            _stateMachine.ChangeState(_michael.StateFactory.Idle());
+            _stateMachine.ChangeState(_michael.StateFactory.Harvesting(_plant));
         }
     }
 }

@@ -3,12 +3,12 @@ using UnityEngine;
 
 namespace Character.Michael.StateMachine.ConcreteStates
 {
-    public class IdleState : State
+    public class WalkingToIdlePositionState : State
     {
         private readonly Michael _michael;
         private readonly StateMachine _stateMachine;
         
-        public IdleState(Michael michael, StateMachine stateMachine) : base(michael, stateMachine)
+        public WalkingToIdlePositionState(Michael michael, StateMachine stateMachine) : base(michael, stateMachine)
         {
             _michael = michael;
             _stateMachine = stateMachine;
@@ -26,19 +26,17 @@ namespace Character.Michael.StateMachine.ConcreteStates
 
         public override void OnEnter()
         {
-            Debug.Log("Entered Idle State");
-        }
-
-        private void ProceedToWalkIfPlantNeedsWatering(Plant plant, bool needsWatering)
-        {
-            if (!needsWatering) return;
-            
-            _stateMachine.ChangeState(_michael.StateFactory.WalkingToPlant(plant));
+            Debug.Log("Entered WalkingToIdlePosition State");
+            _michael.MichaelLocomotion.HandleMoveDestination(Vector3.zero,
+                () => _stateMachine.ChangeState(_michael.StateFactory.Idle()));
         }
         
         private void WaterStateObserver_OnPlantWateringStateChanged(Plant plant, bool needsWatering)
         {
-            ProceedToWalkIfPlantNeedsWatering(plant, needsWatering);
+            if (!needsWatering) return;
+            
+            _michael.MichaelLocomotion.StopAllMovement();
+            _stateMachine.ChangeState(_michael.StateFactory.WalkingToPlant(plant));
         }
     }
 }

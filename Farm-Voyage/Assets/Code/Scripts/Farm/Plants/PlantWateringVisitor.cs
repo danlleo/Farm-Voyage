@@ -13,6 +13,8 @@ namespace Farm.Plants
         private readonly WaterCan _waterCan;
 
         private float _wateringTimeElapsed;
+
+        private bool _hasFinishedWatering;
         
         public PlantWateringVisitor(Plant plant, PlayerInventory playerInventory)
         {
@@ -22,21 +24,29 @@ namespace Farm.Plants
 
         public void Visit(Player player)
         {
-            if (_waterCan == null) return;
-            if (!(_waterCan.CurrentWaterCapacityAmount > 0)) return;
-            WaterPlant();
+            WaterPlantAsPlayer();
         }
 
         public void Visit(Michael michael)
         {
-            WaterPlant();
+            WaterPlantAsAny();
         }
 
-        private void WaterPlant()
+        private void WaterPlantAsPlayer()
         {
+            if (_waterCan == null) return;
+            if (!(_waterCan.CurrentWaterCapacityAmount > 0)) return;
+            WaterPlantAsAny();
+        }
+        
+        private void WaterPlantAsAny()
+        {
+            if (_hasFinishedWatering) return;
+            
             if (_wateringTimeElapsed >= TimeToWaterInSeconds)
             {
                 _plant.PlantFinishedWateringEvent.Call();
+                _hasFinishedWatering = true;
                 return;
             }
             
