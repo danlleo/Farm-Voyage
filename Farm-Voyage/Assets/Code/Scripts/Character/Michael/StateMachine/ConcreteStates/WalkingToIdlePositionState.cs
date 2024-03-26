@@ -26,7 +26,6 @@ namespace Character.Michael.StateMachine.ConcreteStates
 
         public override void OnEnter()
         {
-            Debug.Log("Entered WalkingToIdlePosition State");
             _michael.MichaelLocomotion.HandleMoveDestination(Vector3.zero,
                 () => _stateMachine.ChangeState(_michael.StateFactory.Idle()));
         }

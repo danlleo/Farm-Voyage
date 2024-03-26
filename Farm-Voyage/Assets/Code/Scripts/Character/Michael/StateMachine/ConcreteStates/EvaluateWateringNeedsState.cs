@@ -1,5 +1,4 @@
 ﻿using Farm.Plants;
-using UnityEngine;
 
 namespace Character.Michael.StateMachine.ConcreteStates
 {
@@ -16,7 +15,6 @@ namespace Character.Michael.StateMachine.ConcreteStates
 
         public override void OnEnter()
         {
-            Debug.Log("Entered EvaluateWatering State");
             EvaluateWateringNeeds();
         }
 

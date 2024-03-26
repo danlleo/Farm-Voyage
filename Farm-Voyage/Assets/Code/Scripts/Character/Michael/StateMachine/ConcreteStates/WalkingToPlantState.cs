@@ -1,5 +1,4 @@
 ﻿using Farm.Plants;
-using UnityEngine;
 
 namespace Character.Michael.StateMachine.ConcreteStates
 {
@@ -28,8 +27,6 @@ namespace Character.Michael.StateMachine.ConcreteStates
 
         public override void OnEnter()
         {
-            Debug.Log("Entered WalkingToPlant State");
-            
             _michael.MichaelLocomotion.HandleMoveDestination(_plant.transform, () =>
             {
                 _stateMachine.ChangeState(_michael.StateFactory.Watering(_plant));

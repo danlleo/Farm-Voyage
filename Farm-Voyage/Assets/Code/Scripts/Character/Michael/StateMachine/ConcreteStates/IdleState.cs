@@ -1,5 +1,4 @@
 ﻿using Farm.Plants;
-using UnityEngine;
 
 namespace Character.Michael.StateMachine.ConcreteStates
 {
@@ -22,11 +21,6 @@ namespace Character.Michael.StateMachine.ConcreteStates
         public override void UnsubscribeFromEvents()
         {
             _michael.WaterStateObserver.OnPlantWateringStateChanged -= WaterStateObserver_OnPlantWateringStateChanged;
-        }
-
-        public override void OnEnter()
-        {
-            Debug.Log("Entered Idle State");
         }
 
         private void ProceedToWalkIfPlantNeedsWatering(Plant plant, bool needsWatering)
