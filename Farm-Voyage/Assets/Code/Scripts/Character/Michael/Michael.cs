@@ -19,6 +19,7 @@ namespace Character.Michael
         
         public MichaelLocomotion MichaelLocomotion { get; private set; }
         public WaterStateObserver WaterStateObserver { get; private set; }
+        [field:SerializeField] public MichaelTransformPoints TransformPoints { get; private set; }
         
         private StateMachine.StateMachine _stateMachine;
         
@@ -47,7 +48,7 @@ namespace Character.Michael
 
         private void Start()
         {
-            _stateMachine.Initialize(StateFactory.Idle());
+            _stateMachine.Initialize(StateFactory.Gardening());
         }
         
         private void Update()
