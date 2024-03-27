@@ -28,7 +28,6 @@ namespace Farm.Corral
         [SerializeField, Range(0.1f, 2f)] private float _timeToDigInSeconds = 1f;
         [SerializeField, Range(0.1f, 3f)] private float _delayBeforePlantingNewTimeInSeconds = 1.4f;
 
-        private Corral _corral;
         private Player _player;
         private PlantFactory _plantFactory;
         
@@ -69,9 +68,8 @@ namespace Farm.Corral
             _day.OnDayEnded -= Day_OnDayEnded;
         }
 
-        public void Initialize(Corral corral, Player player, PlantFactory plantFactory)
+        public void Initialize(Player player, PlantFactory plantFactory)
         {
-            _corral = corral;
             _player = player;
             _plantFactory = plantFactory;
         }
@@ -107,10 +105,7 @@ namespace Farm.Corral
         {
             _boxCollider.Enable();
             _delayBeforePlantingNewRoutine ??= StartCoroutine(DelayBeforePlantingNewRoutine());
-            
-            // TODO: Clean this mess
             OnAnyPlantHarvested?.Invoke(_plant);
-            _corral.PlantAreaClearedEvent.Call(this, new PlantAreaClearedEventArgs(_plant));
             _plant = null;
         }
 
@@ -129,17 +124,17 @@ namespace Farm.Corral
         private IEnumerator DelayBeforePlantingNewRoutine()
         {
             yield return new WaitForSeconds(_delayBeforePlantingNewTimeInSeconds);
-            ClearDelayBeforePlantingNewRoutine();
+            CoroutineHandler.ClearCoroutine(this, ref _delayBeforePlantingNewRoutine);
         }
 
         private void StartDigging()
         {
-            _diggingRoutine ??= StartCoroutine(DiggingRoutine());
+            CoroutineHandler.StartAndAssignIfNull(this, ref _diggingRoutine, DiggingRoutine());
         }
         
         private void StopDigging()
         {
-            ClearDiggingRoutine();
+            CoroutineHandler.ClearCoroutine(this, ref _diggingRoutine);
             _player.PlayerEvents.PlayerDiggingPlantAreaEvent.Call(this, new PlayerDiggingPlantAreaEventArgs(true));
         }
 
@@ -158,28 +153,14 @@ namespace Farm.Corral
         
         private void SpawnPlant()
         {
+            if (_selectedSeed == null) return;
+            
             Plant plant = _plantFactory.Create(_selectedSeed.Plant);
             plant.Initialize(transform.position, Quaternion.identity, this, _playerInventory);
             OnAnyPlantPlanted?.Invoke(plant);
             _plant = plant;
         }
 
-        private void ClearDiggingRoutine()
-        {
-            if (_diggingRoutine == null) return;
-            
-            StopCoroutine(_diggingRoutine);
-            _diggingRoutine = null;
-        }
-
-        private void ClearDelayBeforePlantingNewRoutine()
-        {
-            if (_delayBeforePlantingNewRoutine == null) return;
-            
-            StopCoroutine(_delayBeforePlantingNewRoutine);
-            _delayBeforePlantingNewRoutine = null;
-        }
-        
         private void Day_OnDayEnded()
         {
             _dayEnded = true;

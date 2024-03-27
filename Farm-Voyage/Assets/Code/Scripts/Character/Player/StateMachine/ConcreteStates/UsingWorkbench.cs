@@ -4,8 +4,8 @@ namespace Character.Player.StateMachine.ConcreteStates
 {
     public class UsingWorkbenchState : State
     {
-        private Player _player;
-        private StateMachine _stateMachine;
+        private readonly Player _player;
+        private readonly StateMachine _stateMachine;
         
         public UsingWorkbenchState(Player player, StateMachine stateMachine) : base(player, stateMachine)
         {
@@ -24,7 +24,8 @@ namespace Character.Player.StateMachine.ConcreteStates
 
         public override void OnEnter()
         {
-            _player.PlayerLocomotion.HandleMoveDestination(_player.WorkbenchStayPoint.position, Quaternion.identity);
+            _player.PlayerLocomotion.HandleMoveDestination(_player.TransformPoints.WorkbenchStayPoint.position,
+                Quaternion.identity);
         }
 
         private void PlayerShoppingEvent_OnPlayerShopping(object sender, PlayerShoppingEventArgs e)

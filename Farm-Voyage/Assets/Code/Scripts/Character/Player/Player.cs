@@ -31,12 +31,7 @@ namespace Character.Player
         public PlayerInteract PlayerInteract { get; private set; }
         public PlayerLocomotion PlayerLocomotion { get; private set; }
         public IPlayerInput Input { get; private set; }
-        
-        [field:SerializeField] public Transform WorkbenchStayPoint { get; private set; }
-        [field:SerializeField] public Transform EmmaStoreStayPoint { get; private set; }
-        [field:SerializeField] public Transform HomeLeavePoint { get; private set; }
-        [field:SerializeField] public Transform HomeStayPoint { get; private set; }
-        [field:SerializeField] public Transform WellStayPoint { get; private set; }
+        [field:SerializeField] public PlayerTransformPoints TransformPoints { get; private set; }
         
         private StateMachine.StateMachine _stateMachine;
         

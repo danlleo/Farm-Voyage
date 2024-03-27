@@ -27,7 +27,7 @@ namespace Farm.Corral
 
         private Vector3 _initialPosition;
         
-        private readonly Dictionary<Transform, Plants.Plant> _plantsDictionary = new();
+        private readonly Dictionary<Transform, Plant> _plantsDictionary = new();
 
         private bool _canCarry;
 
@@ -37,25 +37,21 @@ namespace Farm.Corral
             _initialPosition = transform.position;
             InitializePlantsDictionary();
         }
-        
+
         private void OnEnable()
         {
-            if (_corral != null)
-            {
-                _corral.PlantAreaClearedEvent.OnPlantAreaCleared += PlantAreaClearedEvent_OnPlantAreaCleared;
-            }
+            PlantArea.OnAnyPlantHarvested += PlantArea_OnAnyPlantHarvested;
         }
 
         private void OnDisable()
         {
-            _corral.PlantAreaClearedEvent.OnPlantAreaCleared -= PlantAreaClearedEvent_OnPlantAreaCleared;
+            PlantArea.OnAnyPlantHarvested -= PlantArea_OnAnyPlantHarvested;
         }
 
         public void Initialize(Corral corral, Player player)
         {
             _corral = corral;
             _player = player;
-            _corral.PlantAreaClearedEvent.OnPlantAreaCleared += PlantAreaClearedEvent_OnPlantAreaCleared;
         }
         
         public void Interact(ICharacter initiator)
@@ -138,9 +134,9 @@ namespace Farm.Corral
             return emptyPoint != null;
         }
         
-        private void PlantAreaClearedEvent_OnPlantAreaCleared(object sender, PlantAreaClearedEventArgs e)
+        private void PlantArea_OnAnyPlantHarvested(Plant plant)
         {
-            StorePlant(e.Plant);
+            StorePlant(plant);
         }
     }
 }

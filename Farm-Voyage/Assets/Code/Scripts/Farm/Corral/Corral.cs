@@ -9,14 +9,11 @@ using Zenject;
 namespace Farm.Corral
 {
     [RequireComponent(typeof(BoxCollider))]
-    [RequireComponent(typeof(PlantAreaClearedEvent))]
     [DisallowMultipleComponent]
     public class Corral : MonoBehaviour, IValidate
     {
         public bool IsValid { get; private set; } = true;
         
-        public PlantAreaClearedEvent PlantAreaClearedEvent { get; private set; }
-
         [Header("External references")] 
         [SerializeField] private CorralCardinalDirection _corralCardinalDirection;
         [SerializeField, WithinParent] private PlantArea[] _plantAreaArray;
@@ -33,12 +30,7 @@ namespace Farm.Corral
             _plantFactory = plantFactory;
             _playerFollowCamera = playerFollowCamera;
         }
-
-        private void Awake()
-        {
-            PlantAreaClearedEvent = GetComponent<PlantAreaClearedEvent>();
-        }
-
+        
         private void Start()
         {
             InitializePlantAreaArrayItems();
@@ -125,7 +117,7 @@ namespace Farm.Corral
         {
             foreach (PlantArea plantArea in _plantAreaArray)
             {
-                plantArea.Initialize(this, _player, _plantFactory);
+                plantArea.Initialize(_player, _plantFactory);
             }
         }
 

@@ -22,11 +22,6 @@ namespace Farm.ResourceGatherer
     [DisallowMultipleComponent]
     public class ResourcesGatherer : MonoBehaviour, IInteractable, IStopInteractable, IDisplayIcon
     {
-        public GatheredResourceEvent GatheredResourceEvent { get; private set; }
-        public FullyGatheredEvent FullyGatheredEvent { get; private set; }
-        public GatheringStateChangedEvent GatheringStateChangedEvent { get; private set; }
-        public ResourcesGathererInitializeEvent ResourcesGathererInitializeEvent { get; private set; }
-        
         [field:SerializeField] public IconSO Icon { get; private set; }
         public Guid ID { get; } = Guid.NewGuid();
 
@@ -34,6 +29,11 @@ namespace Farm.ResourceGatherer
         [SerializeField, WithinParent] private Transform _visualSpawnPoint;
         [SerializeField] private CollectableSO[] _collectableSOArray;
         [SerializeField, Range(1f, 100f)] private float _chanceToGetCollectable;
+        
+        private GatheredResourceEvent _gatheredResourceEvent;
+        private FullyGatheredEvent _fullyGatheredEvent;
+        private GatheringStateChangedEvent _gatheringStateChangedEvent;
+        private ResourcesGathererInitializeEvent _resourcesGathererInitializeEvent;
         
         private BoxCollider _boxCollider;
         
@@ -59,10 +59,10 @@ namespace Farm.ResourceGatherer
         private void Awake()
         {
             _boxCollider = GetComponent<BoxCollider>();
-            GatheredResourceEvent = GetComponent<GatheredResourceEvent>();
-            FullyGatheredEvent = GetComponent<FullyGatheredEvent>();
-            GatheringStateChangedEvent = GetComponent<GatheringStateChangedEvent>();
-            ResourcesGathererInitializeEvent = GetComponent<ResourcesGathererInitializeEvent>();
+            _gatheredResourceEvent = GetComponent<GatheredResourceEvent>();
+            _fullyGatheredEvent = GetComponent<FullyGatheredEvent>();
+            _gatheringStateChangedEvent = GetComponent<GatheringStateChangedEvent>();
+            _resourcesGathererInitializeEvent = GetComponent<ResourcesGathererInitializeEvent>();
         }
 
         public void Initialize(ResourceSO resourceSO, Vector3 position, Quaternion rotation)
@@ -71,14 +71,15 @@ namespace Farm.ResourceGatherer
             transform.SetPositionAndRotation(position, rotation);
             GameObject visualGameObject = Instantiate(resourceSO.VisualObject, _visualSpawnPoint, false);
             SetCanGatherIfPlayerHasRequiredTool();
-            ResourcesGathererInitializeEvent.Call(this, new ResourcesGathererInitializeEventArgs(visualGameObject));
+            _resourcesGathererInitializeEvent.Call(this, new ResourcesGathererInitializeEventArgs(visualGameObject));
         }
 
         public void Interact(ICharacter initiator)
         {
             if (!TryGatherResources(out GatheredResource gatheredResource)) return;
-            
-            _delayGatheringResourcesRoutine ??= StartCoroutine(DelayGatheringResourcesRoutine(gatheredResource));
+
+            CoroutineHandler.StartAndAssignIfNull(this, ref _delayGatheringResourcesRoutine,
+                DelayGatheringResourcesRoutine(gatheredResource));
         }
 
         public void StopInteract()
@@ -88,12 +89,9 @@ namespace Farm.ResourceGatherer
 
         private void StopGathering()
         {
-            if (_delayGatheringResourcesRoutine != null)
-                StopCoroutine(_delayGatheringResourcesRoutine);
+            CoroutineHandler.ClearCoroutine(this, ref _delayGatheringResourcesRoutine);
             
-            _delayGatheringResourcesRoutine = null;
-            
-            GatheringStateChangedEvent.Call(this, new GatheringStateChangedEventArgs(false));
+            _gatheringStateChangedEvent.Call(this, new GatheringStateChangedEventArgs(false));
             _player.PlayerEvents.PlayerGatheringEvent.Call(this,
                 new PlayerGatheringEventArgs(false, false, _resourceSO.ResourceToGather, transform));
         }
@@ -103,7 +101,7 @@ namespace Farm.ResourceGatherer
             float delayTime = _playerTool.CalculateTimeToGatherBasedOnLevel();
             float gatherTime = _playerTool.CalculateTimeToGatherBasedOnLevel();
 
-            GatheringStateChangedEvent.Call(this, new GatheringStateChangedEventArgs(true));
+            _gatheringStateChangedEvent.Call(this, new GatheringStateChangedEventArgs(true));
             _player.PlayerEvents.PlayerGatheringEvent.Call(this,
                 new PlayerGatheringEventArgs(true, false, _resourceSO.ResourceToGather, transform, gatherTime));
             
@@ -173,7 +171,7 @@ namespace Farm.ResourceGatherer
             if (_timesInteracted != _resourceSO.InteractAmountToDestroy) return;
             
             _boxCollider.Disable();
-            FullyGatheredEvent.Call(this);
+            _fullyGatheredEvent.Call(this);
             _player.PlayerEvents.PlayerGatheringEvent.Call(this,
                 new PlayerGatheringEventArgs(false, true, _resourceSO.ResourceToGather, transform));
         }
@@ -184,7 +182,7 @@ namespace Farm.ResourceGatherer
             IncreaseTimeInteracted();
             
             _playerInventory.AddResourceQuantity(gatheredResource.Type, gatheredResource.Quantity);
-            GatheredResourceEvent.Call(this,
+            _gatheredResourceEvent.Call(this,
                 new GatheredResourceEventArgs(gatheredResource.Quantity, _timesInteracted,
                     _resourceSO.InteractAmountToDestroy));
             

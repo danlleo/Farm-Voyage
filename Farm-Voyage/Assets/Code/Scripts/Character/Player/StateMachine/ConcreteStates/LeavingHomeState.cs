@@ -15,11 +15,12 @@ namespace Character.Player.StateMachine.ConcreteStates
 
         public override void OnEnter()
         {
-            _player.PlayerLocomotion.HandleMoveDestination(_player.HomeLeavePoint.position, Quaternion.identity, () =>
-            {
-                _stateMachine.ChangeState(_player.StateFactory.Exploring());
-                _player.PlayerEvents.PlayerLeftHomeEvent.Call(this);
-            });
+            _player.PlayerLocomotion.HandleMoveDestination(_player.TransformPoints.HomeLeavePoint.position,
+                Quaternion.identity, () =>
+                {
+                    _stateMachine.ChangeState(_player.StateFactory.Exploring());
+                    _player.PlayerEvents.PlayerLeftHomeEvent.Call(this);
+                });
         }
     }
 }

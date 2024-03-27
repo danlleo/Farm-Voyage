@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using Utilities;
 
 namespace Character.Michael.Locomotion
 {
@@ -34,17 +35,14 @@ namespace Character.Michael.Locomotion
 
         public void HandleMoveDestination(Vector3 destination, Action onReachedDestination)
         {
-            if (_moveDestinationRoutine != null)
-            {
-                StopCoroutine(_moveDestinationRoutine);
-            }
-
-            _moveDestinationRoutine = StartCoroutine(MoveDestinationRoutine(destination, onReachedDestination));
+            CoroutineHandler.StopCoroutine(this, _moveDestinationRoutine);
+            CoroutineHandler.StartAndOverride(this, ref _moveDestinationRoutine,
+                MoveDestinationRoutine(destination, onReachedDestination));
         }
 
         public void StopAllMovement()
         {
-            StopCoroutine(_moveDestinationRoutine);
+            CoroutineHandler.StopCoroutine(this, _moveDestinationRoutine);
         }
 
         private void InitializeNavMeshAgent()

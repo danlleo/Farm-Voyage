@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using Utilities;
 
 namespace Character.Player.Locomotion
 {
@@ -85,11 +86,9 @@ namespace Character.Player.Locomotion
         
         public void HandleMoveDestination(Vector3 destination, Quaternion endRotation, Action onFinishedMoving = null)
         {
-            if (_moveDestinationRoutine != null)
-                StopCoroutine(_moveDestinationRoutine);
-
-            _moveDestinationRoutine =
-                StartCoroutine(MoveDestinationRoutine(destination, endRotation, onFinishedMoving));
+            CoroutineHandler.StopCoroutine(this, _moveDestinationRoutine);
+            CoroutineHandler.StartAndOverride(this, ref _moveDestinationRoutine,
+                MoveDestinationRoutine(destination, endRotation, onFinishedMoving));
         }
         
         public void HandleRotation()
@@ -105,12 +104,9 @@ namespace Character.Player.Locomotion
                 Debug.LogWarning("Stick distance is below zero, please take a look.");
             }
             
-            if (_stickRotationRoutine != null)
-            {
-                StopCoroutine(_stickRotationRoutine);
-            }
-
-            _stickRotationRoutine = StartCoroutine(StickRotationRoutine(lookTransform, stickDistance, onOutOfZone));
+            CoroutineHandler.StopCoroutine(this, _stickRotationRoutine);
+            CoroutineHandler.StartAndAssignIfNull(this, ref _stickRotationRoutine,
+                StickRotationRoutine(lookTransform, stickDistance, onOutOfZone));
         }
         
         public void HandleStickRotation(Transform lookTransform, Action onOutOfZone = null)
@@ -120,7 +116,7 @@ namespace Character.Player.Locomotion
         
         public void StopAllMovement()
         {
-            StopCoroutine(_moveDestinationRoutine);
+            CoroutineHandler.StopCoroutine(this, _stickRotationRoutine);
             _player.PlayerEvents.PlayerIdleEvent.Call(this);
         }
         

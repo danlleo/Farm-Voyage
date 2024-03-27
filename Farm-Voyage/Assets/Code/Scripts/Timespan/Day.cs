@@ -16,7 +16,7 @@ namespace Timespan
         
         private float _currentTime;
 
-        private AsyncProcessor _asyncProcessor;
+        private readonly AsyncProcessor _asyncProcessor;
         
         public Day(AsyncProcessor asyncProcessor)
         {

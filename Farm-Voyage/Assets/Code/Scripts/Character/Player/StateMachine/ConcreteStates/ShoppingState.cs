@@ -25,7 +25,8 @@ namespace Character.Player.StateMachine.ConcreteStates
 
         public override void OnEnter()
         {
-            _player.PlayerLocomotion.HandleMoveDestination(_player.EmmaStoreStayPoint.position, Quaternion.identity);
+            _player.PlayerLocomotion.HandleMoveDestination(_player.TransformPoints.EmmaStoreStayPoint.position,
+                Quaternion.identity);
         }
 
         private void PlayerShoppingEvent_OnPlayerShopping(object sender, PlayerShoppingEventArgs e)
