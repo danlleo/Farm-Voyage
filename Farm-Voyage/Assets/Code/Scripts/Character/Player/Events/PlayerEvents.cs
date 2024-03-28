@@ -16,12 +16,18 @@ namespace Character.Player.Events
         public PlayerEnteringHomeEvent PlayerEnteringHomeEvent { get; private set; }
         public PlayerExtractingWaterEvent PlayerExtractingWaterEvent { get; private set; }
 
-        public PlayerEvents(PlayerWalkingEvent playerWalkingEvent, PlayerIdleEvent playerIdleEvent,
-            PlayerGatheringEvent playerGatheringEvent, PlayerDiggingPlantAreaEvent playerDiggingPlantAreaEvent,
+        public PlayerEvents(
+            PlayerWalkingEvent playerWalkingEvent,
+            PlayerIdleEvent playerIdleEvent,
+            PlayerGatheringEvent playerGatheringEvent,
+            PlayerDiggingPlantAreaEvent playerDiggingPlantAreaEvent,
             PlayerCarryingStorageBoxStateChangedEvent playerCarryingStorageBoxStateChangedEvent,
-            PlayerFoundCollectableEvent playerFoundCollectableEvent, PlayerShoppingEvent playerShoppingEvent,
-            PlayerUsingWorkbenchEvent playerUsingWorkbenchEvent, PlayerLeftHomeEvent playerLeftHomeEvent,
-            PlayerEnteringHomeEvent playerEnteringHomeEvent, PlayerExtractingWaterEvent playerExtractingWaterEvent)
+            PlayerFoundCollectableEvent playerFoundCollectableEvent,
+            PlayerShoppingEvent playerShoppingEvent,
+            PlayerUsingWorkbenchEvent playerUsingWorkbenchEvent,
+            PlayerLeftHomeEvent playerLeftHomeEvent,
+            PlayerEnteringHomeEvent playerEnteringHomeEvent,
+            PlayerExtractingWaterEvent playerExtractingWaterEvent)
         {
             PlayerWalkingEvent = playerWalkingEvent;
             PlayerIdleEvent = playerIdleEvent;

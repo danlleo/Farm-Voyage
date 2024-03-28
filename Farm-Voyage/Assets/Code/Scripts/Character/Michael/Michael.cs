@@ -8,26 +8,26 @@ namespace Character.Michael
     [RequireComponent(typeof(MichaelLocomotionStateChangedEvent))]
     [RequireComponent(typeof(MichaelWateringPlantEvent))]
     [RequireComponent(typeof(MichaelHarvestingPlantEvent))]
+    [RequireComponent(typeof(MichaelPerformingGardeningActionEvent))]
     [DisallowMultipleComponent]
     public sealed class Michael : MonoBehaviour, ICharacter
     {
         public StateFactory StateFactory { get; private set; }
-        
-        public MichaelLocomotionStateChangedEvent MichaelLocomotionStateChangedEvent { get; private set; }
-        public MichaelWateringPlantEvent MichaelWateringPlantEvent { get; private set; }
-        public MichaelHarvestingPlantEvent MichaelHarvestingPlantEvent { get; private set; }
-        
         public MichaelLocomotion MichaelLocomotion { get; private set; }
         public WaterStateObserver WaterStateObserver { get; private set; }
-        [field:SerializeField] public MichaelTransformPoints TransformPoints { get; private set; }
-        
+        public MichaelEvents MichaelEvents { get; private set; }
+        [field: SerializeField] public MichaelTransformPoints TransformPoints { get; private set; }
+
         private StateMachine.StateMachine _stateMachine;
         
         private void Awake()
         {
-            MichaelLocomotionStateChangedEvent = GetComponent<MichaelLocomotionStateChangedEvent>();
-            MichaelWateringPlantEvent = GetComponent<MichaelWateringPlantEvent>();
-            MichaelHarvestingPlantEvent = GetComponent<MichaelHarvestingPlantEvent>();
+            MichaelEvents = new MichaelEvents(
+                GetComponent<MichaelLocomotionStateChangedEvent>(),
+                GetComponent<MichaelWateringPlantEvent>(), 
+                GetComponent<MichaelHarvestingPlantEvent>(),
+                GetComponent<MichaelPerformingGardeningActionEvent>()   
+            );
             
             MichaelLocomotion = GetComponent<MichaelLocomotion>();
             WaterStateObserver = GetComponent<WaterStateObserver>();

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Utilities;
@@ -11,7 +10,7 @@ namespace Character.Michael.StateMachine.ConcreteStates
     {
         private const int MinimalRouteLengthInclusive = 2;
         private const int MaximalRouteLengthExclusive = 7;
-        
+
         private readonly Michael _michael;
         private readonly StateMachine _stateMachine;
 
@@ -46,8 +45,6 @@ namespace Character.Michael.StateMachine.ConcreteStates
                 _routePositions[i] = nextPoint.position;
                 excludedTransforms.Add(nextPoint);
             }
-            
-            Debug.Log(_routePositions.Length);
         }
 
         private void StartGardening()
@@ -59,17 +56,20 @@ namespace Character.Michael.StateMachine.ConcreteStates
         {
             foreach (Vector3 routePosition in _routePositions)
             {
-                // Assuming you've set up a way to wait for the movement to complete, such as an event or a condition.
                 bool hasArrived = false;
-        
-                // Call the wrapped or modified HandleMoveDestination method with a callback
+                bool hasFinishedAction = false;
+                
                 _michael.MichaelLocomotion.HandleMoveDestination(routePosition, () => hasArrived = true);
         
-                // Wait until the callback sets hasArrived to true
                 yield return new WaitUntil(() => hasArrived);
+
+                _michael.MichaelEvents.MichaelPerformingGardeningActionEvent.Call(
+                    EnumUtility.GetRandomEnumValue<GardeningActionType>(),
+                    () => hasFinishedAction = true);
+            
+                yield return new WaitUntil(() => hasFinishedAction);
             }
 
-            // All points have been visited, transition to the next state.
             _stateMachine.ChangeState(_michael.StateFactory.Idle());
         }
     }
