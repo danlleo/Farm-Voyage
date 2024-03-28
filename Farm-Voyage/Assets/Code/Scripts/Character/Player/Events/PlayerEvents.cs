@@ -7,7 +7,7 @@ namespace Character.Player.Events
         public PlayerWalkingEvent PlayerWalkingEvent { get; private set; }
         public PlayerIdleEvent PlayerIdleEvent { get; private set; }
         public PlayerGatheringEvent PlayerGatheringEvent { get; private set; }
-        public PlayerDiggingPlantAreaEvent PlayerDiggingPlantAreaEvent { get; private set; }
+        public PlayerDiggingPlantAreaStateChangedEvent PlayerDiggingPlantAreaStateChangedEvent { get; private set; }
         public PlayerCarryingStorageBoxStateChangedEvent PlayerCarryingStorageBoxStateChangedEvent { get; private set; }
         public PlayerFoundCollectableEvent PlayerFoundCollectableEvent { get; private set; }
         public PlayerShoppingEvent PlayerShoppingEvent { get; private set; }
@@ -15,24 +15,28 @@ namespace Character.Player.Events
         public PlayerLeftHomeEvent PlayerLeftHomeEvent { get; private set; }
         public PlayerEnteringHomeEvent PlayerEnteringHomeEvent { get; private set; }
         public PlayerExtractingWaterEvent PlayerExtractingWaterEvent { get; private set; }
-
+        public PlayerHarvestingStateChangedEvent PlayerHarvestingStateChangedEvent { get; private set; }
+        public PlayerWateringStateChangedEvent PlayerWateringStateChangedEvent { get; private set; }
+        
         public PlayerEvents(
             PlayerWalkingEvent playerWalkingEvent,
             PlayerIdleEvent playerIdleEvent,
             PlayerGatheringEvent playerGatheringEvent,
-            PlayerDiggingPlantAreaEvent playerDiggingPlantAreaEvent,
+            PlayerDiggingPlantAreaStateChangedEvent playerDiggingPlantAreaStateChangedEvent,
             PlayerCarryingStorageBoxStateChangedEvent playerCarryingStorageBoxStateChangedEvent,
             PlayerFoundCollectableEvent playerFoundCollectableEvent,
             PlayerShoppingEvent playerShoppingEvent,
             PlayerUsingWorkbenchEvent playerUsingWorkbenchEvent,
             PlayerLeftHomeEvent playerLeftHomeEvent,
             PlayerEnteringHomeEvent playerEnteringHomeEvent,
-            PlayerExtractingWaterEvent playerExtractingWaterEvent)
+            PlayerExtractingWaterEvent playerExtractingWaterEvent,
+            PlayerHarvestingStateChangedEvent playerHarvestingStateChangedEvent,
+            PlayerWateringStateChangedEvent playerWateringStateChangedEvent)
         {
             PlayerWalkingEvent = playerWalkingEvent;
             PlayerIdleEvent = playerIdleEvent;
             PlayerGatheringEvent = playerGatheringEvent;
-            PlayerDiggingPlantAreaEvent = playerDiggingPlantAreaEvent;
+            PlayerDiggingPlantAreaStateChangedEvent = playerDiggingPlantAreaStateChangedEvent;
             PlayerCarryingStorageBoxStateChangedEvent = playerCarryingStorageBoxStateChangedEvent;
             PlayerFoundCollectableEvent = playerFoundCollectableEvent;
             PlayerShoppingEvent = playerShoppingEvent;
@@ -40,6 +44,8 @@ namespace Character.Player.Events
             PlayerLeftHomeEvent = playerLeftHomeEvent;
             PlayerEnteringHomeEvent = playerEnteringHomeEvent;
             PlayerExtractingWaterEvent = playerExtractingWaterEvent;
+            PlayerHarvestingStateChangedEvent = playerHarvestingStateChangedEvent;
+            PlayerWateringStateChangedEvent = playerWateringStateChangedEvent;
         }
     }
 }

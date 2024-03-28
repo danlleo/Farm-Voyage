@@ -6,6 +6,6 @@ namespace Character.Michael
     public struct MichaelTransformPoints
     {
         [field:SerializeField] public Transform[] GardeningPoints { get; private set; }
-        [field:SerializeField] public Transform EmmaStorePoint { get; private set; }
+        [field:SerializeField] public Transform IdlePoint { get; private set; }
     }
 }

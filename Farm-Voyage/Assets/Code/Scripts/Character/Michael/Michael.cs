@@ -9,6 +9,7 @@ namespace Character.Michael
     [RequireComponent(typeof(MichaelWateringPlantEvent))]
     [RequireComponent(typeof(MichaelHarvestingPlantEvent))]
     [RequireComponent(typeof(MichaelPerformingGardeningActionEvent))]
+    [RequireComponent(typeof(MichaelSittingStateChangedEvent))]
     [DisallowMultipleComponent]
     public sealed class Michael : MonoBehaviour, ICharacter
     {
@@ -26,7 +27,8 @@ namespace Character.Michael
                 GetComponent<MichaelLocomotionStateChangedEvent>(),
                 GetComponent<MichaelWateringPlantEvent>(), 
                 GetComponent<MichaelHarvestingPlantEvent>(),
-                GetComponent<MichaelPerformingGardeningActionEvent>()   
+                GetComponent<MichaelPerformingGardeningActionEvent>(),
+                GetComponent<MichaelSittingStateChangedEvent>()
             );
             
             MichaelLocomotion = GetComponent<MichaelLocomotion>();
@@ -48,7 +50,7 @@ namespace Character.Michael
 
         private void Start()
         {
-            _stateMachine.Initialize(StateFactory.Gardening());
+            _stateMachine.Initialize(StateFactory.Idle());
         }
         
         private void Update()

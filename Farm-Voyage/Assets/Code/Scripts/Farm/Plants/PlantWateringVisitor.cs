@@ -24,7 +24,7 @@ namespace Farm.Plants
 
         public void Visit(Player player)
         {
-            WaterPlantAsPlayer();
+            WaterPlantAsPlayer(player);
         }
 
         public void Visit(Michael michael)
@@ -32,10 +32,13 @@ namespace Farm.Plants
             WaterPlantAsAny();
         }
 
-        private void WaterPlantAsPlayer()
+        private void WaterPlantAsPlayer(Player player)
         {
             if (_waterCan == null) return;
             if (!(_waterCan.CurrentWaterCapacityAmount > 0)) return;
+
+            player.PlayerEvents.PlayerWateringStateChangedEvent.Call(true);
+            
             WaterPlantAsAny();
         }
         

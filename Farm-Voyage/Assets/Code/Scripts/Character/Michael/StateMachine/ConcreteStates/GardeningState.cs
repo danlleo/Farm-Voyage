@@ -70,7 +70,7 @@ namespace Character.Michael.StateMachine.ConcreteStates
                 yield return new WaitUntil(() => hasFinishedAction);
             }
 
-            _stateMachine.ChangeState(_michael.StateFactory.Idle());
+            _stateMachine.ChangeState(_michael.StateFactory.WalkingToIdlePosition());
         }
     }
 }

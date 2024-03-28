@@ -22,16 +22,21 @@ namespace Farm.Plants
 
         public void Visit(Player player)
         {
-            // TODO: make it unique for player later
-            Harvest();
+            HarvestAsPlayer(player);
         }
 
         public void Visit(Michael michael)
         {
-            Harvest();
+            HarvestAsAny();
+        }
+
+        private void HarvestAsPlayer(Player player)
+        {
+            player.PlayerEvents.PlayerHarvestingStateChangedEvent.Call(true);
+            HarvestAsAny();
         }
         
-        private void Harvest()
+        private void HarvestAsAny()
         {
             if (_hasFinishedHarvesting) return;
             

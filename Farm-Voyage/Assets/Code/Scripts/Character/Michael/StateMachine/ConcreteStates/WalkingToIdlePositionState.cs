@@ -1,7 +1,4 @@
-﻿using Farm.Plants;
-using UnityEngine;
-
-namespace Character.Michael.StateMachine.ConcreteStates
+﻿namespace Character.Michael.StateMachine.ConcreteStates
 {
     public class WalkingToIdlePositionState : State
     {
@@ -14,28 +11,14 @@ namespace Character.Michael.StateMachine.ConcreteStates
             _stateMachine = stateMachine;
         }
 
-        public override void SubscribeToEvents()
-        {
-            _michael.WaterStateObserver.OnPlantWateringStateChanged += WaterStateObserver_OnPlantWateringStateChanged;
-        }
-
-        public override void UnsubscribeFromEvents()
-        {
-            _michael.WaterStateObserver.OnPlantWateringStateChanged -= WaterStateObserver_OnPlantWateringStateChanged;
-        }
-
         public override void OnEnter()
         {
-            _michael.MichaelLocomotion.HandleMoveDestination(Vector3.zero,
-                () => _stateMachine.ChangeState(_michael.StateFactory.Idle()));
-        }
-        
-        private void WaterStateObserver_OnPlantWateringStateChanged(Plant plant, bool needsWatering)
-        {
-            if (!needsWatering) return;
-            
-            _michael.MichaelLocomotion.StopAllMovement();
-            _stateMachine.ChangeState(_michael.StateFactory.WalkingToPlant(plant));
+            _michael.MichaelLocomotion.HandleMoveDestination(Michael.TransformPoints.IdlePoint,
+                () =>
+                {
+                    _michael.transform.rotation = Michael.TransformPoints.IdlePoint.rotation;
+                    _stateMachine.ChangeState(_michael.StateFactory.Idle());
+                });
         }
     }
 }

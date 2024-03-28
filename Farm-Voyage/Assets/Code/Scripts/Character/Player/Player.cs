@@ -20,6 +20,8 @@ namespace Character.Player
     [RequireComponent(typeof(PlayerLeftHomeEvent))]
     [RequireComponent(typeof(PlayerEnteringHomeEvent))]
     [RequireComponent(typeof(PlayerExtractingWaterEvent))]
+    [RequireComponent(typeof(PlayerHarvestingStateChangedEvent))]
+    [RequireComponent(typeof(PlayerWateringStateChangedEvent))]
     [DisallowMultipleComponent]
     public class Player : MonoBehaviour, ICharacter
     {
@@ -49,14 +51,16 @@ namespace Character.Player
                 GetComponent<PlayerWalkingEvent>(),
                 GetComponent<PlayerIdleEvent>(),
                 GetComponent<PlayerGatheringEvent>(),
-                GetComponent<PlayerDiggingPlantAreaEvent>(),
+                GetComponent<PlayerDiggingPlantAreaStateChangedEvent>(),
                 GetComponent<PlayerCarryingStorageBoxStateChangedEvent>(),
                 GetComponent<PlayerFoundCollectableEvent>(),
                 GetComponent<PlayerShoppingEvent>(),
                 GetComponent<PlayerUsingWorkbenchEvent>(),
                 GetComponent<PlayerLeftHomeEvent>(),
                 GetComponent<PlayerEnteringHomeEvent>(),
-                GetComponent<PlayerExtractingWaterEvent>()
+                GetComponent<PlayerExtractingWaterEvent>(),
+                GetComponent<PlayerHarvestingStateChangedEvent>(),
+                GetComponent<PlayerWateringStateChangedEvent>()
             );
             
             PlayerLocomotion = GetComponent<PlayerLocomotion>();
