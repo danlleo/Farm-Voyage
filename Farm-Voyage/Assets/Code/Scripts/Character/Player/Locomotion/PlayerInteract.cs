@@ -30,7 +30,7 @@ namespace Character.Player.Locomotion
                 // If we are already interacting with an object, stop interacting with it first
                 if (_currentInteractable != null && _currentInteractable != interactable && stopInteractable != null)
                 {
-                    stopInteractable.StopInteract();
+                    stopInteractable.StopInteract(_player);
                 }
             
                 // Start interacting with the new object
@@ -44,7 +44,7 @@ namespace Character.Player.Locomotion
                 
                 if (_currentInteractable is IStopInteractable stopInteractable)
                 {
-                    stopInteractable.StopInteract();
+                    stopInteractable.StopInteract(_player);
                 }
                 
                 _currentInteractable = null;

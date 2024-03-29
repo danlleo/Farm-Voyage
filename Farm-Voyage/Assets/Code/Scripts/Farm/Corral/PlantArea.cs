@@ -96,7 +96,7 @@ namespace Farm.Corral
             StartDigging();
         }
 
-        public void StopInteract()
+        public void StopInteract(Player player)
         {
             StopDigging();
         }

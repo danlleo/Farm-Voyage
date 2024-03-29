@@ -1,4 +1,5 @@
 ﻿using Character;
+using Character.Player;
 
 namespace Farm.Plants.ConcreteStates
 {
@@ -14,6 +15,11 @@ namespace Farm.Plants.ConcreteStates
         public override void OnInteracted(ICharacter initiator)
         {
             initiator.Accept(_plantHarvestingVisitor);
+        }
+
+        public override void OnStoppedInteracting(Player player)
+        {
+            player.PlayerEvents.PlayerHarvestingStateChangedEvent.Call(false);
         }
     }
 }

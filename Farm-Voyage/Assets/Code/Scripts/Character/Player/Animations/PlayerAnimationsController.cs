@@ -83,7 +83,10 @@ namespace Character.Player.Animations
         
         private void Player_OnPlayerGathering(object sender, PlayerGatheringEventArgs e)
         {
+            int gatheringAnimationLayer = _animator.GetLayerIndex(PlayerAnimationLayers.Gathering);
+            
             _animator.speed = e.GatheringSpeed;
+            _animator.SetLayerWeight(gatheringAnimationLayer, e.IsGathering ? 1f : 0f);
             
             switch (e.ResourceType)
             {
@@ -91,6 +94,7 @@ namespace Character.Player.Animations
                     _animator.SetBool(PlayerAnimationParams.IsMining, e.IsGathering);
                     break;
                 case ResourceType.Wood:
+                    _animator.SetBool(PlayerAnimationParams.IsChopping, e.IsGathering);
                     break;
                 case ResourceType.Dirt:
                     _animator.SetBool(PlayerAnimationParams.IsDigging, e.IsGathering);

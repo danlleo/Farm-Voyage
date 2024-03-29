@@ -82,7 +82,7 @@ namespace Farm.ResourceGatherer
                 DelayGatheringResourcesRoutine(gatheredResource));
         }
 
-        public void StopInteract()
+        public void StopInteract(Player player)
         {
             StopGathering();
         }

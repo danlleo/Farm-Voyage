@@ -1,5 +1,6 @@
 ﻿using System;
 using Character;
+using Character.Player;
 
 namespace Farm.Plants.ConcreteStates
 {
@@ -37,7 +38,13 @@ namespace Farm.Plants.ConcreteStates
         {
             initiator.Accept(_plantWateringVisitor);
         }
-        
+
+        public override void OnStoppedInteracting(Player player)
+        {
+            // TODO: consider making it more clean
+            player.PlayerEvents.PlayerWateringStateChangedEvent.Call(false);
+        }
+
         private void Plant_OnPlantFinishedWatering()
         {
             OnAnyWateringStateChanged?.Invoke(_plant, false);

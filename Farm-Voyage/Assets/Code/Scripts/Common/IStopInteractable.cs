@@ -1,7 +1,9 @@
-﻿namespace Common
+﻿using Character.Player;
+
+namespace Common
 {
     public interface IStopInteractable
     {
-        public void StopInteract();
+        public void StopInteract(Player player);
     }
 }

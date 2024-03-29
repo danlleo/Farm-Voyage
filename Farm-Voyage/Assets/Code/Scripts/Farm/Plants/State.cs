@@ -1,4 +1,5 @@
 ﻿using Character;
+using Character.Player;
 
 namespace Farm.Plants
 {
@@ -19,6 +20,6 @@ namespace Farm.Plants
         public virtual void UnsubscribeFromEvents() { }
         public virtual void Tick() { }
         public virtual void OnInteracted(ICharacter initiator) { }
-        public virtual void OnStoppedInteracting() { }
+        public virtual void OnStoppedInteracting(Player player) { }
     }
 }
