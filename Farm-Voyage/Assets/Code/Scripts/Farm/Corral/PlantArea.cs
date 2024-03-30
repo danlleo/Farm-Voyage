@@ -76,7 +76,7 @@ namespace Farm.Corral
 
         public void Interact(ICharacter initiator)
         {
-            _player.PlayerLocomotion.HandleStickRotation(transform, 2.5f);
+            _player.PlayerLocomotion.StartStickRotation(transform, 2.5f);
             
             if (_dayEnded) return;
             if (_delayBeforePlantingNewRoutine != null) return;
@@ -124,7 +124,7 @@ namespace Farm.Corral
         private IEnumerator DelayBeforePlantingNewRoutine()
         {
             yield return new WaitForSeconds(_delayBeforePlantingNewTimeInSeconds);
-            CoroutineHandler.ClearCoroutine(this, ref _delayBeforePlantingNewRoutine);
+            CoroutineHandler.ClearAndStopCoroutine(this, ref _delayBeforePlantingNewRoutine);
         }
 
         private void StartDigging()
@@ -134,7 +134,7 @@ namespace Farm.Corral
         
         private void StopDigging()
         {
-            CoroutineHandler.ClearCoroutine(this, ref _diggingRoutine);
+            CoroutineHandler.ClearAndStopCoroutine(this, ref _diggingRoutine);
             _player.PlayerEvents.PlayerDiggingPlantAreaStateChangedEvent.Call(this, new PlayerDiggingPlantAreaEventArgs(false));
         }
 

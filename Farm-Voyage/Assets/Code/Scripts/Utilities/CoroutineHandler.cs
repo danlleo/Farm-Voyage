@@ -15,12 +15,22 @@ namespace Utilities
             coroutine = owner.StartCoroutine(enumerator);
         }
         
-        public static void ClearCoroutine(MonoBehaviour owner, ref Coroutine coroutine)
+        public static void ClearAndStopCoroutine(MonoBehaviour owner, ref Coroutine coroutine)
         {
             if (coroutine == null) return;
             
             owner.StopCoroutine(coroutine);
             coroutine = null;
+        }
+
+        public static void ReassignAndStart(MonoBehaviour owner, ref Coroutine coroutine, IEnumerator enumerator)
+        {
+            if (coroutine != null)
+            {
+                owner.StopCoroutine(coroutine);
+            }
+            
+            coroutine = owner.StartCoroutine(enumerator);
         }
 
         public static void StopCoroutine(MonoBehaviour owner, Coroutine coroutine)

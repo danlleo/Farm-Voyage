@@ -85,8 +85,8 @@ namespace Character.Player.Animations
         {
             int gatheringAnimationLayer = _animator.GetLayerIndex(PlayerAnimationLayers.Gathering);
             
-            _animator.speed = e.GatheringSpeed;
             _animator.SetLayerWeight(gatheringAnimationLayer, e.IsGathering ? 1f : 0f);
+            _animator.speed = e.GatheringSpeed;
             
             switch (e.ResourceType)
             {

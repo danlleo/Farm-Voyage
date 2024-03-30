@@ -96,22 +96,21 @@ namespace Character.Player.Locomotion
             transform.forward = Vector3.Slerp(transform.forward, _moveDirection, Time.deltaTime * _rotateSpeed);
         }
         
-        public void HandleStickRotation(Transform lookTransform, float stickDistance, Action onOutOfZone = null)
+        public void StartStickRotation(Transform lookTransform, float stickDistance, Action onOutOfZone = null)
         {
             if (stickDistance < 0f)
             {
                 stickDistance = 0f;
                 Debug.LogWarning("Stick distance is below zero, please take a look.");
             }
-            
-            CoroutineHandler.StopCoroutine(this, _stickRotationRoutine);
-            CoroutineHandler.StartAndAssignIfNull(this, ref _stickRotationRoutine,
+
+            CoroutineHandler.ReassignAndStart(this, ref _stickRotationRoutine,
                 StickRotationRoutine(lookTransform, stickDistance, onOutOfZone));
         }
         
-        public void HandleStickRotation(Transform lookTransform, Action onOutOfZone = null)
+        public void StartStickRotation(Transform lookTransform, Action onOutOfZone = null)
         {
-            HandleStickRotation(lookTransform, _stickDistance, onOutOfZone);
+            StartStickRotation(lookTransform, _stickDistance, onOutOfZone);
         }
         
         public void StopAllMovement()
@@ -165,20 +164,27 @@ namespace Character.Player.Locomotion
 
         private IEnumerator StickRotationRoutine(Transform lookTransform, float stickDistance, Action onOutOfZone = null)
         {
-            while (Vector3.Distance(_player.transform.position, lookTransform.position) <=
-                   stickDistance)
+            while (lookTransform != null)
             {
+                if (!(Vector3.Distance(_player.transform.position, lookTransform.position) <=
+                      stickDistance))
+                {
+                    break;
+                }
+                
                 Vector3 lookDirection = lookTransform.position - transform.position;
                 lookDirection.y = 0;
                 
                 if (lookDirection == Vector3.zero) continue;
-            
-                Vector3 forward = Vector3.Slerp(transform.forward, lookDirection.normalized, Time.deltaTime * _stickRotateSpeed);
+
+                Vector3 forward = Vector3.Slerp(transform.forward, lookDirection.normalized,
+                    Time.deltaTime * _stickRotateSpeed);
+                
                 transform.forward = forward;
              
                 yield return null;
             }
-            
+
             onOutOfZone?.Invoke();
         }
     }

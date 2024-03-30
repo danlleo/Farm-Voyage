@@ -89,7 +89,7 @@ namespace Farm.ResourceGatherer
 
         private void StopGathering()
         {
-            CoroutineHandler.ClearCoroutine(this, ref _delayGatheringResourcesRoutine);
+            CoroutineHandler.ClearAndStopCoroutine(this, ref _delayGatheringResourcesRoutine);
             
             _gatheringStateChangedEvent.Call(this, new GatheringStateChangedEventArgs(false));
             _player.PlayerEvents.PlayerGatheringEvent.Call(this,
@@ -147,7 +147,6 @@ namespace Farm.ResourceGatherer
 
         private bool TryGatherCollectable(out CollectableSO collectable)
         {
-            // Check if the chance check passes
             if (!(Random.Range(0f, 100f) <= _chanceToGetCollectable))
             {
                 collectable = null;

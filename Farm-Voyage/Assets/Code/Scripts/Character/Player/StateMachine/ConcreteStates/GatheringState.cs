@@ -29,7 +29,7 @@ namespace Character.Player.StateMachine.ConcreteStates
 
         public override void OnEnter()
         {
-            _player.PlayerLocomotion.HandleStickRotation(_resourceGathererTransform, () =>
+            _player.PlayerLocomotion.StartStickRotation(_resourceGathererTransform, () =>
             {
                 _stateMachine.ChangeState(_player.StateFactory.Exploring());
             });
