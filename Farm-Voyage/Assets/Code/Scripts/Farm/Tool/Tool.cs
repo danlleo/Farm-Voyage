@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Farm.FarmResources;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Farm.Tool
@@ -8,7 +9,7 @@ namespace Farm.Tool
     public abstract class Tool
     {
         public const int MaxLevel = 5;
-        
+        private const float TimeReductionPerLevel = 0.5f;
         public event Action<int> OnLevelUp;
         
         public abstract string Name { get; protected set; }
@@ -45,22 +46,24 @@ namespace Farm.Tool
             return 0;
         }
         
-        public int CalculateQuantityBasedOnLevel()
+        public int CalculateRandomQuantityBasedOnLevel()
         {
             const int minimumRandomValue = 1;
-            const int maximumRandomValue = 5;
+            const int maximumRandomValuePlusOne = 5;
 
-            int calculatedQuantity = Level * Random.Range(minimumRandomValue, maximumRandomValue);
+            int calculatedQuantity = Level * Random.Range(minimumRandomValue, maximumRandomValuePlusOne);
             
             return calculatedQuantity;
         }
 
-        public float CalculateTimeToGatherBasedOnLevel()
+        public float CalculateReducedGatherTime()
         {
-            float calculatedTimeReducer = Level == 1 ? 0 : 0.5f * Level;
+            if (Level <= 1) return _timeToGather;
+    
+            float calculatedTimeReducer = (Level - 1) * TimeReductionPerLevel;
             float calculatedTime = _timeToGather - calculatedTimeReducer;
-            
-            return calculatedTime;
+    
+            return Mathf.Max(calculatedTime, 0);
         }
     }
 }

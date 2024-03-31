@@ -98,8 +98,8 @@ namespace Farm.ResourceGatherer
 
         private IEnumerator DelayGatheringResourcesRoutine(GatheredResource gatheredResource)
         {
-            float delayTime = _playerTool.CalculateTimeToGatherBasedOnLevel();
-            float gatherTime = _playerTool.CalculateTimeToGatherBasedOnLevel();
+            float delayTime = _playerTool.CalculateReducedGatherTime();
+            float gatherTime = _playerTool.CalculateReducedGatherTime();
 
             _gatheringStateChangedEvent.Call(this, new GatheringStateChangedEventArgs(true));
             _player.PlayerEvents.PlayerGatheringEvent.Call(this,
@@ -116,7 +116,7 @@ namespace Farm.ResourceGatherer
 
             if (!_canGather) return false;
 
-            int quantityGathered = _playerTool.CalculateQuantityBasedOnLevel();
+            int quantityGathered = _playerTool.CalculateRandomQuantityBasedOnLevel();
 
             if (quantityGathered <= 0) return false;
             
