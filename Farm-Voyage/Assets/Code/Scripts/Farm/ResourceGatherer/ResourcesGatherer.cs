@@ -165,7 +165,7 @@ namespace Farm.ResourceGatherer
             return true;
         }
         
-        private void DestroyIfFullyGathered()
+        private void CleanUpResourceIfFullyGathered()
         {
             if (_timesInteracted != _resourceSO.InteractAmountToDestroy) return;
             
@@ -175,25 +175,36 @@ namespace Farm.ResourceGatherer
                 new PlayerGatheringEventArgs(false, true, _resourceSO.ResourceToGather, transform));
         }
         
-        private void Gather(GatheredResource gatheredResource)
+        private void TryAddResourceToInventory(GatheredResource gatheredResource)
         {
-            StopGathering();
-            IncreaseTimeInteracted();
-            
             _playerInventory.AddResourceQuantity(gatheredResource.Type, gatheredResource.Quantity);
+        }
+
+        private void TriggerGatheredResourceEvent(GatheredResource gatheredResource)
+        {
             _gatheredResourceEvent.Call(this,
                 new GatheredResourceEventArgs(gatheredResource.Quantity, _timesInteracted,
                     _resourceSO.InteractAmountToDestroy));
-            
-            DestroyIfFullyGathered();
-            
-            if (gatheredResource.Type != ResourceType.Dirt) return;
-            
-            if (TryGatherCollectable(out CollectableSO collectable))
+        }
+        
+        private void AttemptToGatherCollectableIfDirt(GatheredResource gatheredResource)
+        {
+            if (gatheredResource.Type == ResourceType.Dirt && TryGatherCollectable(out CollectableSO collectable))
             {
                 _player.PlayerEvents.PlayerFoundCollectableEvent.Call(this);
             }
         }
+        
+        private void Gather(GatheredResource gatheredResource)
+        {
+            StopGathering();
+            IncreaseTimeInteracted();
+            TryAddResourceToInventory(gatheredResource);
+            TriggerGatheredResourceEvent(gatheredResource);
+            CleanUpResourceIfFullyGathered();
+            AttemptToGatherCollectableIfDirt(gatheredResource);
+        }
+        
         
         public class Factory : PlaceholderFactory<ResourcesGatherer> { }
     }
