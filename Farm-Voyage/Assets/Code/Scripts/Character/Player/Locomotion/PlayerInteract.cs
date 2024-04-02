@@ -35,7 +35,7 @@ namespace Character.Player.Locomotion
             
                 // Start interacting with the new object
                 _currentInteractable = interactable;
-                _currentInteractable.Interact(_player);
+                _currentInteractable.Interact();
             }
             else
             {

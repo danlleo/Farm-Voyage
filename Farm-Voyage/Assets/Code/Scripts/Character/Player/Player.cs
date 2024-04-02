@@ -1,6 +1,6 @@
 using Character.Player.Events;
 using Character.Player.Locomotion;
-using Farm.Plants;
+using Common;
 using InputManagers;
 using UnityEngine;
 using Zenject;
@@ -23,7 +23,7 @@ namespace Character.Player
     [RequireComponent(typeof(PlayerHarvestingStateChangedEvent))]
     [RequireComponent(typeof(PlayerWateringStateChangedEvent))]
     [DisallowMultipleComponent]
-    public class Player : MonoBehaviour, ICharacter
+    public class Player : MonoBehaviour
     {
         public const float Height = 1f;
         public const float Radius = .5f;
@@ -95,11 +95,6 @@ namespace Character.Player
         private void OnDestroy()
         {
             _stateMachine.CurrentState.OnExit();
-        }
-
-        public void Accept(IPlantVisitor plantVisitor)
-        {
-            plantVisitor.Visit(this);
         }
     }
 }

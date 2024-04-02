@@ -1,5 +1,4 @@
 using System;
-using Character;
 using Character.Player;
 using Common;
 using Farm.Tool.ConcreteTools;
@@ -47,7 +46,7 @@ namespace Farm.Well
             _player.PlayerEvents.PlayerExtractingWaterEvent.OnPlayerExtractingWater -= Player_OnPlayerExtractingWater;
         }
 
-        public void Interact(ICharacter initiator)
+        public void Interact()
         {
             if (!_playerInventory.TryGetTool(out WaterCan waterCan)) return;
             if (_isExtractingWater) return;

@@ -64,9 +64,9 @@ namespace Farm.Plants
             PlayerInventory = playerInventory;
         }
    
-        public void Interact(ICharacter initiator)
+        public void Interact()
         {
-            _stateMachine.CurrentState.OnInteracted(initiator);
+            _stateMachine.CurrentState.OnInteracted();
         }
 
         public void StopInteract(Player player)

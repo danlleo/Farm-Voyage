@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using Attributes.WithinParent;
-using Character;
 using Character.Player;
 using Common;
 using Farm.FarmResources;
@@ -74,7 +73,7 @@ namespace Farm.ResourceGatherer
             _resourcesGathererInitializeEvent.Call(this, new ResourcesGathererInitializeEventArgs(visualGameObject));
         }
 
-        public void Interact(ICharacter initiator)
+        public void Interact()
         {
             if (!TryGatherResources(out GatheredResource gatheredResource)) return;
 
