@@ -1996,7 +1996,6 @@ GameObject:
   - component: {fileID: 8566789751215023668}
   - component: {fileID: 6532581953499520059}
   - component: {fileID: 8224845331004557066}
-  - component: {fileID: 2852877652732415996}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2118,6 +2117,8 @@ MonoBehaviour:
       type: 3}
     <WellStayPoint>k__BackingField: {fileID: 3313319925898483215, guid: 2b9651510ee725048920c2c5841b461d,
       type: 3}
+    <SellerStayPoint>k__BackingField: {fileID: 8253649447018575510, guid: e12e129dcf650d84b9ae5af670331f13,
+      type: 3}
 --- !u!114 &2423541706222419549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2186,18 +2187,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _walkingEffectParticleSystem: {fileID: 6377615369158223664}
   _player: {fileID: 7534990748196741893}
---- !u!114 &2852877652732415996
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2332247048513844423}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bdf8605f02982a4c8f72462e4fb8fd6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2540343304331429259
 GameObject:
   m_ObjectHideFlags: 0

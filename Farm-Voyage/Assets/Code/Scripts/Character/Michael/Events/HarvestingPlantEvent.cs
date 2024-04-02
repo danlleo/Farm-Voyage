@@ -2,7 +2,7 @@
 
 namespace Character.Michael.Events
 {
-    public class MichaelHarvestingPlantEvent
+    public class HarvestingPlantEvent
     {
         public event Action<bool> OnMichaelHarvestingPlant;
 

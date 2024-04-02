@@ -2,7 +2,7 @@
 
 namespace Character.Michael.Events
 {
-    public class MichaelWateringPlantEvent
+    public class WateringPlantEvent
     {
         public event Action<bool> OnMichaelWateringPlant;
 

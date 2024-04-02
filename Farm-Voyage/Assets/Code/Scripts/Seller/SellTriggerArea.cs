@@ -13,10 +13,13 @@ namespace Seller
         
         private CameraController _cameraController;
 
+        private Player _player;
+        
         [Inject]
-        private void Construct(CameraController cameraController)
+        private void Construct(CameraController cameraController, Player player)
         {
             _cameraController = cameraController;
+            _player = player;
         }
         
         private void OnTriggerEnter(Collider other)
@@ -25,6 +28,7 @@ namespace Seller
 
             _seller.StartedSellingEvent.Call(this);
             _cameraController.SwitchToCamera(CameraState.Seller);
+            _player.Events.StartedSellingEvent.Call();
         }
     }
 }

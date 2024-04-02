@@ -10,5 +10,6 @@ namespace Character.Player
         [field:SerializeField] public Transform HomeLeavePoint { get; private set; }
         [field:SerializeField] public Transform HomeStayPoint { get; private set; }
         [field:SerializeField] public Transform WellStayPoint { get; private set; }
+        [field:SerializeField] public Transform SellerStayPoint { get; private set; }
     }
 }

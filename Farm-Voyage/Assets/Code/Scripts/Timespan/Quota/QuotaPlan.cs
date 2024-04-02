@@ -20,13 +20,13 @@ namespace Timespan.Quota
                 QuotaDifficulty.Nightmare => new NightmareQuota(quotaPlanSettings.NightmareQuotaData),
                 _ => throw new ArgumentOutOfRangeException()
             };
-
-            foreach (MeetQuotaData meetQuotaData in _quota.MeetQuotaDatas)
-            {
-                Debug.Log($"Seed: {meetQuotaData.Seed}, with amount of: {meetQuotaData.Quantity}");
-            }
         }
 
+        public IEnumerable<MeetQuotaData> ReadQuotaPlan()
+        {
+            return _quota.MeetQuotaDatas;
+        }
+        
         public bool TryFinishQuotaPlan(PlayerInventory playerInventory)
         {
             List<MeetQuotaData> meetQuotaDatasToSpend = new();

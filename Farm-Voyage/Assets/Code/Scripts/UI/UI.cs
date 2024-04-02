@@ -1,7 +1,9 @@
 using System;
+using Attributes.WithinParent;
 using Character.Player;
 using Character.Player.Events;
 using UI.EmmaShop;
+using UI.Seller;
 using UI.Workbench;
 using UnityEngine;
 using Zenject;
@@ -12,21 +14,25 @@ namespace UI
     public class UI : MonoBehaviour
     {
         [Header("External references")]
-        [SerializeField] private GameplayUI _gameplayUI;
-        [SerializeField] private EmmaShopUI _emmaShopUI;
-        [SerializeField] private WorkbenchUI _workbenchUI;
-        [SerializeField] private WellUI _wellUI;
-
+        [SerializeField, WithinParent] private GameplayUI _gameplayUI;
+        [SerializeField, WithinParent] private EmmaShopUI _emmaShopUI;
+        [SerializeField, WithinParent] private WorkbenchUI _workbenchUI;
+        [SerializeField, WithinParent] private WellUI _wellUI;
+        [SerializeField, WithinParent] private SellerUI _sellerUI;
+        
         private Player _player;
         private Market.Market _market;
         private global::Workbench.Workbench _workbench;
+        private global::Seller.Seller _seller;
         
         [Inject]
-        private void Construct(Player player, Market.Market market, global::Workbench.Workbench workbench)
+        private void Construct(Player player, Market.Market market, global::Workbench.Workbench workbench,
+            global::Seller.Seller seller)
         {
             _player = player;
             _market = market;
             _workbench = workbench;
+            _seller = seller;
         }
 
         private void Awake()
@@ -35,6 +41,7 @@ namespace UI
             _emmaShopUI.gameObject.SetActive(false);
             _workbenchUI.gameObject.SetActive(false);
             _wellUI.gameObject.SetActive(false);
+            _sellerUI.gameObject.SetActive(false);
         }
 
         private void OnEnable()
@@ -43,7 +50,8 @@ namespace UI
             _market.StartedShoppingEvent.OnStartedShopping += Market_OnStartedShopping;
             _workbench.StartedUsingWorkbenchEvent.OnStartedUsingWorkbench += Workbench_OnStartedUsingWorkbench;
             _emmaShopUI.OnClosed += EmmaShopUI_OnClosed;
-            _player.Events.ExtractingWaterEvent.OnPlayerExtractingWater += OnExtractingWater;
+            _player.Events.ExtractingWaterEvent.OnPlayerExtractingWater += Player_OnExtractingWater;
+            _seller.StartedSellingEvent.OnStartedSelling += Seller_OnStartedSelling;
         }
 
         private void OnDisable()
@@ -52,7 +60,8 @@ namespace UI
             _market.StartedShoppingEvent.OnStartedShopping -= Market_OnStartedShopping;
             _workbench.StartedUsingWorkbenchEvent.OnStartedUsingWorkbench -= Workbench_OnStartedUsingWorkbench;
             _emmaShopUI.OnClosed -= EmmaShopUI_OnClosed;
-            _player.Events.ExtractingWaterEvent.OnPlayerExtractingWater -= OnExtractingWater;
+            _player.Events.ExtractingWaterEvent.OnPlayerExtractingWater -= Player_OnExtractingWater;
+            _seller.StartedSellingEvent.OnStartedSelling -= Seller_OnStartedSelling;
         }
 
         private void SceneTransition_OnAnySceneTransitionEnded()
@@ -79,7 +88,7 @@ namespace UI
             _market.StoppedShoppingEvent.Call(this);
         }
         
-        private void OnExtractingWater(object sender, PlayerExtractingWaterEventArgs e)
+        private void Player_OnExtractingWater(object sender, PlayerExtractingWaterEventArgs e)
         {
             if (e.IsExtracting)
             {
@@ -91,6 +100,12 @@ namespace UI
             
             _gameplayUI.gameObject.SetActive(true);
             _wellUI.gameObject.SetActive(false);
+        }
+        
+        private void Seller_OnStartedSelling(object sender, EventArgs e)
+        {
+            _gameplayUI.gameObject.SetActive(false);
+            _sellerUI.gameObject.SetActive(true);
         }
     }
 }

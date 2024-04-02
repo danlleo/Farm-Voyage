@@ -2,7 +2,7 @@
 
 namespace Character.Michael.Events
 {
-    public class MichaelLocomotionStateChangedEvent 
+    public class LocomotionStateChangedEvent 
     {
         public event Action<bool> OnMichaelWalking;
 

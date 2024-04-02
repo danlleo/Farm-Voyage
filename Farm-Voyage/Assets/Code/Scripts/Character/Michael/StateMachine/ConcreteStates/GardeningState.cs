@@ -63,7 +63,7 @@ namespace Character.Michael.StateMachine.ConcreteStates
         
                 yield return new WaitUntil(() => hasArrived);
 
-                _michael.Events.MichaelPerformingGardeningActionEvent.Call(
+                _michael.Events.PerformingGardeningActionEvent.Call(
                     EnumUtility.GetRandomEnumValue<GardeningActionType>(),
                     () => hasFinishedAction = true);
             

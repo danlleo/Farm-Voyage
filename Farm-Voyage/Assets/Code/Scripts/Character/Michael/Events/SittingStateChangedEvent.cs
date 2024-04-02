@@ -2,7 +2,7 @@
 
 namespace Character.Michael.Events
 {
-    public class MichaelSittingStateChangedEvent
+    public class SittingStateChangedEvent
     {
         public event Action<bool> OnMichaelSittingStateChanged;
 

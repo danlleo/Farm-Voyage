@@ -31,13 +31,13 @@ namespace Character.Michael.StateMachine.ConcreteStates
 
         public override void OnEnter()
         {
-            _michael.Events.MichaelSittingStateChangedEvent.Call(true);
+            _michael.Events.SittingStateChangedEvent.Call(true);
             _stayInIdleStateRoutine = _michael.StartCoroutine(StayInIdleStateRoutine());
         }
 
         public override void OnExit()
         {
-            _michael.Events.MichaelSittingStateChangedEvent.Call(false);
+            _michael.Events.SittingStateChangedEvent.Call(false);
         }
 
         private void ProceedToWalkIfPlantNeedsWatering(Plant plant, bool needsWatering)

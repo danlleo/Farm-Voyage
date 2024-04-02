@@ -2,7 +2,7 @@
 
 namespace Character.Michael.Events
 {
-    public class MichaelPerformingGardeningActionEvent
+    public class PerformingGardeningActionEvent
     {
         public event Action<GardeningActionType, Action> OnMichaelPerformingGardeningAction;
 

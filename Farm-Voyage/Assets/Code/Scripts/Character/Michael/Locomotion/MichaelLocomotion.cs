@@ -56,7 +56,7 @@ namespace Character.Michael.Locomotion
             destination = new Vector3(destination.x, 0f, destination.z);
 
             _navMeshAgent.isStopped = false;
-            _michael.Events.MichaelLocomotionStateChangedEvent.Call(true);
+            _michael.Events.LocomotionStateChangedEvent.Call(true);
             _navMeshAgent.SetDestination(destination);
 
             bool isMoving = true;
@@ -72,7 +72,7 @@ namespace Character.Michael.Locomotion
                 yield return null;
             }
     
-            _michael.Events.MichaelLocomotionStateChangedEvent.Call(false);
+            _michael.Events.LocomotionStateChangedEvent.Call(false);
             onReachedPosition?.Invoke();
         }
     }

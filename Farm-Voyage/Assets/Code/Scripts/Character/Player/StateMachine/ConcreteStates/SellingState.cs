@@ -1,4 +1,6 @@
-﻿namespace Character.Player.StateMachine.ConcreteStates
+﻿using UnityEngine;
+
+namespace Character.Player.StateMachine.ConcreteStates
 {
     public class SellingState : State
     {
@@ -9,6 +11,11 @@
         {
             _player = player;
             _stateMachine = stateMachine;
+        }
+
+        public override void OnEnter()
+        {
+            _player.Locomotion.HandleMoveDestination(_player.TransformPoints.SellerStayPoint, Quaternion.identity);
         }
     }
 }

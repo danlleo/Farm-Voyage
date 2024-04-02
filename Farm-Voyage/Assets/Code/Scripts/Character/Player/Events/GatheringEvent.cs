@@ -2,10 +2,9 @@ using System;
 using Farm.FarmResources;
 using UnityEngine;
 
-namespace Character.Player
+namespace Character.Player.Events
 {
-    [DisallowMultipleComponent]
-    public class GatheringEvent : MonoBehaviour
+    public class GatheringEvent 
     {
         public event EventHandler<PlayerGatheringEventArgs> OnPlayerGathering;
 

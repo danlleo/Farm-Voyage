@@ -22,26 +22,26 @@ namespace Character.Michael
 
         private void OnEnable()
         {
-            _michael.Events.MichaelLocomotionStateChangedEvent.OnMichaelWalking +=
-                Michael_OnMichaelLocomotionStateChanged;
-            _michael.Events.MichaelWateringPlantEvent.OnMichaelWateringPlant += Michael_OnMichaelWateringPlant;
-            _michael.Events.MichaelHarvestingPlantEvent.OnMichaelHarvestingPlant += Michael_OnMichaelHarvestingPlant;
-            _michael.Events.MichaelPerformingGardeningActionEvent.OnMichaelPerformingGardeningAction +=
-                Michael_OnMichaelPerformingGardeningAction;
-            _michael.Events.MichaelSittingStateChangedEvent.OnMichaelSittingStateChanged +=
-                Michael_OnMichaelSittingStateChanged;
+            _michael.Events.LocomotionStateChangedEvent.OnMichaelWalking +=
+                OnLocomotionStateChanged;
+            _michael.Events.WateringPlantEvent.OnMichaelWateringPlant += OnWateringPlant;
+            _michael.Events.HarvestingPlantEvent.OnMichaelHarvestingPlant += OnHarvestingPlant;
+            _michael.Events.PerformingGardeningActionEvent.OnMichaelPerformingGardeningAction +=
+                OnPerformingGardeningAction;
+            _michael.Events.SittingStateChangedEvent.OnMichaelSittingStateChanged +=
+                OnSittingStateChanged;
         }
 
         private void OnDisable()
         {
-            _michael.Events.MichaelLocomotionStateChangedEvent.OnMichaelWalking -=
-                Michael_OnMichaelLocomotionStateChanged;
-            _michael.Events.MichaelWateringPlantEvent.OnMichaelWateringPlant -= Michael_OnMichaelWateringPlant;
-            _michael.Events.MichaelHarvestingPlantEvent.OnMichaelHarvestingPlant -= Michael_OnMichaelHarvestingPlant;
-            _michael.Events.MichaelPerformingGardeningActionEvent.OnMichaelPerformingGardeningAction -=
-                Michael_OnMichaelPerformingGardeningAction;
-            _michael.Events.MichaelSittingStateChangedEvent.OnMichaelSittingStateChanged -=
-                Michael_OnMichaelSittingStateChanged;
+            _michael.Events.LocomotionStateChangedEvent.OnMichaelWalking -=
+                OnLocomotionStateChanged;
+            _michael.Events.WateringPlantEvent.OnMichaelWateringPlant -= OnWateringPlant;
+            _michael.Events.HarvestingPlantEvent.OnMichaelHarvestingPlant -= OnHarvestingPlant;
+            _michael.Events.PerformingGardeningActionEvent.OnMichaelPerformingGardeningAction -=
+                OnPerformingGardeningAction;
+            _michael.Events.SittingStateChangedEvent.OnMichaelSittingStateChanged -=
+                OnSittingStateChanged;
         }
 
         private IEnumerator DelayAnimationActionRoutine(float delayTimeInSeconds, Action onAnimationFinished)
@@ -50,7 +50,7 @@ namespace Character.Michael
             onAnimationFinished?.Invoke();
         }
         
-        private void Michael_OnMichaelLocomotionStateChanged(bool isWalking)
+        private void OnLocomotionStateChanged(bool isWalking)
         {
             if (isWalking)
             {
@@ -67,17 +67,17 @@ namespace Character.Michael
             _animator.SetBool(MichaelAnimationsParams.IsWalking, isWalking);
         }
         
-        private void Michael_OnMichaelWateringPlant(bool isWatering)
+        private void OnWateringPlant(bool isWatering)
         {
             _animator.SetBool(MichaelAnimationsParams.IsWatering, isWatering);
         }
         
-        private void Michael_OnMichaelHarvestingPlant(bool isHarvesting)
+        private void OnHarvestingPlant(bool isHarvesting)
         {
             _animator.SetBool(MichaelAnimationsParams.IsHarvesting, isHarvesting);
         }
 
-        private void Michael_OnMichaelPerformingGardeningAction(GardeningActionType gardeningActionType, Action onFinishedGardening)
+        private void OnPerformingGardeningAction(GardeningActionType gardeningActionType, Action onFinishedGardening)
         {
             string animationName = gardeningActionType switch
             {
@@ -95,7 +95,7 @@ namespace Character.Michael
             StartCoroutine(DelayAnimationActionRoutine(animationLength, onFinishedGardening));
         }
         
-        private void Michael_OnMichaelSittingStateChanged(bool isSitting)
+        private void OnSittingStateChanged(bool isSitting)
         {
             _animator.SetBool(MichaelAnimationsParams.IsSitting, isSitting);
         }
