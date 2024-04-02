@@ -34,9 +34,9 @@ namespace Farm.Plants.ConcreteStates
             OnAnyWateringStateChanged?.Invoke(_plant, true);
         }
 
-        public override void OnInteracted()
+        public override void OnInteracted(ICharacter initiator)
         {
-            // initiator.Accept(_plantWateringVisitor);
+            initiator.Accept(_plantWateringVisitor);
         }
 
         public override void OnStoppedInteracting(Player player)

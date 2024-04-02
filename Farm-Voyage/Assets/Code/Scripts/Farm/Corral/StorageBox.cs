@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Attributes.WithinParent;
+using Character;
 using Character.Player;
 using Common;
 using DG.Tweening;
@@ -53,7 +54,7 @@ namespace Farm.Corral
             _player = player;
         }
         
-        public void Interact()
+        public void Interact(ICharacter initiator)
         {
             Pickup();
         }

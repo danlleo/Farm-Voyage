@@ -1,4 +1,5 @@
 using Character.Michael.Locomotion;
+using Farm.Plants;
 using UnityEngine;
 using StateFactory = Character.Michael.StateMachine.StateFactory;
 
@@ -10,7 +11,7 @@ namespace Character.Michael
     [RequireComponent(typeof(MichaelPerformingGardeningActionEvent))]
     [RequireComponent(typeof(MichaelSittingStateChangedEvent))]
     [DisallowMultipleComponent]
-    public sealed class Michael : MonoBehaviour
+    public sealed class Michael : MonoBehaviour, ICharacter
     {
         public StateFactory StateFactory { get; private set; }
         public MichaelLocomotion MichaelLocomotion { get; private set; }
@@ -60,6 +61,11 @@ namespace Character.Michael
         private void OnDestroy()
         {
             _stateMachine.CurrentState.OnExit();
+        }
+
+        public void Accept(IPlantVisitor plantVisitor)
+        {
+            plantVisitor.Visit(this);
         }
     }
 }

@@ -12,9 +12,9 @@ namespace Farm.Plants.ConcreteStates
             _plantHarvestingVisitor = new PlantHarvestingVisitor(plant);
         }
         
-        public override void OnInteracted()
+        public override void OnInteracted(ICharacter initiator)
         {
-            // initiator.Accept(_plantHarvestingVisitor);
+            initiator.Accept(_plantHarvestingVisitor);
         }
 
         public override void OnStoppedInteracting(Player player)

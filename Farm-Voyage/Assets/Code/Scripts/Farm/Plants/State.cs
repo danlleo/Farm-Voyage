@@ -19,7 +19,7 @@ namespace Farm.Plants
         public virtual void SubscribeToEvents() { }
         public virtual void UnsubscribeFromEvents() { }
         public virtual void Tick() { }
-        public virtual void OnInteracted() { }
+        public virtual void OnInteracted(ICharacter initiator) { }
         public virtual void OnStoppedInteracting(Player player) { }
     }
 }

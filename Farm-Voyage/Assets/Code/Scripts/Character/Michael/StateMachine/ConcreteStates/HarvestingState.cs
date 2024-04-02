@@ -38,7 +38,7 @@ namespace Character.Michael.StateMachine.ConcreteStates
 
         public override void Tick()
         {
-            _plant.Interact();
+            _plant.Interact(_michael);
         }
 
         private void PlantArea_OnAnyPlantHarvested(Plant plant)
