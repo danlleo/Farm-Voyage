@@ -47,7 +47,7 @@ namespace Farm.Well
             _player.PlayerEvents.PlayerExtractingWaterEvent.OnPlayerExtractingWater -= Player_OnPlayerExtractingWater;
         }
 
-        public void Interact(ICharacter initiator)
+        public void Interact(IVisitable initiator)
         {
             if (!_playerInventory.TryGetTool(out WaterCan waterCan)) return;
             if (_isExtractingWater) return;

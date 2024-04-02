@@ -74,7 +74,7 @@ namespace Farm.ResourceGatherer
             _resourcesGathererInitializeEvent.Call(this, new ResourcesGathererInitializeEventArgs(visualGameObject));
         }
 
-        public void Interact(ICharacter initiator)
+        public void Interact(IVisitable initiator)
         {
             if (!TryGatherResources(out GatheredResource gatheredResource)) return;
 
@@ -82,7 +82,7 @@ namespace Farm.ResourceGatherer
                 DelayGatheringResourcesRoutine(gatheredResource));
         }
 
-        public void StopInteract(Player player)
+        public void StopInteract()
         {
             StopGathering();
         }

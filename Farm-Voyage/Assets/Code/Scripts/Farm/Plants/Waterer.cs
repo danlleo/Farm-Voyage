@@ -1,11 +1,12 @@
 ﻿using Character.Michael;
 using Character.Player;
+using Common;
 using Farm.Tool.ConcreteTools;
 using UnityEngine;
 
 namespace Farm.Plants
 {
-    public class PlantWateringVisitor : IPlantVisitor
+    public class Waterer : IVisitor
     {
         private const float TimeToWaterInSeconds = 3f;
         
@@ -16,7 +17,7 @@ namespace Farm.Plants
 
         private bool _hasFinishedWatering;
         
-        public PlantWateringVisitor(Plant plant, PlayerInventory playerInventory)
+        public Waterer(Plant plant, PlayerInventory playerInventory)
         {
             _plant = plant;
             playerInventory.TryGetTool(out _waterCan);

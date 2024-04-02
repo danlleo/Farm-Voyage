@@ -4,6 +4,6 @@ namespace Common
 {
     public interface IInteractable
     {
-        public void Interact(ICharacter initiator);
+        public void Interact(IVisitable initiator);
     }
 }

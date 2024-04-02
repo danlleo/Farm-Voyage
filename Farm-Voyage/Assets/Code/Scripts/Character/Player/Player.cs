@@ -1,5 +1,6 @@
 using Character.Player.Events;
 using Character.Player.Locomotion;
+using Common;
 using Farm.Plants;
 using InputManagers;
 using UnityEngine;
@@ -23,7 +24,7 @@ namespace Character.Player
     [RequireComponent(typeof(PlayerHarvestingStateChangedEvent))]
     [RequireComponent(typeof(PlayerWateringStateChangedEvent))]
     [DisallowMultipleComponent]
-    public class Player : MonoBehaviour, ICharacter
+    public class Player : MonoBehaviour, IVisitable
     {
         public const float Height = 1f;
         public const float Radius = .5f;
@@ -97,9 +98,9 @@ namespace Character.Player
             _stateMachine.CurrentState.OnExit();
         }
 
-        public void Accept(IPlantVisitor plantVisitor)
+        public void Accept(IVisitor visitor)
         {
-            plantVisitor.Visit(this);
+            visitor.Visit(this);
         }
     }
 }

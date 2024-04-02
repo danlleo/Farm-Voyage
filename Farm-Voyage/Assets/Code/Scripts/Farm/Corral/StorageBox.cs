@@ -54,7 +54,7 @@ namespace Farm.Corral
             _player = player;
         }
         
-        public void Interact(ICharacter initiator)
+        public void Interact(IVisitable initiator)
         {
             Pickup();
         }

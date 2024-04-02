@@ -1,6 +1,6 @@
 ﻿using System;
-using Character;
 using Character.Player;
+using Common;
 
 namespace Farm.Plants.ConcreteStates
 {
@@ -10,13 +10,13 @@ namespace Farm.Plants.ConcreteStates
         
         private readonly Plant _plant;
         private readonly StateMachine _stateMachine;
-        private readonly PlantWateringVisitor _plantWateringVisitor;
+        private readonly Waterer _waterer;
         
         public WateringState(Plant plant, StateMachine stateMachine) : base(plant, stateMachine)
         {
             _plant = plant;
             _stateMachine = stateMachine;
-            _plantWateringVisitor = new PlantWateringVisitor(_plant, _plant.PlayerInventory);
+            _waterer = new Waterer(_plant, _plant.PlayerInventory);
         }
 
         public override void SubscribeToEvents()
@@ -34,9 +34,9 @@ namespace Farm.Plants.ConcreteStates
             OnAnyWateringStateChanged?.Invoke(_plant, true);
         }
 
-        public override void OnInteracted(ICharacter initiator)
+        public override void OnInteracted(IVisitable initiator)
         {
-            initiator.Accept(_plantWateringVisitor);
+            initiator.Accept(_waterer);
         }
 
         public override void OnStoppedInteracting(Player player)

@@ -1,5 +1,4 @@
 using Attributes.WithinParent;
-using Character;
 using Character.Player;
 using Common;
 using Farm.Corral;
@@ -10,21 +9,29 @@ namespace Farm.Plants
     [RequireComponent(typeof(PlantFinishedWateringEvent))]
     [RequireComponent(typeof(BoxCollider))]
     [DisallowMultipleComponent]
-    public abstract class Plant : MonoBehaviour, IInteractable, IStopInteractable
+    public abstract class Plant : MonoBehaviour, IInteractable, IPlayerStopInteractable
     {
         public PlantFinishedWateringEvent PlantFinishedWateringEvent { get; private set; }
         
         public StateFactory StateFactory { get; private set; }
         public PlayerInventory PlayerInventory { get; private set; }
         public PlantArea PlantArea { get; private set; }
-        
-        [field:SerializeField, WithinParent, Header("External references")] public Transform PlantVisual { get; private set; }
-        
-        [field: SerializeField, Range(1f, 60f), Header("Settings")] public float PlantPartitionGrowTimeInSecond { get; private set; }
-        
-        [field: SerializeField, Range(0.1f, 2f)] public float PlantCompressedScale { get; private set; } = 0.75f;
-        [field: SerializeField, Range(0.1f, 3f)] public float InitialScale { get; private set; }
-        [field: SerializeField, Range(0.1f, 3f)] public float GrownScale { get; private set; }
+
+        [field: SerializeField, WithinParent, Header("External references")]
+        public Transform PlantVisual { get; private set; }
+
+        [field: SerializeField, Range(1f, 60f), Header("Settings")]
+        public float PlantPartitionGrowTimeInSecond { get; private set; }
+
+        [field: SerializeField, Range(0.1f, 2f)]
+        public float PlantCompressedScale { get; private set; } = 0.75f;
+
+        [field: SerializeField, Range(0.1f, 3f)]
+        public float InitialScale { get; private set; }
+
+        [field: SerializeField, Range(0.1f, 3f)]
+        public float GrownScale { get; private set; }
+
         [field: SerializeField, Range(1, 5)] public int Partitions { get; private set; } = 2;
         
         private StateMachine _stateMachine;
@@ -64,7 +71,7 @@ namespace Farm.Plants
             PlayerInventory = playerInventory;
         }
    
-        public void Interact(ICharacter initiator)
+        public void Interact(IVisitable initiator)
         {
             _stateMachine.CurrentState.OnInteracted(initiator);
         }

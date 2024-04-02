@@ -25,13 +25,11 @@ namespace Character.Player.Locomotion
             {
                 if (!hit.collider.TryGetComponent(out IInteractable interactable)) return;
                 
+                IPlayerStopInteractable playerStopInteractable = _currentInteractable as IPlayerStopInteractable;
                 IStopInteractable stopInteractable = _currentInteractable as IStopInteractable;
                 
-                // If we are already interacting with an object, stop interacting with it first
-                if (_currentInteractable != null && _currentInteractable != interactable && stopInteractable != null)
-                {
-                    stopInteractable.StopInteract(_player);
-                }
+                StopPlayerInteractable(interactable, playerStopInteractable);
+                StopInteractable(interactable, stopInteractable);
             
                 // Start interacting with the new object
                 _currentInteractable = interactable;
@@ -42,12 +40,29 @@ namespace Character.Player.Locomotion
                 // If the raycast doesn't hit an interactable object and we were interacting with an object, stop interacting
                 if (_currentInteractable == null) return;
                 
-                if (_currentInteractable is IStopInteractable stopInteractable)
-                {
-                    stopInteractable.StopInteract(_player);
-                }
-                
+                IPlayerStopInteractable playerStopInteractable = _currentInteractable as IPlayerStopInteractable;
+                playerStopInteractable?.StopInteract(_player);
+
+                IStopInteractable stopInteractable = _currentInteractable as IStopInteractable;
+                stopInteractable?.StopInteract();
+
                 _currentInteractable = null;
+            }
+        }
+
+        private void StopInteractable(IInteractable interactable, IStopInteractable stopInteractable)
+        {
+            if (_currentInteractable != null && _currentInteractable != interactable && stopInteractable != null)
+            {
+                stopInteractable.StopInteract();
+            }
+        }
+
+        private void StopPlayerInteractable(IInteractable interactable, IPlayerStopInteractable playerStopInteractable)
+        {
+            if (_currentInteractable != null && _currentInteractable != interactable && playerStopInteractable != null)
+            {
+                playerStopInteractable.StopInteract(_player);
             }
         }
 

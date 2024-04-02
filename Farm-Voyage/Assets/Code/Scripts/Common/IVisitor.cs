@@ -1,9 +1,9 @@
 ﻿using Character.Michael;
 using Character.Player;
 
-namespace Farm.Plants
+namespace Common
 {
-    public interface IPlantVisitor
+    public interface IVisitor
     {
         public void Visit(Player player);
         public void Visit(Michael michael);

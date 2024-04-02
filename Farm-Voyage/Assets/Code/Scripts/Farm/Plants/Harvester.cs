@@ -1,11 +1,12 @@
 ﻿using Character.Michael;
 using Character.Player;
+using Common;
 using UnityEngine;
 using Utilities;
 
 namespace Farm.Plants
 {
-    public class PlantHarvestingVisitor : IPlantVisitor
+    public class Harvester : IVisitor
     {
         private const float TimeToHarvestInSeconds = 1.5f;
         
@@ -15,7 +16,7 @@ namespace Farm.Plants
 
         private bool _hasFinishedHarvesting;
         
-        public PlantHarvestingVisitor(Plant plant)
+        public Harvester(Plant plant)
         {
             _plant = plant;
         }
