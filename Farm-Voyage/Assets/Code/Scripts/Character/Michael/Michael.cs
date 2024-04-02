@@ -1,38 +1,27 @@
+using Character.Michael.Events;
 using Character.Michael.Locomotion;
 using Common;
-using Farm.Plants;
 using UnityEngine;
 using StateFactory = Character.Michael.StateMachine.StateFactory;
 
 namespace Character.Michael
 {
-    [RequireComponent(typeof(MichaelLocomotionStateChangedEvent))]
-    [RequireComponent(typeof(MichaelWateringPlantEvent))]
-    [RequireComponent(typeof(MichaelHarvestingPlantEvent))]
-    [RequireComponent(typeof(MichaelPerformingGardeningActionEvent))]
-    [RequireComponent(typeof(MichaelSittingStateChangedEvent))]
     [DisallowMultipleComponent]
     public sealed class Michael : MonoBehaviour, IVisitable
     {
         public StateFactory StateFactory { get; private set; }
-        public MichaelLocomotion MichaelLocomotion { get; private set; }
+        public MichaelLocomotion Locomotion { get; private set; }
         public WaterStateObserver WaterStateObserver { get; private set; }
-        public MichaelEvents MichaelEvents { get; private set; }
+        public MichaelEvents Events { get; private set; }
         [field: SerializeField] public MichaelTransformPoints TransformPoints { get; private set; }
 
         private StateMachine.StateMachine _stateMachine;
         
         private void Awake()
         {
-            MichaelEvents = new MichaelEvents(
-                GetComponent<MichaelLocomotionStateChangedEvent>(),
-                GetComponent<MichaelWateringPlantEvent>(), 
-                GetComponent<MichaelHarvestingPlantEvent>(),
-                GetComponent<MichaelPerformingGardeningActionEvent>(),
-                GetComponent<MichaelSittingStateChangedEvent>()
-            );
+            Events = new MichaelEvents();
             
-            MichaelLocomotion = GetComponent<MichaelLocomotion>();
+            Locomotion = GetComponent<MichaelLocomotion>();
             WaterStateObserver = GetComponent<WaterStateObserver>();
             
             _stateMachine = new StateMachine.StateMachine();

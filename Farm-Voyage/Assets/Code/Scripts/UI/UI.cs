@@ -1,5 +1,6 @@
 using System;
 using Character.Player;
+using Character.Player.Events;
 using UI.EmmaShop;
 using UI.Workbench;
 using UnityEngine;
@@ -42,7 +43,7 @@ namespace UI
             _market.StartedShoppingEvent.OnStartedShopping += Market_OnStartedShopping;
             _workbench.StartedUsingWorkbenchEvent.OnStartedUsingWorkbench += Workbench_OnStartedUsingWorkbench;
             _emmaShopUI.OnClosed += EmmaShopUI_OnClosed;
-            _player.PlayerEvents.PlayerExtractingWaterEvent.OnPlayerExtractingWater += Player_OnPlayerExtractingWater;
+            _player.Events.ExtractingWaterEvent.OnPlayerExtractingWater += OnExtractingWater;
         }
 
         private void OnDisable()
@@ -51,7 +52,7 @@ namespace UI
             _market.StartedShoppingEvent.OnStartedShopping -= Market_OnStartedShopping;
             _workbench.StartedUsingWorkbenchEvent.OnStartedUsingWorkbench -= Workbench_OnStartedUsingWorkbench;
             _emmaShopUI.OnClosed -= EmmaShopUI_OnClosed;
-            _player.PlayerEvents.PlayerExtractingWaterEvent.OnPlayerExtractingWater -= Player_OnPlayerExtractingWater;
+            _player.Events.ExtractingWaterEvent.OnPlayerExtractingWater -= OnExtractingWater;
         }
 
         private void SceneTransition_OnAnySceneTransitionEnded()
@@ -78,7 +79,7 @@ namespace UI
             _market.StoppedShoppingEvent.Call(this);
         }
         
-        private void Player_OnPlayerExtractingWater(object sender, PlayerExtractingWaterEventArgs e)
+        private void OnExtractingWater(object sender, PlayerExtractingWaterEventArgs e)
         {
             if (e.IsExtracting)
             {

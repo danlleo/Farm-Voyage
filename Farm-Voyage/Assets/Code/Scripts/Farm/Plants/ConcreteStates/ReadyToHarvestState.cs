@@ -20,7 +20,7 @@ namespace Farm.Plants.ConcreteStates
 
         public override void OnStoppedInteracting(Player player)
         {
-            player.PlayerEvents.PlayerHarvestingStateChangedEvent.Call(false);
+            player.Events.HarvestingStateChangedEvent.Call(false);
         }
     }
 }

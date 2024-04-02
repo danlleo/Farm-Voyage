@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Character.Player;
+using Character.Player.Events;
 using Common;
 using Farm.Plants;
 using Farm.Plants.Seeds;
@@ -75,7 +76,7 @@ namespace Farm.Corral
 
         public void Interact(IVisitable initiator)
         {
-            _player.PlayerLocomotion.StartStickRotation(transform, 2.5f);
+            _player.Locomotion.StartStickRotation(transform, 2.5f);
             
             if (_dayEnded) return;
             if (_delayBeforePlantingNewRoutine != null) return;
@@ -110,7 +111,7 @@ namespace Farm.Corral
 
         private IEnumerator DiggingRoutine()
         {
-            _player.PlayerEvents.PlayerDiggingPlantAreaStateChangedEvent.Call(this, new PlayerDiggingPlantAreaEventArgs(true));
+            _player.Events.DiggingPlantAreaStateChangedEvent.Call(this, new PlayerDiggingPlantAreaEventArgs(true));
             
             yield return new WaitForSeconds(_timeToDigInSeconds);
             
@@ -134,7 +135,7 @@ namespace Farm.Corral
         private void StopDigging()
         {
             CoroutineHandler.ClearAndStopCoroutine(this, ref _diggingRoutine);
-            _player.PlayerEvents.PlayerDiggingPlantAreaStateChangedEvent.Call(this, new PlayerDiggingPlantAreaEventArgs(false));
+            _player.Events.DiggingPlantAreaStateChangedEvent.Call(this, new PlayerDiggingPlantAreaEventArgs(false));
         }
 
         private bool TryAllowDigging(out Tool.Tool playerTool)

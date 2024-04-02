@@ -33,7 +33,7 @@ namespace Farm.Plants
 
         private void HarvestAsPlayer(Player player)
         {
-            player.PlayerEvents.PlayerHarvestingStateChangedEvent.Call(true);
+            player.Events.HarvestingStateChangedEvent.Call(true);
             HarvestAsAny();
         }
         
@@ -44,6 +44,7 @@ namespace Farm.Plants
             if (_harvestingTimeElapsed > TimeToHarvestInSeconds)
             {
                 _plant.GetComponent<BoxCollider>().Disable();
+                _plant.OnHarvested();
                 _plant.PlantArea.ClearPlantArea();
                 _hasFinishedHarvesting = true;
                 return;

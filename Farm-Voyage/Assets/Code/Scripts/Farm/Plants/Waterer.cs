@@ -38,7 +38,7 @@ namespace Farm.Plants
             if (_waterCan == null) return;
             if (!(_waterCan.CurrentWaterCapacityAmount > 0)) return;
 
-            player.PlayerEvents.PlayerWateringStateChangedEvent.Call(true);
+            player.Events.WateringStateChangedEvent.Call(true);
             
             WaterPlantAsAny();
         }

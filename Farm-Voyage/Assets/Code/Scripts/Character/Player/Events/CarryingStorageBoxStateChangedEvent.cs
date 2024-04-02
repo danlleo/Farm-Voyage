@@ -1,11 +1,9 @@
 ﻿using System;
 using Farm.Corral;
-using UnityEngine;
 
-namespace Character.Player
+namespace Character.Player.Events
 {
-    [DisallowMultipleComponent]
-    public class PlayerCarryingStorageBoxStateChangedEvent : MonoBehaviour
+    public class CarryingStorageBoxStateChangedEvent
     {
         public event EventHandler<PlayerCarryingStorageBoxStateChangedEventArgs> OnPlayerCarryingStorageBoxStateChanged;
 

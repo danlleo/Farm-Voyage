@@ -116,7 +116,7 @@ namespace Character.Player.Locomotion
         public void StopAllMovement()
         {
             CoroutineHandler.StopCoroutine(this, _stickRotationRoutine);
-            _player.PlayerEvents.PlayerIdleEvent.Call(this);
+            _player.Events.IdleEvent.Call(this);
         }
         
         private void HandleTargetRotation(Quaternion rotation)
@@ -132,11 +132,11 @@ namespace Character.Player.Locomotion
         {
             if (_moveDirection != Vector3.zero)
             {
-                _player.PlayerEvents.PlayerWalkingEvent.Call(this);
+                _player.Events.WalkingEvent.Call(this);
             }
             else
             {
-                _player.PlayerEvents.PlayerIdleEvent.Call(this);
+                _player.Events.IdleEvent.Call(this);
             }
         }
         

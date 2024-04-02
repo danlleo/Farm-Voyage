@@ -63,14 +63,15 @@ namespace Farm.Plants
         {
             _stateMachine.CurrentState.OnExit();
         }
-        
-        public void Initialize(Vector3 position, Quaternion rotation, PlantArea plantArea, PlayerInventory playerInventory)
+
+        public void Initialize(Vector3 position, Quaternion rotation, PlantArea plantArea,
+            PlayerInventory playerInventory)
         {
             transform.SetPositionAndRotation(position, rotation);
             PlantArea = plantArea;
             PlayerInventory = playerInventory;
         }
-   
+
         public void Interact(IVisitable initiator)
         {
             _stateMachine.CurrentState.OnInteracted(initiator);
@@ -80,5 +81,7 @@ namespace Farm.Plants
         {
             _stateMachine.CurrentState.OnStoppedInteracting(player);
         }
+
+        public abstract void OnHarvested();
     }
 }

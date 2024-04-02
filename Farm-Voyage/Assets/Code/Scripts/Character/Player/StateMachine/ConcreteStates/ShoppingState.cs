@@ -1,3 +1,4 @@
+using Character.Player.Events;
 using UnityEngine;
 
 namespace Character.Player.StateMachine.ConcreteStates
@@ -15,21 +16,21 @@ namespace Character.Player.StateMachine.ConcreteStates
 
         public override void SubscribeToEvents()
         {
-            _player.PlayerEvents.PlayerShoppingEvent.OnPlayerShopping += PlayerShoppingEvent_OnPlayerShopping;
+            _player.Events.ShoppingEvent.OnPlayerShopping += ShoppingEventOnShopping;
         }
 
         public override void UnsubscribeFromEvents()
         {
-            _player.PlayerEvents.PlayerShoppingEvent.OnPlayerShopping -= PlayerShoppingEvent_OnPlayerShopping;
+            _player.Events.ShoppingEvent.OnPlayerShopping -= ShoppingEventOnShopping;
         }
 
         public override void OnEnter()
         {
-            _player.PlayerLocomotion.HandleMoveDestination(_player.TransformPoints.EmmaStoreStayPoint.position,
+            _player.Locomotion.HandleMoveDestination(_player.TransformPoints.EmmaStoreStayPoint.position,
                 Quaternion.identity);
         }
 
-        private void PlayerShoppingEvent_OnPlayerShopping(object sender, PlayerShoppingEventArgs e)
+        private void ShoppingEventOnShopping(object sender, PlayerShoppingEventArgs e)
         {
             if (e.IsShopping) return;
 

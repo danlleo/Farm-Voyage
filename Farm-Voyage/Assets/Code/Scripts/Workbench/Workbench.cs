@@ -1,6 +1,7 @@
 using System;
 using Cameras;
 using Character.Player;
+using Character.Player.Events;
 using UI.Icon;
 using UnityEngine;
 using Zenject;
@@ -44,7 +45,7 @@ namespace Workbench
 
         private void StartedUsingWorkbenchEvent_OnStartedUsingWorkbench(object sender, EventArgs e)
         {
-            _player.PlayerEvents.PlayerUsingWorkbenchEvent.Call(this, new PlayerUsingWorkbenchEventArgs(true));
+            _player.Events.UsingWorkbenchEvent.Call(this, new PlayerUsingWorkbenchEventArgs(true));
             _cameraController.SwitchToCamera(CameraState.Workbench);
         }
     }

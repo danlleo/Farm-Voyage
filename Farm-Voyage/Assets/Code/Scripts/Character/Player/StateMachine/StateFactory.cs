@@ -58,5 +58,10 @@ namespace Character.Player.StateMachine
         {
             return new ExtractingWaterState(_player, _stateMachine);
         }
+
+        public State Selling()
+        {
+            return new SellingState(_player, _stateMachine);
+        }
     }
 }

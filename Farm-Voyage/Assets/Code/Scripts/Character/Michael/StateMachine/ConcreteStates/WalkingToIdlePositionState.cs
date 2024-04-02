@@ -13,7 +13,7 @@
 
         public override void OnEnter()
         {
-            _michael.MichaelLocomotion.HandleMoveDestination(Michael.TransformPoints.IdlePoint,
+            _michael.Locomotion.HandleMoveDestination(Michael.TransformPoints.IdlePoint,
                 () =>
                 {
                     _michael.transform.rotation = Michael.TransformPoints.IdlePoint.rotation;

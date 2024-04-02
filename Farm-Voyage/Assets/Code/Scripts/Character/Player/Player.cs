@@ -1,7 +1,6 @@
 using Character.Player.Events;
 using Character.Player.Locomotion;
 using Common;
-using Farm.Plants;
 using InputManagers;
 using UnityEngine;
 using Zenject;
@@ -9,20 +8,6 @@ using StateFactory = Character.Player.StateMachine.StateFactory;
 
 namespace Character.Player
 {
-    [RequireComponent(typeof(PlayerWalkingEvent))]
-    [RequireComponent(typeof(PlayerIdleEvent))]
-    [RequireComponent(typeof(PlayerLocomotion))]
-    [RequireComponent(typeof(PlayerInteract))]
-    [RequireComponent(typeof(PlayerGatheringEvent))]
-    [RequireComponent(typeof(PlayerCarryingStorageBoxStateChangedEvent))]
-    [RequireComponent(typeof(PlayerFoundCollectableEvent))]
-    [RequireComponent(typeof(PlayerShoppingEvent))]
-    [RequireComponent(typeof(PlayerUsingWorkbenchEvent))]
-    [RequireComponent(typeof(PlayerLeftHomeEvent))]
-    [RequireComponent(typeof(PlayerEnteringHomeEvent))]
-    [RequireComponent(typeof(PlayerExtractingWaterEvent))]
-    [RequireComponent(typeof(PlayerHarvestingStateChangedEvent))]
-    [RequireComponent(typeof(PlayerWateringStateChangedEvent))]
     [DisallowMultipleComponent]
     public class Player : MonoBehaviour, IVisitable
     {
@@ -30,12 +15,12 @@ namespace Character.Player
         public const float Radius = .5f;
         
         public StateFactory StateFactory { get; private set; }
-        public PlayerEvents PlayerEvents { get; private set; }
-        public PlayerInteract PlayerInteract { get; private set; }
-        public PlayerLocomotion PlayerLocomotion { get; private set; }
+        public PlayerEvents Events { get; private set; }
+        public PlayerInteract Interact { get; private set; }
+        public PlayerLocomotion Locomotion { get; private set; }
         public IPlayerInput Input { get; private set; }
-        [field:SerializeField] public PlayerTransformPoints TransformPoints { get; private set; }
-        
+        [field: SerializeField] public PlayerTransformPoints TransformPoints { get; private set; }
+
         private StateMachine.StateMachine _stateMachine;
         
         private PlayerMapLimitBoundaries _playerMapLimitBoundaries;
@@ -48,24 +33,10 @@ namespace Character.Player
         
         private void Awake()
         {
-            PlayerEvents = new PlayerEvents(
-                GetComponent<PlayerWalkingEvent>(),
-                GetComponent<PlayerIdleEvent>(),
-                GetComponent<PlayerGatheringEvent>(),
-                GetComponent<PlayerDiggingPlantAreaStateChangedEvent>(),
-                GetComponent<PlayerCarryingStorageBoxStateChangedEvent>(),
-                GetComponent<PlayerFoundCollectableEvent>(),
-                GetComponent<PlayerShoppingEvent>(),
-                GetComponent<PlayerUsingWorkbenchEvent>(),
-                GetComponent<PlayerLeftHomeEvent>(),
-                GetComponent<PlayerEnteringHomeEvent>(),
-                GetComponent<PlayerExtractingWaterEvent>(),
-                GetComponent<PlayerHarvestingStateChangedEvent>(),
-                GetComponent<PlayerWateringStateChangedEvent>()
-            );
+            Events = new PlayerEvents();
             
-            PlayerLocomotion = GetComponent<PlayerLocomotion>();
-            PlayerInteract = GetComponent<PlayerInteract>();
+            Locomotion = GetComponent<PlayerLocomotion>();
+            Interact = GetComponent<PlayerInteract>();
             
             _playerMapLimitBoundaries = new PlayerMapLimitBoundaries(transform, -25, 25, -25, 25);
             _stateMachine = new StateMachine.StateMachine();

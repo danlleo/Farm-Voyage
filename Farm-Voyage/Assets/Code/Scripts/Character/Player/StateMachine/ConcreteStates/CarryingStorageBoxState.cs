@@ -1,4 +1,6 @@
-﻿namespace Character.Player.StateMachine.ConcreteStates
+﻿using Character.Player.Events;
+
+namespace Character.Player.StateMachine.ConcreteStates
 {
     public class CarryingStorageBoxState : State
     {
@@ -13,23 +15,23 @@
 
         public override void SubscribeToEvents()
         {
-            _player.PlayerEvents.PlayerCarryingStorageBoxStateChangedEvent.OnPlayerCarryingStorageBoxStateChanged +=
-                Player_OnPlayerCarryingStorageBoxStateChanged;
+            _player.Events.CarryingStorageBoxStateChangedEvent.OnPlayerCarryingStorageBoxStateChanged +=
+                OnCarryingStorageBoxStateChanged;
         }
 
         public override void UnsubscribeFromEvents()
         {
-            _player.PlayerEvents.PlayerCarryingStorageBoxStateChangedEvent.OnPlayerCarryingStorageBoxStateChanged -=
-                Player_OnPlayerCarryingStorageBoxStateChanged;
+            _player.Events.CarryingStorageBoxStateChangedEvent.OnPlayerCarryingStorageBoxStateChanged -=
+                OnCarryingStorageBoxStateChanged;
         }
 
         public override void Tick()
         {
-            _player.PlayerLocomotion.HandleGroundedMovement();
-            _player.PlayerLocomotion.HandleRotation();
+            _player.Locomotion.HandleGroundedMovement();
+            _player.Locomotion.HandleRotation();
         }
 
-        private void Player_OnPlayerCarryingStorageBoxStateChanged(object sender, PlayerCarryingStorageBoxStateChangedEventArgs e)
+        private void OnCarryingStorageBoxStateChanged(object sender, PlayerCarryingStorageBoxStateChangedEventArgs e)
         {
             if (!e.IsCarrying)
                 _stateMachine.ChangeState(_player.StateFactory.Exploring());

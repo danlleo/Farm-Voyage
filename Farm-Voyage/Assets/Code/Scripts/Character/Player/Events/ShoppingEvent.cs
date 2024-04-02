@@ -1,10 +1,8 @@
 ﻿using System;
-using UnityEngine;
 
-namespace Character.Player
+namespace Character.Player.Events
 {
-    [DisallowMultipleComponent]
-    public class PlayerShoppingEvent : MonoBehaviour
+    public class ShoppingEvent
     {
         public event EventHandler<PlayerShoppingEventArgs> OnPlayerShopping;
 

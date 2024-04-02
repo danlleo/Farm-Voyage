@@ -59,11 +59,11 @@ namespace Character.Michael.StateMachine.ConcreteStates
                 bool hasArrived = false;
                 bool hasFinishedAction = false;
                 
-                _michael.MichaelLocomotion.HandleMoveDestination(routePosition, () => hasArrived = true);
+                _michael.Locomotion.HandleMoveDestination(routePosition, () => hasArrived = true);
         
                 yield return new WaitUntil(() => hasArrived);
 
-                _michael.MichaelEvents.MichaelPerformingGardeningActionEvent.Call(
+                _michael.Events.MichaelPerformingGardeningActionEvent.Call(
                     EnumUtility.GetRandomEnumValue<GardeningActionType>(),
                     () => hasFinishedAction = true);
             

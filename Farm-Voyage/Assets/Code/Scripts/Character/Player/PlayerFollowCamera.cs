@@ -42,12 +42,12 @@ namespace Character.Player
 
         private void OnEnable()
         {
-            _player.PlayerEvents.PlayerLeftHomeEvent.OnPlayerLeftHome += Player_OnPlayerLeftHome;
+            _player.Events.LeftHomeEvent.OnPlayerLeftHome += OnLeftHome;
         }
 
         private void OnDisable()
         {
-            _player.PlayerEvents.PlayerLeftHomeEvent.OnPlayerLeftHome -= Player_OnPlayerLeftHome;
+            _player.Events.LeftHomeEvent.OnPlayerLeftHome -= OnLeftHome;
         }
 
         public void ZoomIn()
@@ -117,7 +117,7 @@ namespace Character.Player
         private void UpdateFOVValue(float value)
             => _cinemachineVirtualCamera.m_Lens.FieldOfView = value;
         
-        private void Player_OnPlayerLeftHome(object sender, EventArgs e)
+        private void OnLeftHome(object sender, EventArgs e)
         {
             SetPlayerFollowTarget();
         }

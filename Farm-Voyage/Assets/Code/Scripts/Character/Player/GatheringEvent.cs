@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Character.Player
 {
     [DisallowMultipleComponent]
-    public class PlayerGatheringEvent : MonoBehaviour
+    public class GatheringEvent : MonoBehaviour
     {
         public event EventHandler<PlayerGatheringEventArgs> OnPlayerGathering;
 

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Character.Player.Events;
+using UnityEngine;
 
 namespace Character.Player.StateMachine.ConcreteStates
 {
@@ -17,19 +18,19 @@ namespace Character.Player.StateMachine.ConcreteStates
 
         public override void SubscribeToEvents()
         {
-            _player.PlayerEvents.PlayerGatheringEvent.OnPlayerGathering += Player_OnPlayerGathering;
-            _player.PlayerEvents.PlayerExtractingWaterEvent.OnPlayerExtractingWater += Player_OnPlayerExtractingWater;
+            _player.Events.GatheringEvent.OnPlayerGathering += OnGathering;
+            _player.Events.ExtractingWaterEvent.OnPlayerExtractingWater += OnExtractingWater;
         }
 
         public override void UnsubscribeFromEvents()
         {
-            _player.PlayerEvents.PlayerGatheringEvent.OnPlayerGathering -= Player_OnPlayerGathering;
-            _player.PlayerEvents.PlayerExtractingWaterEvent.OnPlayerExtractingWater -= Player_OnPlayerExtractingWater;
+            _player.Events.GatheringEvent.OnPlayerGathering -= OnGathering;
+            _player.Events.ExtractingWaterEvent.OnPlayerExtractingWater -= OnExtractingWater;
         }
 
         public override void OnEnter()
         {
-            _player.PlayerLocomotion.StartStickRotation(_resourceGathererTransform, () =>
+            _player.Locomotion.StartStickRotation(_resourceGathererTransform, () =>
             {
                 _stateMachine.ChangeState(_player.StateFactory.Exploring());
             });
@@ -37,18 +38,18 @@ namespace Character.Player.StateMachine.ConcreteStates
 
         public override void Tick()
         {
-            _player.PlayerInteract.TryInteract();
-            _player.PlayerLocomotion.HandleGroundedMovement();
+            _player.Interact.TryInteract();
+            _player.Locomotion.HandleGroundedMovement();
         }
         
-        private void Player_OnPlayerGathering(object sender, PlayerGatheringEventArgs e)
+        private void OnGathering(object sender, PlayerGatheringEventArgs e)
         {
             if (!e.HasFullyGathered) return;
             
             _stateMachine.ChangeState(_player.StateFactory.Exploring());
         }
         
-        private void Player_OnPlayerExtractingWater(object sender, PlayerExtractingWaterEventArgs e)
+        private void OnExtractingWater(object sender, PlayerExtractingWaterEventArgs e)
         {
             if (!e.IsExtracting) return;
             

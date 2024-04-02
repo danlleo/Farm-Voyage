@@ -27,7 +27,7 @@ namespace Character.Michael.StateMachine.ConcreteStates
 
         public override void OnEnter()
         {
-            _michael.MichaelLocomotion.HandleMoveDestination(_plant.transform, () =>
+            _michael.Locomotion.HandleMoveDestination(_plant.transform, () =>
             {
                 _stateMachine.ChangeState(_michael.StateFactory.Watering(_plant));
             });
@@ -35,7 +35,7 @@ namespace Character.Michael.StateMachine.ConcreteStates
         
         private void PlantFinishedWateringEvent_OnPlantFinishedWatering()
         {
-            _michael.MichaelLocomotion.StopAllMovement();
+            _michael.Locomotion.StopAllMovement();
             _stateMachine.ChangeState(_michael.StateFactory.EvaluateWateringNeeds());
         }
     }

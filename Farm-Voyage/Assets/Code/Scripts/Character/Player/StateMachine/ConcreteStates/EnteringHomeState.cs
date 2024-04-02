@@ -15,7 +15,7 @@ namespace Character.Player.StateMachine.ConcreteStates
 
         public override void OnEnter()
         {
-            _player.PlayerLocomotion.HandleMoveDestination(_player.TransformPoints.HomeStayPoint.position,
+            _player.Locomotion.HandleMoveDestination(_player.TransformPoints.HomeStayPoint.position,
                 Quaternion.identity);
         }
     }

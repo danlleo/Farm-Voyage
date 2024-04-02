@@ -1,10 +1,8 @@
 ﻿using System;
-using UnityEngine;
 
-namespace Character.Player.Locomotion
+namespace Character.Player.Events
 {
-    [DisallowMultipleComponent]
-    public class PlayerIdleEvent : MonoBehaviour
+    public class IdleEvent
     {
         public event EventHandler OnPlayerIdle;
 

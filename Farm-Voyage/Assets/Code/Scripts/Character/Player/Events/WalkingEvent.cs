@@ -1,10 +1,8 @@
 ﻿using System;
-using UnityEngine;
 
-namespace Character.Player.Locomotion
+namespace Character.Player.Events
 {
-    [DisallowMultipleComponent]
-    public class PlayerWalkingEvent : MonoBehaviour
+    public class WalkingEvent
     {
         public event EventHandler OnPlayerWalking;
 

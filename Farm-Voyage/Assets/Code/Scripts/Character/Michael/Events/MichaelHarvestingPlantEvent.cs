@@ -1,10 +1,8 @@
 ﻿using System;
-using UnityEngine;
 
-namespace Character.Michael
+namespace Character.Michael.Events
 {
-    [DisallowMultipleComponent]
-    public class MichaelHarvestingPlantEvent : MonoBehaviour
+    public class MichaelHarvestingPlantEvent
     {
         public event Action<bool> OnMichaelHarvestingPlant;
 

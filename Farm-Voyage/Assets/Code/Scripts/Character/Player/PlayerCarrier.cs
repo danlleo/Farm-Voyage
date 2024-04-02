@@ -1,4 +1,5 @@
 ﻿using Attributes.WithinParent;
+using Character.Player.Events;
 using Farm.Corral;
 using Misc;
 using Unity.Mathematics;
@@ -6,7 +7,6 @@ using UnityEngine;
 
 namespace Character.Player
 {
-    [RequireComponent(typeof(PlayerCarryingStorageBoxStateChangedEvent))]
     [DisallowMultipleComponent]
     public class PlayerCarrier : MonoBehaviour, IValidate
     {
@@ -14,25 +14,20 @@ namespace Character.Player
         
         [Header("External references")]
         [SerializeField, WithinParent] private Transform _carryPoint;
+        [SerializeField] private Player _player;
         
         private StorageBox _storageBox;
-        private PlayerCarryingStorageBoxStateChangedEvent _playerCarryingStorageBoxStateChangedEvent;
         
-        private void Awake()
-        {
-            _playerCarryingStorageBoxStateChangedEvent = GetComponent<PlayerCarryingStorageBoxStateChangedEvent>();
-        }
-
         private void OnEnable()
         {
-            _playerCarryingStorageBoxStateChangedEvent.OnPlayerCarryingStorageBoxStateChanged +=
-                PlayerCarryingStorageBoxStateChangedEvent_OnPlayerCarryingStorageBoxStateChanged;
+            _player.Events.CarryingStorageBoxStateChangedEvent.OnPlayerCarryingStorageBoxStateChanged +=
+                CarryingStorageBoxStateChangedEventOnCarryingStorageBoxStateChanged;
         }
 
         private void OnDisable()
         {
-            _playerCarryingStorageBoxStateChangedEvent.OnPlayerCarryingStorageBoxStateChanged -=
-                PlayerCarryingStorageBoxStateChangedEvent_OnPlayerCarryingStorageBoxStateChanged;
+            _player.Events.CarryingStorageBoxStateChangedEvent.OnPlayerCarryingStorageBoxStateChanged -=
+                CarryingStorageBoxStateChangedEventOnCarryingStorageBoxStateChanged;
         }
 
         private void OnValidate()
@@ -67,7 +62,7 @@ namespace Character.Player
             _storageBox = storageBox;
         }
         
-        private void PlayerCarryingStorageBoxStateChangedEvent_OnPlayerCarryingStorageBoxStateChanged(object sender,
+        private void CarryingStorageBoxStateChangedEventOnCarryingStorageBoxStateChanged(object sender,
             PlayerCarryingStorageBoxStateChangedEventArgs e)
         {
             if (!e.IsCarrying) return;

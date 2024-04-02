@@ -1,10 +1,8 @@
 ﻿using System;
-using UnityEngine;
 
-namespace Character.Player
+namespace Character.Player.Events
 {
-    [DisallowMultipleComponent]
-    public class PlayerExtractingWaterEvent : MonoBehaviour
+    public class ExtractingWaterEvent
     {
         public event EventHandler<PlayerExtractingWaterEventArgs> OnPlayerExtractingWater;
 

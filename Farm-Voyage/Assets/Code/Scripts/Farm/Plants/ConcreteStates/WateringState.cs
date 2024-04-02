@@ -42,7 +42,7 @@ namespace Farm.Plants.ConcreteStates
         public override void OnStoppedInteracting(Player player)
         {
             // TODO: consider making it more clean
-            player.PlayerEvents.PlayerWateringStateChangedEvent.Call(false);
+            player.Events.WateringStateChangedEvent.Call(false);
         }
 
         private void Plant_OnPlantFinishedWatering()

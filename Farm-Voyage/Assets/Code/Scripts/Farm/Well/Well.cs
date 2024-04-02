@@ -1,6 +1,7 @@
 using System;
 using Character;
 using Character.Player;
+using Character.Player.Events;
 using Common;
 using Farm.Tool.ConcreteTools;
 using UI.Icon;
@@ -39,12 +40,12 @@ namespace Farm.Well
 
         private void OnEnable()
         {
-            _player.PlayerEvents.PlayerExtractingWaterEvent.OnPlayerExtractingWater += Player_OnPlayerExtractingWater;
+            _player.Events.ExtractingWaterEvent.OnPlayerExtractingWater += OnExtractingWater;
         }
 
         private void OnDisable()
         {
-            _player.PlayerEvents.PlayerExtractingWaterEvent.OnPlayerExtractingWater -= Player_OnPlayerExtractingWater;
+            _player.Events.ExtractingWaterEvent.OnPlayerExtractingWater -= OnExtractingWater;
         }
 
         public void Interact(IVisitable initiator)
@@ -54,11 +55,11 @@ namespace Farm.Well
             if (waterCan.CurrentWaterCapacityAmount == WaterCan.WaterCanCapacityAmount) return;
             
             _isExtractingWater = true;
-            _player.PlayerEvents.PlayerExtractingWaterEvent.Call(this, new PlayerExtractingWaterEventArgs(true));
+            _player.Events.ExtractingWaterEvent.Call(this, new PlayerExtractingWaterEventArgs(true));
             _playerFollowCamera.ZoomIn();
         }
         
-        private void Player_OnPlayerExtractingWater(object sender, PlayerExtractingWaterEventArgs e)
+        private void OnExtractingWater(object sender, PlayerExtractingWaterEventArgs e)
         {
             if (e.IsExtracting) return;
             _playerFollowCamera.ZoomOut();

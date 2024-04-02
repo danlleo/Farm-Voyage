@@ -1,10 +1,8 @@
 ﻿using System;
-using UnityEngine;
 
-namespace Character.Player
+namespace Character.Player.Events
 {
-    [DisallowMultipleComponent]
-    public class PlayerFoundCollectableEvent : MonoBehaviour
+    public class FoundCollectableEvent
     {
         public event EventHandler OnPlayerFoundCollectable;
 

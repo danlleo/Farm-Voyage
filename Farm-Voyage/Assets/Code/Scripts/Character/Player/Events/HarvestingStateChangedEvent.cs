@@ -1,10 +1,8 @@
 ﻿using System;
-using UnityEngine;
 
-namespace Character.Player
+namespace Character.Player.Events
 {
-    [DisallowMultipleComponent]
-    public class PlayerHarvestingStateChangedEvent : MonoBehaviour
+    public class HarvestingStateChangedEvent
     {
         public event Action<bool> OnPlayerHarvestingStateChanged;
 

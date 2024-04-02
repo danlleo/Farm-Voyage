@@ -1,10 +1,8 @@
 ﻿using System;
-using UnityEngine;
 
-namespace Character.Player
+namespace Character.Player.Events
 {
-    [DisallowMultipleComponent]
-    public class PlayerWateringStateChangedEvent : MonoBehaviour
+    public class WateringStateChangedEvent
     {
         public event Action<bool> OnPlayerWateringStateChanged;
 

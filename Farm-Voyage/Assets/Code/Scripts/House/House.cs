@@ -29,13 +29,13 @@ namespace House
         private void OnEnable()
         {
             _day.OnDayEnded += Day_OnDayEnded;
-            _player.PlayerEvents.PlayerLeftHomeEvent.OnPlayerLeftHome += Player_OnPlayerLeftHome;
+            _player.Events.LeftHomeEvent.OnPlayerLeftHome += OnLeftHome;
         }
 
         private void OnDisable()
         {
             _day.OnDayEnded -= Day_OnDayEnded;
-            _player.PlayerEvents.PlayerLeftHomeEvent.OnPlayerLeftHome -= Player_OnPlayerLeftHome;
+            _player.Events.LeftHomeEvent.OnPlayerLeftHome -= OnLeftHome;
         }
 
         private void Start()
@@ -52,7 +52,7 @@ namespace House
             
             _playerFollowCamera.LooseTarget();
             _playerFollowCamera.ZoomOutOfPlayer();
-            player.PlayerEvents.PlayerEnteringHomeEvent.Call(this);
+            player.Events.EnteringHomeEvent.Call(this);
         }
 
         private void ChangeDoorState(bool isOpen)
@@ -68,7 +68,7 @@ namespace House
             _canSleep = true;
         }
         
-        private void Player_OnPlayerLeftHome(object sender, EventArgs e)
+        private void OnLeftHome(object sender, EventArgs e)
         {
             ChangeDoorState(false);
         }

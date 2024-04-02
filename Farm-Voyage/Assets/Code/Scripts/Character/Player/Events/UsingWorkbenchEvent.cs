@@ -1,10 +1,9 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Character.Player
+namespace Character.Player.Events
 {
-    [DisallowMultipleComponent]
-    public class PlayerUsingWorkbenchEvent : MonoBehaviour
+    public class UsingWorkbenchEvent
     {
         public event EventHandler<PlayerUsingWorkbenchEventArgs> OnPlayerUsingWorkbench;
 

@@ -1,10 +1,8 @@
 ﻿using System;
-using UnityEngine;
 
-namespace Character.Player
+namespace Character.Player.Events
 {
-    [DisallowMultipleComponent]
-    public class PlayerEnteringHomeEvent : MonoBehaviour
+    public class EnteringHomeEvent
     {
         public event EventHandler OnPlayerEnteringHome;
 

@@ -1,10 +1,8 @@
 ﻿using System;
-using UnityEngine;
 
-namespace Character.Michael.Locomotion
+namespace Character.Michael.Events
 {
-    [DisallowMultipleComponent]
-    public class MichaelLocomotionStateChangedEvent : MonoBehaviour
+    public class MichaelLocomotionStateChangedEvent 
     {
         public event Action<bool> OnMichaelWalking;
 

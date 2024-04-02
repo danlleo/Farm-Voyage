@@ -3,6 +3,7 @@ using System.Linq;
 using Attributes.WithinParent;
 using Character;
 using Character.Player;
+using Character.Player.Events;
 using Common;
 using DG.Tweening;
 using Farm.Plants;
@@ -70,7 +71,7 @@ namespace Farm.Corral
             if (!_canCarry) return;
             
             _boxCollider.Disable();
-            _player.PlayerEvents.PlayerCarryingStorageBoxStateChangedEvent.Call(this,
+            _player.Events.CarryingStorageBoxStateChangedEvent.Call(this,
                 new PlayerCarryingStorageBoxStateChangedEventArgs(this, true));
         }
         
@@ -112,7 +113,7 @@ namespace Farm.Corral
             transform.SetParent(_corral.transform);
             transform.position = _initialPosition;
             _canCarry = false;
-            _player.PlayerEvents.PlayerCarryingStorageBoxStateChangedEvent.Call(this,
+            _player.Events.CarryingStorageBoxStateChangedEvent.Call(this,
                 new PlayerCarryingStorageBoxStateChangedEventArgs(this, false));
         }
         

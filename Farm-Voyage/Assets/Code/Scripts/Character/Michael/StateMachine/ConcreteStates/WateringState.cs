@@ -27,12 +27,12 @@ namespace Character.Michael.StateMachine.ConcreteStates
         
         public override void OnEnter()
         {
-            _michael.MichaelEvents.MichaelWateringPlantEvent.Call(true);
+            _michael.Events.MichaelWateringPlantEvent.Call(true);
         }
 
         public override void OnExit()
         {
-            _michael.MichaelEvents.MichaelWateringPlantEvent.Call(false);
+            _michael.Events.MichaelWateringPlantEvent.Call(false);
         }
 
         public override void Tick()

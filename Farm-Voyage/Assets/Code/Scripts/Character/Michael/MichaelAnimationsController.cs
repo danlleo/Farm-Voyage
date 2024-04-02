@@ -1,59 +1,47 @@
 ﻿using System;
 using System.Collections;
-using Character.Michael.Locomotion;
 using UnityEngine;
 using Utilities;
 
 namespace Character.Michael
 {
-    [RequireComponent(typeof(MichaelLocomotionStateChangedEvent))]
-    [RequireComponent(typeof(MichaelWateringPlantEvent))]
-    [RequireComponent(typeof(MichaelHarvestingPlantEvent))]
-    [RequireComponent(typeof(MichaelPerformingGardeningActionEvent))]
-    [RequireComponent(typeof(MichaelSittingStateChangedEvent))]
     [RequireComponent(typeof(Animator))]
     [DisallowMultipleComponent]
     public class MichaelAnimationsController : MonoBehaviour
     {
         [Header("External references")]
         [SerializeField] private ParticleSystem _walkingEffectParticleSystem;
-        
-        private MichaelLocomotionStateChangedEvent _michaelLocomotionStateChangedEvent;
-        private MichaelWateringPlantEvent _michaelWateringPlantEvent;
-        private MichaelHarvestingPlantEvent _michaelHarvestingPlantEvent;
-        private MichaelPerformingGardeningActionEvent _michaelPerformingGardeningActionEvent;
-        private MichaelSittingStateChangedEvent _michaelSittingStateChangedEvent;
+        [SerializeField] private Michael _michael;
         
         private Animator _animator;
 
         private void Awake()
         {
             _animator = GetComponent<Animator>();
-            _michaelLocomotionStateChangedEvent = GetComponent<MichaelLocomotionStateChangedEvent>();
-            _michaelWateringPlantEvent = GetComponent<MichaelWateringPlantEvent>();
-            _michaelHarvestingPlantEvent = GetComponent<MichaelHarvestingPlantEvent>();
-            _michaelPerformingGardeningActionEvent = GetComponent<MichaelPerformingGardeningActionEvent>();
-            _michaelSittingStateChangedEvent = GetComponent<MichaelSittingStateChangedEvent>();
         }
 
         private void OnEnable()
         {
-            _michaelLocomotionStateChangedEvent.OnMichaelWalking += Michael_OnMichaelLocomotionStateChanged;
-            _michaelWateringPlantEvent.OnMichaelWateringPlant += Michael_OnMichaelWateringPlant;
-            _michaelHarvestingPlantEvent.OnMichaelHarvestingPlant += Michael_OnMichaelHarvestingPlant;
-            _michaelPerformingGardeningActionEvent.OnMichaelPerformingGardeningAction +=
+            _michael.Events.MichaelLocomotionStateChangedEvent.OnMichaelWalking +=
+                Michael_OnMichaelLocomotionStateChanged;
+            _michael.Events.MichaelWateringPlantEvent.OnMichaelWateringPlant += Michael_OnMichaelWateringPlant;
+            _michael.Events.MichaelHarvestingPlantEvent.OnMichaelHarvestingPlant += Michael_OnMichaelHarvestingPlant;
+            _michael.Events.MichaelPerformingGardeningActionEvent.OnMichaelPerformingGardeningAction +=
                 Michael_OnMichaelPerformingGardeningAction;
-            _michaelSittingStateChangedEvent.OnMichaelSittingStateChanged += Michael_OnMichaelSittingStateChanged;
+            _michael.Events.MichaelSittingStateChangedEvent.OnMichaelSittingStateChanged +=
+                Michael_OnMichaelSittingStateChanged;
         }
 
         private void OnDisable()
         {
-            _michaelLocomotionStateChangedEvent.OnMichaelWalking -= Michael_OnMichaelLocomotionStateChanged;
-            _michaelWateringPlantEvent.OnMichaelWateringPlant -= Michael_OnMichaelWateringPlant;
-            _michaelHarvestingPlantEvent.OnMichaelHarvestingPlant -= Michael_OnMichaelHarvestingPlant;
-            _michaelPerformingGardeningActionEvent.OnMichaelPerformingGardeningAction -=
+            _michael.Events.MichaelLocomotionStateChangedEvent.OnMichaelWalking -=
+                Michael_OnMichaelLocomotionStateChanged;
+            _michael.Events.MichaelWateringPlantEvent.OnMichaelWateringPlant -= Michael_OnMichaelWateringPlant;
+            _michael.Events.MichaelHarvestingPlantEvent.OnMichaelHarvestingPlant -= Michael_OnMichaelHarvestingPlant;
+            _michael.Events.MichaelPerformingGardeningActionEvent.OnMichaelPerformingGardeningAction -=
                 Michael_OnMichaelPerformingGardeningAction;
-            _michaelSittingStateChangedEvent.OnMichaelSittingStateChanged -= Michael_OnMichaelSittingStateChanged;
+            _michael.Events.MichaelSittingStateChangedEvent.OnMichaelSittingStateChanged -=
+                Michael_OnMichaelSittingStateChanged;
         }
 
         private IEnumerator DelayAnimationActionRoutine(float delayTimeInSeconds, Action onAnimationFinished)

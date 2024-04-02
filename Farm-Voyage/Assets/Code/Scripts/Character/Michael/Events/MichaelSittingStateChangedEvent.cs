@@ -1,10 +1,8 @@
 ﻿using System;
-using UnityEngine;
 
-namespace Character.Michael
+namespace Character.Michael.Events
 {
-    [DisallowMultipleComponent]
-    public class MichaelSittingStateChangedEvent : MonoBehaviour
+    public class MichaelSittingStateChangedEvent
     {
         public event Action<bool> OnMichaelSittingStateChanged;
 

@@ -8,7 +8,6 @@ namespace Character.Michael.Locomotion
 {
     [SelectionBase]
     [RequireComponent(typeof(NavMeshAgent))]
-    [RequireComponent(typeof(MichaelLocomotionStateChangedEvent))]
     [DisallowMultipleComponent]
     public class MichaelLocomotion : MonoBehaviour
     {
@@ -18,14 +17,14 @@ namespace Character.Michael.Locomotion
         [SerializeField, Range(0f, 20f)] private float _stoppingDistance = 1f;
         
         private NavMeshAgent _navMeshAgent;
-        private MichaelLocomotionStateChangedEvent _michaelLocomotionStateChangedEvent;
+        private Michael _michael;
         
         private Coroutine _moveDestinationRoutine;
         
         private void Awake()
         {
-            _michaelLocomotionStateChangedEvent = GetComponent<MichaelLocomotionStateChangedEvent>();
             InitializeNavMeshAgent();
+            _michael = GetComponent<Michael>();
         }
 
         public void HandleMoveDestination(Transform destination, Action onReachedDestination)
@@ -57,7 +56,7 @@ namespace Character.Michael.Locomotion
             destination = new Vector3(destination.x, 0f, destination.z);
 
             _navMeshAgent.isStopped = false;
-            _michaelLocomotionStateChangedEvent.Call(true);
+            _michael.Events.MichaelLocomotionStateChangedEvent.Call(true);
             _navMeshAgent.SetDestination(destination);
 
             bool isMoving = true;
@@ -73,7 +72,7 @@ namespace Character.Michael.Locomotion
                 yield return null;
             }
     
-            _michaelLocomotionStateChangedEvent.Call(false);
+            _michael.Events.MichaelLocomotionStateChangedEvent.Call(false);
             onReachedPosition?.Invoke();
         }
     }

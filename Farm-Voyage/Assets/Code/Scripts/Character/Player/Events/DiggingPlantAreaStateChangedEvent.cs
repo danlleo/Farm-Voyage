@@ -1,10 +1,8 @@
 ﻿using System;
-using UnityEngine;
 
-namespace Character.Player
+namespace Character.Player.Events
 {
-    [DisallowMultipleComponent]
-    public class PlayerDiggingPlantAreaStateChangedEvent : MonoBehaviour
+    public class DiggingPlantAreaStateChangedEvent
     {
         public event EventHandler<PlayerDiggingPlantAreaEventArgs> OnPlayerDiggingPlantStateChangedArea;
 
