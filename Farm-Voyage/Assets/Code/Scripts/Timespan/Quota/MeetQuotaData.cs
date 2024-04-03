@@ -1,15 +1,15 @@
-﻿using Farm.Plants.Seeds;
+﻿using Farm.Plants;
 
 namespace Timespan.Quota
 {
     public struct MeetQuotaData
     {
-        public readonly SeedType Seed;
+        public readonly PlantType PlantType;
         public readonly int Quantity;
 
-        public MeetQuotaData(SeedType seed, int quantity)
+        public MeetQuotaData(PlantType plantType, int quantity)
         {
-            Seed = seed;
+            PlantType = plantType;
             Quantity = quantity;
         }
     }

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Attributes.WithinParent;
-using Character;
 using Character.Player;
 using Character.Player.Events;
 using Common;
@@ -27,9 +27,10 @@ namespace Farm.Corral
         private BoxCollider _boxCollider;
 
         private Vector3 _initialPosition;
-        
-        private readonly Dictionary<Transform, Plant> _plantsDictionary = new();
 
+        private readonly Dictionary<Transform, Plant> _transformToPlantMapping = new();
+        private readonly Dictionary<PlantType, int> _plantQuantitiesMapping = new();
+        
         private bool _canCarry;
 
         private void Awake()   
@@ -60,6 +61,11 @@ namespace Farm.Corral
             Pickup();
         }
 
+        public ReadOnlyDictionary<PlantType, int> ReadPlantsQuantities()
+        {
+            return new ReadOnlyDictionary<PlantType, int>(_plantQuantitiesMapping);
+        }
+        
         public void ClearAndPutToInitialPosition()
         {
             ClearPlants();
@@ -80,17 +86,25 @@ namespace Farm.Corral
             if (_canCarry) return;
             if (!TryGetEmptyBoxPoint(out Transform emptyPoint)) return;
 
-            _plantsDictionary[emptyPoint] = plant;
+            _transformToPlantMapping[emptyPoint] = plant;
             MoveToBox(plant, emptyPoint);
 
             _canCarry = IsBoxFull();
+
+            if (_plantQuantitiesMapping.TryGetValue(plant.Type, out int storedQuantity))
+            {
+                _plantQuantitiesMapping[plant.Type] = storedQuantity + 1;
+                return;
+            }
+
+            _plantQuantitiesMapping.Add(plant.Type, 1);
         }
         
         private void InitializePlantsDictionary()
         {
             foreach (Transform storePoint in _storePoints)
             {
-                _plantsDictionary[storePoint] = null;
+                _transformToPlantMapping[storePoint] = null;
             }
         }
 
@@ -103,7 +117,7 @@ namespace Farm.Corral
                     Destroy(storePoint.GetChild(0).gameObject);
                 }
 
-                _plantsDictionary[storePoint] = null;
+                _transformToPlantMapping[storePoint] = null;
             }
         }
         
@@ -111,6 +125,8 @@ namespace Farm.Corral
         {
             _boxCollider.Enable();
             transform.SetParent(_corral.transform);
+            _plantQuantitiesMapping.Clear();
+            
             transform.position = _initialPosition;
             _canCarry = false;
             _player.Events.CarryingStorageBoxStateChangedEvent.Call(this,
@@ -119,7 +135,7 @@ namespace Farm.Corral
         
         private bool IsBoxFull()
         {
-            return _plantsDictionary.Values.All(value => value != null);
+            return _transformToPlantMapping.Values.All(value => value != null);
         }
 
         private void MoveToBox(Plant plant, Transform emptyPoint)
@@ -131,7 +147,7 @@ namespace Farm.Corral
 
         private bool TryGetEmptyBoxPoint(out Transform emptyPoint)
         {
-            emptyPoint = _storePoints.FirstOrDefault(point => _plantsDictionary[point] == null);
+            emptyPoint = _storePoints.FirstOrDefault(point => _transformToPlantMapping[point] == null);
             return emptyPoint != null;
         }
         

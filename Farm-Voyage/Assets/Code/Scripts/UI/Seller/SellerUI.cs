@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Character.Player;
+using Farm.Plants;
 using Farm.Plants.Seeds;
 using Timespan.Quota;
 using UnityEngine;
@@ -53,36 +54,18 @@ namespace UI.Seller
                 SellerSeedDisplayItem sellerSeedDisplayItem =
                     Instantiate(_sellerSeedDisplayItemPrefab, _verticalLayoutGroup.transform);
 
-                Sprite targetSprite = null;
-
-                switch (meetQuotaData.Seed)
+                Sprite targetSprite = meetQuotaData.PlantType switch
                 {
-                    case SeedType.Tomato:
-                        targetSprite = _tomatoSprite;
-                        break;
-                    case SeedType.Eggplant:
-                        targetSprite = _eggplantSprite;
-                        break;
-                    case SeedType.Carrot:
-                        targetSprite = _carrotSprite;
-                        break;
-                    case SeedType.Pumpkin:
-                        targetSprite = _pumpkinSprite;
-                        break;
-                    case SeedType.Turnip:
-                        targetSprite = _turnipSprite;
-                        break;
-                    case SeedType.Corn:
-                        targetSprite = _cornSprite;
-                        break;
-                    case SeedType.Default:
-                        Debug.LogWarning("Tried adding default sprite");
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+                    PlantType.Tomato => _tomatoSprite,
+                    PlantType.Eggplant => _eggplantSprite,
+                    PlantType.Carrot => _carrotSprite,
+                    PlantType.Pumpkin => _pumpkinSprite,
+                    PlantType.Turnip => _turnipSprite,
+                    PlantType.Corn => _cornSprite,
+                    _ => throw new ArgumentOutOfRangeException()
+                };
 
-                sellerSeedDisplayItem.Initialize(_playerInventory, meetQuotaData.Seed, targetSprite,
+                sellerSeedDisplayItem.Initialize(_playerInventory, meetQuotaData.PlantType, targetSprite,
                     meetQuotaData.Quantity);
             }
         }

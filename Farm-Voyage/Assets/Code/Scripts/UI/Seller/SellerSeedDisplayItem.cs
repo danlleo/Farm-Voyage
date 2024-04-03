@@ -1,6 +1,5 @@
-﻿using System;
-using Character.Player;
-using Farm.Plants.Seeds;
+﻿using Character.Player;
+using Farm.Plants;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,16 +17,15 @@ namespace UI.Seller
         private int _targetQuantity;
 
         private PlayerInventory _playerInventory;
-        private SeedType _seedType;
-        
-        public void Initialize(PlayerInventory playerInventory, SeedType seedType, Sprite seedSprite, int targetQuantity)
+
+        public void Initialize(PlayerInventory playerInventory, PlantType plantType, Sprite seedSprite,
+            int targetQuantity)
         {
             _playerInventory = playerInventory;
-            _seedType = seedType;
             _seedImage.sprite = seedSprite;
             _targetQuantity = targetQuantity;
 
-            UpdateProgressBar(playerInventory.GetSeedsQuantity(seedType));
+            UpdateProgress(playerInventory.GetPlantQuantity(plantType));
         }
 
         private void UpdateProgress(int quantity)

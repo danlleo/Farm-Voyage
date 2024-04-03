@@ -2,9 +2,11 @@
 {
     public class CornPlant : Plant
     {
+        public override PlantType Type { get; protected set; } = PlantType.Corn;
+        
         public override void OnHarvested()
         {
-            throw new System.NotImplementedException();
+            
         }
     }
 }

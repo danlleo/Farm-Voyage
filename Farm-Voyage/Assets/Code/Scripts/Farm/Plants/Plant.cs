@@ -11,6 +11,8 @@ namespace Farm.Plants
     [DisallowMultipleComponent]
     public abstract class Plant : MonoBehaviour, IInteractable, IPlayerStopInteractable
     {
+        public abstract PlantType Type { get; protected set; }
+        
         public PlantFinishedWateringEvent PlantFinishedWateringEvent { get; private set; }
         
         public StateFactory StateFactory { get; private set; }

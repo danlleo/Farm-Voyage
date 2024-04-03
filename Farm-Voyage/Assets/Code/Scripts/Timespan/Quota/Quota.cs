@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Random = UnityEngine.Random;
 
 namespace Timespan.Quota
 {
+    [SuppressMessage("ReSharper", "MemberCanBeMadeStatic.Local")]
     public abstract class Quota
     {
-        public readonly IEnumerable<MeetQuotaData> MeetQuotaDatas;
+        public readonly IEnumerable<MeetQuotaData> MeetQuotaData;
         private readonly QuotaDataSO _quotaDataSO;
         
         protected Quota(QuotaDataSO quotaDataSO)
         {
             _quotaDataSO = quotaDataSO;
-            MeetQuotaDatas = GenerateMeetQuotaData(quotaDataSO);
+            MeetQuotaData = GenerateMeetQuotaData(quotaDataSO);
         }
         
         public abstract void OnMetQuota();
@@ -37,7 +39,7 @@ namespace Timespan.Quota
 
                 int randomQuantity = Random.Range(quotaItem.QuantityMinimal, quotaItem.QuantityMaximum + 1);
 
-                yield return new MeetQuotaData(quotaItem.Seed, randomQuantity);
+                yield return new MeetQuotaData(quotaItem.PlantType, randomQuantity);
                 
                 deepCopyQuotaItems.RemoveAt(randomIndex);
                 counter++;

@@ -1,4 +1,5 @@
 ﻿using Cameras;
+using Farm;
 using Farm.FarmResources;
 using Farm.ResourceGatherer;
 using Level;
@@ -19,6 +20,7 @@ namespace Installers
         [SerializeField] private Market.Market _marketPrefab;
         [SerializeField] private Workbench.Workbench _workbenchPrefab;
         [SerializeField] private Seller.Seller _sellerPrefab;
+        [SerializeField] private GlobalStorage _globalStoragePrefab;
         [SerializeField] private ResourcesGatherer _resourcesGathererPrefab;
         [SerializeField] private ResourceSO[] _resourcesSOArray;
         [SerializeField] private Transform _gatherableResourcesSpawnContainer;
@@ -46,6 +48,12 @@ namespace Installers
             }
 
             if (_sellerPrefab == null)
+            {
+                IsValid = false;
+                return;
+            }
+
+            if (_globalStoragePrefab == null)
             {
                 IsValid = false;
                 return;
@@ -94,6 +102,7 @@ namespace Installers
             BindWorkbench();
             BindMarket();
             BindSeller();
+            BindGlobalStorage();
             BindUI();
         }
 
@@ -107,6 +116,16 @@ namespace Installers
                 .NonLazy();
         }
 
+        private void BindGlobalStorage()
+        {
+            GlobalStorage globalStorage = Container.InstantiatePrefabForComponent<GlobalStorage>(_globalStoragePrefab);
+
+            Container
+                .BindInstance(globalStorage)
+                .AsSingle()
+                .NonLazy();
+        }
+        
         private void BindDayManger()
         {
             Container

@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace Character.Player
 {
-    public class PlayerInventory
+    public sealed class PlayerInventory
     {
         public event Action<ResourceType, int> OnResourceQuantityChanged;
         public event Action<SeedType, int> OnSeedQuantityChanged;
@@ -20,6 +20,8 @@ namespace Character.Player
         private readonly List<Tool> _toolsList;
         private readonly List<FarmResource> _farmResourcesList;
         private readonly List<Seed> _seedsList;
+
+        private readonly Dictionary<PlantType, int> _plantQuantitiesMapping = new();
         
         private Seed _selectedSeed;
         
@@ -92,22 +94,15 @@ namespace Character.Player
         
         public int GetResourceQuantity(ResourceType resourceType)
         {
-            foreach (FarmResource farmResource in _farmResourcesList)
-            {
-                if (farmResource.Type != resourceType) continue;
-                
-                return farmResource.Quantity;
-            }
-
-            return 0;
+            return (from farmResource in _farmResourcesList
+                where farmResource.Type == resourceType
+                select farmResource.Quantity).FirstOrDefault();
         }
         
         public void AddResourceQuantity(ResourceType resourceType, int quantity)
         {
-            foreach (FarmResource farmResource in _farmResourcesList)
+            foreach (FarmResource farmResource in _farmResourcesList.Where(farmResource => farmResource.Type == resourceType))
             {
-                if (farmResource.Type != resourceType) continue;
-                
                 if (quantity < 0)
                 {
                     Debug.LogError("Quantity can't be less than a null");
@@ -122,10 +117,8 @@ namespace Character.Player
 
         public void RemoveResourceQuantity(ResourceType resourceType, int quantity)
         {
-            foreach (FarmResource farmResource in _farmResourcesList)
+            foreach (FarmResource farmResource in _farmResourcesList.Where(farmResource => farmResource.Type == resourceType))
             {
-                if (farmResource.Type != resourceType) continue;
-                
                 if (quantity < 0)
                 {
                     Debug.LogError("Quantity can't be less than a null");
@@ -175,22 +168,13 @@ namespace Character.Player
         
         public int GetSeedsQuantity(SeedType seedType)
         {
-            foreach (Seed seed in _seedsList)
-            {
-                if (seed.SeedType != seedType) continue;
-
-                return seed.Quantity;
-            }
-
-            return 0;
+            return (from seed in _seedsList where seed.SeedType == seedType select seed.Quantity).FirstOrDefault();
         }
         
         public void AddSeedQuantity(SeedType seedType, int quantity)
         {
-            foreach (Seed seed in _seedsList)
+            foreach (Seed seed in _seedsList.Where(seed => seed.SeedType == seedType))
             {
-                if (seed.SeedType != seedType) continue;
-                
                 if (quantity < 0)
                 {
                     Debug.LogError("Quantity can't be less than a null");
@@ -228,9 +212,8 @@ namespace Character.Player
 
         public bool HasEnoughSeedQuantity(SeedType seedType, int quantity)
         {
-            foreach (Seed seed in _seedsList)
+            foreach (Seed seed in _seedsList.Where(seed => seed.SeedType == seedType))
             {
-                if (seed.SeedType != seedType) continue;
                 if (seed.SeedType == SeedType.Default) 
                     return false;
                 
@@ -238,6 +221,66 @@ namespace Character.Player
             }
 
             return false;
+        }
+
+        public int GetPlantQuantity(PlantType plantType)
+        {
+            return _plantQuantitiesMapping.GetValueOrDefault(plantType, 0);
+        }
+        
+        public void AddPlant(PlantType plantType, int addQuantity)
+        {
+            if (addQuantity < 0)
+            {
+                addQuantity = 0;
+                Debug.LogWarning("Add quantity is less than zero!");
+            }
+            
+            if (_plantQuantitiesMapping.TryGetValue(plantType, out int storedQuantity))
+            {
+                _plantQuantitiesMapping[plantType] = storedQuantity + addQuantity;
+                return;
+            }
+
+            _plantQuantitiesMapping.Add(plantType, addQuantity);
+        }
+        
+        public void RemovePlantQuantity(PlantType plantType, int removeQuantity)
+        {
+            if (removeQuantity < 0)
+            {
+                Debug.LogWarning("Remove quantity is less than zero!");
+                return;
+            }
+
+            if (_plantQuantitiesMapping.TryGetValue(plantType, out int storedQuantity))
+            {
+                int newQuantity = storedQuantity - removeQuantity;
+
+                switch (newQuantity)
+                {
+                    case > 0:
+                        _plantQuantitiesMapping[plantType] = newQuantity;
+                        break;
+                    case 0:
+                        _plantQuantitiesMapping.Remove(plantType);
+                        break;
+                    case < 0:
+                        Debug.LogWarning(
+                            "You're trying to remove quantity that is way more than actual stored quantity");
+                        break;
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Plant type not found in dictionary!");
+            }
+        }
+
+        public bool HasEnoughPlantQuantity(PlantType plantType, int quantity)
+        {
+            if (!_plantQuantitiesMapping.TryGetValue(plantType, out int storedQuantity)) return false;
+            return storedQuantity >= quantity;
         }
     }
 }

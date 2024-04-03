@@ -20,30 +20,35 @@ namespace Timespan.Quota
                 QuotaDifficulty.Nightmare => new NightmareQuota(quotaPlanSettings.NightmareQuotaData),
                 _ => throw new ArgumentOutOfRangeException()
             };
+
+            foreach (var VARIABLE in ReadQuotaPlan())
+            {
+                Debug.Log($"{VARIABLE.PlantType}: {VARIABLE.Quantity}");
+            }
         }
 
         public IEnumerable<MeetQuotaData> ReadQuotaPlan()
         {
-            return _quota.MeetQuotaDatas;
+            return _quota.MeetQuotaData;
         }
         
         public bool TryFinishQuotaPlan(PlayerInventory playerInventory)
         {
-            List<MeetQuotaData> meetQuotaDatasToSpend = new();
+            List<MeetQuotaData> meetQuotaDataToSpend = new();
             
-            foreach (MeetQuotaData meetQuotaData in _quota.MeetQuotaDatas)
+            foreach (MeetQuotaData meetQuotaData in _quota.MeetQuotaData)
             {
-                if (!playerInventory.HasEnoughSeedQuantity(meetQuotaData.Seed, meetQuotaData.Quantity))
+                if (!playerInventory.HasEnoughPlantQuantity(meetQuotaData.PlantType, meetQuotaData.Quantity))
                 {
                     return false;
                 }
-                
-                meetQuotaDatasToSpend.Add(meetQuotaData);
+
+                meetQuotaDataToSpend.Add(meetQuotaData);
             }
 
-            foreach (MeetQuotaData meetQuotaData in meetQuotaDatasToSpend)
+            foreach (MeetQuotaData meetQuotaData in meetQuotaDataToSpend)
             {
-                playerInventory.RemoveSeedQuantity(meetQuotaData.Seed, meetQuotaData.Quantity);
+                playerInventory.RemovePlantQuantity(meetQuotaData.PlantType, meetQuotaData.Quantity);
             }
 
             _quota.OnMetQuota();
