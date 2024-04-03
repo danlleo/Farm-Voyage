@@ -18,7 +18,7 @@ namespace Farm.Plants.ConcreteStates
             initiator.Accept(_harvester);
         }
 
-        public override void OnStoppedInteracting(Player player)
+        public override void OnPlayerStoppedInteracting(Player player)
         {
             player.Events.HarvestingStateChangedEvent.Call(false);
         }

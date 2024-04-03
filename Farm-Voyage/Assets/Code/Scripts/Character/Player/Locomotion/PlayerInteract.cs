@@ -41,7 +41,7 @@ namespace Character.Player.Locomotion
                 if (_currentInteractable == null) return;
                 
                 IPlayerStopInteractable playerStopInteractable = _currentInteractable as IPlayerStopInteractable;
-                playerStopInteractable?.StopInteract(_player);
+                playerStopInteractable?.PlayerStopInteract(_player);
 
                 IStopInteractable stopInteractable = _currentInteractable as IStopInteractable;
                 stopInteractable?.StopInteract();
@@ -62,7 +62,7 @@ namespace Character.Player.Locomotion
         {
             if (_currentInteractable != null && _currentInteractable != interactable && playerStopInteractable != null)
             {
-                playerStopInteractable.StopInteract(_player);
+                playerStopInteractable.PlayerStopInteract(_player);
             }
         }
 

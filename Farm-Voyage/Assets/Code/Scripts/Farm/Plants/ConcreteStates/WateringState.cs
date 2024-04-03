@@ -34,14 +34,18 @@ namespace Farm.Plants.ConcreteStates
             OnAnyWateringStateChanged?.Invoke(_plant, true);
         }
 
+        public override void OnExit()
+        {
+            _plant.PlantArea.ProgressIcon.ResumeProgress(_plant.PlantArea);
+        }
+
         public override void OnInteracted(IVisitable initiator)
         {
             initiator.Accept(_waterer);
         }
 
-        public override void OnStoppedInteracting(Player player)
+        public override void OnPlayerStoppedInteracting(Player player)
         {
-            // TODO: consider making it more clean
             player.Events.WateringStateChangedEvent.Call(false);
         }
 

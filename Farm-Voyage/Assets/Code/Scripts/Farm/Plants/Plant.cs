@@ -79,9 +79,9 @@ namespace Farm.Plants
             _stateMachine.CurrentState.OnInteracted(initiator);
         }
 
-        public void StopInteract(Player player)
+        public void PlayerStopInteract(Player player)
         {
-            _stateMachine.CurrentState.OnStoppedInteracting(player);
+            _stateMachine.CurrentState.OnPlayerStoppedInteracting(player);
         }
 
         public abstract void OnHarvested();

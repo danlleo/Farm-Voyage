@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Character.Player;
 using Timespan.Quota.ConcreteQuotas;
-using UnityEngine;
 
 namespace Timespan.Quota
 {
@@ -20,11 +19,6 @@ namespace Timespan.Quota
                 QuotaDifficulty.Nightmare => new NightmareQuota(quotaPlanSettings.NightmareQuotaData),
                 _ => throw new ArgumentOutOfRangeException()
             };
-
-            foreach (var VARIABLE in ReadQuotaPlan())
-            {
-                Debug.Log($"{VARIABLE.PlantType}: {VARIABLE.Quantity}");
-            }
         }
 
         public IEnumerable<MeetQuotaData> ReadQuotaPlan()

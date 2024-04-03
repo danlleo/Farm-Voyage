@@ -21,6 +21,6 @@ namespace Farm.Plants
         public virtual void UnsubscribeFromEvents() { }
         public virtual void Tick() { }
         public virtual void OnInteracted(IVisitable initiator) { }
-        public virtual void OnStoppedInteracting(Player player) { }
+        public virtual void OnPlayerStoppedInteracting(Player player) { }
     }
 }

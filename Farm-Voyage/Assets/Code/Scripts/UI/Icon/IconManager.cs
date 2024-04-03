@@ -23,6 +23,8 @@ namespace UI.Icon
             SceneTransition.OnAnySceneTransitionEnded += SceneTransition_OnAnySceneTransitionEnded;
             IconSO.OnAnyIconVisibilityChanged += IconSO_OnAnyIconVisibilityChanged;
             ProgressIconSO.OnAnyDisplayIconProgressChanged += ProgressIconSO_OnAnyDisplayIconProgressChanged;
+            ProgressIconSO.OnAnyDisplayIconProgressResumed += ProgressIconSO_OnAnyDisplayIconProgressResumed;
+            ProgressIconSO.OnAnyDisplayIconProgressStopped += ProgressIconSO_OnAnyDisplayIconProgressStopped;
         }
 
         private void OnDisable()
@@ -31,6 +33,8 @@ namespace UI.Icon
             SceneTransition.OnAnySceneTransitionEnded -= SceneTransition_OnAnySceneTransitionEnded;
             IconSO.OnAnyIconVisibilityChanged -= IconSO_OnAnyIconVisibilityChanged;
             ProgressIconSO.OnAnyDisplayIconProgressChanged -= ProgressIconSO_OnAnyDisplayIconProgressChanged;
+            ProgressIconSO.OnAnyDisplayIconProgressResumed -= ProgressIconSO_OnAnyDisplayIconProgressResumed;
+            ProgressIconSO.OnAnyDisplayIconProgressStopped -= ProgressIconSO_OnAnyDisplayIconProgressStopped;
         }
 
         private void Start()
@@ -98,9 +102,10 @@ namespace UI.Icon
                     {
                         ProgressIconUpdater progressIconUpdater = Instantiate(_progressIconUpdaterPrefab, _iconsHolder);
                         progressIconUpdater.Initialize(
-                            displayProgressIcon.ProgressIcon.BeforeProgressSprite,
+                            displayProgressIcon.ProgressIcon.InitialProgressSprite,
                             displayProgressIcon.ProgressIcon.InProgressSprite,
-                            displayProgressIcon.ProgressIcon.AfterProgressSprite
+                            displayProgressIcon.ProgressIcon.StoppedProgressSprite,
+                            displayProgressIcon.ProgressIcon.FinishedProgressSprite
                         );
 
                         _progressIconsDictionary.Add(displayProgressIcon.ID,
@@ -191,6 +196,22 @@ namespace UI.Icon
                 progressIconView.ProgressIconUpdater.UpdateProgress(progress);
             }
         }
+
+        private void SetResumedProgressIcon(Guid id)
+        {
+            if (_progressIconsDictionary.TryGetValue(id, out ProgressIconView progressIconView))
+            {
+                progressIconView.ProgressIconUpdater.SetResumedProgressIcon();
+            }
+        }
+        
+        private void SetStoppedProgressIcon(Guid id)
+        {
+            if (_progressIconsDictionary.TryGetValue(id, out ProgressIconView progressIconView))
+            {
+                progressIconView.ProgressIconUpdater.SetStoppedProgressIcon();
+            }
+        }
         
         private void SceneTransition_OnAnySceneTransitionStarted()
         {
@@ -210,6 +231,16 @@ namespace UI.Icon
         private void ProgressIconSO_OnAnyDisplayIconProgressChanged(Guid id, float progress)
         {
             UpdateProgressIcon(id, progress);
+        }
+        
+        private void ProgressIconSO_OnAnyDisplayIconProgressResumed(Guid id)
+        {
+            SetResumedProgressIcon(id);
+        }
+        
+        private void ProgressIconSO_OnAnyDisplayIconProgressStopped(Guid id)
+        {
+            SetStoppedProgressIcon(id);
         }
     }
 }

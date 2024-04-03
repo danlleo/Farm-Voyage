@@ -4,6 +4,6 @@ namespace Common
 {
     public interface IPlayerStopInteractable
     {
-        public void StopInteract(Player player);
+        public void PlayerStopInteract(Player player);
     }
 }

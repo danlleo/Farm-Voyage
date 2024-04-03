@@ -40,7 +40,8 @@ namespace Farm.Plants.ConcreteStates
                         _stateMachine.ChangeState(_plant.StateFactory.ReadyToHarvest());
                         return;
                     }
-                    
+
+                    _plant.PlantArea.ProgressIcon.StopProgress(_plant.PlantArea);
                     _stateMachine.ChangeState(_plant.StateFactory.Watering());
                 });
         }

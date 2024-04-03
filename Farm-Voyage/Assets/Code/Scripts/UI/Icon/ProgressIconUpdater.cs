@@ -19,9 +19,9 @@ namespace UI.Icon
         [Header("Settings")]
         [SerializeField, Range(0.1f, 1f)] private float _fillTimeInSeconds; 
         
-        private Sprite _beforeProgressSprite;
         private Sprite _inProgressSprite;
-        private Sprite _afterProgressSprite;
+        private Sprite _stoppedProgressSprite;
+        private Sprite _finishedProgressSprite;
 
         private void Awake()
         {
@@ -29,13 +29,13 @@ namespace UI.Icon
             ClearFillAmountProgress();
         }
 
-        public void Initialize(Sprite beforeProgressSprite, Sprite inProgressSprite, Sprite afterProgressSprite)
+        public void Initialize(Sprite initialProgressSprite, Sprite inProgressSprite, Sprite stoppedProgressSprite,
+            Sprite finishedProgressSprite)
         {
-            _beforeProgressSprite = beforeProgressSprite;
             _inProgressSprite = inProgressSprite;
-            _afterProgressSprite = afterProgressSprite;
-
-            _topIcon.sprite = beforeProgressSprite;
+            _stoppedProgressSprite = stoppedProgressSprite;
+            _finishedProgressSprite = finishedProgressSprite;
+            _topIcon.sprite = initialProgressSprite;
             _container.SetActive(false);
         }
 
@@ -53,8 +53,20 @@ namespace UI.Icon
                 if (_foreground.fillAmount < 1f) return;
 
                 _container.SetActive(false);
-                _topIcon.sprite = _afterProgressSprite;
+                _topIcon.sprite = _finishedProgressSprite;
             });
+        }
+
+        public void SetResumedProgressIcon()
+        {
+            _container.SetActive(true);
+            _topIcon.sprite = _inProgressSprite;
+        }
+        
+        public void SetStoppedProgressIcon()
+        {
+            _container.SetActive(false);
+            _topIcon.sprite = _stoppedProgressSprite;
         }
         
         private void ClearFillAmountProgress()
