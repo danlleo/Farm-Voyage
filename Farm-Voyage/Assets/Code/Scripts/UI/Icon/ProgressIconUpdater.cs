@@ -16,7 +16,8 @@ namespace UI.Icon
         [SerializeField, WithinParent] private GameObject _container;
         [SerializeField, WithinParent] private Image _foreground;
         [SerializeField, WithinParent] private Image _topIcon;
-        
+
+        private Sprite _initialProgressSprite;
         private Sprite _inProgressSprite;
         private Sprite _stoppedProgressSprite;
         private Sprite _finishedProgressSprite;
@@ -32,11 +33,17 @@ namespace UI.Icon
         public void Initialize(Sprite initialProgressSprite, Sprite inProgressSprite, Sprite stoppedProgressSprite,
             Sprite finishedProgressSprite)
         {
+            _initialProgressSprite = initialProgressSprite;
             _inProgressSprite = inProgressSprite;
             _stoppedProgressSprite = stoppedProgressSprite;
             _finishedProgressSprite = finishedProgressSprite;
             _topIcon.sprite = initialProgressSprite;
             _container.SetActive(false);
+        }
+
+        public void RefreshProgressIcon()
+        {
+            _topIcon.sprite = _initialProgressSprite;
         }
 
         public void UpdateProgress(float progress, float timeToFillInSeconds = 0f)
@@ -59,6 +66,12 @@ namespace UI.Icon
             CoroutineHandler.ClearAndStopCoroutine(this, ref _updateProgressBarRoutine);
             _container.SetActive(false);
             _topIcon.sprite = _stoppedProgressSprite;
+        }
+
+        public void SetFinishedProgressIcon()
+        {
+            _container.SetActive(false);
+            _topIcon.sprite = _finishedProgressSprite;
         }
         
         private void ClearFillAmountProgress()

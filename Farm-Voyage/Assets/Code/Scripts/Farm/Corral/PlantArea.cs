@@ -78,21 +78,8 @@ namespace Farm.Corral
         {
             _player.Locomotion.StartStickRotation(transform, 2.5f);
             
-            if (_dayEnded) return;
-            if (_delayBeforePlantingNewRoutine != null) return;
-            if (!TryAllowDigging(out Tool.Tool _)) return;
-            if (!_playerInventory.TryGetSelectedSeed(out Seed selectedSeed))
-            {
-                _selectedSeed = null;
-                return;
-            }
+            if (ConstrainDigging()) return;
 
-            _selectedSeed = selectedSeed;
-            
-            if (!_playerInventory.HasEnoughSeedQuantity(selectedSeed.SeedType,
-                    _seedsNeededToPlant))
-                return;
-            
             StartDigging();
         }
 
@@ -106,25 +93,25 @@ namespace Farm.Corral
             _boxCollider.Enable();
             _delayBeforePlantingNewRoutine ??= StartCoroutine(DelayBeforePlantingNewRoutine());
             OnAnyPlantHarvested?.Invoke(_plant);
+            ProgressIcon.RefreshProgress(this);
             _plant = null;
         }
 
-        private IEnumerator DiggingRoutine()
+        private bool ConstrainDigging()
         {
-            _player.Events.DiggingPlantAreaStateChangedEvent.Call(this, new PlayerDiggingPlantAreaEventArgs(true));
-            
-            yield return new WaitForSeconds(_timeToDigInSeconds);
-            
-            SpawnPlant();
-            
-            _playerInventory.RemoveSeedQuantity(_selectedSeed.SeedType, _seedsNeededToPlant);
-            _boxCollider.Disable();
-        }
+            if (_dayEnded) return true;
+            if (_delayBeforePlantingNewRoutine != null) return true;
+            if (!TryAllowDigging(out Tool.Tool _)) return true;
+            if (!_playerInventory.TryGetSelectedSeed(out Seed selectedSeed))
+            {
+                _selectedSeed = null;
+                return true;
+            }
 
-        private IEnumerator DelayBeforePlantingNewRoutine()
-        {
-            yield return new WaitForSeconds(_delayBeforePlantingNewTimeInSeconds);
-            CoroutineHandler.ClearAndStopCoroutine(this, ref _delayBeforePlantingNewRoutine);
+            _selectedSeed = selectedSeed;
+            
+            return !_playerInventory.HasEnoughSeedQuantity(selectedSeed.SeedType,
+                _seedsNeededToPlant);
         }
 
         private void StartDigging()
@@ -135,7 +122,8 @@ namespace Farm.Corral
         private void StopDigging()
         {
             CoroutineHandler.ClearAndStopCoroutine(this, ref _diggingRoutine);
-            _player.Events.DiggingPlantAreaStateChangedEvent.Call(this, new PlayerDiggingPlantAreaEventArgs(false));
+            _player.Events.DiggingPlantAreaStateChangedEvent.Call(this, 
+                new PlayerDiggingPlantAreaEventArgs(false));
         }
 
         private bool TryAllowDigging(out Tool.Tool playerTool)
@@ -164,6 +152,25 @@ namespace Farm.Corral
         private void Day_OnDayEnded()
         {
             _dayEnded = true;
+        }
+        
+        private IEnumerator DiggingRoutine()
+        {
+            _player.Events.DiggingPlantAreaStateChangedEvent.Call(this, 
+                new PlayerDiggingPlantAreaEventArgs(true));
+            
+            yield return new WaitForSeconds(_timeToDigInSeconds);
+            
+            SpawnPlant();
+            
+            _playerInventory.RemoveSeedQuantity(_selectedSeed.SeedType, _seedsNeededToPlant);
+            _boxCollider.Disable();
+        }
+
+        private IEnumerator DelayBeforePlantingNewRoutine()
+        {
+            yield return new WaitForSeconds(_delayBeforePlantingNewTimeInSeconds);
+            CoroutineHandler.ClearAndStopCoroutine(this, ref _delayBeforePlantingNewRoutine);
         }
     }
 }
