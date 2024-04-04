@@ -104,7 +104,7 @@ namespace Character.Player.Locomotion
                 Debug.LogWarning("Stick distance is below zero, please take a look.");
             }
 
-            CoroutineHandler.ReassignAndStart(this, ref _stickRotationRoutine,
+            CoroutineHandler.ReassignAndRestart(this, ref _stickRotationRoutine,
                 StickRotationRoutine(lookTransform, stickDistance, onOutOfZone));
         }
         

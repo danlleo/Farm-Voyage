@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections;
 using Attributes.WithinParent;
-using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
+using Utilities;
 
 namespace UI.Icon
 {
@@ -15,14 +16,13 @@ namespace UI.Icon
         [SerializeField, WithinParent] private GameObject _container;
         [SerializeField, WithinParent] private Image _foreground;
         [SerializeField, WithinParent] private Image _topIcon;
-
-        [Header("Settings")]
-        [SerializeField, Range(0.1f, 1f)] private float _fillTimeInSeconds; 
         
         private Sprite _inProgressSprite;
         private Sprite _stoppedProgressSprite;
         private Sprite _finishedProgressSprite;
 
+        private Coroutine _updateProgressBarRoutine;
+        
         private void Awake()
         {
             RectTransform = GetComponent<RectTransform>();
@@ -39,22 +39,13 @@ namespace UI.Icon
             _container.SetActive(false);
         }
 
-        public void UpdateProgress(float progress)
+        public void UpdateProgress(float progress, float timeToFillInSeconds = 0f)
         {
             if (progress < 0f)
                 throw new ArgumentException("Progress can't be less than zero");
 
-            _foreground.DOFillAmount(progress, _fillTimeInSeconds).OnStart(() =>
-            {
-                _container.SetActive(true);
-                _topIcon.sprite = _inProgressSprite;
-            }).OnComplete(() =>
-            {
-                if (_foreground.fillAmount < 1f) return;
-
-                _container.SetActive(false);
-                _topIcon.sprite = _finishedProgressSprite;
-            });
+            CoroutineHandler.StartAndAssignIfNull(this, ref _updateProgressBarRoutine,
+                UpdateProgressBarRoutine(progress, timeToFillInSeconds));
         }
 
         public void SetResumedProgressIcon()
@@ -65,6 +56,7 @@ namespace UI.Icon
         
         public void SetStoppedProgressIcon()
         {
+            CoroutineHandler.ClearAndStopCoroutine(this, ref _updateProgressBarRoutine);
             _container.SetActive(false);
             _topIcon.sprite = _stoppedProgressSprite;
         }
@@ -72,6 +64,30 @@ namespace UI.Icon
         private void ClearFillAmountProgress()
         {
             _foreground.fillAmount = 0f;
+        }
+
+        private IEnumerator UpdateProgressBarRoutine(float progress, float timeToFillInSeconds = 0f)
+        {
+            float timer = 0f;
+            float startProgress = _foreground.fillAmount;
+            
+            _container.SetActive(true);
+            _topIcon.sprite = _inProgressSprite;
+            
+            while (timer < timeToFillInSeconds)
+            {
+                float t = timer / timeToFillInSeconds;
+                timer += Time.deltaTime;
+
+                _foreground.fillAmount = Mathf.Lerp(startProgress, progress, t);
+                
+                yield return null;
+            }
+
+            if (_foreground.fillAmount < 1f) yield break;
+            
+            _container.SetActive(false);
+            _topIcon.sprite = _finishedProgressSprite;
         }
     }
 }

@@ -25,6 +25,7 @@ namespace UI.Icon
             ProgressIconSO.OnAnyDisplayIconProgressChanged += ProgressIconSO_OnAnyDisplayIconProgressChanged;
             ProgressIconSO.OnAnyDisplayIconProgressResumed += ProgressIconSO_OnAnyDisplayIconProgressResumed;
             ProgressIconSO.OnAnyDisplayIconProgressStopped += ProgressIconSO_OnAnyDisplayIconProgressStopped;
+            ProgressIconSO.OnAnyProgressIconVisibilityChanged += ProgressIconSO_OnAnyProgressIconVisibilityChanged;
         }
 
         private void OnDisable()
@@ -35,6 +36,7 @@ namespace UI.Icon
             ProgressIconSO.OnAnyDisplayIconProgressChanged -= ProgressIconSO_OnAnyDisplayIconProgressChanged;
             ProgressIconSO.OnAnyDisplayIconProgressResumed -= ProgressIconSO_OnAnyDisplayIconProgressResumed;
             ProgressIconSO.OnAnyDisplayIconProgressStopped -= ProgressIconSO_OnAnyDisplayIconProgressStopped;
+            ProgressIconSO.OnAnyProgressIconVisibilityChanged -= ProgressIconSO_OnAnyProgressIconVisibilityChanged;
         }
 
         private void Start()
@@ -189,11 +191,11 @@ namespace UI.Icon
             _iconsHolder.gameObject.SetActive(isActive);
         }
 
-        private void UpdateProgressIcon(Guid id, float progress)
+        private void UpdateProgressIcon(Guid id, float progress, float timeToFillInSeconds = 0f)
         {
             if (_progressIconsDictionary.TryGetValue(id, out ProgressIconView progressIconView))
             {
-                progressIconView.ProgressIconUpdater.UpdateProgress(progress);
+                progressIconView.ProgressIconUpdater.UpdateProgress(progress, timeToFillInSeconds);
             }
         }
 
@@ -213,6 +215,14 @@ namespace UI.Icon
             }
         }
         
+        private void ChangeProgressIconVisibility(Guid id, bool isActive)
+        {
+            if (_progressIconsDictionary.TryGetValue(id, out ProgressIconView progressIconView))
+            {
+                progressIconView.ProgressIconUpdater.gameObject.SetActive(isActive);
+            }
+        }
+        
         private void SceneTransition_OnAnySceneTransitionStarted()
         {
             ChangeIconsVisibility(false);
@@ -227,12 +237,12 @@ namespace UI.Icon
         {
             ChangeIconVisibility(id, isActive);
         }
-        
-        private void ProgressIconSO_OnAnyDisplayIconProgressChanged(Guid id, float progress)
+
+        private void ProgressIconSO_OnAnyDisplayIconProgressChanged(Guid id, float progress, float timeToFillInSeconds)
         {
-            UpdateProgressIcon(id, progress);
+            UpdateProgressIcon(id, progress, timeToFillInSeconds);
         }
-        
+
         private void ProgressIconSO_OnAnyDisplayIconProgressResumed(Guid id)
         {
             SetResumedProgressIcon(id);
@@ -241,6 +251,11 @@ namespace UI.Icon
         private void ProgressIconSO_OnAnyDisplayIconProgressStopped(Guid id)
         {
             SetStoppedProgressIcon(id);
+        }
+        
+        private void ProgressIconSO_OnAnyProgressIconVisibilityChanged(Guid id, bool isActive)
+        {
+            ChangeProgressIconVisibility(id, isActive);
         }
     }
 }

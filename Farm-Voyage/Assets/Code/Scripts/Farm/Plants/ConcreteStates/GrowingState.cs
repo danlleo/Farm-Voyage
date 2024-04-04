@@ -24,14 +24,14 @@ namespace Farm.Plants.ConcreteStates
         
         private void Grow()
         {
-            float endScale = GetGrowPartitionEndValue();
+            float endPartitionScale = GetGrowPartitionEndValue();
             
-            _plantVisual.DOScale(endScale, _plant.PlantPartitionGrowTimeInSecond)
-                .OnUpdate(() =>
+            _plantVisual.DOScale(endPartitionScale, _plant.PlantPartitionGrowTimeInSecond)
+                .OnStart(() =>
                 {
-                    float progress = (_plantVisual.localScale.z - _plant.InitialScale) /
-                                     (_plant.GrownScale - _plant.InitialScale);
-                    _plant.PlantArea.ProgressIcon.SetProgress(_plant.PlantArea, progress);
+                    float progress = endPartitionScale / _plant.GrownScale;
+                    _plant.PlantArea.ProgressIcon.SetProgress(_plant.PlantArea, progress,
+                        _plant.PlantPartitionGrowTimeInSecond);
                 })
                 .OnComplete(() =>
                 {

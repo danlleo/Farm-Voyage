@@ -1,5 +1,4 @@
-﻿using Character;
-using Character.Player;
+﻿using Character.Player;
 using Common;
 
 namespace Farm.Plants.ConcreteStates

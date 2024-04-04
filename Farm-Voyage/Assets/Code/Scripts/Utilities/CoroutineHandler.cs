@@ -23,13 +23,13 @@ namespace Utilities
             coroutine = null;
         }
 
-        public static void ReassignAndStart(MonoBehaviour owner, ref Coroutine coroutine, IEnumerator enumerator)
+        public static void ReassignAndRestart(MonoBehaviour owner, ref Coroutine coroutine, IEnumerator enumerator)
         {
             if (coroutine != null)
             {
                 owner.StopCoroutine(coroutine);
             }
-            
+
             coroutine = owner.StartCoroutine(enumerator);
         }
 

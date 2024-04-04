@@ -11,7 +11,7 @@ namespace UI.Icon
         [field:SerializeField] public RectTransform IconRectTransform { get; private set; }
         [field:SerializeField] public Vector3 Offset { get; private set; }
 
-        public void SetVisuals(IDisplayIcon icon, bool isActive)
+        public void SetVisibility(IDisplayIcon icon, bool isActive)
         {
             OnAnyIconVisibilityChanged?.Invoke(icon.ID, isActive);
         }
