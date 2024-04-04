@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using Attributes.WithinParent;
-using Character;
 using Character.Player;
 using Character.Player.Events;
 using Common;
@@ -205,7 +204,6 @@ namespace Farm.ResourceGatherer
             CleanUpResourceIfFullyGathered();
             AttemptToGatherCollectableIfDirt(gatheredResource);
         }
-        
         
         public class Factory : PlaceholderFactory<ResourcesGatherer> { }
     }

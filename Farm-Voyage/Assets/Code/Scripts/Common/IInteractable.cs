@@ -1,6 +1,4 @@
-﻿using Character;
-
-namespace Common
+﻿namespace Common
 {
     public interface IInteractable
     {

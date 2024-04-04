@@ -20,6 +20,7 @@ namespace UI
         [SerializeField, WithinParent] private WorkbenchUI _workbenchUI;
         [SerializeField, WithinParent] private WellUI _wellUI;
         [SerializeField, WithinParent] private SellerUI _sellerUI;
+        [SerializeField, WithinParent] private ActionProgressBarUI _actionProgressBarUI;
         
         private Player _player;
         private Market.Market _market;
@@ -43,6 +44,7 @@ namespace UI
             _workbenchUI.gameObject.SetActive(false);
             _wellUI.gameObject.SetActive(false);
             _sellerUI.gameObject.SetActive(false);
+            _actionProgressBarUI.gameObject.SetActive(false);
         }
 
         private void OnEnable()
