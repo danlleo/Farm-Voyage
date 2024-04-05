@@ -20,7 +20,8 @@ namespace Character.Player.Locomotion
         
         public void TryInteract()
         {
-            if (Physics.SphereCast(_raycastPoint.position, _sphereRadius, _raycastPoint.forward, out RaycastHit hit,
+            if (Physics.SphereCast(_raycastPoint.position, _sphereRadius, _raycastPoint.forward, 
+                    out RaycastHit hit,
                     _castDistance, _interactableLayerMask))
             {
                 if (!hit.collider.TryGetComponent(out IInteractable interactable)) return;
