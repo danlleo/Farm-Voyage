@@ -3,6 +3,7 @@ using Attributes.WithinParent;
 using Character.Player;
 using UnityEngine;
 using UnityEngine.UI;
+using Utilities;
 using Zenject;
 
 namespace UI
@@ -16,8 +17,13 @@ namespace UI
 
         [Header("Settings")]
         [SerializeField] private Vector2 _barOffset;
+        [SerializeField] private float _barFillDurationInSeconds = 0.75f;
         
         private Player _player;
+
+        private Coroutine _updateProgressRoutine;
+
+        private float _savedProgress;
         
         [Inject]
         private void Construct(Player player)
@@ -25,9 +31,32 @@ namespace UI
             _player = player;
         }
 
+        private void OnDisable()
+        {
+            StopProgress();
+        }
+
         private void Update()
         {
             PositionBarNearPlayer();
+        }
+
+        public void StartProgress(float currentProgress, float maxProgress)
+        {
+            if (_savedProgress == currentProgress)
+            {
+                return;
+            }
+
+            _savedProgress = currentProgress;
+            
+            CoroutineHandler.StartAndAssignIfNull(this, ref _updateProgressRoutine,
+                UpdateProgressRoutine(currentProgress, maxProgress));
+        }
+        
+        private void StopProgress()
+        {
+            CoroutineHandler.ClearAndStopCoroutine(this, ref _updateProgressRoutine);
         }
 
         private void PositionBarNearPlayer()
@@ -38,27 +67,17 @@ namespace UI
             _progressBarContainer.transform.position = screenPoint + _barOffset;
         }
         
-        private void StartProgress(float duration)
-        {
-            _progressBar.fillAmount = 0;
-            StartCoroutine(UpdateProgress(duration));
-        }
-
-        private void StopProgress()
-        {
-            StopAllCoroutines();
-            _progressBar.gameObject.SetActive(false);
-        }
-
-        private IEnumerator UpdateProgress(float duration)
+        private IEnumerator UpdateProgressRoutine(float currentProgress, float maxProgress)
         {
             float timePassed = 0;
-            while (timePassed < duration)
+            while (timePassed < _barFillDurationInSeconds)
             {
                 timePassed += Time.deltaTime;
-                _progressBar.fillAmount = timePassed / duration;
+                _progressBar.fillAmount = currentProgress / maxProgress;
                 yield return null;
             }
+            
+            StopProgress();
         }
     }
 }

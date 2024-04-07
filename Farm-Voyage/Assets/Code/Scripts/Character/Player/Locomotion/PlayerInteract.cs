@@ -1,4 +1,5 @@
-﻿using Attributes.WithinParent;
+﻿using System;
+using Attributes.WithinParent;
 using Common;
 using UnityEngine;
 
@@ -7,6 +8,9 @@ namespace Character.Player.Locomotion
     [DisallowMultipleComponent]
     public class PlayerInteract : MonoBehaviour
     {
+        public static event Action<float, float> OnAnyInteractDisplayProgressSpotted;
+        public static event Action OnAnyInteractDisplayProgressLost; 
+        
         [Header("External references")] 
         [SerializeField] private Player _player;
         [SerializeField] private LayerMask _interactableLayerMask;
@@ -28,13 +32,12 @@ namespace Character.Player.Locomotion
                 
                 IPlayerStopInteractable playerStopInteractable = _currentInteractable as IPlayerStopInteractable;
                 IStopInteractable stopInteractable = _currentInteractable as IStopInteractable;
+                IInteractDisplayProgress interactDisplayProgress = _currentInteractable as IInteractDisplayProgress;
                 
                 StopPlayerInteractable(interactable, playerStopInteractable);
                 StopInteractable(interactable, stopInteractable);
-            
-                // Start interacting with the new object
-                _currentInteractable = interactable;
-                _currentInteractable.Interact(_player);
+                SetNewAndInteract(interactable);
+                TrySpotInteractDisplayProgress(interactDisplayProgress);
             }
             else
             {
@@ -46,9 +49,31 @@ namespace Character.Player.Locomotion
 
                 IStopInteractable stopInteractable = _currentInteractable as IStopInteractable;
                 stopInteractable?.StopInteract();
+                
+                IInteractDisplayProgress interactDisplayProgress = _currentInteractable as IInteractDisplayProgress;
 
+                if (interactDisplayProgress != null)
+                {
+                    OnAnyInteractDisplayProgressLost?.Invoke();
+                }
+                
                 _currentInteractable = null;
             }
+        }
+
+        private static void TrySpotInteractDisplayProgress(IInteractDisplayProgress interactDisplayProgress)
+        {
+            if (interactDisplayProgress == null) return;
+            float currentClampedProgress = Mathf.Clamp(interactDisplayProgress.CurrentClampedProgress, 0f, 1f);
+            float maxClampedProgress = Mathf.Clamp(interactDisplayProgress.MaxClampedProgress, 0f, 1f);
+
+            OnAnyInteractDisplayProgressSpotted?.Invoke(currentClampedProgress, maxClampedProgress);
+        }
+
+        private void SetNewAndInteract(IInteractable interactable)
+        {
+            _currentInteractable = interactable;
+            _currentInteractable.Interact(_player);
         }
 
         private void StopInteractable(IInteractable interactable, IStopInteractable stopInteractable)

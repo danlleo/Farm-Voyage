@@ -2,6 +2,7 @@ using System;
 using Attributes.WithinParent;
 using Character.Player;
 using Character.Player.Events;
+using Character.Player.Locomotion;
 using Misc;
 using UI.EmmaShop;
 using UI.Seller;
@@ -50,6 +51,8 @@ namespace UI
         private void OnEnable()
         {
             SceneTransition.OnAnySceneTransitionEnded += SceneTransition_OnAnySceneTransitionEnded;
+            PlayerInteract.OnAnyInteractDisplayProgressSpotted += PlayerInteract_OnAnyInteractDisplayProgressSpotted;
+            PlayerInteract.OnAnyInteractDisplayProgressLost += PlayerInteract_OnAnyInteractDisplayProgressLost;
             _market.StartedShoppingEvent.OnStartedShopping += Market_OnStartedShopping;
             _workbench.StartedUsingWorkbenchEvent.OnStartedUsingWorkbench += Workbench_OnStartedUsingWorkbench;
             _emmaShopUI.OnClosed += EmmaShopUI_OnClosed;
@@ -60,6 +63,8 @@ namespace UI
         private void OnDisable()
         {
             SceneTransition.OnAnySceneTransitionEnded -= SceneTransition_OnAnySceneTransitionEnded;
+            PlayerInteract.OnAnyInteractDisplayProgressSpotted -= PlayerInteract_OnAnyInteractDisplayProgressSpotted;
+            PlayerInteract.OnAnyInteractDisplayProgressLost -= PlayerInteract_OnAnyInteractDisplayProgressLost;
             _market.StartedShoppingEvent.OnStartedShopping -= Market_OnStartedShopping;
             _workbench.StartedUsingWorkbenchEvent.OnStartedUsingWorkbench -= Workbench_OnStartedUsingWorkbench;
             _emmaShopUI.OnClosed -= EmmaShopUI_OnClosed;
@@ -70,6 +75,25 @@ namespace UI
         private void SceneTransition_OnAnySceneTransitionEnded()
         {
             _gameplayUI.gameObject.SetActive(true);
+        }
+
+        private void PlayerInteract_OnAnyInteractDisplayProgressSpotted(float currentClampedProgress,
+            float maxClampedProgress)
+        {
+            if (!_actionProgressBarUI.gameObject.activeSelf)
+            {
+                _actionProgressBarUI.gameObject.SetActive(true);
+            }
+
+            _actionProgressBarUI.StartProgress(currentClampedProgress, maxClampedProgress);
+        }
+
+        private void PlayerInteract_OnAnyInteractDisplayProgressLost()
+        {
+            if (!_actionProgressBarUI.gameObject.activeSelf)
+                return;
+            
+            _actionProgressBarUI.gameObject.SetActive(false);
         }
         
         private void Market_OnStartedShopping(object sender, EventArgs e)
