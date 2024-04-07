@@ -1,6 +1,7 @@
 ﻿using System;
 using Attributes.WithinParent;
 using Common;
+using Misc;
 using UnityEngine;
 
 namespace Character.Player.Locomotion
@@ -8,7 +9,7 @@ namespace Character.Player.Locomotion
     [DisallowMultipleComponent]
     public class PlayerInteract : MonoBehaviour
     {
-        public static event Action<float, float> OnAnyInteractDisplayProgressSpotted;
+        public static event Action<Observable<float>, float> OnAnyInteractDisplayProgressSpotted;
         public static event Action OnAnyInteractDisplayProgressLost; 
         
         [Header("External references")] 
@@ -64,10 +65,11 @@ namespace Character.Player.Locomotion
         private static void TrySpotInteractDisplayProgress(IInteractDisplayProgress interactDisplayProgress)
         {
             if (interactDisplayProgress == null) return;
-            float currentClampedProgress = Mathf.Clamp(interactDisplayProgress.CurrentClampedProgress, 0f, 1f);
+            
             float maxClampedProgress = Mathf.Clamp(interactDisplayProgress.MaxClampedProgress, 0f, 1f);
 
-            OnAnyInteractDisplayProgressSpotted?.Invoke(currentClampedProgress, maxClampedProgress);
+            OnAnyInteractDisplayProgressSpotted?.Invoke(interactDisplayProgress.CurrentClampedProgress,
+                maxClampedProgress);
         }
 
         private void SetNewAndInteract(IInteractable interactable)

@@ -5,6 +5,7 @@ using Character.Player;
 using Character.Player.Events;
 using Common;
 using Farm.FarmResources;
+using Misc;
 using UI.Icon;
 using UnityEngine;
 using Utilities;
@@ -20,8 +21,10 @@ namespace Farm.ResourceGatherer
     [RequireComponent(typeof(GatheringStateChangedEvent))]
     [RequireComponent(typeof(ResourcesGathererInitializeEvent))]
     [DisallowMultipleComponent]
-    public class ResourcesGatherer : MonoBehaviour, IInteractable, IStopInteractable, IDisplayIcon
+    public class ResourcesGatherer : MonoBehaviour, IInteractable, IStopInteractable, IDisplayIcon, IInteractDisplayProgress
     {
+        public Observable<float> CurrentClampedProgress { get; private set; } = new();
+        public float MaxClampedProgress { get; private set; }
         [field:SerializeField] public IconSO Icon { get; private set; }
         public Guid ID { get; } = Guid.NewGuid();
 
@@ -68,6 +71,7 @@ namespace Farm.ResourceGatherer
         public void Initialize(ResourceSO resourceSO, Vector3 position, Quaternion rotation)
         {
             _resourceSO = resourceSO;
+            MaxClampedProgress = 1f;
             transform.SetPositionAndRotation(position, rotation);
             GameObject visualGameObject = Instantiate(resourceSO.VisualObject, _visualSpawnPoint, false);
             SetCanGatherIfPlayerHasRequiredTool();
@@ -125,7 +129,7 @@ namespace Farm.ResourceGatherer
             return true;
         }
         
-        private void IncreaseTimeInteracted()
+        private void IncreaseTimesInteracted()
         {
             _timesInteracted++;
         }
@@ -195,16 +199,22 @@ namespace Farm.ResourceGatherer
             }
         }
         
+        private void UpdateProgressBar()
+        {
+            CurrentClampedProgress.Value = (float)_timesInteracted / _resourceSO.InteractAmountToDestroy;
+        }
+
         private void Gather(GatheredResource gatheredResource)
         {
             StopGathering();
-            IncreaseTimeInteracted();
+            IncreaseTimesInteracted();
             TryAddResourceToInventory(gatheredResource);
             TriggerGatheredResourceEvent(gatheredResource);
+            UpdateProgressBar();
             CleanUpResourceIfFullyGathered();
             AttemptToGatherCollectableIfDirt(gatheredResource);
         }
-        
+
         public class Factory : PlaceholderFactory<ResourcesGatherer> { }
     }
 }

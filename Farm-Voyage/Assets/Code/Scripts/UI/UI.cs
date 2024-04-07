@@ -77,14 +77,12 @@ namespace UI
             _gameplayUI.gameObject.SetActive(true);
         }
 
-        private void PlayerInteract_OnAnyInteractDisplayProgressSpotted(float currentClampedProgress,
+        private void PlayerInteract_OnAnyInteractDisplayProgressSpotted(Observable<float> currentClampedProgress,
             float maxClampedProgress)
         {
-            if (!_actionProgressBarUI.gameObject.activeSelf)
-            {
-                _actionProgressBarUI.gameObject.SetActive(true);
-            }
+            if (_actionProgressBarUI.gameObject.activeSelf) return;
 
+            _actionProgressBarUI.gameObject.SetActive(true);
             _actionProgressBarUI.StartProgress(currentClampedProgress, maxClampedProgress);
         }
 

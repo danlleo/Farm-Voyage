@@ -1,6 +1,7 @@
 using System.Collections;
 using Attributes.WithinParent;
 using Character.Player;
+using Misc;
 using UnityEngine;
 using UnityEngine.UI;
 using Utilities;
@@ -23,7 +24,9 @@ namespace UI
 
         private Coroutine _updateProgressRoutine;
 
-        private float _savedProgress;
+        private Observable<float> _currentProgress;
+
+        private float _maxProgress;
         
         [Inject]
         private void Construct(Player player)
@@ -34,6 +37,8 @@ namespace UI
         private void OnDisable()
         {
             StopProgress();
+
+            _currentProgress.OnValueChanged -= CurrentProgress_OnValueChanged;
         }
 
         private void Update()
@@ -41,24 +46,26 @@ namespace UI
             PositionBarNearPlayer();
         }
 
-        public void StartProgress(float currentProgress, float maxProgress)
+        public void StartProgress(Observable<float> currentProgress, float maxProgress)
         {
-            if (_savedProgress == currentProgress)
-            {
-                return;
-            }
+            _maxProgress = maxProgress;
+            _currentProgress = currentProgress;
+            _currentProgress.OnValueChanged += CurrentProgress_OnValueChanged;
 
-            _savedProgress = currentProgress;
-            
-            CoroutineHandler.StartAndAssignIfNull(this, ref _updateProgressRoutine,
-                UpdateProgressRoutine(currentProgress, maxProgress));
+            UpdateProgress(currentProgress, maxProgress);
         }
-        
+
+        private void UpdateProgress(Observable<float> currentProgress, float maxProgress)
+        {
+            CoroutineHandler.StartAndAssignIfNull(this, ref _updateProgressRoutine,
+                UpdateProgressRoutine(currentProgress.Value, maxProgress));
+        }
+
         private void StopProgress()
         {
             CoroutineHandler.ClearAndStopCoroutine(this, ref _updateProgressRoutine);
         }
-
+        
         private void PositionBarNearPlayer()
         {
             if (_player.transform == null) return;
@@ -69,15 +76,29 @@ namespace UI
         
         private IEnumerator UpdateProgressRoutine(float currentProgress, float maxProgress)
         {
-            float timePassed = 0;
-            while (timePassed < _barFillDurationInSeconds)
+            float startFillAmount = _progressBar.fillAmount;
+            float endFillAmount = currentProgress / maxProgress;
+
+            float timer = 0;
+            while (timer < _barFillDurationInSeconds)
             {
-                timePassed += Time.deltaTime;
-                _progressBar.fillAmount = currentProgress / maxProgress;
+                timer += Time.deltaTime;
+                float t = timer / _barFillDurationInSeconds;
+        
+                _progressBar.fillAmount = Mathf.Lerp(startFillAmount, endFillAmount, t);
+
                 yield return null;
             }
-            
+
+            _progressBar.fillAmount = endFillAmount;
+
             StopProgress();
+        }
+        
+        private void CurrentProgress_OnValueChanged(float currentProgress)
+        {
+            CoroutineHandler.ReassignAndRestart(this, ref _updateProgressRoutine,
+                UpdateProgressRoutine(currentProgress, _maxProgress));
         }
     }
 }
