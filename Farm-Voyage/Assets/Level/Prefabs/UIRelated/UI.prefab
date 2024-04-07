@@ -6225,7 +6225,7 @@ MonoBehaviour:
   _progressBarContainer: {fileID: 4198656470723139052}
   _progressBar: {fileID: 5677418524194265832}
   _barOffset: {x: 0, y: -25}
-  _barFillDurationInSeconds: 0.75
+  _barFillDurationInSeconds: 0.1
 --- !u!1 &7251274203978316067
 GameObject:
   m_ObjectHideFlags: 0

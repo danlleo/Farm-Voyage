@@ -6,6 +6,7 @@ using Common;
 using Farm.Plants;
 using Farm.Plants.Seeds;
 using Farm.Tool.ConcreteTools;
+using Misc;
 using UI.Icon;
 using UnityEngine;
 using Utilities;
@@ -15,13 +16,15 @@ namespace Farm.Corral
 {
     [RequireComponent(typeof(BoxCollider))]
     [DisallowMultipleComponent]
-    public sealed class PlantArea : MonoBehaviour, IInteractable, IStopInteractable, IDisplayProgressIcon
+    public sealed class PlantArea : MonoBehaviour, IInteractable, IStopInteractable, IDisplayProgressIcon, IInteractDisplayProgress
     {
         public static event Action<Plant> OnAnyPlantPlanted;
         public static event Action<Plant> OnAnyPlantHarvested;
         
         [field:SerializeField] public ProgressIconSO ProgressIcon { get; private set; }
         public Guid ID { get; } = Guid.NewGuid();
+        public float MaxClampedProgress => 1f;
+        public Observable<float> CurrentClampedProgress { get; } = new();
 
         [Header("Settings")] 
         [SerializeField, Range(1, 2)] private int _seedsNeededToPlant = 1;
@@ -148,29 +151,38 @@ namespace Farm.Corral
             OnAnyPlantPlanted?.Invoke(plant);
             _plant = plant;
         }
-
-        private void Day_OnDayEnded()
-        {
-            _dayEnded = true;
-        }
         
         private IEnumerator DiggingRoutine()
         {
             _player.Events.DiggingPlantAreaStateChangedEvent.Call(this, 
                 new PlayerDiggingPlantAreaEventArgs(true));
-            
-            yield return new WaitForSeconds(_timeToDigInSeconds);
+
+            float timer = 0f;
+
+            while (timer <= _timeToDigInSeconds)
+            {
+                timer += Time.deltaTime;
+                CurrentClampedProgress.Value = timer / _timeToDigInSeconds;
+                yield return null;
+            }
             
             SpawnPlant();
             
             _playerInventory.RemoveSeedQuantity(_selectedSeed.SeedType, _seedsNeededToPlant);
             _boxCollider.Disable();
+
+            CurrentClampedProgress.Value = 0f;
         }
 
         private IEnumerator DelayBeforePlantingNewRoutine()
         {
             yield return new WaitForSeconds(_delayBeforePlantingNewTimeInSeconds);
             CoroutineHandler.ClearAndStopCoroutine(this, ref _delayBeforePlantingNewRoutine);
+        }
+        
+        private void Day_OnDayEnded()
+        {
+            _dayEnded = true;
         }
     }
 }

@@ -55,6 +55,7 @@ namespace Farm.Plants
             }
             
             _wateringTimeElapsed += Time.deltaTime;
+            _plant.CurrentClampedProgress.Value = _wateringTimeElapsed / TimeToWaterInSeconds;
         }
     }
 }

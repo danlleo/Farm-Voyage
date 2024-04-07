@@ -23,7 +23,7 @@ namespace Farm.ResourceGatherer
     [DisallowMultipleComponent]
     public class ResourcesGatherer : MonoBehaviour, IInteractable, IStopInteractable, IDisplayIcon, IInteractDisplayProgress
     {
-        public Observable<float> CurrentClampedProgress { get; private set; } = new();
+        public Observable<float> CurrentClampedProgress { get; } = new();
         public float MaxClampedProgress { get; private set; }
         [field:SerializeField] public IconSO Icon { get; private set; }
         public Guid ID { get; } = Guid.NewGuid();
@@ -104,12 +104,18 @@ namespace Farm.ResourceGatherer
         {
             float delayTime = _playerTool.CalculateReducedGatherTime();
             float gatherTime = _playerTool.CalculateReducedGatherTime();
-
+            float timer = 0f;
+            
             _gatheringStateChangedEvent.Call(this, new GatheringStateChangedEventArgs(true));
             _player.Events.GatheringEvent.Call(this,
                 new PlayerGatheringEventArgs(true, false, _resourceSO.ResourceToGather, transform, gatherTime));
-            
-            yield return new WaitForSeconds(delayTime);
+
+            while (timer <= delayTime)
+            {
+                timer += Time.deltaTime;
+                CurrentClampedProgress.Value = timer / delayTime;
+                yield return null;
+            }
             
             Gather(gatheredResource);
         }
@@ -198,11 +204,6 @@ namespace Farm.ResourceGatherer
                 _player.Events.FoundCollectableEvent.Call(this);
             }
         }
-        
-        private void UpdateProgressBar()
-        {
-            CurrentClampedProgress.Value = (float)_timesInteracted / _resourceSO.InteractAmountToDestroy;
-        }
 
         private void Gather(GatheredResource gatheredResource)
         {
@@ -210,7 +211,6 @@ namespace Farm.ResourceGatherer
             IncreaseTimesInteracted();
             TryAddResourceToInventory(gatheredResource);
             TriggerGatheredResourceEvent(gatheredResource);
-            UpdateProgressBar();
             CleanUpResourceIfFullyGathered();
             AttemptToGatherCollectableIfDirt(gatheredResource);
         }

@@ -2,7 +2,7 @@
 {
     public class CornPlant : Plant
     {
-        public override PlantType Type { get; protected set; } = PlantType.Corn;
+        public override PlantType Type { get; } = PlantType.Corn;
         
         public override void OnHarvested()
         {

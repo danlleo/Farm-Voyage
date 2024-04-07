@@ -2,6 +2,7 @@ using Attributes.WithinParent;
 using Character.Player;
 using Common;
 using Farm.Corral;
+using Misc;
 using UnityEngine;
 
 namespace Farm.Plants
@@ -9,9 +10,12 @@ namespace Farm.Plants
     [RequireComponent(typeof(PlantFinishedWateringEvent))]
     [RequireComponent(typeof(BoxCollider))]
     [DisallowMultipleComponent]
-    public abstract class Plant : MonoBehaviour, IInteractable, IPlayerStopInteractable
+    public abstract class Plant : MonoBehaviour, IInteractable, IPlayerStopInteractable, IInteractDisplayProgress
     {
-        public abstract PlantType Type { get; protected set; }
+        public float MaxClampedProgress => 1f;
+        public Observable<float> CurrentClampedProgress { get; } = new();
+        
+        public abstract PlantType Type { get; }
         
         public PlantFinishedWateringEvent PlantFinishedWateringEvent { get; private set; }
         
