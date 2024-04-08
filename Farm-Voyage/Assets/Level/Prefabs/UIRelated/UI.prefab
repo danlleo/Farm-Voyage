@@ -2344,6 +2344,10 @@ MonoBehaviour:
   _seedChooseUIItemPumpkin: {fileID: 507218830220376456}
   _seedChooseUIItemTurnip: {fileID: 5144673066810593362}
   _seedChooseUIItemCorn: {fileID: 6852364463336320958}
+  _selectSeedAudioClip: {fileID: 8300000, guid: 892e65f656e754113ab32a4dba829fc1,
+    type: 3}
+  _deselectSeedAudioClip: {fileID: 8300000, guid: 59df7e9887af34decad8cc0b223e913d,
+    type: 3}
 --- !u!1 &2840356604765301614
 GameObject:
   m_ObjectHideFlags: 0
@@ -4618,6 +4622,8 @@ MonoBehaviour:
   - {fileID: 507218830220376456}
   - {fileID: 5144673066810593362}
   - {fileID: 6852364463336320958}
+  _timeToWorkPopupMessageAudioClip: {fileID: 8300000, guid: 602d537af181e4ce9ac704db5a92e6a7,
+    type: 3}
   _lerpQuantityTimeInSeconds: 0.25
   _timeToFillWaterCanBarInSeconds: 0.2
 --- !u!1 &5044915876201914633

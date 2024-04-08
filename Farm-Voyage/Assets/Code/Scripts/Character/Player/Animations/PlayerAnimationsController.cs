@@ -12,6 +12,7 @@ namespace Character.Player.Animations
     {
         [Header("External references")]
         [SerializeField] private ParticleSystem _walkingEffectParticleSystem;
+        [SerializeField] private AudioClip[] _stepsAudioClips;
         [SerializeField, WithinParent] private Player _player;
         
         private Animator _animator;

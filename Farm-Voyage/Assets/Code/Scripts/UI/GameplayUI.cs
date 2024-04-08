@@ -6,6 +6,7 @@ using Character.Player;
 using DG.Tweening;
 using Farm.FarmResources;
 using Farm.Tool.ConcreteTools;
+using Sound;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,6 +32,9 @@ namespace UI
 
         [Space(10)] 
         [SerializeField, WithinParent] private List<SeedChooseUIItem> _seedChooseItemsList;
+
+        [Space(10)]
+        [SerializeField] private AudioClip _timeToWorkPopupMessageAudioClip;
         
         [Header("Settings")]
         [SerializeField, Range(0.1f, 1f)] private float _lerpQuantityTimeInSeconds;
@@ -106,6 +110,8 @@ namespace UI
         
         private void AnimateTimeToWorkText()
         {
+            SoundFXManager.Instance.PlaySoundFXClip(_timeToWorkPopupMessageAudioClip, transform, 0.1f);
+            
             _timeToWorkCanvasGroup.alpha = 0f;
             
             Sequence sequence = DOTween.Sequence();

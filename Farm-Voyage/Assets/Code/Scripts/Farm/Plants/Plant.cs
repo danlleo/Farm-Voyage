@@ -3,6 +3,7 @@ using Character.Player;
 using Common;
 using Farm.Corral;
 using Misc;
+using Sound;
 using UnityEngine;
 
 namespace Farm.Plants
@@ -39,6 +40,10 @@ namespace Farm.Plants
         public float GrownScale { get; private set; }
 
         [field: SerializeField, Range(1, 5)] public int Partitions { get; private set; } = 2;
+        
+        [field: SerializeField] public AudioClip[] WateringAudioClips { get; private set; }
+
+        [SerializeField] private AudioClip[] _harvestedPlantAudioClips;
         
         private StateMachine _stateMachine;
 
@@ -88,6 +93,9 @@ namespace Farm.Plants
             _stateMachine.CurrentState.OnPlayerStoppedInteracting(player);
         }
 
-        public abstract void OnHarvested();
+        public void OnHarvested()
+        {
+            SoundFXManager.Instance.PlayRandomSoundFXClip(_harvestedPlantAudioClips, transform, .3f);
+        }
     }
 }

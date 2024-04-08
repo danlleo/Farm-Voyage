@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 423962022302921941}
   - component: {fileID: 7593027203982563738}
   - component: {fileID: 4291297967123755771}
+  - component: {fileID: 8069985407661476292}
   m_Layer: 7
   m_Name: PumpkinPlant
   m_TagString: Untagged
@@ -73,6 +74,29 @@ MonoBehaviour:
   <InitialScale>k__BackingField: 0.5
   <GrownScale>k__BackingField: 2
   <Partitions>k__BackingField: 2
+  <WateringAudioClips>k__BackingField:
+  - {fileID: 8300000, guid: e731aae28d7ef49e1a76eca2a3c62500, type: 3}
+  - {fileID: 8300000, guid: 149e54ef03a044fd298678161ed486d6, type: 3}
+  - {fileID: 8300000, guid: 5e080bf6ce78942d985df7c7d9e100b7, type: 3}
+  - {fileID: 8300000, guid: 62475a76d24e24af1b94ed70f440e254, type: 3}
+  - {fileID: 8300000, guid: 84999cea1a5eb495ebe59d816939217d, type: 3}
+  - {fileID: 8300000, guid: 92da6cf56742a4d44b117e647a173ee1, type: 3}
+  _harvestedPlantAudioClips:
+  - {fileID: 8300000, guid: 01d0a3486283f403981eab77081251eb, type: 3}
+  - {fileID: 8300000, guid: 6af9693bdc5b046ffaad0c1866e7690b, type: 3}
+  - {fileID: 8300000, guid: 2c5e6aa2b82fd4758855918792d9f9b2, type: 3}
+--- !u!114 &8069985407661476292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2907371779770199335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a45e2f70ac54e1790d1a105e8aad525, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6691265212943526538
 GameObject:
   m_ObjectHideFlags: 0

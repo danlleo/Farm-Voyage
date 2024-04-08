@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4358585256656530192}
   - component: {fileID: 8823121141698548445}
   - component: {fileID: 3456810768471485712}
+  - component: {fileID: 3694081021904889263}
   m_Layer: 7
   m_Name: CarrotPlant
   m_TagString: Untagged
@@ -73,6 +74,29 @@ MonoBehaviour:
   <InitialScale>k__BackingField: 0.3
   <GrownScale>k__BackingField: 1
   <Partitions>k__BackingField: 3
+  <WateringAudioClips>k__BackingField:
+  - {fileID: 8300000, guid: e731aae28d7ef49e1a76eca2a3c62500, type: 3}
+  - {fileID: 8300000, guid: 149e54ef03a044fd298678161ed486d6, type: 3}
+  - {fileID: 8300000, guid: 5e080bf6ce78942d985df7c7d9e100b7, type: 3}
+  - {fileID: 8300000, guid: 62475a76d24e24af1b94ed70f440e254, type: 3}
+  - {fileID: 8300000, guid: 84999cea1a5eb495ebe59d816939217d, type: 3}
+  - {fileID: 8300000, guid: 92da6cf56742a4d44b117e647a173ee1, type: 3}
+  _harvestedPlantAudioClips:
+  - {fileID: 8300000, guid: 9252e8fa39c35424aadec395c7fb01e6, type: 3}
+  - {fileID: 8300000, guid: 8fa2049eeb1c54f3789c757d43a98731, type: 3}
+  - {fileID: 8300000, guid: 881ec96694f1a456094b9a2da21ea901, type: 3}
+--- !u!114 &3694081021904889263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2183058045709102054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a45e2f70ac54e1790d1a105e8aad525, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6650623973110631082
 GameObject:
   m_ObjectHideFlags: 0

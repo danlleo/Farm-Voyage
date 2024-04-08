@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Attributes.WithinParent;
 using InputManagers;
+using Sound;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
@@ -18,7 +19,11 @@ namespace UI
         [SerializeField, WithinParent] private SeedChooseUIItem _seedChooseUIItemPumpkin;
         [SerializeField, WithinParent] private SeedChooseUIItem _seedChooseUIItemTurnip;
         [SerializeField, WithinParent] private SeedChooseUIItem _seedChooseUIItemCorn;
-
+        
+        [Space(10)] 
+        [SerializeField] private AudioClip _selectSeedAudioClip;
+        [SerializeField] private AudioClip _deselectSeedAudioClip;
+        
         private Dictionary<SeedChooseUIItem, bool> _keyToSeedItemMap;
 
         private void Awake()
@@ -72,10 +77,12 @@ namespace UI
             
             if (!isSelected)
             {
+                SoundFXManager.Instance.PlaySoundFXClip(_selectSeedAudioClip, transform, 0.1f);
                 seedChooseUIItem.Select();
                 return;
             }
-
+            
+            SoundFXManager.Instance.PlaySoundFXClip(_deselectSeedAudioClip, transform, 0.1f);
             seedChooseUIItem.Deselect();
         }
         

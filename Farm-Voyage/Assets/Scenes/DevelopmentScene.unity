@@ -1727,6 +1727,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ProgressIcon>k__BackingField: {fileID: 11400000, guid: 5593cbd86e91fda4d93116e48102b026,
     type: 2}
+  _plantSpawnAudioClips:
+  - {fileID: 8300000, guid: 0c59df9e117914d429b7532f2c5f94ed, type: 3}
+  - {fileID: 8300000, guid: df7d25978f9d0497faa8befca7e29c19, type: 3}
+  - {fileID: 8300000, guid: 9c2432bcb82574b0db5232c2d52b3a32, type: 3}
   _seedsNeededToPlant: 1
   _timeToDigInSeconds: 2
   _delayBeforePlantingNewTimeInSeconds: 1
@@ -3108,6 +3112,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ProgressIcon>k__BackingField: {fileID: 11400000, guid: 5593cbd86e91fda4d93116e48102b026,
     type: 2}
+  _plantSpawnAudioClips:
+  - {fileID: 8300000, guid: 0c59df9e117914d429b7532f2c5f94ed, type: 3}
+  - {fileID: 8300000, guid: df7d25978f9d0497faa8befca7e29c19, type: 3}
+  - {fileID: 8300000, guid: 9c2432bcb82574b0db5232c2d52b3a32, type: 3}
   _seedsNeededToPlant: 1
   _timeToDigInSeconds: 0.35
   _delayBeforePlantingNewTimeInSeconds: 1
@@ -3199,6 +3207,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _doorTransform: {fileID: 31481219328355139}
+  _doorOpenAudioClip: {fileID: 8300000, guid: c2c4a513fd79f744c97ad4368d0795fb, type: 3}
+  _doorCloseAudioClip: {fileID: 8300000, guid: f5b782b02bcbf7a44bfebdac11408bd6, type: 3}
 --- !u!4 &292196005 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1576488453971394810, guid: a778b631c6253a04899cb31bad047c81,
@@ -3925,6 +3935,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ProgressIcon>k__BackingField: {fileID: 11400000, guid: 5593cbd86e91fda4d93116e48102b026,
     type: 2}
+  _plantSpawnAudioClips:
+  - {fileID: 8300000, guid: 0c59df9e117914d429b7532f2c5f94ed, type: 3}
+  - {fileID: 8300000, guid: df7d25978f9d0497faa8befca7e29c19, type: 3}
+  - {fileID: 8300000, guid: 9c2432bcb82574b0db5232c2d52b3a32, type: 3}
   _seedsNeededToPlant: 1
   _timeToDigInSeconds: 0.35
   _delayBeforePlantingNewTimeInSeconds: 1
@@ -4441,6 +4455,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ProgressIcon>k__BackingField: {fileID: 11400000, guid: 5593cbd86e91fda4d93116e48102b026,
     type: 2}
+  _plantSpawnAudioClips:
+  - {fileID: 8300000, guid: 0c59df9e117914d429b7532f2c5f94ed, type: 3}
+  - {fileID: 8300000, guid: df7d25978f9d0497faa8befca7e29c19, type: 3}
+  - {fileID: 8300000, guid: 9c2432bcb82574b0db5232c2d52b3a32, type: 3}
   _seedsNeededToPlant: 1
   _timeToDigInSeconds: 0.35
   _delayBeforePlantingNewTimeInSeconds: 1
@@ -4875,6 +4893,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ProgressIcon>k__BackingField: {fileID: 11400000, guid: 5593cbd86e91fda4d93116e48102b026,
     type: 2}
+  _plantSpawnAudioClips:
+  - {fileID: 8300000, guid: 0c59df9e117914d429b7532f2c5f94ed, type: 3}
+  - {fileID: 8300000, guid: df7d25978f9d0497faa8befca7e29c19, type: 3}
+  - {fileID: 8300000, guid: 9c2432bcb82574b0db5232c2d52b3a32, type: 3}
   _seedsNeededToPlant: 1
   _timeToDigInSeconds: 0.35
   _delayBeforePlantingNewTimeInSeconds: 1
@@ -6565,6 +6587,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ProgressIcon>k__BackingField: {fileID: 11400000, guid: 5593cbd86e91fda4d93116e48102b026,
     type: 2}
+  _plantSpawnAudioClips:
+  - {fileID: 8300000, guid: 0c59df9e117914d429b7532f2c5f94ed, type: 3}
+  - {fileID: 8300000, guid: df7d25978f9d0497faa8befca7e29c19, type: 3}
+  - {fileID: 8300000, guid: 9c2432bcb82574b0db5232c2d52b3a32, type: 3}
   _seedsNeededToPlant: 1
   _timeToDigInSeconds: 0.35
   _delayBeforePlantingNewTimeInSeconds: 1
@@ -8958,6 +8984,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ProgressIcon>k__BackingField: {fileID: 11400000, guid: 5593cbd86e91fda4d93116e48102b026,
     type: 2}
+  _plantSpawnAudioClips:
+  - {fileID: 8300000, guid: 0c59df9e117914d429b7532f2c5f94ed, type: 3}
+  - {fileID: 8300000, guid: df7d25978f9d0497faa8befca7e29c19, type: 3}
+  - {fileID: 8300000, guid: 9c2432bcb82574b0db5232c2d52b3a32, type: 3}
   _seedsNeededToPlant: 1
   _timeToDigInSeconds: 0.35
   _delayBeforePlantingNewTimeInSeconds: 1
@@ -10057,6 +10087,7 @@ Transform:
   - {fileID: 1936046959}
   - {fileID: 657849805}
   - {fileID: 1977771489}
+  - {fileID: 1955779455}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1151546792
@@ -10090,6 +10121,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1942516716}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1173989023
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1173989024}
+  - component: {fileID: 1173989025}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1173989024
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1173989023}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1173989025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1173989023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7595082f86644bb1b9c2b4e15fc0ebce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _soundFXObject: {fileID: 3227544097738360062, guid: 8f5abd6b084d45d49920fd6714715fda,
+    type: 3}
 --- !u!1 &1183084154
 GameObject:
   m_ObjectHideFlags: 0
@@ -11943,6 +12020,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ProgressIcon>k__BackingField: {fileID: 11400000, guid: 5593cbd86e91fda4d93116e48102b026,
     type: 2}
+  _plantSpawnAudioClips:
+  - {fileID: 8300000, guid: 0c59df9e117914d429b7532f2c5f94ed, type: 3}
+  - {fileID: 8300000, guid: df7d25978f9d0497faa8befca7e29c19, type: 3}
+  - {fileID: 8300000, guid: 9c2432bcb82574b0db5232c2d52b3a32, type: 3}
   _seedsNeededToPlant: 1
   _timeToDigInSeconds: 0.35
   _delayBeforePlantingNewTimeInSeconds: 1
@@ -13939,6 +14020,51 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 318349290}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1717503041
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1717503042}
+  - component: {fileID: 1717503043}
+  m_Layer: 0
+  m_Name: SoundMixerManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1717503042
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1717503041}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1717503043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1717503041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cd08f80ab173fe44834f4d346f68e02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioMixer: {fileID: 24100000, guid: 5d74e8040c633b447af38de6567f0dc0, type: 2}
 --- !u!4 &1722052567 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4680757731159730826, guid: 0fde05fa0f3321942a21896ff4f0856f,
@@ -16023,6 +16149,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ProgressIcon>k__BackingField: {fileID: 11400000, guid: 5593cbd86e91fda4d93116e48102b026,
     type: 2}
+  _plantSpawnAudioClips:
+  - {fileID: 8300000, guid: 0c59df9e117914d429b7532f2c5f94ed, type: 3}
+  - {fileID: 8300000, guid: df7d25978f9d0497faa8befca7e29c19, type: 3}
+  - {fileID: 8300000, guid: 9c2432bcb82574b0db5232c2d52b3a32, type: 3}
   _seedsNeededToPlant: 1
   _timeToDigInSeconds: 0.35
   _delayBeforePlantingNewTimeInSeconds: 1
@@ -16287,7 +16417,7 @@ Transform:
   - {fileID: 2121281215}
   - {fileID: 272431384}
   - {fileID: 960068403}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1127503961}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!65 &1955779456
 BoxCollider:
@@ -17842,6 +17972,134 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 299e7a1cb6456cf4fa6079cf5978df9b, type: 3}
+--- !u!1 &2105747610
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2105747611}
+  - component: {fileID: 2105747612}
+  m_Layer: 0
+  m_Name: MusicManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2105747611
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2105747610}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &2105747612
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2105747610}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 77e14a044efb3484995cb7faefc6d63d, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 0.2
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!4 &2112294859 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4680757731159730826, guid: 0fde05fa0f3321942a21896ff4f0856f,
@@ -17969,6 +18227,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ProgressIcon>k__BackingField: {fileID: 11400000, guid: 5593cbd86e91fda4d93116e48102b026,
     type: 2}
+  _plantSpawnAudioClips:
+  - {fileID: 8300000, guid: 0c59df9e117914d429b7532f2c5f94ed, type: 3}
+  - {fileID: 8300000, guid: df7d25978f9d0497faa8befca7e29c19, type: 3}
+  - {fileID: 8300000, guid: 9c2432bcb82574b0db5232c2d52b3a32, type: 3}
   _seedsNeededToPlant: 1
   _timeToDigInSeconds: 0.35
   _delayBeforePlantingNewTimeInSeconds: 1
@@ -31334,7 +31596,6 @@ SceneRoots:
   - {fileID: 1127503961}
   - {fileID: 514933920}
   - {fileID: 1942516716}
-  - {fileID: 1955779455}
   - {fileID: 1069665250}
   - {fileID: 1793380928}
   - {fileID: 1356978770}
@@ -31343,3 +31604,6 @@ SceneRoots:
   - {fileID: 1125040235146897160}
   - {fileID: 178012085}
   - {fileID: 1246805913}
+  - {fileID: 1173989024}
+  - {fileID: 1717503042}
+  - {fileID: 2105747611}

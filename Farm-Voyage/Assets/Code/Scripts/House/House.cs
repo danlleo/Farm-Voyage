@@ -1,16 +1,21 @@
 ﻿using System;
 using Character.Player;
 using DG.Tweening;
+using Sound;
+using UnityEditor.ShaderGraph.Drawing;
 using UnityEngine;
 using Zenject;
 
 namespace House
 {
+    [SelectionBase]
     [DisallowMultipleComponent]
     public class House : MonoBehaviour
     {
         [Header("External references")]
         [SerializeField] private Transform _doorTransform;
+        [SerializeField] private AudioClip _doorOpenAudioClip;
+        [SerializeField] private AudioClip _doorCloseAudioClip;
         
         private Timespan.Day _day;
         private PlayerFollowCamera _playerFollowCamera;
@@ -60,6 +65,10 @@ namespace House
             const float durationInSeconds = .3f;
             float targetRotation = isOpen ? -90f : 0f;
 
+            if (isOpen)
+                SoundFXManager.Instance.PlaySoundFXClip(_doorOpenAudioClip, transform, 0.4f);
+
+            SoundFXManager.Instance.PlaySoundFXClip(_doorCloseAudioClip, transform, 0.4f);
             _doorTransform.DORotate(Vector3.up * targetRotation, durationInSeconds);
         }
 

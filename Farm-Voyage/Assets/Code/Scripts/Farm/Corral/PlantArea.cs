@@ -7,6 +7,7 @@ using Farm.Plants;
 using Farm.Plants.Seeds;
 using Farm.Tool.ConcreteTools;
 using Misc;
+using Sound;
 using UI.Icon;
 using UnityEngine;
 using Utilities;
@@ -26,6 +27,9 @@ namespace Farm.Corral
         public float MaxClampedProgress => 1f;
         public Observable<float> CurrentClampedProgress { get; } = new();
 
+        [Header("External references")]
+        [SerializeField] private AudioClip[] _plantSpawnAudioClips;
+        
         [Header("Settings")] 
         [SerializeField, Range(1, 2)] private int _seedsNeededToPlant = 1;
         [SerializeField, Range(0.1f, 2f)] private float _timeToDigInSeconds = 1f;
@@ -150,6 +154,7 @@ namespace Farm.Corral
             plant.Initialize(transform.position, Quaternion.identity, this, _playerInventory);
             OnAnyPlantPlanted?.Invoke(plant);
             _plant = plant;
+            SoundFXManager.Instance.PlayRandomSoundFXClip(_plantSpawnAudioClips, transform, 0.3f);
         }
         
         private IEnumerator DiggingRoutine()

@@ -1996,6 +1996,7 @@ GameObject:
   - component: {fileID: 8566789751215023668}
   - component: {fileID: 6532581953499520059}
   - component: {fileID: 8224845331004557066}
+  - component: {fileID: 6256992250554348908}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2186,7 +2187,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _walkingEffectParticleSystem: {fileID: 6377615369158223664}
+  _stepsAudioClips: []
   _player: {fileID: 7534990748196741893}
+--- !u!114 &6256992250554348908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2332247048513844423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 684b41cb64b64d0ebb77b1752dc285b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _wateringAudioClip: {fileID: 8300000, guid: 61476958115f1aa4199e7d45635db6d8, type: 3}
+  _stepsAudioClips:
+  - {fileID: 8300000, guid: f1edfd81fd6cc3e409a46c7bb1566c81, type: 3}
+  - {fileID: 8300000, guid: dac544bdd368ad44ea2ab038f68985b4, type: 3}
+  - {fileID: 8300000, guid: 15dba906fc26491439c6254a86b57697, type: 3}
+  - {fileID: 8300000, guid: dd84b737969734549b7bf096c5663ae4, type: 3}
 --- !u!1 &2540343304331429259
 GameObject:
   m_ObjectHideFlags: 0

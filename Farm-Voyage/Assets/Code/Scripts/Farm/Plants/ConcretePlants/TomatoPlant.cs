@@ -2,11 +2,6 @@
 {
     public class TomatoPlant : Plant
     {
-        public override PlantType Type { get; } = PlantType.Tomato;
-    
-        public override void OnHarvested()
-        {
-            
-        }
+        public override PlantType Type => PlantType.Tomato;
     }
 }
