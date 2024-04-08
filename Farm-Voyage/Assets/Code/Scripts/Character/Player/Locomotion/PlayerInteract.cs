@@ -23,6 +23,8 @@ namespace Character.Player.Locomotion
         
         private IInteractable _currentInteractable;
         
+        private bool _hasLockedInteractBeenCalled;
+        
         public void TryInteract()
         {
             if (Physics.SphereCast(_raycastPoint.position, _sphereRadius, _raycastPoint.forward, 
@@ -31,14 +33,11 @@ namespace Character.Player.Locomotion
             {
                 if (!hit.collider.TryGetComponent(out IInteractable interactable)) return;
                 
-                IPlayerStopInteractable playerStopInteractable = _currentInteractable as IPlayerStopInteractable;
-                IStopInteractable stopInteractable = _currentInteractable as IStopInteractable;
                 IInteractDisplayProgress interactDisplayProgress = _currentInteractable as IInteractDisplayProgress;
                 
-                StopPlayerInteractable(interactable, playerStopInteractable);
-                StopInteractable(interactable, stopInteractable);
                 SetNewAndInteract(interactable);
                 TrySpotInteractDisplayProgress(interactDisplayProgress);
+                TrySetLockedInteract();
             }
             else
             {
@@ -57,7 +56,8 @@ namespace Character.Player.Locomotion
                 {
                     OnAnyInteractDisplayProgressLost?.Invoke();
                 }
-                
+
+                _hasLockedInteractBeenCalled = false;
                 _currentInteractable = null;
             }
         }
@@ -78,20 +78,13 @@ namespace Character.Player.Locomotion
             _currentInteractable.Interact(_player);
         }
 
-        private void StopInteractable(IInteractable interactable, IStopInteractable stopInteractable)
+        private void TrySetLockedInteract()
         {
-            if (_currentInteractable != null && _currentInteractable != interactable && stopInteractable != null)
-            {
-                stopInteractable.StopInteract();
-            }
-        }
-
-        private void StopPlayerInteractable(IInteractable interactable, IPlayerStopInteractable playerStopInteractable)
-        {
-            if (_currentInteractable != null && _currentInteractable != interactable && playerStopInteractable != null)
-            {
-                playerStopInteractable.PlayerStopInteract(_player);
-            }
+            if (_hasLockedInteractBeenCalled) return;
+            
+            ILockedInteract lockedInteract = _currentInteractable as ILockedInteract;
+            lockedInteract?.OnLockedInteract();
+            _hasLockedInteractBeenCalled = true;
         }
 
 #if UNITY_EDITOR

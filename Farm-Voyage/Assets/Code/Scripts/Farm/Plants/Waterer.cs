@@ -16,6 +16,7 @@ namespace Farm.Plants
         private float _wateringTimeElapsed;
 
         private bool _hasFinishedWatering;
+        private bool _isPlayerWatering;
         
         public Waterer(Plant plant, PlayerInventory playerInventory)
         {
@@ -37,8 +38,10 @@ namespace Farm.Plants
         {
             if (_waterCan == null) return;
             if (!(_waterCan.CurrentWaterCapacityAmount > 0)) return;
+            if (!_isPlayerWatering)
+                player.Events.WateringStateChangedEvent.Call(true);
 
-            player.Events.WateringStateChangedEvent.Call(true);
+            _isPlayerWatering = true;
             
             WaterPlantAsAny();
         }

@@ -77,12 +77,12 @@ namespace UI
             
             if (!isSelected)
             {
-                SoundFXManager.Instance.PlaySoundFXClip(_selectSeedAudioClip, transform, 0.1f);
+                SoundFXManager.Instance.PlaySoundFX2DClip(_selectSeedAudioClip, 0.1f);
                 seedChooseUIItem.Select();
                 return;
             }
             
-            SoundFXManager.Instance.PlaySoundFXClip(_deselectSeedAudioClip, transform, 0.1f);
+            SoundFXManager.Instance.PlaySoundFX2DClip(_deselectSeedAudioClip, 0.1f);
             seedChooseUIItem.Deselect();
         }
         

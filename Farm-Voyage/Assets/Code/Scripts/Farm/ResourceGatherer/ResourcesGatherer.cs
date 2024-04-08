@@ -6,6 +6,7 @@ using Character.Player.Events;
 using Common;
 using Farm.FarmResources;
 using Misc;
+using Sound;
 using UI.Icon;
 using UnityEngine;
 using Utilities;
@@ -21,7 +22,7 @@ namespace Farm.ResourceGatherer
     [RequireComponent(typeof(GatheringStateChangedEvent))]
     [RequireComponent(typeof(ResourcesGathererInitializeEvent))]
     [DisallowMultipleComponent]
-    public class ResourcesGatherer : MonoBehaviour, IInteractable, IStopInteractable, IDisplayIcon, IInteractDisplayProgress
+    public class ResourcesGatherer : MonoBehaviour, IInteractable, IStopInteractable, IDisplayIcon, IInteractDisplayProgress, ILockedInteract
     {
         public Observable<float> CurrentClampedProgress { get; } = new();
         public float MaxClampedProgress { get; private set; }
@@ -32,6 +33,8 @@ namespace Farm.ResourceGatherer
         [SerializeField, WithinParent] private Transform _visualSpawnPoint;
         [SerializeField] private CollectableSO[] _collectableSOArray;
         [SerializeField, Range(1f, 100f)] private float _chanceToGetCollectable;
+        [SerializeField] private AudioClip[] _gatherAudioClips;
+        [SerializeField] private AudioClip[] _fullyGatheredAudioClips;
         
         private GatheredResourceEvent _gatheredResourceEvent;
         private FullyGatheredEvent _fullyGatheredEvent;
@@ -91,6 +94,11 @@ namespace Farm.ResourceGatherer
             StopGathering();
         }
 
+        public void OnLockedInteract()
+        {
+            // TODO: play locked sound in here
+        }
+        
         private void StopGathering()
         {
             CoroutineHandler.ClearAndStopCoroutine(this, ref _delayGatheringResourcesRoutine);
@@ -178,7 +186,8 @@ namespace Farm.ResourceGatherer
         private void CleanUpResourceIfFullyGathered()
         {
             if (_timesInteracted != _resourceSO.InteractAmountToDestroy) return;
-            
+
+            SoundFXManager.Instance.PlayRandomSoundFX2DClip(_fullyGatheredAudioClips, 0.4f);
             _boxCollider.Disable();
             _fullyGatheredEvent.Call(this);
             _player.Events.GatheringEvent.Call(this,
@@ -204,6 +213,11 @@ namespace Farm.ResourceGatherer
                 _player.Events.FoundCollectableEvent.Call(this);
             }
         }
+        
+        private void PlayGatherSound()
+        {
+            SoundFXManager.Instance.PlayRandomSoundFX2DClip(_gatherAudioClips, 0.4f);
+        }
 
         private void Gather(GatheredResource gatheredResource)
         {
@@ -213,6 +227,7 @@ namespace Farm.ResourceGatherer
             TriggerGatheredResourceEvent(gatheredResource);
             CleanUpResourceIfFullyGathered();
             AttemptToGatherCollectableIfDirt(gatheredResource);
+            PlayGatherSound();
         }
 
         public class Factory : PlaceholderFactory<ResourcesGatherer> { }

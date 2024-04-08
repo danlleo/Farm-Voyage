@@ -32,12 +32,12 @@ namespace Character.Player
 
         private void PlayRandomStepSound()
         {
-            SoundFXManager.Instance.PlayRandomSoundFXClip(_stepsAudioClips, transform, 0.1f);
+            SoundFXManager.Instance.PlayRandomSoundFX3DClip(_stepsAudioClips, transform, 0.1f);
         }
         
         private void PlayWateringSound()
         {
-            SoundFXManager.Instance.PlaySoundFXClip(_wateringAudioClip, transform, 0.3f);
+            SoundFXManager.Instance.PlaySoundFX3DClip(_wateringAudioClip, transform, 0.3f);
         }
         
         private void WateringStateChangedEvent_OnPlayerWateringStateChanged(bool isWatering)

@@ -32,7 +32,7 @@ namespace Farm.Plants.ConcreteStates
 
         public override void OnEnter()
         {
-            SoundFXManager.Instance.PlayRandomSoundFXClip(_plant.WateringAudioClips, _plant.transform, 0.3f);
+            SoundFXManager.Instance.PlayRandomSoundFX3DClip(_plant.WateringAudioClips, _plant.transform, 0.3f);
             OnAnyWateringStateChanged?.Invoke(_plant, true);
         }
 

@@ -110,7 +110,7 @@ namespace UI
         
         private void AnimateTimeToWorkText()
         {
-            SoundFXManager.Instance.PlaySoundFXClip(_timeToWorkPopupMessageAudioClip, transform, 0.1f);
+            SoundFXManager.Instance.PlaySoundFX2DClip(_timeToWorkPopupMessageAudioClip, 0.1f);
             
             _timeToWorkCanvasGroup.alpha = 0f;
             

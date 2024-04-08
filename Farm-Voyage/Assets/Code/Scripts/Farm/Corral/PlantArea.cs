@@ -152,9 +152,9 @@ namespace Farm.Corral
             
             Plant plant = _plantFactory.Create(_selectedSeed.Plant);
             plant.Initialize(transform.position, Quaternion.identity, this, _playerInventory);
+            SoundFXManager.Instance.PlayRandomSoundFX2DClip(_plantSpawnAudioClips, 0.3f);
             OnAnyPlantPlanted?.Invoke(plant);
             _plant = plant;
-            SoundFXManager.Instance.PlayRandomSoundFXClip(_plantSpawnAudioClips, transform, 0.3f);
         }
         
         private IEnumerator DiggingRoutine()

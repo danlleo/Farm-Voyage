@@ -66,9 +66,9 @@ namespace House
             float targetRotation = isOpen ? -90f : 0f;
 
             if (isOpen)
-                SoundFXManager.Instance.PlaySoundFXClip(_doorOpenAudioClip, transform, 0.4f);
+                SoundFXManager.Instance.PlaySoundFX2DClip(_doorOpenAudioClip, 0.4f);
 
-            SoundFXManager.Instance.PlaySoundFXClip(_doorCloseAudioClip, transform, 0.4f);
+            SoundFXManager.Instance.PlaySoundFX2DClip(_doorCloseAudioClip, 0.4f);
             _doorTransform.DORotate(Vector3.up * targetRotation, durationInSeconds);
         }
 

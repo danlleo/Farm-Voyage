@@ -128,6 +128,8 @@ GameObject:
   - component: {fileID: 6807381223332555991}
   - component: {fileID: 7702239859231044675}
   - component: {fileID: 7242490221060557735}
+  - component: {fileID: 290121586619736573}
+  - component: {fileID: 2647561653380376189}
   m_Layer: 7
   m_Name: ResourceGatherer
   m_TagString: Untagged
@@ -191,6 +193,14 @@ MonoBehaviour:
   _collectableSOArray:
   - {fileID: 11400000, guid: 95b55d4903eb750448cacf74d511fad7, type: 2}
   _chanceToGetCollectable: 100
+  _gatherAudioClips:
+  - {fileID: 8300000, guid: ed64ea02bd8aa7044bc2dd9568f18a8b, type: 3}
+  - {fileID: 8300000, guid: 3fbdfa945f3023b43834b683b6baa362, type: 3}
+  - {fileID: 8300000, guid: ed4ec0f6c5584b5428e65982f2075625, type: 3}
+  _fullyGatheredAudioClips:
+  - {fileID: 8300000, guid: 6a6f3459903ac7d4d875d1d7d176e4f7, type: 3}
+  - {fileID: 8300000, guid: 97846f83bf28b1c4ba5ef0d2c0950102, type: 3}
+  - {fileID: 8300000, guid: c22869a558ce1cb488dad2436403c41e, type: 3}
 --- !u!114 &6807381223332555991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,6 +215,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _progressCircle: {fileID: 4926969858658246574}
   _circleProgressMoveDurationInSeconds: 0.2
+  _gatherAnimationDurationInSeconds: 0.25
 --- !u!114 &7702239859231044675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,5 +238,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ee86ea6357940d2b3d4aacdae5bcd56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &290121586619736573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5790524798975978674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b46fa431a044e7a8907958ec6fe1f9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2647561653380376189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5790524798975978674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78acc2d83b3c452fabca53318b259ec9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

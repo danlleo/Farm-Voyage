@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2955985612620919076}
   - component: {fileID: 3227544097738360062}
   m_Layer: 0
-  m_Name: SoundFX
+  m_Name: SoundFX3D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -88,7 +88,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0

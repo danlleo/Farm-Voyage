@@ -95,7 +95,7 @@ namespace Farm.Plants
 
         public void OnHarvested()
         {
-            SoundFXManager.Instance.PlayRandomSoundFXClip(_harvestedPlantAudioClips, transform, .3f);
+            SoundFXManager.Instance.PlayRandomSoundFX2DClip(_harvestedPlantAudioClips, .3f);
         }
     }
 }

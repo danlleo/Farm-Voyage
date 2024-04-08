@@ -10165,7 +10165,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7595082f86644bb1b9c2b4e15fc0ebce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _soundFXObject: {fileID: 3227544097738360062, guid: 8f5abd6b084d45d49920fd6714715fda,
+  _soundFX3DPrefab: {fileID: 3227544097738360062, guid: 8f5abd6b084d45d49920fd6714715fda,
+    type: 3}
+  _soundFX2DPrefab: {fileID: 7254928860855971517, guid: 759517f04695b62448944d230643f6d4,
     type: 3}
 --- !u!1 &1183084154
 GameObject:
