@@ -17,7 +17,7 @@ namespace Farm.Corral
 {
     [RequireComponent(typeof(BoxCollider))]
     [DisallowMultipleComponent]
-    public sealed class PlantArea : MonoBehaviour, IInteractable, IStopInteractable, IDisplayProgressIcon, IInteractDisplayProgress
+    public sealed class PlantArea : MonoBehaviour, IInteractable, IStopInteractable, IDisplayProgressIcon, IInteractDisplayProgress, ILockedInteract
     {
         public static event Action<Plant> OnAnyPlantPlanted;
         public static event Action<Plant> OnAnyPlantHarvested;
@@ -27,7 +27,8 @@ namespace Farm.Corral
         public float MaxClampedProgress => 1f;
         public Observable<float> CurrentClampedProgress { get; } = new();
 
-        [Header("External references")]
+        [Header("External references")] 
+        [SerializeField] private AudioClip _selectAudioClip;
         [SerializeField] private AudioClip[] _plantSpawnAudioClips;
         
         [Header("Settings")] 
@@ -93,6 +94,11 @@ namespace Farm.Corral
         public void StopInteract()
         {
             StopDigging();
+        }
+       
+        public void OnLockedInteract()
+        {
+            SoundFXManager.Instance.PlaySoundFX2DClip(_selectAudioClip, 0.4f);
         }
         
         public void ClearPlantArea()

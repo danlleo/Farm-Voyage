@@ -11,7 +11,7 @@ namespace Farm.Plants
     [RequireComponent(typeof(PlantFinishedWateringEvent))]
     [RequireComponent(typeof(BoxCollider))]
     [DisallowMultipleComponent]
-    public abstract class Plant : MonoBehaviour, IInteractable, IPlayerStopInteractable, IInteractDisplayProgress
+    public abstract class Plant : MonoBehaviour, IInteractable, IPlayerStopInteractable, IInteractDisplayProgress, ILockedInteract
     {
         public float MaxClampedProgress => 1f;
         public Observable<float> CurrentClampedProgress { get; } = new();
@@ -43,6 +43,7 @@ namespace Farm.Plants
         
         [field: SerializeField] public AudioClip[] WateringAudioClips { get; private set; }
 
+        [SerializeField] private AudioClip _selectAudioClip;
         [SerializeField] private AudioClip[] _harvestedPlantAudioClips;
         
         private StateMachine _stateMachine;
@@ -93,6 +94,11 @@ namespace Farm.Plants
             _stateMachine.CurrentState.OnPlayerStoppedInteracting(player);
         }
 
+        public void OnLockedInteract()
+        {
+            SoundFXManager.Instance.PlaySoundFX2DClip(_selectAudioClip,.4f);
+        }
+        
         public void OnHarvested()
         {
             SoundFXManager.Instance.PlayRandomSoundFX2DClip(_harvestedPlantAudioClips, .3f);

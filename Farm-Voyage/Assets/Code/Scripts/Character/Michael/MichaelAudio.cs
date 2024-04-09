@@ -1,33 +1,32 @@
-﻿using Sound;
+using System;
+using Sound;
 using UnityEngine;
 
-namespace Character.Player
+namespace Character.Michael
 {
-    [RequireComponent(typeof(Player))]
+    [RequireComponent(typeof(Michael))]
     [DisallowMultipleComponent]
-    public class PlayerAudio : MonoBehaviour
+    public class MichaelAudio : MonoBehaviour
     {
         [Header("External references")]
         [SerializeField] private AudioClip _wateringAudioClip;
         [SerializeField] private AudioClip[] _stepsAudioClips;
         
-        private Player _player;
+        private Michael _michael;
 
         private void Awake()
         {
-            _player = GetComponent<Player>();
+            _michael = GetComponent<Michael>();
         }
 
         private void OnEnable()
         {
-            _player.Events.WateringStateChangedEvent.OnPlayerWateringStateChanged +=
-                WateringStateChangedEvent_OnPlayerWateringStateChanged;
+            _michael.Events.WateringPlantEvent.OnMichaelWateringPlant += WateringPlantEvent_OnMichaelWateringPlant;
         }
 
         private void OnDisable()
         {
-            _player.Events.WateringStateChangedEvent.OnPlayerWateringStateChanged -=
-                WateringStateChangedEvent_OnPlayerWateringStateChanged;
+            _michael.Events.WateringPlantEvent.OnMichaelWateringPlant -= WateringPlantEvent_OnMichaelWateringPlant;
         }
 
         private void PlayRandomStepSound()
@@ -40,10 +39,10 @@ namespace Character.Player
             SoundFXManager.Instance.PlaySoundFX3DClip(_wateringAudioClip, transform);
         }
         
-        private void WateringStateChangedEvent_OnPlayerWateringStateChanged(bool isWatering)
+        private void WateringPlantEvent_OnMichaelWateringPlant(bool isWatering)
         {
             if (!isWatering) return;
-
+            
             PlayWateringSound();
         }
     }

@@ -1727,6 +1727,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ProgressIcon>k__BackingField: {fileID: 11400000, guid: 5593cbd86e91fda4d93116e48102b026,
     type: 2}
+  _selectAudioClip: {fileID: 8300000, guid: 4bfc5557d58ddd24d97fe863515955b6, type: 3}
   _plantSpawnAudioClips:
   - {fileID: 8300000, guid: 0c59df9e117914d429b7532f2c5f94ed, type: 3}
   - {fileID: 8300000, guid: df7d25978f9d0497faa8befca7e29c19, type: 3}
@@ -3112,6 +3113,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ProgressIcon>k__BackingField: {fileID: 11400000, guid: 5593cbd86e91fda4d93116e48102b026,
     type: 2}
+  _selectAudioClip: {fileID: 8300000, guid: 4bfc5557d58ddd24d97fe863515955b6, type: 3}
   _plantSpawnAudioClips:
   - {fileID: 8300000, guid: 0c59df9e117914d429b7532f2c5f94ed, type: 3}
   - {fileID: 8300000, guid: df7d25978f9d0497faa8befca7e29c19, type: 3}
@@ -3935,6 +3937,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ProgressIcon>k__BackingField: {fileID: 11400000, guid: 5593cbd86e91fda4d93116e48102b026,
     type: 2}
+  _selectAudioClip: {fileID: 8300000, guid: 4bfc5557d58ddd24d97fe863515955b6, type: 3}
   _plantSpawnAudioClips:
   - {fileID: 8300000, guid: 0c59df9e117914d429b7532f2c5f94ed, type: 3}
   - {fileID: 8300000, guid: df7d25978f9d0497faa8befca7e29c19, type: 3}
@@ -4455,6 +4458,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ProgressIcon>k__BackingField: {fileID: 11400000, guid: 5593cbd86e91fda4d93116e48102b026,
     type: 2}
+  _selectAudioClip: {fileID: 8300000, guid: 4bfc5557d58ddd24d97fe863515955b6, type: 3}
   _plantSpawnAudioClips:
   - {fileID: 8300000, guid: 0c59df9e117914d429b7532f2c5f94ed, type: 3}
   - {fileID: 8300000, guid: df7d25978f9d0497faa8befca7e29c19, type: 3}
@@ -4893,6 +4897,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ProgressIcon>k__BackingField: {fileID: 11400000, guid: 5593cbd86e91fda4d93116e48102b026,
     type: 2}
+  _selectAudioClip: {fileID: 8300000, guid: 4bfc5557d58ddd24d97fe863515955b6, type: 3}
   _plantSpawnAudioClips:
   - {fileID: 8300000, guid: 0c59df9e117914d429b7532f2c5f94ed, type: 3}
   - {fileID: 8300000, guid: df7d25978f9d0497faa8befca7e29c19, type: 3}
@@ -6587,6 +6592,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ProgressIcon>k__BackingField: {fileID: 11400000, guid: 5593cbd86e91fda4d93116e48102b026,
     type: 2}
+  _selectAudioClip: {fileID: 8300000, guid: 4bfc5557d58ddd24d97fe863515955b6, type: 3}
   _plantSpawnAudioClips:
   - {fileID: 8300000, guid: 0c59df9e117914d429b7532f2c5f94ed, type: 3}
   - {fileID: 8300000, guid: df7d25978f9d0497faa8befca7e29c19, type: 3}
@@ -8984,6 +8990,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ProgressIcon>k__BackingField: {fileID: 11400000, guid: 5593cbd86e91fda4d93116e48102b026,
     type: 2}
+  _selectAudioClip: {fileID: 8300000, guid: 4bfc5557d58ddd24d97fe863515955b6, type: 3}
   _plantSpawnAudioClips:
   - {fileID: 8300000, guid: 0c59df9e117914d429b7532f2c5f94ed, type: 3}
   - {fileID: 8300000, guid: df7d25978f9d0497faa8befca7e29c19, type: 3}
@@ -12022,6 +12029,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ProgressIcon>k__BackingField: {fileID: 11400000, guid: 5593cbd86e91fda4d93116e48102b026,
     type: 2}
+  _selectAudioClip: {fileID: 8300000, guid: 4bfc5557d58ddd24d97fe863515955b6, type: 3}
   _plantSpawnAudioClips:
   - {fileID: 8300000, guid: 0c59df9e117914d429b7532f2c5f94ed, type: 3}
   - {fileID: 8300000, guid: df7d25978f9d0497faa8befca7e29c19, type: 3}
@@ -16151,6 +16159,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ProgressIcon>k__BackingField: {fileID: 11400000, guid: 5593cbd86e91fda4d93116e48102b026,
     type: 2}
+  _selectAudioClip: {fileID: 8300000, guid: 4bfc5557d58ddd24d97fe863515955b6, type: 3}
   _plantSpawnAudioClips:
   - {fileID: 8300000, guid: 0c59df9e117914d429b7532f2c5f94ed, type: 3}
   - {fileID: 8300000, guid: df7d25978f9d0497faa8befca7e29c19, type: 3}
@@ -16351,7 +16360,7 @@ GameObject:
   - component: {fileID: 1955779453}
   - component: {fileID: 1955779454}
   m_Layer: 0
-  m_Name: Corral_2
+  m_Name: Corral
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18229,6 +18238,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ProgressIcon>k__BackingField: {fileID: 11400000, guid: 5593cbd86e91fda4d93116e48102b026,
     type: 2}
+  _selectAudioClip: {fileID: 8300000, guid: 4bfc5557d58ddd24d97fe863515955b6, type: 3}
   _plantSpawnAudioClips:
   - {fileID: 8300000, guid: 0c59df9e117914d429b7532f2c5f94ed, type: 3}
   - {fileID: 8300000, guid: df7d25978f9d0497faa8befca7e29c19, type: 3}
@@ -20438,6 +20448,7 @@ GameObject:
   - component: {fileID: 1125040235146897176}
   - component: {fileID: 1125040235146897178}
   - component: {fileID: 1125040235146897179}
+  - component: {fileID: 1125040235146897181}
   - component: {fileID: 1125040235146897177}
   m_Layer: 0
   m_Name: Michael
@@ -20554,6 +20565,20 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1125040235146897181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1125040235146897174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b31ae4d9072a254d865709e588b91ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _wateringAudioClip: {fileID: 8300000, guid: 61476958115f1aa4199e7d45635db6d8, type: 3}
+  _stepsAudioClips: []
 --- !u!4 &1125040235157601432
 Transform:
   m_ObjectHideFlags: 0

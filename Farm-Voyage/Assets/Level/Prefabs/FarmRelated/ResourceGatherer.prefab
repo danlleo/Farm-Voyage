@@ -193,6 +193,7 @@ MonoBehaviour:
   _collectableSOArray:
   - {fileID: 11400000, guid: 95b55d4903eb750448cacf74d511fad7, type: 2}
   _chanceToGetCollectable: 100
+  _selectAudioClip: {fileID: 8300000, guid: 4bfc5557d58ddd24d97fe863515955b6, type: 3}
   _gatherAudioClips:
   - {fileID: 8300000, guid: ed64ea02bd8aa7044bc2dd9568f18a8b, type: 3}
   - {fileID: 8300000, guid: 3fbdfa945f3023b43834b683b6baa362, type: 3}

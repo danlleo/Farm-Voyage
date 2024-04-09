@@ -33,6 +33,7 @@ namespace Farm.ResourceGatherer
         [SerializeField, WithinParent] private Transform _visualSpawnPoint;
         [SerializeField] private CollectableSO[] _collectableSOArray;
         [SerializeField, Range(1f, 100f)] private float _chanceToGetCollectable;
+        [SerializeField] private AudioClip _selectAudioClip;
         [SerializeField] private AudioClip[] _gatherAudioClips;
         [SerializeField] private AudioClip[] _fullyGatheredAudioClips;
         
@@ -96,7 +97,7 @@ namespace Farm.ResourceGatherer
 
         public void OnLockedInteract()
         {
-            // TODO: play locked sound in here
+            SoundFXManager.Instance.PlaySoundFX2DClip(_selectAudioClip, 0.4f);
         }
         
         private void StopGathering()

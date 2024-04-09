@@ -81,6 +81,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 62475a76d24e24af1b94ed70f440e254, type: 3}
   - {fileID: 8300000, guid: 84999cea1a5eb495ebe59d816939217d, type: 3}
   - {fileID: 8300000, guid: 92da6cf56742a4d44b117e647a173ee1, type: 3}
+  _selectAudioClip: {fileID: 8300000, guid: 4bfc5557d58ddd24d97fe863515955b6, type: 3}
   _harvestedPlantAudioClips:
   - {fileID: 8300000, guid: 01d0a3486283f403981eab77081251eb, type: 3}
   - {fileID: 8300000, guid: 6af9693bdc5b046ffaad0c1866e7690b, type: 3}
