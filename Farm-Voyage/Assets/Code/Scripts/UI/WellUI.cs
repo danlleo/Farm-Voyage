@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using Attributes.WithinParent;
 using Character.Player;
-using Character.Player.Events;
 using DG.Tweening;
 using Farm.Tool.ConcreteTools;
 using InputManagers;
@@ -124,7 +123,7 @@ namespace UI
                     
                     AnimatePopupText(() =>
                     {
-                        _player.Events.ExtractingWaterEvent.Call(this, new PlayerExtractingWaterEventArgs(false));
+                        _player.Events.ExtractingWaterStateChangedEvent.Call(false);
                         _hasFinishedFilling = false;
                     });
                     

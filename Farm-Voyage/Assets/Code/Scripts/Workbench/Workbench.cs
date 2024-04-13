@@ -1,7 +1,6 @@
 using System;
 using Cameras;
 using Character.Player;
-using Character.Player.Events;
 using UI.Icon;
 using UnityEngine;
 using Zenject;
@@ -9,12 +8,11 @@ using Zenject;
 namespace Workbench
 {
     [SelectionBase]
-    [RequireComponent(typeof(StartedUsingWorkbenchEvent))]
     [DisallowMultipleComponent]
     public class Workbench : MonoBehaviour, IDisplayIcon
     {
-        public StartedUsingWorkbenchEvent StartedUsingWorkbenchEvent { get; private set; }
-        public Guid ID { get; private set; } = Guid.NewGuid();
+        public readonly UsingWorkbenchStateChangedEvent UsingWorkbenchStateChangedEvent = new();
+        public Guid ID { get; } = Guid.NewGuid();
         
         [field:SerializeField] public IconSO Icon { get; private set; }
 
@@ -28,25 +26,27 @@ namespace Workbench
             _cameraController = cameraController;
         }
         
-        private void Awake()
-        {
-            StartedUsingWorkbenchEvent = GetComponent<StartedUsingWorkbenchEvent>();
-        }
-
         private void OnEnable()
         {
-            StartedUsingWorkbenchEvent.OnStartedUsingWorkbench += StartedUsingWorkbenchEvent_OnStartedUsingWorkbench;
+            UsingWorkbenchStateChangedEvent.OnUsingWorkbenchStateChanged += Workbench_OnUsingWorkbenchStateChanged;
         }
 
         private void OnDisable()
         {
-            StartedUsingWorkbenchEvent.OnStartedUsingWorkbench -= StartedUsingWorkbenchEvent_OnStartedUsingWorkbench;
+            UsingWorkbenchStateChangedEvent.OnUsingWorkbenchStateChanged -= Workbench_OnUsingWorkbenchStateChanged;
         }
 
-        private void StartedUsingWorkbenchEvent_OnStartedUsingWorkbench(object sender, EventArgs e)
+        private void Workbench_OnUsingWorkbenchStateChanged(bool isUsingWorkbench)
         {
-            _player.Events.UsingWorkbenchEvent.Call(this, new PlayerUsingWorkbenchEventArgs(true));
-            _cameraController.SwitchToCamera(CameraState.Workbench);
+            if (isUsingWorkbench)
+            {
+                _player.Events.UsingWorkbenchStateChangedEvent.Call(true);
+                _cameraController.SwitchToCamera(CameraState.Workbench);
+                return;
+            }
+
+            _player.Events.UsingWorkbenchStateChangedEvent.Call(false);
+            _cameraController.SwitchToCamera(CameraState.Main);
         }
     }
 }

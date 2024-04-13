@@ -26,9 +26,9 @@ namespace Seller
         {
             if (!other.TryGetComponent(out Player _)) return;
 
-            _seller.StartedSellingEvent.Call(this);
+            _seller.SellingStateChangedEvent.Call(this);
             _cameraController.SwitchToCamera(CameraState.Seller);
-            _player.Events.StartedSellingEvent.Call();
+            _player.Events.SellingStateChangedEvent.Call(true);
         }
     }
 }

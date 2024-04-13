@@ -20,26 +20,32 @@ namespace Character.Player.StateMachine.ConcreteStates
         {
             _player.Events.FoundCollectableEvent.OnPlayerFoundCollectable += Player_OnFoundCollectable;
             _player.Events.ShoppingEvent.OnPlayerShopping += Player_OnShopping;
-            _player.Events.UsingWorkbenchEvent.OnPlayerUsingWorkbench += Player_OnUsingWorkbench;
+            _player.Events.UsingWorkbenchStateChangedEvent.OnPlayerUsingWorkbenchStateChanged +=
+                Player_OnUsingWorkbenchStateChanged;
             _player.Events.GatheringEvent.OnPlayerGathering += Player_OnGathering;
             _player.Events.CarryingStorageBoxStateChangedEvent.OnPlayerCarryingStorageBoxStateChanged +=
                 Player_OnCarryingStorageBoxStateChanged;
             _player.Events.EnteringHomeEvent.OnPlayerEnteringHome += Player_OnEnteringHome;
-            _player.Events.ExtractingWaterEvent.OnPlayerExtractingWater += Player_OnExtractingWater;
-            _player.Events.StartedSellingEvent.OnPlayerStartedSelling += Player_OnPlayerStartedSelling;
+            _player.Events.ExtractingWaterStateChangedEvent.OnPlayerExtractingWaterStateChanged +=
+                Player_OnExtractingWaterStateChanged;
+            _player.Events.SellingStateChangedEvent.OnStartedSellingStateChanged +=
+                Player_OnSellingStateChangedStateChanged;
         }
 
         public override void UnsubscribeFromEvents()
         {
             _player.Events.FoundCollectableEvent.OnPlayerFoundCollectable -= Player_OnFoundCollectable;
             _player.Events.ShoppingEvent.OnPlayerShopping -= Player_OnShopping;
-            _player.Events.UsingWorkbenchEvent.OnPlayerUsingWorkbench -= Player_OnUsingWorkbench;
+            _player.Events.UsingWorkbenchStateChangedEvent.OnPlayerUsingWorkbenchStateChanged -=
+                Player_OnUsingWorkbenchStateChanged;
             _player.Events.GatheringEvent.OnPlayerGathering -= Player_OnGathering;
             _player.Events.CarryingStorageBoxStateChangedEvent.OnPlayerCarryingStorageBoxStateChanged -=
                 Player_OnCarryingStorageBoxStateChanged;
             _player.Events.EnteringHomeEvent.OnPlayerEnteringHome -= Player_OnEnteringHome;
-            _player.Events.ExtractingWaterEvent.OnPlayerExtractingWater -= Player_OnExtractingWater;
-            _player.Events.StartedSellingEvent.OnPlayerStartedSelling -= Player_OnPlayerStartedSelling;
+            _player.Events.ExtractingWaterStateChangedEvent.OnPlayerExtractingWaterStateChanged -=
+                Player_OnExtractingWaterStateChanged;
+            _player.Events.SellingStateChangedEvent.OnStartedSellingStateChanged -=
+                Player_OnSellingStateChangedStateChanged;
         }
 
         public override void OnExit()
@@ -66,9 +72,9 @@ namespace Character.Player.StateMachine.ConcreteStates
             _stateMachine.ChangeState(_player.StateFactory.Shopping());
         }
 
-        private void Player_OnUsingWorkbench(object sender, PlayerUsingWorkbenchEventArgs e)
+        private void Player_OnUsingWorkbenchStateChanged(bool isUsingWorkbench)
         {
-            if (!e.IsUsingWorkbench) return;
+            if (isUsingWorkbench) return;
 
             _stateMachine.ChangeState(_player.StateFactory.UsingWorkbench());
         }
@@ -94,15 +100,16 @@ namespace Character.Player.StateMachine.ConcreteStates
             _stateMachine.ChangeState(_player.StateFactory.EnteringHome());
         }
         
-        private void Player_OnExtractingWater(object sender, PlayerExtractingWaterEventArgs e)
+        private void Player_OnExtractingWaterStateChanged(bool isExtractingWater)
         {
-            if (!e.IsExtracting) return;
+            if (isExtractingWater) return;
             
             _stateMachine.ChangeState(_player.StateFactory.ExtractingWater());
         }
         
-        private void Player_OnPlayerStartedSelling()
+        private void Player_OnSellingStateChangedStateChanged(bool isSelling)
         {
+            if (!isSelling) return;
             _stateMachine.ChangeState(_player.StateFactory.Selling());
         }
     }

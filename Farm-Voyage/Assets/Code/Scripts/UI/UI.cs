@@ -1,7 +1,5 @@
-using System;
 using Attributes.WithinParent;
 using Character.Player;
-using Character.Player.Events;
 using Character.Player.Locomotion;
 using Misc;
 using UI.EmmaShop;
@@ -53,11 +51,15 @@ namespace UI
             SceneTransition.OnAnySceneTransitionEnded += SceneTransition_OnAnySceneTransitionEnded;
             PlayerInteract.OnAnyInteractDisplayProgressSpotted += PlayerInteract_OnAnyInteractDisplayProgressSpotted;
             PlayerInteract.OnAnyInteractDisplayProgressLost += PlayerInteract_OnAnyInteractDisplayProgressLost;
-            _market.StartedShoppingEvent.OnStartedShopping += Market_OnStartedShopping;
-            _workbench.StartedUsingWorkbenchEvent.OnStartedUsingWorkbench += Workbench_OnStartedUsingWorkbench;
+            _market.ShoppingStateChangedEvent.OnShoppingStateChanged += Market_OnShoppingStateChanged;
+            _workbench.UsingWorkbenchStateChangedEvent.OnUsingWorkbenchStateChanged +=
+                Workbench_OnUsingWorkbenchStateChanged;
+            _workbenchUI.OnClosed += WorkbenchUI_OnClosed;
             _emmaShopUI.OnClosed += EmmaShopUI_OnClosed;
-            _player.Events.ExtractingWaterEvent.OnPlayerExtractingWater += Player_OnExtractingWater;
-            _seller.StartedSellingEvent.OnStartedSelling += Seller_OnStartedSelling;
+            _player.Events.ExtractingWaterStateChangedEvent.OnPlayerExtractingWaterStateChanged +=
+                Player_OnExtractingWaterStateChanged;
+            _seller.SellingStateChangedEvent.OnSellingStateChanged += Seller_OnSellingStateChanged;
+            _sellerUI.OnClosed += SellerUI_OnClosed;
         }
 
         private void OnDisable()
@@ -65,11 +67,15 @@ namespace UI
             SceneTransition.OnAnySceneTransitionEnded -= SceneTransition_OnAnySceneTransitionEnded;
             PlayerInteract.OnAnyInteractDisplayProgressSpotted -= PlayerInteract_OnAnyInteractDisplayProgressSpotted;
             PlayerInteract.OnAnyInteractDisplayProgressLost -= PlayerInteract_OnAnyInteractDisplayProgressLost;
-            _market.StartedShoppingEvent.OnStartedShopping -= Market_OnStartedShopping;
-            _workbench.StartedUsingWorkbenchEvent.OnStartedUsingWorkbench -= Workbench_OnStartedUsingWorkbench;
+            _market.ShoppingStateChangedEvent.OnShoppingStateChanged -= Market_OnShoppingStateChanged;
+            _workbench.UsingWorkbenchStateChangedEvent.OnUsingWorkbenchStateChanged -=
+                Workbench_OnUsingWorkbenchStateChanged;
+            _workbenchUI.OnClosed -= WorkbenchUI_OnClosed;
             _emmaShopUI.OnClosed -= EmmaShopUI_OnClosed;
-            _player.Events.ExtractingWaterEvent.OnPlayerExtractingWater -= Player_OnExtractingWater;
-            _seller.StartedSellingEvent.OnStartedSelling -= Seller_OnStartedSelling;
+            _player.Events.ExtractingWaterStateChangedEvent.OnPlayerExtractingWaterStateChanged -=
+                Player_OnExtractingWaterStateChanged;
+            _seller.SellingStateChangedEvent.OnSellingStateChanged -= Seller_OnSellingStateChanged;
+            _sellerUI.OnClosed -= SellerUI_OnClosed;
         }
 
         private void SceneTransition_OnAnySceneTransitionEnded()
@@ -94,28 +100,39 @@ namespace UI
             _actionProgressBarUI.gameObject.SetActive(false);
         }
         
-        private void Market_OnStartedShopping(object sender, EventArgs e)
+        private void Market_OnShoppingStateChanged(bool isShopping)
         {
+            if (!isShopping) return;
+            
             _gameplayUI.gameObject.SetActive(false);
             _emmaShopUI.gameObject.SetActive(true);
         }
         
-        private void Workbench_OnStartedUsingWorkbench(object sender, EventArgs e)
+        private void Workbench_OnUsingWorkbenchStateChanged(bool isUsingWorkbench)
         {
+            if (!isUsingWorkbench) return;
+            
             _gameplayUI.gameObject.SetActive(false);
             _workbenchUI.gameObject.SetActive(true);
+        }
+        
+        private void WorkbenchUI_OnClosed()
+        {
+            _workbenchUI.gameObject.SetActive(false);
+            _gameplayUI.gameObject.SetActive(true);
+            _workbench.UsingWorkbenchStateChangedEvent.Call(false);
         }
         
         private void EmmaShopUI_OnClosed()
         {
             _emmaShopUI.gameObject.SetActive(false);
             _gameplayUI.gameObject.SetActive(true);
-            _market.StoppedShoppingEvent.Call(this);
+            _market.ShoppingStateChangedEvent.Call(false);
         }
         
-        private void Player_OnExtractingWater(object sender, PlayerExtractingWaterEventArgs e)
+        private void Player_OnExtractingWaterStateChanged(bool isExtractingWater)
         {
-            if (e.IsExtracting)
+            if (!isExtractingWater)
             {
                 _gameplayUI.gameObject.SetActive(false);
                 _wellUI.gameObject.SetActive(true);
@@ -127,10 +144,19 @@ namespace UI
             _wellUI.gameObject.SetActive(false);
         }
         
-        private void Seller_OnStartedSelling(object sender, EventArgs e)
+        private void Seller_OnSellingStateChanged(bool isSelling)
         {
+            if (!isSelling) return;
+            
             _gameplayUI.gameObject.SetActive(false);
             _sellerUI.gameObject.SetActive(true);
+        }
+        
+        private void SellerUI_OnClosed()
+        {
+            _sellerUI.gameObject.SetActive(false);
+            _gameplayUI.gameObject.SetActive(true);
+            _seller.SellingStateChangedEvent.Call(false);
         }
     }
 }

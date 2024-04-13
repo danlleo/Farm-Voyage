@@ -1,16 +1,45 @@
-﻿using UnityEngine;
+﻿using Cameras;
+using Character.Player;
+using UnityEngine;
+using Zenject;
 
 namespace Seller
 {
-    [RequireComponent(typeof(StartedSellingEvent))]
-    [DisallowMultipleComponent]
     public class Seller : MonoBehaviour
     {
-        public StartedSellingEvent StartedSellingEvent { get; private set; }
+        public readonly SellingStateChangedEvent SellingStateChangedEvent = new();
 
-        private void Awake()
+        private Player _player;
+        private CameraController _cameraController;
+        
+        [Inject]
+        private void Construct(Player player, CameraController cameraController)
         {
-            StartedSellingEvent = GetComponent<StartedSellingEvent>();
+            _player = player;
+            _cameraController = cameraController;
+        }
+        
+        private void OnEnable()
+        {
+            SellingStateChangedEvent.OnSellingStateChanged += Seller_OnSellingStateChanged;
+        }
+
+        private void OnDisable()
+        {
+            SellingStateChangedEvent.OnSellingStateChanged -= Seller_OnSellingStateChanged;
+        }
+
+        private void Seller_OnSellingStateChanged(bool isSelling)
+        {
+            if (isSelling)
+            {
+                _player.Events.SellingStateChangedEvent.Call(true);
+                _cameraController.SwitchToCamera(CameraState.Workbench);
+                return;
+            }
+
+            _player.Events.SellingStateChangedEvent.Call(false);
+            _cameraController.SwitchToCamera(CameraState.Main);
         }
     }
 }

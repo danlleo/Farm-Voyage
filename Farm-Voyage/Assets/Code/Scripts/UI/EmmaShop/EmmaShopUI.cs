@@ -9,7 +9,8 @@ namespace UI.EmmaShop
     [DisallowMultipleComponent]
     public class EmmaShopUI : MonoBehaviour
     {
-        public event Action OnClosed; 
+        private const float StartFadeValue = 0f;
+        public event Action OnClosed;
         
         [Header("External references")]
         [SerializeField] private Button _closeButton;
@@ -18,8 +19,6 @@ namespace UI.EmmaShop
         [SerializeField, Min(0)] private float _timeToFadeInSeconds = 0.35f;
         [SerializeField, Range(0f, 1f)] private float _endFadeValue = 1f;
 
-        private float _startFadeValue = 0f;
-        
         private CanvasGroup _canvasGroup;
 
         private void Awake()
@@ -43,7 +42,7 @@ namespace UI.EmmaShop
         private void CloseUI()
         {
             _closeButton.onClick.RemoveAllListeners();
-            PlayFadeAnimation(_startFadeValue, () => OnClosed?.Invoke());
+            PlayFadeAnimation(StartFadeValue, () => OnClosed?.Invoke());
         }
         
         private void SetDefaultCanvasParams()

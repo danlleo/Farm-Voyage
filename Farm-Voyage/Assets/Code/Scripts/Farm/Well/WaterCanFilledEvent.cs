@@ -1,10 +1,8 @@
 ﻿using System;
-using UnityEngine;
 
 namespace Farm.Well
 {
-    [DisallowMultipleComponent]
-    public class WaterCanFilledEvent : MonoBehaviour
+    public class WaterCanFilledEvent
     {
         public event EventHandler OnWaterCanFilled;
 

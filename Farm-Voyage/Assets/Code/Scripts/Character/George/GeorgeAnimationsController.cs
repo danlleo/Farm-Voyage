@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Character.George
@@ -19,16 +18,18 @@ namespace Character.George
 
         private void OnEnable()
         {
-            _seller.StartedSellingEvent.OnStartedSelling += StartedSellingEvent_OnStartedSelling;
+            _seller.SellingStateChangedEvent.OnSellingStateChanged += Seller_OnSellingStateChangedStateChanged;
         }
 
         private void OnDisable()
         {
-            _seller.StartedSellingEvent.OnStartedSelling -= StartedSellingEvent_OnStartedSelling;
+            _seller.SellingStateChangedEvent.OnSellingStateChanged -= Seller_OnSellingStateChangedStateChanged;
         }
 
-        private void StartedSellingEvent_OnStartedSelling(object sender, EventArgs e)
+        private void Seller_OnSellingStateChangedStateChanged(bool isSelling)
         {
+            if (!isSelling) return;
+            
             int salutingAnimationLayer = _animator.GetLayerIndex(GeorgeAnimationLayers.Saluting);
             
             _animator.SetLayerWeight(salutingAnimationLayer, 1f);

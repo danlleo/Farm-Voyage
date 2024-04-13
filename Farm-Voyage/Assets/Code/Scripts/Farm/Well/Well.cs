@@ -1,7 +1,5 @@
 using System;
-using Character;
 using Character.Player;
-using Character.Player.Events;
 using Common;
 using Farm.Tool.ConcreteTools;
 using UI.Icon;
@@ -10,11 +8,10 @@ using Zenject;
 
 namespace Farm.Well
 {
-    [RequireComponent(typeof(WaterCanFilledEvent))]
     [DisallowMultipleComponent]
     public class Well : MonoBehaviour, IInteractable, IDisplayIcon
     {
-        public WaterCanFilledEvent WaterCanFilledEvent { get; private set; }
+        public readonly WaterCanFilledEvent WaterCanFilledEvent = new();
         
         [field:SerializeField] public IconSO Icon { get; private set; }
         public Guid ID { get; } = Guid.NewGuid();
@@ -32,20 +29,17 @@ namespace Farm.Well
             _playerInventory = playerInventory;
             _playerFollowCamera = playerFollowCamera;
         }
-
-        private void Awake()
-        {
-            WaterCanFilledEvent = GetComponent<WaterCanFilledEvent>();
-        }
-
+        
         private void OnEnable()
         {
-            _player.Events.ExtractingWaterEvent.OnPlayerExtractingWater += OnExtractingWater;
+            _player.Events.ExtractingWaterStateChangedEvent.OnPlayerExtractingWaterStateChanged +=
+                Player_OnExtractingWaterStateChanged;
         }
 
         private void OnDisable()
         {
-            _player.Events.ExtractingWaterEvent.OnPlayerExtractingWater -= OnExtractingWater;
+            _player.Events.ExtractingWaterStateChangedEvent.OnPlayerExtractingWaterStateChanged -=
+                Player_OnExtractingWaterStateChanged;
         }
 
         public void Interact(IVisitable initiator)
@@ -55,13 +49,13 @@ namespace Farm.Well
             if (waterCan.CurrentWaterCapacityAmount == WaterCan.WaterCanCapacityAmount) return;
             
             _isExtractingWater = true;
-            _player.Events.ExtractingWaterEvent.Call(this, new PlayerExtractingWaterEventArgs(true));
+            _player.Events.ExtractingWaterStateChangedEvent.Call(true);
             _playerFollowCamera.ZoomIn();
         }
         
-        private void OnExtractingWater(object sender, PlayerExtractingWaterEventArgs e)
+        private void Player_OnExtractingWaterStateChanged(bool isExtractingWater)
         {
-            if (e.IsExtracting) return;
+            if (isExtractingWater) return;
             _playerFollowCamera.ZoomOut();
             _isExtractingWater = false;
         }

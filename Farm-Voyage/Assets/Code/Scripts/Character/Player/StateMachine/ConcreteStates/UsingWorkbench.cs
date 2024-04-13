@@ -1,5 +1,4 @@
-﻿using Character.Player.Events;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Character.Player.StateMachine.ConcreteStates
 {
@@ -13,14 +12,17 @@ namespace Character.Player.StateMachine.ConcreteStates
             _player = player;
             _stateMachine = stateMachine;
         }
+
         public override void SubscribeToEvents()
         {
-            _player.Events.ShoppingEvent.OnPlayerShopping += ShoppingEventOnShopping;
+            _player.Events.UsingWorkbenchStateChangedEvent.OnPlayerUsingWorkbenchStateChanged +=
+                Player_OnUsingWorkbenchStateChanged;
         }
 
         public override void UnsubscribeFromEvents()
         {
-            _player.Events.ShoppingEvent.OnPlayerShopping -= ShoppingEventOnShopping;
+            _player.Events.UsingWorkbenchStateChangedEvent.OnPlayerUsingWorkbenchStateChanged -=
+                Player_OnUsingWorkbenchStateChanged;
         }
 
         public override void OnEnter()
@@ -28,10 +30,12 @@ namespace Character.Player.StateMachine.ConcreteStates
             _player.Locomotion.HandleMoveDestination(_player.TransformPoints.WorkbenchStayPoint.position,
                 Quaternion.identity);
         }
-
-        private void ShoppingEventOnShopping(object sender, PlayerShoppingEventArgs e)
+        
+        private void Player_OnUsingWorkbenchStateChanged(bool isUsingWorkbench)
         {
-            if (e.IsShopping) return;
+            if (isUsingWorkbench) return;
+
+            _stateMachine.ChangeState(_player.StateFactory.Exploring());
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Workbench
         private void OnTriggerEnter(Collider other)
         {
             if (!other.TryGetComponent(out Player _)) return;
-            _workbench.StartedUsingWorkbenchEvent.Call(this);
+            _workbench.UsingWorkbenchStateChangedEvent.Call(this);
         }
     }
 }

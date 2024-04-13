@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Character.Emma
 {
@@ -19,16 +18,18 @@ namespace Character.Emma
 
         private void OnEnable()
         {
-            _market.StartedShoppingEvent.OnStartedShopping += StartedShoppingEvent_OnStartedShopping;
+            _market.ShoppingStateChangedEvent.OnShoppingStateChanged += Market_OnShoppingStateChanged;
         }
 
         private void OnDisable()
         {
-            _market.StartedShoppingEvent.OnStartedShopping -= StartedShoppingEvent_OnStartedShopping;
+            _market.ShoppingStateChangedEvent.OnShoppingStateChanged -= Market_OnShoppingStateChanged;
         }
 
-        private void StartedShoppingEvent_OnStartedShopping(object sender, EventArgs e)
+        private void Market_OnShoppingStateChanged(bool isShopping)
         {
+            if (!isShopping) return;
+            
             _animator.SetTrigger(EmmaAnimationsParams.OnGreeting);
         }
     }

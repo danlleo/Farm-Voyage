@@ -12,7 +12,7 @@ namespace Market
         private void OnTriggerEnter(Collider other)
         {
             if (!other.TryGetComponent(out Player _)) return;
-            _market.StartedShoppingEvent.Call(this);
+            _market.ShoppingStateChangedEvent.Call(true);
         }
     }
 }

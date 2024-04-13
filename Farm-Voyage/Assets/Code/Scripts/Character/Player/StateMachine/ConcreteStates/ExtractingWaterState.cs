@@ -1,5 +1,4 @@
-﻿using Character.Player.Events;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Character.Player.StateMachine.ConcreteStates
 {
@@ -27,17 +26,19 @@ namespace Character.Player.StateMachine.ConcreteStates
 
         public override void SubscribeToEvents()
         {
-            _player.Events.ExtractingWaterEvent.OnPlayerExtractingWater += OnExtractingWater;
+            _player.Events.ExtractingWaterStateChangedEvent.OnPlayerExtractingWaterStateChanged +=
+                Player_OnExtractingWaterStateChanged;
         }
 
         public override void UnsubscribeFromEvents()
         {
-            _player.Events.ExtractingWaterEvent.OnPlayerExtractingWater -= OnExtractingWater;
+            _player.Events.ExtractingWaterStateChangedEvent.OnPlayerExtractingWaterStateChanged -=
+                Player_OnExtractingWaterStateChanged;
         }
 
-        private void OnExtractingWater(object sender, PlayerExtractingWaterEventArgs e)
+        private void Player_OnExtractingWaterStateChanged(bool isExtractingWater)
         {
-            if (e.IsExtracting) return;
+            if (isExtractingWater) return;
             _stateMachine.ChangeState(_player.StateFactory.Exploring());
         }
     }

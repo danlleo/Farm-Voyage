@@ -19,13 +19,15 @@ namespace Character.Player.StateMachine.ConcreteStates
         public override void SubscribeToEvents()
         {
             _player.Events.GatheringEvent.OnPlayerGathering += OnGathering;
-            _player.Events.ExtractingWaterEvent.OnPlayerExtractingWater += OnExtractingWater;
+            _player.Events.ExtractingWaterStateChangedEvent.OnPlayerExtractingWaterStateChanged +=
+                Player_OnExtractingWaterStateChanged;
         }
 
         public override void UnsubscribeFromEvents()
         {
             _player.Events.GatheringEvent.OnPlayerGathering -= OnGathering;
-            _player.Events.ExtractingWaterEvent.OnPlayerExtractingWater -= OnExtractingWater;
+            _player.Events.ExtractingWaterStateChangedEvent.OnPlayerExtractingWaterStateChanged -=
+                Player_OnExtractingWaterStateChanged;
         }
 
         public override void OnEnter()
@@ -49,9 +51,9 @@ namespace Character.Player.StateMachine.ConcreteStates
             _stateMachine.ChangeState(_player.StateFactory.Exploring());
         }
         
-        private void OnExtractingWater(object sender, PlayerExtractingWaterEventArgs e)
+        private void Player_OnExtractingWaterStateChanged(bool isExtractingWater)
         {
-            if (!e.IsExtracting) return;
+            if (!isExtractingWater) return;
             
             _stateMachine.ChangeState(_player.StateFactory.ExtractingWater());
         }

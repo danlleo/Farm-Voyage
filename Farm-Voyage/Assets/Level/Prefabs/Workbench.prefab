@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 6332477584565001890}
   - component: {fileID: 6297221629523892443}
   - component: {fileID: 7477851575104013303}
-  - component: {fileID: 1726206825466470035}
   m_Layer: 7
   m_Name: Workbench
   m_TagString: Untagged
@@ -126,18 +125,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Icon>k__BackingField: {fileID: 11400000, guid: c64b6b1e2afe71348a0e274b67f526ef,
     type: 2}
---- !u!114 &1726206825466470035
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101121445758567081}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45469acd690d46b29716b237b4ea45ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1301453822522473686
 GameObject:
   m_ObjectHideFlags: 0

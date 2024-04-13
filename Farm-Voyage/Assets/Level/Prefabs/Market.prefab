@@ -12833,7 +12833,6 @@ GameObject:
   - component: {fileID: 7468557852025230701}
   - component: {fileID: 3077624416557161396}
   - component: {fileID: 2212453912977770970}
-  - component: {fileID: 1809977004272423954}
   m_Layer: 6
   m_Name: Market
   m_TagString: Untagged
@@ -12891,18 +12890,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 81d4bb9effdb6d14b9f2a6cbe2abf7fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1809977004272423954
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6806587695903906656}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 550422a640a4466689a8dd3862019bd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6812654230027393792

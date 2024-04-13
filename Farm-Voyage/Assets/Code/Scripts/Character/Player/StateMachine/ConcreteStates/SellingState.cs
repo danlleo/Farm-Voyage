@@ -13,9 +13,25 @@ namespace Character.Player.StateMachine.ConcreteStates
             _stateMachine = stateMachine;
         }
 
+        public override void SubscribeToEvents()
+        {
+            _player.Events.SellingStateChangedEvent.OnStartedSellingStateChanged += Player_OnStartedSellingStateChanged;
+        }
+
+        public override void UnsubscribeFromEvents()
+        {
+            _player.Events.SellingStateChangedEvent.OnStartedSellingStateChanged -= Player_OnStartedSellingStateChanged;
+        }
+
         public override void OnEnter()
         {
             _player.Locomotion.HandleMoveDestination(_player.TransformPoints.SellerStayPoint, Quaternion.identity);
+        }
+        
+        private void Player_OnStartedSellingStateChanged(bool isSelling)
+        {
+            if (isSelling) return;
+            _stateMachine.ChangeState(_player.StateFactory.Exploring());
         }
     }
 }
