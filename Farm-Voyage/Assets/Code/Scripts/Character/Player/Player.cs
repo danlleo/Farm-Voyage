@@ -8,6 +8,8 @@ using StateFactory = Character.Player.StateMachine.StateFactory;
 
 namespace Character.Player
 {
+    [RequireComponent(typeof(PlayerLocomotion))]
+    [RequireComponent(typeof(PlayerInteract))]
     [DisallowMultipleComponent]
     public class Player : MonoBehaviour, IVisitable
     {
