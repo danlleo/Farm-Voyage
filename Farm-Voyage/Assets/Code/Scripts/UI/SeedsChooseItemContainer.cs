@@ -34,13 +34,13 @@ namespace UI
         private void OnEnable()
         {
             SeedChooseUIItem.OnAnySelectedSeedChooseItemEvent += SeedChooseUIItem_OnAnySelectedSeedChooseItem;
-            PlayerPCInput.OnAnySeedSelected += PlayerPCInput_OnAnySeedSelected;
+            DesktopInput.OnAnySeedSelected += PlayerPCInput_OnAnySeedSelected;
         }
 
         private void OnDisable()
         {
             SeedChooseUIItem.OnAnySelectedSeedChooseItemEvent -= SeedChooseUIItem_OnAnySelectedSeedChooseItem;
-            PlayerPCInput.OnAnySeedSelected -= PlayerPCInput_OnAnySeedSelected;
+            DesktopInput.OnAnySeedSelected -= PlayerPCInput_OnAnySeedSelected;
         }
         
         private void InitializeDictionary()

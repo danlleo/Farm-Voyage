@@ -13,18 +13,15 @@ namespace Attributes.WithinParent
             EditorGUI.BeginProperty(position, label, property);
 
             bool isChild = false;
-            GameObject referencedObject = null;
 
-            // Check if the property is a GameObject
-            if (property.objectReferenceValue is GameObject gameObjectValue)
+            GameObject referencedObject = property.objectReferenceValue switch
             {
-                referencedObject = gameObjectValue;
-            }
-            // Check if the property is a Component and get its GameObject
-            else if (property.objectReferenceValue is Component componentValue)
-            {
-                referencedObject = componentValue.gameObject;
-            }
+                // Check if the property is a GameObject
+                GameObject gameObjectValue => gameObjectValue,
+                // Check if the property is a Component and get its GameObject
+                Component componentValue => componentValue.gameObject,
+                _ => null
+            };
 
             // Check if the referenced GameObject is a child of the parent
             if (referencedObject != null && referencedObject.transform.IsChildOf(parent.transform))
@@ -58,14 +55,15 @@ namespace Attributes.WithinParent
         
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            var totalHeight = base.GetPropertyHeight(property, label);
+            float totalHeight = base.GetPropertyHeight(property, label);
 
             var componentValue = property.objectReferenceValue as Component;
             var gameObjectValue = property.objectReferenceValue as GameObject;
-            var parent = (property.serializedObject.targetObject as Component)?.gameObject;
+            GameObject parent = (property.serializedObject.targetObject as Component)?.gameObject;
 
-            var isChild = parent != null && (componentValue != null && componentValue.gameObject.transform.IsChildOf(parent.transform) ||
-                                             gameObjectValue != null && gameObjectValue.transform.IsChildOf(parent.transform));
+            bool isChild = parent != null &&
+                           (componentValue != null && componentValue.gameObject.transform.IsChildOf(parent.transform) ||
+                            gameObjectValue != null && gameObjectValue.transform.IsChildOf(parent.transform));
 
             if (!isChild)
             {

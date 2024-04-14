@@ -5,7 +5,7 @@ using Zenject;
 
 namespace InputManagers
 {
-    public class PlayerPCInput : IInitializable, IDisposable, ITickable, IPlayerInput
+    public class DesktopInput : IInitializable, IDisposable, ITickable, IPlayerInput
     {
         public static event Action<InputControl> OnAnySeedSelected;
         

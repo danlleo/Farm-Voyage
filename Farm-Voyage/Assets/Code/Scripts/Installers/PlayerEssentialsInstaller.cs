@@ -76,7 +76,7 @@ namespace Installers
         private void BindPlayerInputManager()
         {
             Container
-                .BindInterfacesAndSelfTo<PlayerPCInput>()
+                .BindInterfacesAndSelfTo<DesktopInput>()
                 .AsSingle()
                 .NonLazy();
         }

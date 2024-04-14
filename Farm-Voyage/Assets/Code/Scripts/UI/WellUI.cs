@@ -29,7 +29,7 @@ namespace UI
         [SerializeField, Range(0.1f, 1f)] private float _anyImageBarFillAmountSpeed;
 
         private WaterCan _waterCan;
-        private PlayerPCInput _playerPCInput;
+        private DesktopInput _desktopInput;
         private Player _player;
         
         private Coroutine _resistanceRoutine;
@@ -37,14 +37,14 @@ namespace UI
         private bool _hasFinishedFilling;
         
         [Inject]
-        private void Construct(PlayerInventory playerInventory, PlayerPCInput playerPCInput, Player player)
+        private void Construct(PlayerInventory playerInventory, DesktopInput desktopInput, Player player)
         {
             if (playerInventory.TryGetTool(out WaterCan waterCan))
             {
                 _waterCan = waterCan;
             }
 
-            _playerPCInput = playerPCInput;
+            _desktopInput = desktopInput;
             _player = player;
         }
 
@@ -57,7 +57,7 @@ namespace UI
 
         private void OnEnable()
         {
-            _playerPCInput.OnInteract += PlayerPCInput_OnInteract;
+            _desktopInput.OnInteract += DesktopInputOnInteract;
             _waterCan.OnWaterAmountChanged += WaterCan_OnWaterAmountChanged;
          
             ResetUI();
@@ -66,7 +66,7 @@ namespace UI
 
         private void OnDisable()
         {
-            _playerPCInput.OnInteract -= PlayerPCInput_OnInteract;
+            _desktopInput.OnInteract -= DesktopInputOnInteract;
             _waterCan.OnWaterAmountChanged -= WaterCan_OnWaterAmountChanged;
         }
 
@@ -147,7 +147,7 @@ namespace UI
             UpdateWaterCanFillAmountBackgroundImage();
         }
         
-        private void PlayerPCInput_OnInteract()
+        private void DesktopInputOnInteract()
         {
             if (_hasFinishedFilling) return;
             
