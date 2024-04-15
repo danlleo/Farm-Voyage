@@ -74,7 +74,7 @@ namespace Character.Player.StateMachine.ConcreteStates
 
         private void Player_OnUsingWorkbenchStateChanged(bool isUsingWorkbench)
         {
-            if (isUsingWorkbench) return;
+            if (!isUsingWorkbench) return;
 
             _stateMachine.ChangeState(_player.StateFactory.UsingWorkbench());
         }

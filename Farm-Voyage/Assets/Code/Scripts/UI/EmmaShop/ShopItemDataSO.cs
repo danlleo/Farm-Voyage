@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Farm;
 using Farm.FarmResources;
 using UnityEngine;
@@ -16,15 +17,9 @@ namespace UI.EmmaShop
 
         public int GetPriceByRecourseType(ResourceType resourceType)
         {
-            foreach (ResourcePrice shopItemResourcePrice in  _shopItemResourcesPrices)
-            {
-                if (shopItemResourcePrice.ResourceType == resourceType)
-                {
-                    return shopItemResourcePrice.Price;
-                }
-            }
-
-            return 0;
+            return (from shopItemResourcePrice in _shopItemResourcesPrices
+                where shopItemResourcePrice.ResourceType == resourceType
+                select shopItemResourcePrice.Price).FirstOrDefault();
         }
     }
 }
