@@ -30,6 +30,9 @@ namespace Installers
 
         [Space(10)] 
         [SerializeField] private QuotaPlanSettingsSO _quotaPlanSettings;
+
+        [Space(10)] 
+        [SerializeField] private TimeSettingsSO _timeSettings;
         
         private void OnValidate()
         {
@@ -94,7 +97,7 @@ namespace Installers
         {
             BindEconomy();
             BindQuotaPlan();
-            BindDayManger();
+            BindTimeManger();
             BindResourcesGathererFactory();
             BindResourcesGathererSpawner();
             BindIconManager();
@@ -126,11 +129,12 @@ namespace Installers
                 .NonLazy();
         }
         
-        private void BindDayManger()
+        private void BindTimeManger()
         {
             Container
-                .BindInterfacesAndSelfTo<DayManager>()
+                .BindInterfacesAndSelfTo<TimeManager>()
                 .AsSingle()
+                .WithArguments(_timeSettings)
                 .NonLazy();
         }
 

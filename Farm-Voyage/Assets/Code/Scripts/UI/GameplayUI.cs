@@ -7,6 +7,7 @@ using DG.Tweening;
 using Farm.FarmResources;
 using Farm.Tool.ConcreteTools;
 using Sound;
+using Timespan;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -43,16 +44,16 @@ namespace UI
         private Dictionary<TextMeshProUGUI, int> _resourceTextQuantityDictionary;
         
         private PlayerInventory _playerInventory;
+        private TimeManager _timeManager;
         private WaterCan _waterCan;
-        private Timespan.Day _day;
         
         private Coroutine _quantityTextLerpingRoutine;
         
         [Inject]
-        private void Construct(PlayerInventory playerInventory, Timespan.DayManager dayManager)
+        private void Construct(PlayerInventory playerInventory, TimeManager timeManager)
         {
             _playerInventory = playerInventory;
-            _day = dayManager.CurrentDay;
+            _timeManager = timeManager;
         }
 
         private void Awake()
@@ -61,16 +62,11 @@ namespace UI
             InitializeResourcesQuantityText();
             InitializeSeedChooseItems();
         }
-
-        private void Start()
-        {
-            AnimateTimeToWorkText();
-        }
-
+        
         private void OnEnable()
         {
+            _timeManager.Service.OnCurrentTimeChanged += TimeService_OnCurrentTimeChanged;
             _playerInventory.OnResourceQuantityChanged += PlayerInventory_OnResourceQuantityChanged;
-            _day.OnTimeChanged += Day_OnTimeChanged;
             
             UpdateAllResourcesQuantityText();
             
@@ -85,10 +81,15 @@ namespace UI
         private void OnDisable()
         {
             _playerInventory.OnResourceQuantityChanged -= PlayerInventory_OnResourceQuantityChanged;
-            _day.OnTimeChanged -= Day_OnTimeChanged;
-
+            _playerInventory.OnResourceQuantityChanged -= PlayerInventory_OnResourceQuantityChanged;
+            
             if (!_playerInventory.TryGetTool(out WaterCan _)) return;
             _waterCan.OnWaterAmountChanged -= WaterCan_OnWaterAmountChanged;
+        }
+        
+        private void Start()
+        {
+            AnimateTimeToWorkText();
         }
 
         private void InitializeResourcesQuantityText()
@@ -181,10 +182,9 @@ namespace UI
             _waterCanBarImage.DOFillAmount(percent, _timeToFillWaterCanBarInSeconds);
         }
 
-        private void UpdateClockBarFilledAmount(float currentTime, float maxTime)
+        private void UpdateClockBarFilledAmount(float normalizedTime)
         {
-            float percent = currentTime / maxTime;
-            _clockImage.fillAmount = percent;
+            _clockImage.fillAmount = normalizedTime;
         }
 
         private void InitializeSeedChooseItems()
@@ -205,9 +205,9 @@ namespace UI
             UpdateWaterCanBarFilledAmount(timesCanWater, maxTimesCanWater);
         }
         
-        private void Day_OnTimeChanged(float currentTime, float dayDuration)
+        private void TimeService_OnCurrentTimeChanged()
         {
-            UpdateClockBarFilledAmount(currentTime, dayDuration);
+            
         }
     }
 }

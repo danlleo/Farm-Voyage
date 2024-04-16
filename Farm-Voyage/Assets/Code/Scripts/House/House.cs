@@ -2,7 +2,6 @@
 using Character.Player;
 using DG.Tweening;
 using Sound;
-using UnityEditor.ShaderGraph.Drawing;
 using UnityEngine;
 using Zenject;
 
@@ -17,29 +16,25 @@ namespace House
         [SerializeField] private AudioClip _doorOpenAudioClip;
         [SerializeField] private AudioClip _doorCloseAudioClip;
         
-        private Timespan.Day _day;
         private PlayerFollowCamera _playerFollowCamera;
         private Player _player;
         
         private bool _canSleep;
         
         [Inject]
-        private void Construct(Timespan.DayManager dayManager, PlayerFollowCamera playerFollowCamera, Player player)
+        private void Construct(Timespan.TimeManager timeManager, PlayerFollowCamera playerFollowCamera, Player player)
         {
-            _day = dayManager.CurrentDay;
             _playerFollowCamera = playerFollowCamera;
             _player = player;
         }
 
         private void OnEnable()
         {
-            _day.OnDayEnded += Day_OnDayEnded;
             _player.Events.LeftHomeEvent.OnPlayerLeftHome += OnLeftHome;
         }
 
         private void OnDisable()
         {
-            _day.OnDayEnded -= Day_OnDayEnded;
             _player.Events.LeftHomeEvent.OnPlayerLeftHome -= OnLeftHome;
         }
 
@@ -70,11 +65,6 @@ namespace House
 
             SoundFXManager.Instance.PlaySoundFX2DClip(_doorCloseAudioClip, 0.4f);
             _doorTransform.DORotate(Vector3.up * targetRotation, durationInSeconds);
-        }
-
-        private void Day_OnDayEnded()
-        {
-            _canSleep = true;
         }
         
         private void OnLeftHome(object sender, EventArgs e)

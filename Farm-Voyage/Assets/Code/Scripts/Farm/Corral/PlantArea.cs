@@ -45,7 +45,6 @@ namespace Farm.Corral
         private Seed _selectedSeed;
         
         private PlayerInventory _playerInventory;
-        private Timespan.Day _day;
         
         private BoxCollider _boxCollider;
 
@@ -55,25 +54,14 @@ namespace Farm.Corral
         private bool _dayEnded;
         
         [Inject]
-        private void Construct(PlayerInventory playerInventory, Timespan.DayManager dayManager)
+        private void Construct(PlayerInventory playerInventory, Timespan.TimeManager timeManager)
         {
             _playerInventory = playerInventory;
-            _day = dayManager.CurrentDay;
         }
         
         private void Awake()
         {
             _boxCollider = GetComponent<BoxCollider>();
-        }
-
-        private void OnEnable()
-        {
-            _day.OnDayEnded += Day_OnDayEnded;
-        }
-
-        private void OnDisable()
-        {
-            _day.OnDayEnded -= Day_OnDayEnded;
         }
 
         public void Initialize(Player player, PlantFactory plantFactory)
@@ -189,11 +177,6 @@ namespace Farm.Corral
         {
             yield return new WaitForSeconds(_delayBeforePlantingNewTimeInSeconds);
             CoroutineHandler.ClearAndStopCoroutine(this, ref _delayBeforePlantingNewRoutine);
-        }
-        
-        private void Day_OnDayEnded()
-        {
-            _dayEnded = true;
         }
     }
 }

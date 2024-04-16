@@ -7,19 +7,18 @@ namespace Misc
     [DisallowMultipleComponent]
     public class GameManager : MonoBehaviour
     {
-        private DayManager _dayManager;
+        private TimeManager _timeManager;
         private SceneTransition _sceneTransition;
         
         [Inject]
-        private void Construct(DayManager dayManager, SceneTransition sceneTransition)
+        private void Construct(TimeManager timeManager, SceneTransition sceneTransition)
         {
-            _dayManager = dayManager;
+            _timeManager = timeManager;
             _sceneTransition = sceneTransition;
         }
 
         private void Start()
         {
-            _dayManager.StartDay();
             _sceneTransition.StartTransition();
         }
     }
