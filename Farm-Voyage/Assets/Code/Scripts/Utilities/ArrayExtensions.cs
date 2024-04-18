@@ -20,9 +20,24 @@ namespace Utilities
             
             var random = new Random();
             int index = random.Next(array.Length);
-            T randomItem = array[index];
+            return array[index];
+        }
 
-            return randomItem;
+        public static T[] Shuffle<T>(this T[] array)
+        {
+            var random = new Random();
+            return array.OrderBy(x => random.Next()).ToArray();
+        }
+
+        public static T[] RemoveElement<T>(this T[] array, T elementToRemove)
+        {
+            return array.Where(x => !EqualityComparer<T>.Default.Equals(x, elementToRemove)).ToArray();
+        }
+
+        public static IEnumerable<T> GetDistinctRandomItems<T>(this T[] array, int count)
+        {
+            var random = new Random();
+            return array.OrderBy(x => random.Next()).Distinct().Take(count);
         }
 
         public static T GetRandomItemExcept<T>(this IEnumerable<T> array, T exception)
@@ -41,7 +56,6 @@ namespace Utilities
             }
 
             int randomIndex = UnityEngine.Random.Range(0, filteredItems.Length);
-
             return filteredItems[randomIndex];
         }
     }
