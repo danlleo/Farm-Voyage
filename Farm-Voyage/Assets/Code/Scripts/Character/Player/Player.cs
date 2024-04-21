@@ -1,6 +1,7 @@
 using Character.Player.Events;
 using Character.Player.Locomotion;
 using Common;
+using DataPersistence;
 using InputManagers;
 using UnityEngine;
 using Zenject;
@@ -15,6 +16,8 @@ namespace Character.Player
     {
         public const float Height = 1f;
         public const float Radius = .5f;
+
+        public Stats Stats;
         
         public StateFactory StateFactory { get; private set; }
         public PlayerEvents Events { get; private set; }
