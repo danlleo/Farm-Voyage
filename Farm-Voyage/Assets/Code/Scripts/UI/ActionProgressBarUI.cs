@@ -16,7 +16,6 @@ namespace UI
 
         [Header("Settings")]
         [SerializeField] private Vector2 _barOffset;
-        [SerializeField] private float _barFillDurationInSeconds = 0.75f;
         
         private Player _player;
 
